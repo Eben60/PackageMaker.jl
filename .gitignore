@@ -34,3 +34,4 @@ lcov.info
 
 .vscode
 tmp
+html/mws*
