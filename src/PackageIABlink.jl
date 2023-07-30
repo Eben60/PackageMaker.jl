@@ -27,6 +27,14 @@ export getelemval
 setelemval(win, id, newval) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""))
 export setelemval
 
+checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""))
+export checkelem
+
+disableinputelem(win, id) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = true;"""))
+export disableinputelem
+
+
+
 export default_env_packages
 
 struct HtmlElem
