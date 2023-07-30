@@ -66,7 +66,8 @@ function getpkgids(d, pknames)
     return Dict([item for item in items if ! isnothing(item) ])
 end
 
-function check_entries_def_installed(win, initvals, pkgs)
+function check_entries_def_installed(win, initvals)
+    pkgs = default_env_packages()
     form1 = getforminputs(initvals, :deflt_pkg)
     installed_pks = getpkgids(form1, pkgs)
     for item in keys(installed_pks)
@@ -100,6 +101,21 @@ function handlechangeevents(win, newvals, initvals, finalvals)
     end
 end
 export handlechangeevents
+
+function initwin(wpath)
+    win = mainwin(wpath);
+
+    initvals = Dict{Symbol, HtmlElem}()
+    newvals = deepcopy(initvals)
+    finalvals = deepcopy(initvals)
+
+    changeeventhandle = handlechangeevents(win, newvals, initvals, finalvals)
+    js(win, Blink.JSString("""sendinitstate()"""))
+    check_entries_def_installed(win, initvals)
+    return (;win, initvals, newvals, finalvals, changeeventhandle)
+end
+export initwin
+
 
 
 
