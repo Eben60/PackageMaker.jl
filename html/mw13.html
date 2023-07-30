@@ -4,6 +4,7 @@
   </head>
 
   <body> 
+    <p>mw13.html</p>
     <h1>What packages to install into default environment?</h1>
     <div id="box02" >
       <form name="default_packages" id="deflt_pkg" action="javascript:void(0)">
@@ -28,8 +29,8 @@
         <input type="checkbox" id="defpkg7" value="DataFrames" onchange="oncng(this)"> 
         <label for="defpkg7">DataFrames</label><br>
 
-        <input type="checkbox" id="defpkg8" value="DataFrames" onchange="oncng(this)"> 
-        <label for="defpkg2">DataFrames</label><br>
+        <input type="checkbox" id="defpkg8" value="CSV" onchange="oncng(this)"> 
+        <label for="defpkg8">CSV</label><br>
         
         <input type="checkbox" id="defpkg9" value="Makie" onchange="oncng(this)"> 
         <label for="defpkg9">Makie</label><br>
@@ -60,9 +61,24 @@
       </fieldset>
     </form>
 
-    <pre id="log"></pre>
     <script>
         // alert("let us start")
+
+        function oncng(el) {
+            sendel(el, "newinput");
+        };
+
+        function sendel(el, reason) {
+            elid = el.id;
+            elval = el.value;
+            elchecked = null
+            eltype = el.tagName.toLowerCase()
+            if ("checked" in el) {elchecked = el.checked}
+            parentformid = parentForm_Id(el)
+            Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype});
+            // alert(el.id + " " + reason)
+        };
+
         function parentForm_Id(el) {
           parent = el.parentElement;
           parenttype = parent.tagName;
@@ -76,23 +92,14 @@
           } else {
             return parentForm_Id(parent)
           };
-        }
-        function oncng(el) {
-            elid = el.id;
-            elval = el.value;
-            elchecked = null
-            eltype = el.tagName.toLowerCase()
-            if ("checked" in el) {elchecked = el.checked}
-            parentformid = parentForm_Id(el)
-            Blink.msg("change", {reason: "newinput";elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype});
-          };
+        };
 
-        function allforms() {
+ /*        function allforms() {
           forms = document.querySelectorAll("form");
           var ids = [];
           for (f of forms) {
             ids.push(f.id);
-          }
+          };
           return ids;
         };
 
@@ -102,10 +109,25 @@
           var ids = [];
           for (inp of inps) {
             ids.push(inp.id);
-          }
+          };
           return ids;
         };
-        alert(allinputs());
+ */
+        function sendinitstate(){
+            inps = document.querySelectorAll("input");
+            for (el of inps) {
+                sendel(el, "init_input") ;
+          };
+          Blink.msg("change", {reason: "init_inputfinished"});
+
+          return null;
+        };
+
+        // alert("all functions defined");
+        // window.addEventListener('load', sendinitstate);
+
+        // sendinitstate();
+        // alert(allinputs());
 
       </script>   
   
