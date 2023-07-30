@@ -47,4 +47,65 @@ end
 HtmlElem(id, parentformid, value::Real, checked) = HE(id, parentformid, Float64(value), checked)
 export HtmlElem
 
+getforminputs(d, form) = filter(e -> (e.second.parentformid == Symbol(form)), d) 
+export getforminputs
+
+
+
+
+
+function getpkgid(d, pkname)
+    for (_, el) in d
+        el.value == pkname && return el.id => pkname
+    end
+    return nothing
+end
+
+function getpkgids(d, pknames)
+    items = [getpkgid(d, pkname) for pkname in pknames]
+    return Dict([item for item in items if ! isnothing(item) ])
+end
+
+function check_entries_def_installed(win, initvals, pkgs)
+    form1 = getforminputs(initvals, :deflt_pkg)
+    installed_pks = getpkgids(form1, pkgs)
+    for item in keys(installed_pks)
+        checkelem(win, item, true)
+        disableinputelem(win, item)
+    end
+    return nothing
+end
+export check_entries_def_installed
+
+handleinput(x) = nothing # 
+handleinit_input() = nothing # println("init_input finished")
+handlefinalinput() = nothing
+
+function handlechangeevents(win, newvals, initvals, finalvals)
+    handle(win, "change") do arg
+        # @show arg
+        if arg["reason"] in ["newinput", "init_input", "finalinput"]
+            id = Symbol(arg["elid"])
+            parentformid = Symbol(arg["parentformid"])
+            checked = arg["elchecked"]
+            v = arg["elval"]
+            el = HtmlElem(id, parentformid, v, checked)
+            arg["reason"] == "newinput" && push!(newvals, id => el)
+            arg["reason"] == "init_input" && push!(initvals, id => el)
+            arg["reason"] == "finalinput" && push!(finalvals, id => el)
+        end
+        arg["reason"] == "newinput" && handleinput(el)
+        arg["reason"] == "init_inputfinished" && handleinit_input()
+        arg["reason"] == "finalinputfinished" && handlefinalinput()
+    end
+end
+export handlechangeevents
+
+
+
+
+
+
+
+
 end # module PackageIABlink
