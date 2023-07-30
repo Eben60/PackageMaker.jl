@@ -29,4 +29,14 @@ export setelemval
 
 export default_env_packages
 
+struct HtmlElem
+    id::Symbol
+    parentid::Symbol
+    value::Union{String, Float64}
+    checked::Union{Bool, Nothing}
+end
+
+HtmlElem(id, parentid, value::Real, checked) = HE(id, parentid, Float64(value), checked)
+export HtmlElem
+
 end # module PackageIABlink
