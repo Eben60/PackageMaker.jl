@@ -110,7 +110,7 @@ function initwin(wpath)
     finalvals = deepcopy(initvals)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, finalvals)
-    js(win, Blink.JSString("""sendinitstate()"""))
+    js(win, Blink.JSString("""sendfullstate(false)"""))
     check_entries_def_installed(win, initvals)
     return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
