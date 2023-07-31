@@ -37,7 +37,8 @@
         
         <input type="checkbox" id="defpkg10" value="FileIO" onchange="oncng(this)"> 
         <label for="defpkg10">FileIO</label><br>
-        
+
+        <button type="submit" id="subm1" value="submit1" onclick="sendfullstate(true)">Submit</button>    
       </form>
 
     </div>
@@ -55,7 +56,7 @@
           <label for="contactChoice3">Mail</label>
         </div>
         <div>
-          <!-- <button type="submit" id="subm1" value="submit1" onclick="oncng(this)">Submit</button> -->
+
 
         </div>
       </fieldset>
@@ -94,9 +95,11 @@
         };
         
         function sendfullstate(isfinalstate){
+            // alert("sending full state")
             var reasoneach;
             var reasonfinl;
             if (isfinalstate) {
+                //alert("finishing")
                 reasoneach ="finalinput"
                 reasonfinl ="finalinputfinished"
            } else {
@@ -106,9 +109,9 @@
 
             inps = document.querySelectorAll("input");
             for (el of inps) {
-                sendel(el, "init_input") ;
+                sendel(el, reasoneach) ;
           };
-          Blink.msg("change", {reason: "init_inputfinished"});
+          Blink.msg("change", {reason: reasonfinl});
 
           return null;
         };

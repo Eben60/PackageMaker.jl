@@ -80,7 +80,7 @@ export check_entries_def_installed
 
 handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
-handlefinalinput() = nothing
+handlefinalinput(win) = close(win)
 
 function handlechangeevents(win, newvals, initvals, finalvals)
     handle(win, "change") do arg
@@ -97,7 +97,7 @@ function handlechangeevents(win, newvals, initvals, finalvals)
         end
         arg["reason"] == "newinput" && handleinput(el)
         arg["reason"] == "init_inputfinished" && handleinit_input()
-        arg["reason"] == "finalinputfinished" && handlefinalinput()
+        arg["reason"] == "finalinputfinished" && handlefinalinput(win)
     end
 end
 export handlechangeevents
