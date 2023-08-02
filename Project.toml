@@ -5,4 +5,5 @@ version = "0.1.0"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
+PkgTemplates = "14b8a8f1-9102-5b29-a752-f990bacb7fe1"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
