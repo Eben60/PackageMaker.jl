@@ -57,8 +57,8 @@ PluginInfo = PluginDefs.PluginInfo
 
   #  ("SrcDir", [("file", "module.jl", "Template ")]))
 
-  plugins = PluginInfo.([
-    ("ProjectFile", [("version", "v\"1.0.0-DEV\"", "The initial version of created packages")]),]);
+#   plugins = PluginInfo.([
+#     ("ProjectFile", [("version", "v\"1.0.0-DEV\"", "The initial version of created packages")]),]);
 
 plugins = PluginInfo.([
     ("ProjectFile", [("version", "v\"1.0.0-DEV\"", "The initial version of created packages")]),
