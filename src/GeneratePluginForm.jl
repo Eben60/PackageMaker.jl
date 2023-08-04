@@ -22,7 +22,7 @@ tmpl_beg(pgin_name, purpose, show) =
 tmpl_inp(pgin_name, arg, arg_val, arg_mean) =
 """
     <input size="100" id="$(pgin_name)_$(arg)" name="$(arg)" value="$(arg_val)" type="text">
-    <div class="plugin_arg_meaning id="argmeaning_$(pgin_name)_$(arg)">$(arg_mean)</div><br>
+    <div class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg)">$(arg_mean)</div><br>
 """
 
 tmpl_end() =
