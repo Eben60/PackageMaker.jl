@@ -18,10 +18,12 @@ tmpl_beg(pgin_name, purpose, show) =
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style = $(disp_style(show)) >
 """
 
-tmpl_inp(pgin_name, arg, arg_val, arg_mean) =
+tmpl_inp(pgin_name, arg, arg_val, arg_mean, color_no) =
 """
+    <div class="pgin_inp_margins pgin_inp_col$(color_no)">
     $(tmpl_input_field(pgin_name, arg, arg_val))
     <span class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg)">$(arg_mean)</span><br>
+    </div>
 """
 
 tmpl_input_field(pgin_name, arg, arg_val) =
@@ -72,7 +74,7 @@ esc_qm(s::AbstractString) = replace(s, "\""=>"&quot;")
 esc_qm(x) = x
 
 pgin_form(p::PluginInfo) = tmpl_beg(p.name, p.purpose, p.tobe_used) * 
-    join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning)) for a in p.args], " ") *
+    join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
 pgins_all_forms(ps) = join([pgin_form(p) for p in ps], " \n")
