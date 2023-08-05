@@ -3,7 +3,6 @@ inp = "InputType"
 inp_val = "InputValue"
 packagename = "PackageName"
 
-
 module PluginDefs
 
 checked(show) = show ? "checked" : ""
@@ -21,9 +20,20 @@ tmpl_beg(pgin_name, purpose, show) =
 
 tmpl_inp(pgin_name, arg, arg_val, arg_mean) =
 """
-    <input size="100" id="$(pgin_name)_$(arg)" name="$(arg)" value="$(arg_val)" type="text">
-    <div class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg)">$(arg_mean)</div><br>
+    $(tmpl_input_field(pgin_name, arg, arg_val))
+    <span class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg)">$(arg_mean)</span><br>
 """
+
+tmpl_input_field(pgin_name, arg, arg_val) =
+"""
+<input size="70" id="$(pgin_name)_$(arg)" name="$(arg)" value="$(arg_val)" onchange="oncng(this)"type="text"><br>
+"""
+
+tmpl_input_field(pgin_name, arg, arg_val::Bool) =
+"""
+<input id="$(pgin_name)_$(arg)" name="$(arg)" $(checked(arg_val)) onchange="oncng(this)" type="checkbox">
+"""
+
 
 tmpl_end() =
 """
@@ -96,8 +106,24 @@ plugins = PluginInfo.([
                 ("jl", true, "Whether or not to add a .jl suffix to the remote URL."), 
                 ("manifest", false, "Whether or not to commit Manifest.toml."), 
                 ("gpgsign", false, "Whether or not to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.")]),
-
-]);
+    (true, "CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [("file", "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
+                ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
+                ("cron", "0 0 * * *", "Cron expression for the schedule interval"), ]),
+    (true, "TagBot", "Adds GitHub release support via TagBot", [("file", "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/github/workflows/TagBot.yml", "Template file for the workflow file."), 
+                ("destination", "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
+                ("trigger", "JuliaTagBot", "Username of the trigger user for custom registries"), 
+                ("token", "Secret(\"GITHUB_TOKEN\")", "Name of the token secret to use"), 
+                ("ssh", "Secret(\"DOCUMENTER_KEY\")", "Name of the SSH private key secret to use"), 
+                ("ssh_password", "nothing", "Name of the SSH key password secret to use"), 
+                ("changelog", "nothing", "Custom changelog template"), 
+                ("changelog_ignore", "nothing", "Issue/pull request labels to ignore in the changelog"), 
+                ("gpg", "nothing", "Name of the GPG private key secret to use"), 
+                ("gpg_password", "nothing", "Name of the GPG private key password secret to use"), 
+                ("registry", "nothing", "Custom registry, in the format owner/repo"), 
+                ("branches", "nothing", "Whether not to enable the branches option"), 
+                ("dispatch", "nothing", "Whether or not to enable the dispatch option"), 
+                ("dispatch_delay", "nothing", "Number of minutes to delay for dispatch events"), ]),
+                ]);
 
 
 ;
