@@ -96,7 +96,7 @@
 <p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
   <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
     <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" > </textarea> <br>
-    <label for="project_packages_input">Put each package name onto a new line</label>
+    <label for="project_packages_input">Put each package name onto a newline</label>
   </form>
 </div>
 
@@ -211,7 +211,8 @@
     <div class="Plugin_Purpose">Creates a Git repository and a .gitignore file.</div>
     <div class="Plugin_Inputs" id="Git_inputs" style = "display:block" >
     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="Git_ignore" name="ignore" value="" onchange="oncng(this)" type="text"><br>
+    <textarea id="Git_ignore" name="ignore" rows="3" cols="70" onchange="oncng(this)" > </textarea> <br>
+<label for="project_packages_input" class="comment">A vector of strings is expected. Put each string onto a newline</label>
 
     <span class="plugin_arg_meaning" id="argmeaning_Git_ignore">Patterns to add to the .gitignore</span><br>
     </div>

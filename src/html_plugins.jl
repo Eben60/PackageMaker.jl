@@ -41,6 +41,15 @@ tmpl_input_field(pgin_name, arg, arg_val::Bool) =
 <input id="$(pgin_name)_$(arg)" name="$(arg)" $(checked(arg_val)) onchange="oncng(this)" type="checkbox">
 """
 
+vec2string(x::Vector) = isempty(x) ? "" : string.(x)
+
+tmpl_input_field(pgin_name, arg, arg_val::Vector) =
+"""
+<textarea id="$(pgin_name)_$(arg)" name="$(arg)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val)) </textarea> <br>
+<label for="project_packages_input" class="comment">A vector of strings is expected. Put each string onto a newline</label>
+"""
+
+
 
 tmpl_end() =
 """
@@ -52,7 +61,7 @@ tmpl_end() =
 disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 
 
-ArgTypes = Union{String, Bool, Nothing, Vector{String}}
+ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
 
 struct PluginArg
     name::String
