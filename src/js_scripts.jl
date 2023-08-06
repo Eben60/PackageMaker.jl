@@ -11,9 +11,10 @@ function sendel(el, reason) {
     var elval = el.value;
     var elchecked = null
     var eltype = el.tagName.toLowerCase()
+    var inputtype = el.type
     if ("checked" in el) {elchecked = el.checked}
     var parentformid = parentForm_Id(el)
-    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype});
+    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
     // alert(el.id + " " + reason)
 };
 

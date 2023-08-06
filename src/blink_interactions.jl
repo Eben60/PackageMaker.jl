@@ -34,19 +34,18 @@ export default_env_packages
 
 struct HtmlElem
     id::Symbol
+    eltype::Symbol
+    inputtype::Symbol
     parentformid::Symbol
     value::Union{String, Float64}
     checked::Union{Bool, Nothing}
 end
 
-HtmlElem(id, parentformid, value::Real, checked) = HE(id, parentformid, Float64(value), checked)
+HtmlElem(id, eltype, inputtype, parentformid, value::Real, checked) = HtmlElem(id, eltype, inputtype, parentformid, Float64(value), checked)
 export HtmlElem
 
 getforminputs(d, form) = filter(e -> (e.second.parentformid == Symbol(form)), d) 
 export getforminputs
-
-
-
 
 
 function getpkgid(d, pkname)
@@ -82,10 +81,12 @@ function handlechangeevents(win, newvals, initvals, finalvals)
         # arg["reason"] == "newinput" && @show arg
         if arg["reason"] in ["newinput", "init_input", "finalinput"]
             id = Symbol(arg["elid"])
+            eltype = Symbol(arg["eltype"])
+            inputtype = Symbol(arg["inputtype"])
             parentformid = Symbol(arg["parentformid"])
             checked = arg["elchecked"]
             v = arg["elval"]
-            el = HtmlElem(id, parentformid, v, checked)
+            el = HtmlElem(id, eltype, inputtype, parentformid, v, checked)
             arg["reason"] == "newinput" && push!(newvals, id => el)
             arg["reason"] == "init_input" && push!(initvals, id => el)
             arg["reason"] == "finalinput" && push!(finalvals, id => el)
