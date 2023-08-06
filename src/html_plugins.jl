@@ -1,4 +1,4 @@
-checked(show) = show ? "checked" : ""
+
 
 # create one for per plugin
 tmpl_beg(pgin_name, purpose, show) =
@@ -21,7 +21,7 @@ tmpl_inp(pgin_name, arg, arg_val, arg_mean, color_no) =
 
 tmpl_input_field(pgin_name, arg, arg_val) =
 """
-<input size="70" id="$(pgin_name)_$(arg)" name="$(arg)" value="$(arg_val)" onchange="oncng(this)"type="text"><br>
+<input size="70" id="$(pgin_name)_$(arg)" name="$(arg)" value="$(arg_val)" onchange="oncng(this)" type="text"><br>
 """
 
 tmpl_input_field(pgin_name, arg, arg_val::Bool) =
@@ -72,13 +72,11 @@ PluginInfo(t::Tuple{Bool, AbstractString, AbstractString, Vector{Tuple{String, B
 PluginInfo(t::Tuple{Bool, String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], t[3], PluginArg.(t[4]))
 
 
-esc_qm(s::String) = replace(s, "\""=>"&quot;")
-esc_qm(x) = x
 
 pgin_form(p::PluginInfo) = tmpl_beg(p.name, p.purpose, p.tobe_used) * 
     join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
-pgins_all_forms(ps) = join([pgin_form(p) for p in ps], " \n")
+html_plugins(ps) = join([pgin_form(p) for p in ps], " \n")
 
-export pgins_all_forms, PluginArg, PluginInfo
+export html_plugins, PluginArg, PluginInfo
