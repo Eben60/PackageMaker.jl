@@ -79,7 +79,7 @@ handlefinalinput(win) = close(win)
 
 function handlechangeevents(win, newvals, initvals, finalvals)
     handle(win, "change") do arg
-        # @show arg
+        # arg["reason"] == "newinput" && @show arg
         if arg["reason"] in ["newinput", "init_input", "finalinput"]
             id = Symbol(arg["elid"])
             parentformid = Symbol(arg["parentformid"])

@@ -1,4 +1,4 @@
-html_head(title = "Create Julia Project/Package") = 
+html_head(title = "Initialize Julia Project/Package") = 
 """
 <!DOCTYPE html>
 <html>
@@ -8,6 +8,9 @@ html_head(title = "Create Julia Project/Package") =
     <title>$(title)</title>
   </head>
   <body>
+  <h2>Setting up a Julia Project or package</h2>
+  <p class="comment">This is mostly a GUI for the Julia package <a href="https://juliaci.github.io/PkgTemplates.jl/stable/" target="_blank">PkgTemplates</a><br>
+  here some explanations about environments</p>
 
 """
 
@@ -32,6 +35,7 @@ html_use_purpose() =
         <label for="RegisteredPackage_Choice">Initialize a package with all CI bells and Documentation whistles </label> 
        </div>
     </fieldset>
+    <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually</p>
 </form>
 </div>
 
@@ -81,11 +85,10 @@ html_proj_env_pkg() =
 """
 <div id="project_env_div">
 <h2>What packages to add to your project?</h2>
-<p class="comment">you can of course always add packages later on using <code>Pkg</code></p>
+<p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
   <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
-    <input size="50" id="proj_pkg_1" name="project_package" value="" type="text"><br>
-    <input size="50" id="proj_pkg_2" name="project_package" value="" type="text"><br>
-    <input size="50" id="proj_pkg_3" name="project_package" value="" type="text">
+    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" > </textarea> <br>
+    <label for="project_packages_input">Put each package name onto a newline</label>
   </form>
 </div>
 

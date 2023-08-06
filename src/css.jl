@@ -22,5 +22,14 @@ css_styles() =
     border-color: rgb(107, 107, 107);
   }
 
+  .comment {
+    font-size: 80%;
+  }
+
+  h2 {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #606060; 
+  }
+
 </style>
 """

@@ -1,3 +1,15 @@
+tmpl_section_beg() = 
+"""
+<div  id="tmpl_section_div">
+<h2>Plugins and their parameter</h2>
+    <p class="comment">Most of the functionalities of <code>PkgTemplates</code> is provided by plugins. 
+    The following section provides access to those plugins which are included in the default installation of <code>PkgTemplates</code></p>
+"""
+
+tmpl_section_end() = 
+"""
+</div>
+"""
 
 
 # create one for per plugin
@@ -77,6 +89,6 @@ pgin_form(p::PluginInfo) = tmpl_beg(p.name, p.purpose, p.tobe_used) *
     join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
-html_plugins(ps) = join([pgin_form(p) for p in ps], " \n")
+html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for p in ps], " \n") * tmpl_section_end()
 
 export html_plugins, PluginArg, PluginInfo

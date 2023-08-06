@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <style>
+  .pgin_inp_col1 {
+    background: #d6ebd5;
+  }
+  .pgin_inp_col2 {
+    background: #d5eaeb;;
+  }
+  .pgin_inp_margins {
+    padding-top: 10px;
+    padding-right: 100px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+  }
+
+  .plugin_form_div {
+    margin: 5px 0px 5px 0px;
+    padding: 20px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: rgb(107, 107, 107);
+  }
+
+</style>
+
+    <title>Create Julia Project/Package</title>
+  </head>
+  <body>
+
+<div  id="use_purpose_div">
+<form class="use_purpose_form" name="use_purpose_form" id="use_purpose_form" action="javascript:void(0)">
+    <fieldset id="use_purpose_fieldset"> 
+    <legend>What do you want to do? </legend>
+      <div id="use_purpose_inputs_div"> 
+        <input id="Project_Choice" name="Choice" value="Project" onchange="oncng(this)" type="radio"> 
+        <label for="Project_Choice">Initialize a Julia project</label><br>
+        <input id="LocalPackage_Choice" name="Choice" value="LocalPackage" onchange="oncng(this)" type="radio" checked> 
+        <label for="LocalPackage_Choice">Initialize a package for local use</label> <br>
+        <input id="RegisteredPackage_Choice" name="Choice" value="RegisteredPackage" onchange="oncng(this)" type="radio"> 
+        <label for="RegisteredPackage_Choice">Initialize a package with all CI bells and Documentation whistles </label> 
+       </div>
+    </fieldset>
+</form>
+</div>
+
+<div id="general_options_div">
+<h2>General options (to be completed)</h2>        
+</div>
+
+<div id="default_env_div">
+<h2>What packages to install into your default environment?</h2>
+  <form name="default_packages" id="deflt_pkg" action="javascript:void(0)">
+    <input id="defpkg1" value="Revise" checked="checked" onchange="oncng(this)"
+      type="checkbox"> <label for="defpkg1">Revise</label><br>
+    <input id="defpkg2" value="Test" checked="checked" onchange="oncng(this)"
+      type="checkbox"> <label for="defpkg2">Test</label><br>
+    <input id="defpkg3" value="BenchmarkTools" checked="checked" onchange="oncng(this)"
+      type="checkbox"> <label for="defpkg3">BenchmarkTools</label><br>
+    <input id="defpkg4" value="Plots" checked="checked" onchange="oncng(this)"
+      type="checkbox"> <label for="defpkg4">Plots</label><br>
+    <input id="defpkg5" value="Dates" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg5">Dates</label><br>
+    <input id="defpkg6" value="Unitful" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg6">Unitful</label><br>
+    <input id="defpkg7" value="DataFrames" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg7">DataFrames</label><br>
+    <input id="defpkg8" value="CSV" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg8">CSV</label><br>
+    <input id="defpkg9" value="Makie" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg9">Makie</label><br>
+    <input id="defpkg10" value="FileIO" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg10">FileIO</label><br>
+    <input id="defpkg11" value="OhMyREPL" onchange="oncng(this)" type="checkbox">
+    <label for="defpkg11">OhMyREPL</label><br>
+  </form>
+</div>
+
+<div id="project_env_div">
+<h2>What packages to add to your project?</h2>
+<p class="comment">you can of course always add packages later on using <code>Pkg</code></p>
+  <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
+    <textarea id="project_packages_input" name="project_packages_input" rows="5" cols="70" onchange="oncng(this)" > </textarea> <br>
+    <label for="project_packages_input">Separate package names by comma, semicolon, space or newline</label>
+  </form>
+</div>
+
+<div class="plugin_form_div" id="plugin_form_div_ProjectFile">
+<form class="plugin_form" name="ProjectFile_form" id="ProjectFile_form" action="javascript:void(0)"> 
+    <input id="Use_ProjectFile" value="Use_ProjectFile" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_ProjectFile">ProjectFile plugin </label>
+    <div class="Plugin_Purpose">Creates a Project.toml.</div>
+    <div class="Plugin_Inputs" id="ProjectFile_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="ProjectFile_version" name="version" value="v&quot;1.0.0-DEV&quot;" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_ProjectFile_version">The initial version of created packages</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_SrcDir">
+<form class="plugin_form" name="SrcDir_form" id="SrcDir_form" action="javascript:void(0)"> 
+    <input id="Use_SrcDir" value="Use_SrcDir" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_SrcDir">SrcDir plugin </label>
+    <div class="Plugin_Purpose">Creates a module entrypoint.</div>
+    <div class="Plugin_Inputs" id="SrcDir_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="SrcDir_file" name="file" value="~/work/PkgTemplates.jl/PkgTemplates.jl/templates/src/module.jl" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_SrcDir_file">Template file for src/MyPackage.jl</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_Tests">
+<form class="plugin_form" name="Tests_form" id="Tests_form" action="javascript:void(0)"> 
+    <input id="Use_Tests" value="Use_Tests" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_Tests">Tests plugin </label>
+    <div class="Plugin_Purpose">Sets up testing for packages.</div>
+    <div class="Plugin_Inputs" id="Tests_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="Tests_file" name="file" value="~/work/PkgTemplates.jl/PkgTemplates.jl/templates/test/runtests.jl" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Tests_file">Template file for runtests.jl</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input id="Tests_project" name="project"  onchange="oncng(this)" type="checkbox">
+
+    <span class="plugin_arg_meaning" id="argmeaning_Tests_project">Whether or not to create a new project for tests (test/Project.toml).</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_Readme">
+<form class="plugin_form" name="Readme_form" id="Readme_form" action="javascript:void(0)"> 
+    <input id="Use_Readme" value="Use_Readme"  onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_Readme">Readme plugin </label>
+    <div class="Plugin_Purpose">Creates a README file that contains badges for other included plugins..</div>
+    <div class="Plugin_Inputs" id="Readme_inputs" style = "display:none" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="Readme_file" name="file" value="~/work/PkgTemplates.jl/PkgTemplates.jl/templates/README.md" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Readme_file"></span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="Readme_destination" name="destination" value="README.md" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Readme_destination"></span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input id="Readme_inline_badges" name="inline_badges"  onchange="oncng(this)" type="checkbox">
+
+    <span class="plugin_arg_meaning" id="argmeaning_Readme_inline_badges">Whether or not to put the badges on the same line as the package name.</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_License">
+<form class="plugin_form" name="License_form" id="License_form" action="javascript:void(0)"> 
+    <input id="Use_License" value="Use_License" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_License">License plugin </label>
+    <div class="Plugin_Purpose">Creates a license file.</div>
+    <div class="Plugin_Inputs" id="License_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="License_name" name="name" value="MIT" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_License_name">Name of a license supported by PkgTemplates. Dropdown menu to be added here!</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="License_path" name="path" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_License_path">Path to a custom license file. This keyword takes priority over name.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="License_destination" name="destination" value="LICENSE" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_License_destination">File destination, relative to the repository root. For example, &quot;LICENSE.md&quot; might be desired.</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_Git">
+<form class="plugin_form" name="Git_form" id="Git_form" action="javascript:void(0)"> 
+    <input id="Use_Git" value="Use_Git" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_Git">Git plugin </label>
+    <div class="Plugin_Purpose">Creates a Git repository and a .gitignore file.</div>
+    <div class="Plugin_Inputs" id="Git_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="Git_ignore" name="ignore" value="" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_ignore">Patterns to add to the .gitignore</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="Git_name" name="name" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_name">Your real name, if you have not set user.name with Git.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="Git_email" name="email" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_email">Your email address, if you have not set user.email with Git.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="Git_branch" name="branch" value="LibGit2.getconfig(&quot;init.defaultBranch&quot;, &quot;main&quot;)" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_branch">The desired name of the repository's default branch.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input id="Git_ssh" name="ssh"  onchange="oncng(this)" type="checkbox">
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_ssh">Whether or not to use SSH for the remote. If left unset, HTTPS is used.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input id="Git_jl" name="jl" checked onchange="oncng(this)" type="checkbox">
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_jl">Whether or not to add a .jl suffix to the remote URL.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input id="Git_manifest" name="manifest"  onchange="oncng(this)" type="checkbox">
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_manifest">Whether or not to commit Manifest.toml.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input id="Git_gpgsign" name="gpgsign"  onchange="oncng(this)" type="checkbox">
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_gpgsign">Whether or not to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_CompatHelper">
+<form class="plugin_form" name="CompatHelper_form" id="CompatHelper_form" action="javascript:void(0)"> 
+    <input id="Use_CompatHelper" value="Use_CompatHelper" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_CompatHelper">CompatHelper plugin </label>
+    <div class="Plugin_Purpose">Integrates your packages with CompatHelper via GitHub Actions.</div>
+    <div class="Plugin_Inputs" id="CompatHelper_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="CompatHelper_file" name="file" value="~/work/PkgTemplates.jl/PkgTemplates.jl/templates/github/workflows/CompatHelper.yml" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_file">Template file for the workflow file</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="CompatHelper_destination" name="destination" value="CompatHelper.yml" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_destination">Destination of the workflow file, relative to .github/workflows</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="CompatHelper_cron" name="cron" value="0 0 * * *" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_cron">Cron expression for the schedule interval</span><br>
+    </div>
+</div>
+</form>
+</div>
+ 
+<div class="plugin_form_div" id="plugin_form_div_TagBot">
+<form class="plugin_form" name="TagBot_form" id="TagBot_form" action="javascript:void(0)"> 
+    <input id="Use_TagBot" value="Use_TagBot" checked onchange="oncng(this)" type="checkbox"> 
+    <label for="Use_TagBot">TagBot plugin </label>
+    <div class="Plugin_Purpose">Adds GitHub release support via TagBot.</div>
+    <div class="Plugin_Inputs" id="TagBot_inputs" style = "display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_file" name="file" value="~/work/PkgTemplates.jl/PkgTemplates.jl/templates/github/workflows/TagBot.yml" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_file">Template file for the workflow file.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_destination" name="destination" value="TagBot.yml" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_destination">Destination of the workflow file, relative to .github/workflows</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_trigger" name="trigger" value="JuliaTagBot" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_trigger">Username of the trigger user for custom registries</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_token" name="token" value="Secret(&quot;GITHUB_TOKEN&quot;)" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_token">Name of the token secret to use</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_ssh" name="ssh" value="Secret(&quot;DOCUMENTER_KEY&quot;)" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_ssh">Name of the SSH private key secret to use</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_ssh_password" name="ssh_password" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_ssh_password">Name of the SSH key password secret to use</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_changelog" name="changelog" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_changelog">Custom changelog template</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_changelog_ignore" name="changelog_ignore" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_changelog_ignore">Issue/pull request labels to ignore in the changelog</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_gpg" name="gpg" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_gpg">Name of the GPG private key secret to use</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_gpg_password" name="gpg_password" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_gpg_password">Name of the GPG private key password secret to use</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_registry" name="registry" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_registry">Custom registry, in the format owner/repo</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_branches" name="branches" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_branches">Whether not to enable the branches option</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2">
+    <input size="70" id="TagBot_dispatch" name="dispatch" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_dispatch">Whether or not to enable the dispatch option</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1">
+    <input size="70" id="TagBot_dispatch_delay" name="dispatch_delay" value="nothing" onchange="oncng(this)" type="text"><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_TagBot_dispatch_delay">Number of minutes to delay for dispatch events</span><br>
+    </div>
+</div>
+</form>
+</div>
+<div id="submit_div">
+<form class="submit_form" name="submit_form" id="submit_form" action="javascript:void(0)">
+<input id="save_defaults" value="save_defaults" onchange="oncng(this)" type="checkbox">
+<label for="save_defaults" >Save choices as default if applicable</label><br>
+<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true)">Submit</button>
+</form>
+</div>
+<script>
+
+function oncng(el) {
+    sendel(el, "newinput");
+};
+
+function sendel(el, reason) {
+    var elid = el.id;
+    var elval = el.value;
+    var elchecked = null
+    var eltype = el.tagName.toLowerCase()
+    if ("checked" in el) {elchecked = el.checked}
+    var parentformid = parentForm_Id(el)
+    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype});
+    // alert(el.id + " " + reason)
+};
+
+function parentForm_Id(el) {
+  var parent = el.parentElement;
+  var parenttype = parent.tagName;
+  if (parenttype == null) {
+    return null;
+  } else {
+    parenttype = parenttype.toLowerCase()
+  };
+  if (parenttype == "form") {
+    return parent.id
+  } else {
+    return parentForm_Id(parent)
+  };
+};
+
+function sendfullstate(isfinalstate){
+    // alert("sending full state")
+    var reasoneach;
+    var reasonfinl;
+    if (isfinalstate) {
+        //alert("finishing")
+        reasoneach ="finalinput"
+        reasonfinl ="finalinputfinished"
+   } else {
+        reasoneach ="init_input"
+        reasonfinl ="init_inputfinished"            
+   }
+
+    inps = document.querySelectorAll("input, textarea");
+    for (el of inps) {
+        sendel(el, reasoneach) ;
+  };
+  Blink.msg("change", {reason: reasonfinl});
+
+  return null;
+};
+
+</script>
+</body>
+</html>

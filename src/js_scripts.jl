@@ -45,7 +45,7 @@ function sendfullstate(isfinalstate){
         reasonfinl ="init_inputfinished"            
    }
 
-    inps = document.querySelectorAll("input");
+    inps = document.querySelectorAll("input, textarea");
     for (el of inps) {
         sendel(el, reasoneach) ;
   };
