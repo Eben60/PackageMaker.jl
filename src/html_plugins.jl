@@ -72,7 +72,7 @@ end
 
 PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(String(x[1]), x[2], x[3], String(x[4]))
 
-struct PluginInfo
+mutable struct PluginInfo
     tobe_used::Bool
     name::String
     purpose::String
