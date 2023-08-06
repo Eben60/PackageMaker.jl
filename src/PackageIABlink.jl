@@ -2,6 +2,7 @@ module PackageIABlink
 using Blink
 
 include("packages.jl")
+include("PluginForms.jl")
 
 winpath = realpath("html/mainwin.html")
 @assert isfile(winpath)

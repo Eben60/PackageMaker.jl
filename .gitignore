@@ -33,5 +33,5 @@ auxillary
 lcov.info
 
 .vscode
-tmp
+tmp*
 html/mws*
