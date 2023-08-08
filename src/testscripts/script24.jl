@@ -4,7 +4,7 @@ using PackageIABlink, Blink
 
 isdefined(Main, :win) && close(win)
 
-(;win, initvals, newvals, finalvals, changeeventhandle) = initwin("html/mw23.html");
+(;win, initvals, newvals, finalvals, changeeventhandle) = initwin("html/mws24.html");
 
 
 

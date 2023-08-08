@@ -13,7 +13,7 @@ tmpl_section_end() =
 
 
 # create one for per plugin
-tmpl_beg(pgin_name, purpose, show) =
+tmpl_beg(pgin_name, purpose, show=true) =
 """
 <div class="plugin_form_div" id="plugin_form_div_$(pgin_name)">
 <form class="plugin_form" name="$(pgin_name)_form" id="$(pgin_name)_form" action="javascript:void(0)"> 
@@ -71,9 +71,7 @@ struct PluginArg
 end
 
 PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(String(x[1]), x[2], x[3], String(x[4]))
-
-mutable struct PluginInfo
-    tobe_used::Bool
+struct PluginInfo
     name::String
     purpose::String
     args::Vector{PluginArg}
@@ -82,19 +80,19 @@ end
 # PluginInfo(tobe_used::Bool, name::String, purpose::String, x::Vector{Tuple{String, Bool, Any, String}}) = 
 #     PluginInfo(tobe_used::Bool, String(name), String(purpose), PluginArg.(x))
 
-PluginInfo(t::Tuple{Bool, AbstractString, AbstractString, Vector{Tuple{String, Bool, Any, String}}}) = 
-    PluginInfo(t[1], String(t[2]), String(t[3]), PluginArg.(t[4]))
+PluginInfo(t::Tuple{AbstractString, AbstractString, Vector{Tuple{String, Bool, Any, String}}}) = 
+    PluginInfo(String(t[1]), String(t[2]), PluginArg.(t[3]))
 
 # PluginInfo(t::Tuple{Bool, String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], t[3], PluginArg.(t[4]))
 
 # PluginInfo(t::Tuple{Bool, String, String, Vector{PluginArg}}) = PluginInfo(t[1], t[2], t[3], t[4])
 # PluginInfo(t::Tuple{Bool, String, String, Vector{PluginArg}}) = PluginInfo(t[1], t[2], t[3], t[4])
 
-PluginInfo(t::Tuple{Bool, String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], t[3], PluginArg.(t[4]))
+PluginInfo(t::Tuple{String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], PluginArg.(t[3]))
 
 
 
-pgin_form(p::PluginInfo) = tmpl_beg(p.name, p.purpose, p.tobe_used) * 
+pgin_form(p::PluginInfo) = tmpl_beg(p.name, p.purpose) * 
     join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
