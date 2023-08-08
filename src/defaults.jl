@@ -32,3 +32,8 @@ pgins_project = DefaultDict(false, Dict{String, Bool}([
     "TagBot"       => 0,
     "Tests"        => 1,    
 ]))
+
+pgins_sets = Dict(["Project" => pgins_project,
+    "LocalPackage" => pgins_package,
+    "RegisteredPackage" => pgins_registered,
+])
