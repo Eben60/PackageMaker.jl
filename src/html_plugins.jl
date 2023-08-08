@@ -90,9 +90,9 @@ PluginInfo(t::Tuple{AbstractString, AbstractString, Vector{Tuple{String, Bool, A
 
 PluginInfo(t::Tuple{String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], PluginArg.(t[3]))
 
+ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
 
-
-pgin_form(p::PluginInfo) = tmpl_beg(p.name, p.purpose) * 
+pgin_form(p::PluginInfo, selected_pgins=pgins_package) = tmpl_beg(p.name, p.purpose, ischecked(p, selected_pgins)) * 
     join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
