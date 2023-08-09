@@ -72,6 +72,13 @@ function check_entries_def_installed(win, initvals)
 end
 export check_entries_def_installed
 
+function showhide(win, id, show=true, duration=100) 
+    jqselector = "#$(id)"
+    jqaction = show ? "show($(duration))" : "hide($(duration))"
+    js(win, Blink.JSString("""jQuery("$(jqselector)").$(jqaction)"""))
+    return nothing
+end
+
 handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
 handlefinalinput(win) = close(win)
@@ -91,7 +98,7 @@ function handlechangeevents(win, newvals, initvals, finalvals)
             arg["reason"] == "init_input" && push!(initvals, id => el)
             arg["reason"] == "finalinput" && push!(finalvals, id => el)
         end
-        arg["reason"] == "newinput" && handleinput(el)
+        arg["reason"] == "newinput" && handleinput(win, el)
         arg["reason"] == "init_inputfinished" && handleinit_input()
         arg["reason"] == "finalinputfinished" && handlefinalinput(win)
     end
@@ -112,4 +119,10 @@ function initwin(wpath)
 end
 export initwin
 
+function showhide(win, id, show=true, duration=100) 
+    jqselector = "#$(id)"
+    jqaction = show ? "show($(duration))" : "hide($(duration))"
+    js(win, Blink.JSString("""jQuery("$(jqselector)").$(jqaction)"""))
+    return nothing
+end
 

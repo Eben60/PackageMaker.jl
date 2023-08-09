@@ -1,5 +1,14 @@
-js_scripts() =
+function js_scripts() 
+    fpath = joinpath(@__DIR__, "javascript/jquery.js")
+    jq = open(fpath, "r") do file
+        read(file)
+    end |> String
+    
+    js =
 """
+<script>
+$(jq)
+</script>
 <script>
 
 function oncng(el) {
@@ -57,3 +66,5 @@ function sendfullstate(isfinalstate){
 
 </script>
 """
+    return js
+end

@@ -10,18 +10,20 @@ end
 end # module
 
 
-function handleinput(el::HtmlElem)
+function handleinput(win, el::HtmlElem)
     
-    el.parentformid == :use_purpose_form && return handle_purpose(el)
+    el.parentformid == :use_purpose_form && return handle_purpose(win, el)
 
     return nothing
 
 end
 
-function handle_purpose(el) 
+function handle_purpose(win, el) 
     pgins_to_show = pgins_sets[el.value]
     for (k, v) in pgins_to_show
         @show k, v
     end
+    id="Tests_inputs"
+    showhide(win, id, false) 
     return nothing
 end
