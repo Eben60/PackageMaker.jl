@@ -27,8 +27,8 @@ pgins_project = DefaultDict(false, Dict{String, Bool}([
     "Git"          => 1,
     "License"      => 0,
     "ProjectFile"  => 1,
-    "Readme"       => 1,
-    "SrcDir"       => 1, 
+    "Readme"       => 0,
+    "SrcDir"       => 0, 
     "TagBot"       => 0,
     "Tests"        => 1,    
 ]))

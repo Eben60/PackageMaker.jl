@@ -18,12 +18,17 @@ function handleinput(win, el::HtmlElem)
 
 end
 
+function showhidepgin(win, pgin_name, show=true) 
+    divid="$(pgin_name)_inputs"
+    checkid = "Use_$(pgin_name)"
+    checkelem(win, checkid, show)
+    showhide(win, divid, show) 
+end
+
 function handle_purpose(win, el) 
     pgins_to_show = pgins_sets[el.value]
-    for (k, v) in pgins_to_show
-        @show k, v
+    for (pgname, v) in pgins_to_show
+        showhidepgin(win, pgname, v)
     end
-    id="Tests_inputs"
-    showhide(win, id, false) 
     return nothing
 end

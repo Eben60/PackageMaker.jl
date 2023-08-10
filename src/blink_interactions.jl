@@ -20,13 +20,13 @@ export mainwin
 getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
 export getelemval
 
-setelemval(win, id, newval) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""))
+setelemval(win, id, newval) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
 export setelemval
 
-checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""))
+checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
 export checkelem
 
-disableinputelem(win, id) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = true;"""))
+disableinputelem(win, id) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = true;"""); callback=false)
 export disableinputelem
 
 
@@ -72,12 +72,6 @@ function check_entries_def_installed(win, initvals)
 end
 export check_entries_def_installed
 
-function showhide(win, id, show=true, duration=100) 
-    jqselector = "#$(id)"
-    jqaction = show ? "show($(duration))" : "hide($(duration))"
-    js(win, Blink.JSString("""jQuery("$(jqselector)").$(jqaction)"""))
-    return nothing
-end
 
 handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
@@ -122,7 +116,6 @@ export initwin
 function showhide(win, id, show=true, duration=100) 
     jqselector = "#$(id)"
     jqaction = show ? "show($(duration))" : "hide($(duration))"
-    js(win, Blink.JSString("""jQuery("$(jqselector)").$(jqaction)"""))
+    js(win, Blink.JSString("""jQuery("$(jqselector)").$(jqaction)"""); callback=false)
     return nothing
 end
-
