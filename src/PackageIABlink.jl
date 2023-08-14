@@ -1,6 +1,7 @@
 module PackageIABlink
-using Blink
+using Blink, LibGit2
 
+include("git.jl")
 include("defaults.jl")
 include("packages.jl")
 include("html.jl")

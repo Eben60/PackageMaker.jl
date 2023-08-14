@@ -9,7 +9,7 @@ esc_qm(s::String) = replace(s, "\""=>"&quot;")
 esc_qm(x) = x
 
 make_html(pgins) = html_head() * 
-    # css_styles() * 
+    css_styles() * 
     html_use_purpose() *
     html_general_options() *
     htmp_default_env_pkg() *
@@ -19,18 +19,7 @@ make_html(pgins) = html_head() *
     js_scripts() *
     html_tail()
 
-# function write_html(pgins, file)
-#     file = abspath(joinpath("html", file))
-#     html = make_html(pgins)
-#     open(file, "w") do f
-#         write(f, html)
-#     end
-#     return file
-# end
-
-# make_html(pgins, file) = write_html(pgins, file)
-
-function make_html(pgins, file)
+function make_html(pgins, file) # plugins - see file "Plugins-and-default-arguments.jl"
     file = abspath(joinpath("html", file))
     html = make_html(pgins)
     open(file, "w") do f
@@ -40,5 +29,5 @@ function make_html(pgins, file)
 end
 
 
-export make_html, write_html
+export make_html
 
