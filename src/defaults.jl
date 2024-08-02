@@ -1,5 +1,6 @@
 using DataStructures
 
+"Default plugins for a package to be registered"
 pgins_registered = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 1,
     "Git"          => 1,
@@ -11,6 +12,7 @@ pgins_registered = DefaultDict(false, Dict{String, Bool}([
     "Tests"        => 1,    
 ]))
 
+"Default plugins for non-public package"
 pgins_package = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 0,
     "Git"          => 1,
@@ -22,6 +24,7 @@ pgins_package = DefaultDict(false, Dict{String, Bool}([
     "Tests"        => 1,    
 ]))
 
+"Default plugins for project"
 pgins_project = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 0,
     "Git"          => 1,
