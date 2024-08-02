@@ -1,6 +1,9 @@
-
-winpath = realpath("html/mainwin.html")
-@assert isfile(winpath)
+try
+    winpath = realpath("html/mainwin.html")
+    @assert isfile(winpath)
+catch
+    @warn "The default file mainwin.html cannot be found."
+end
 
 function initcontents(fpath=winpath)
     contents = open(fpath, "r") do file
