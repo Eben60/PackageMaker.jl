@@ -1,4 +1,5 @@
-module PackageIABlink
+module PackageInABlink
+
 using Blink, LibGit2
 
 include("git.jl")
