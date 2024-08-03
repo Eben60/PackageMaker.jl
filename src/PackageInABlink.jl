@@ -10,4 +10,4 @@ include("blink_interactions.jl")
 include("handleinput.jl")
 
 
-end # module PackageIABlink
+end # module PackageInABlink

@@ -1,5 +1,5 @@
 using Revise
-using PackageIABlink
+using PackageInABlink
 
 packagename = "MyPackage"
 

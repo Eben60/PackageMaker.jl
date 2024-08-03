@@ -90,37 +90,33 @@ function html_general_options()
     return h
 end
 
-htmp_default_env_pkg() = 
+function default_env_checkbox(no, pkg_name; 
+    installed = default_env_packages())
+    checked = pkg_name in installed ? "checked=\"checked\"" : ""
+
+cb = """
+    <input id="defpkg$no" value="$pkg_name" $checked onchange="oncng(this)"
+    type="checkbox"> <label for="defpkg$no">$pkg_name</label><br>
 """
+    return cb
+end
+
+function htmp_default_env_pkg()
+    installed = default_env_packages()
+    available = addable_default_packages() 
+    dp = vcat(installed, available)
+    checkboxes = join([default_env_checkbox(no, pkg_name; installed) for (no, pkg_name) in pairs(dp)])
+    htm = """
 <div id="default_env_div">
 <h2>What packages to install into your default environment?</h2>
   <form name="default_packages" id="deflt_pkg" action="javascript:void(0)">
-    <input id="defpkg1" value="Revise" checked="checked" onchange="oncng(this)"
-      type="checkbox"> <label for="defpkg1">Revise</label><br>
-    <input id="defpkg2" value="Test" checked="checked" onchange="oncng(this)"
-      type="checkbox"> <label for="defpkg2">Test</label><br>
-    <input id="defpkg3" value="BenchmarkTools" checked="checked" onchange="oncng(this)"
-      type="checkbox"> <label for="defpkg3">BenchmarkTools</label><br>
-    <input id="defpkg4" value="Plots" checked="checked" onchange="oncng(this)"
-      type="checkbox"> <label for="defpkg4">Plots</label><br>
-    <input id="defpkg5" value="Dates" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg5">Dates</label><br>
-    <input id="defpkg6" value="Unitful" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg6">Unitful</label><br>
-    <input id="defpkg7" value="DataFrames" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg7">DataFrames</label><br>
-    <input id="defpkg8" value="CSV" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg8">CSV</label><br>
-    <input id="defpkg9" value="Makie" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg9">Makie</label><br>
-    <input id="defpkg10" value="FileIO" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg10">FileIO</label><br>
-    <input id="defpkg11" value="OhMyREPL" onchange="oncng(this)" type="checkbox">
-    <label for="defpkg11">OhMyREPL</label><br>
+$checkboxes
   </form>
 </div>
-
 """
+
+    return htm
+end
 
 html_proj_env_pkg() = 
 """

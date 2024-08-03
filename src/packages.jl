@@ -6,6 +6,14 @@ function default_env_packages()
     default_proj_path = abspath(joinpath("$(homedir())", ".julia/environments/", julia_version_string, "Project.toml"))
     @assert isfile(default_proj_path)
 
-    packages = keys(TOML.parsefile(default_proj_path)["deps"])
+    packages = collect(keys(TOML.parsefile(default_proj_path)["deps"]))
+    sort!(packages)
     return packages
 end
+
+# const
+recommended ::Vector{String} = ["Revise", "OhMyREPL", "BenchmarkTools", "Plots", "DataFrames", "Unitful", "Makie", "FileIO", "CSV"]
+
+addable_default_packages() = sort!(setdiff(recommended, default_env_packages(), ))
+
+
