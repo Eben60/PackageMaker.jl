@@ -10,7 +10,7 @@ html_head(title = "Initialize Julia Project/Package") =
   <body>
   <h2>Setting up a Julia Project or package</h2>
   <p class="comment">This is mostly a GUI for the Julia package <a href="https://juliaci.github.io/PkgTemplates.jl/stable/" target="_blank">PkgTemplates</a><br>
-  here some explanations about environments</p>
+  here place for some explanations about environments</p>
 
 """
 
@@ -70,7 +70,7 @@ function html_general_options()
     
     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
         <input size="70" id="project_dir" name="project_dir" value="" onchange="oncng(this)" type="text"><br>
-        <span class="plugin_arg_meaning" id="argmeaning_project_dir">Directory to place project in.</span><br>
+        <span class="plugin_arg_meaning" id="argmeaning_project_dir">Directory to place project in. Required input.</span><br>
     </div>
 
     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
@@ -108,7 +108,15 @@ function htmp_default_env_pkg()
     checkboxes = join([default_env_checkbox(no, pkg_name; installed) for (no, pkg_name) in pairs(dp)])
     htm = """
 <div id="default_env_div">
-<h2>What packages to install into your default environment?</h2>
+<h2>What packages to add to / uninstall from your default environment?</h2>
+  <p class="comment">The packages installed into the default environment are always available. 
+  It is however recommended to keep them at minimum to keep out of 
+  <a href="https://en.wikipedia.org/wiki/Dependency_hell" target="_blank">"Dependency Hell"</a>.
+  Though we list some commonly used packages, don't see it as recommendation to check the box. 
+  Keep in mind that e.g. plotting packages come with a lot of dependencies which may later conflict 
+  with some packages in your projects. 
+  </p>
+  <p class="comment">Initially, packages already installed there are shown ckecked.</p>
   <form name="default_packages" id="deflt_pkg" action="javascript:void(0)">
 $checkboxes
   </form>

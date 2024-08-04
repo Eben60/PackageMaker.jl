@@ -1,4 +1,3 @@
-using Revise
 using PackageInABlink
 
 packagename = "MyPackage"
