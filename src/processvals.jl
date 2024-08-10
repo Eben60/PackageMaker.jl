@@ -16,11 +16,10 @@ end
 export procvals
 
 "list checked forms"
-function listchecked(d)
+function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}}; pgin_only=true)
     re = r"(.+)(_form)"
     lc = Dict{Symbol, Union{Nothing, Bool}}()
     for (k, v) in pairs(d)
-        @show k
         lc[k] = nothing
         m = match(re, string(k))
         if ! isnothing(m)
@@ -34,6 +33,16 @@ function listchecked(d)
             end
         end
     end
+    if pgin_only 
+        filter!(p->!isnothing(p.second), lc)
+        re = r"^(.+)_form"
+        return Dict(match(re, String(k))[1] => v for (k, v) in lc)
+    end
     return lc
 end
+
+listchecked(vals; pgin_only=true) = listchecked(procvals(vals); pgin_only)
 export listchecked
+
+filterchecked(checkedforms, pgins=def_plugins) = [pg for pg in pgins if checkedforms[pg.name]]
+export filterchecked

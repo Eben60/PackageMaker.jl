@@ -1,8 +1,6 @@
-using PackageInABlink
+packagename :: String = "MyPackage"
 
-packagename = "MyPackage"
-
-plugins = PluginInfo.([
+def_plugins :: Vector{PluginInfo} = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [("version",  false, "v\"1.0.0-DEV\"", "The initial version of created packages")]),
     ("SrcDir", "Creates a module entrypoint", [("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/src/module.jl", "Template file for src/$(packagename).jl")]),
     ("Tests", "Sets up testing for packages", [("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/test/runtests.jl", "Template file for runtests.jl")
@@ -41,4 +39,4 @@ plugins = PluginInfo.([
                 ]);
 
 
-;
+# export def_plugins

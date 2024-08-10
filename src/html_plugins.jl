@@ -66,7 +66,7 @@ ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
 struct PluginArg
     name::String
     isvector::Bool
-    default::ArgTypes
+    value::ArgTypes
     meaning::String
 end
 
@@ -93,7 +93,7 @@ PluginInfo(t::Tuple{String, String, Vector{Tuple{String, Bool, String, String}}}
 ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
 
 pgin_form(p::PluginInfo, selected_pgins=pgins_package) = tmpl_beg(p.name, p.purpose, ischecked(p, selected_pgins)) * 
-    join([tmpl_inp(p.name, a.name, esc_qm(a.default), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
+    join([tmpl_inp(p.name, a.name, esc_qm(a.value), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
 html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for p in ps], " \n") * tmpl_section_end()

@@ -8,7 +8,7 @@ checked(show) = show ? "checked" : ""
 esc_qm(s::String) = replace(s, "\""=>"&quot;")
 esc_qm(x) = x
 
-make_html(pgins) = html_head() * 
+make_html(pgins::Vector{PluginInfo}) = html_head() * 
     css_styles() * 
     html_use_purpose() *
     html_general_options() *
@@ -28,6 +28,7 @@ function make_html(pgins, file) # plugins - see file "Plugins-and-default-argume
     return file
 end
 
+make_html(file::AbstractString) = make_html(def_plugins, file)
 
 export make_html
 
