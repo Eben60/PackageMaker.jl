@@ -8,7 +8,7 @@ checked(show) = show ? "checked" : ""
 esc_qm(s::String) = replace(s, "\""=>"&quot;")
 esc_qm(x) = x
 
-make_html(pgins::Vector{PluginInfo}) = html_head() * 
+make_html(pgins) = html_head() * 
     css_styles() * 
     html_use_purpose() *
     html_general_options() *

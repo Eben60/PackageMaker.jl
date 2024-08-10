@@ -1,6 +1,6 @@
 module PackageInABlink
 
-using Blink, LibGit2
+using Blink, LibGit2, OrderedCollections
 
 include("git.jl")
 include("defaults.jl")
@@ -10,7 +10,5 @@ include("blink_interactions.jl")
 include("handleinput.jl")
 include("processvals.jl")
 include("Plugins-and-default-arguments.jl")
-@show length(def_plugins)
-
 
 end # module PackageInABlink

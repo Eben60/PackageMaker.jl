@@ -1,6 +1,6 @@
 packagename :: String = "MyPackage"
 
-def_plugins :: Vector{PluginInfo} = PluginInfo.([
+dfp = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [("version",  false, "v\"1.0.0-DEV\"", "The initial version of created packages")]),
     ("SrcDir", "Creates a module entrypoint", [("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/src/module.jl", "Template file for src/$(packagename).jl")]),
     ("Tests", "Sets up testing for packages", [("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/test/runtests.jl", "Template file for runtests.jl")
@@ -38,5 +38,6 @@ def_plugins :: Vector{PluginInfo} = PluginInfo.([
                 ("dispatch_delay",  false, "nothing", "Number of minutes to delay for dispatch events"), ]),
                 ]);
 
+def_plugins :: OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 
 # export def_plugins

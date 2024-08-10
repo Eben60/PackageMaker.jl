@@ -15,6 +15,14 @@ function procvals(vals)
 end
 export procvals
 
+function trunkformname(s)
+    s = String(s)
+    re = r"^(.+)_form"
+    m = match(re, s)
+    isnothing(m) && return nothing
+    return m[1] 
+end
+
 "list checked forms"
 function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}}; pgin_only=true)
     re = r"(.+)(_form)"
@@ -33,16 +41,32 @@ function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}}; pgin_only=true)
             end
         end
     end
-    if pgin_only 
-        filter!(p->!isnothing(p.second), lc)
-        re = r"^(.+)_form"
-        return Dict(match(re, String(k))[1] => v for (k, v) in lc)
-    end
+
+    pgin_only && return Dict(trunkformname(k) => v for (k, v) in lc if !isnothing(v))
+
     return lc
 end
 
 listchecked(vals; pgin_only=true) = listchecked(procvals(vals); pgin_only)
 export listchecked
 
-filterchecked(checkedforms, pgins=def_plugins) = [pg for pg in pgins if checkedforms[pg.name]]
+function filterchecked(checkedforms, pgins=def_plugins) 
+    pgc = deepcopy(pgins)
+    for (k, v) in checkedforms
+        v || pop!(pgc, k)
+    end
+    return pgc
+end
+
 export filterchecked
+
+function sortedprocvals(fv)
+    lc = listchecked(fv; pgin_only=true)
+    fms = Dict(k => Any[] for k in keys(lc))
+    for (_, v) in fv
+        k = v.parentformid |> trunkformname
+        haskey(fms, k) && push!(fms[k], v)
+    end
+    return fms
+end
+export sortedprocvals

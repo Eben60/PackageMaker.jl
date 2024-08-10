@@ -63,11 +63,11 @@ disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 
 ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
 
-struct PluginArg
-    name::String
-    isvector::Bool
+mutable struct PluginArg
+    const name::String
+    const isvector::Bool
     value::ArgTypes
-    meaning::String
+    const meaning::String
 end
 
 PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(String(x[1]), x[2], x[3], String(x[4]))
@@ -96,6 +96,6 @@ pgin_form(p::PluginInfo, selected_pgins=pgins_package) = tmpl_beg(p.name, p.purp
     join([tmpl_inp(p.name, a.name, esc_qm(a.value), esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(p.args)], " ") *
     tmpl_end()
 
-html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for p in ps], " \n") * tmpl_section_end()
+html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps], " \n") * tmpl_section_end()
 
 export html_plugins, PluginArg, PluginInfo
