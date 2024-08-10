@@ -71,14 +71,17 @@ mutable struct PluginArg
 end
 
 PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(String(x[1]), x[2], x[3], String(x[4]))
+
 struct PluginInfo
     name::String
     purpose::String
-    args::Vector{PluginArg}
+    args::OrderedDict{String, PluginArg} 
 end
 
-# PluginInfo(tobe_used::Bool, name::String, purpose::String, x::Vector{Tuple{String, Bool, Any, String}}) = 
-#     PluginInfo(tobe_used::Bool, String(name), String(purpose), PluginArg.(x))
+# vec2od(args::Vector{PluginArg}) = OrderedDict(v.name => v for v in args)
+
+PluginInfo(name, purpose, args::Vector{PluginArg}) = PluginInfo(name, purpose, OrderedDict(v.name => v for v in args))
+
 
 PluginInfo(t::Tuple{AbstractString, AbstractString, Vector{Tuple{String, Bool, Any, String}}}) = 
     PluginInfo(String(t[1]), String(t[2]), PluginArg.(t[3]))

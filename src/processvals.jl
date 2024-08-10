@@ -62,7 +62,7 @@ export filterchecked
 
 function sortedprocvals(fv)
     lc = listchecked(fv; pgin_only=true)
-    fms = Dict(k => Any[] for k in keys(lc))
+    fms = Dict(k => Any[] for (k, v) in lc if v)
     for (_, v) in fv
         k = v.parentformid |> trunkformname
         haskey(fms, k) && push!(fms[k], v)
@@ -70,3 +70,22 @@ function sortedprocvals(fv)
     return fms
 end
 export sortedprocvals
+
+function setpluginvals(fv)
+    lc = listchecked(fv)
+    fc = filterchecked(lc) # selected plugins
+    sp = sortedprocvals(fv) # returned values
+
+    for (k, v) in sp
+        p = fc[k]
+        re = Regex("^$(k)_(.+)")
+        for el in v
+            startswith(String(el.id), "Use_") && continue
+            val = el.value
+            nm = match(re, String(el.id))[1]
+            p.args[nm].value = val
+        end
+    end
+    return fc
+end
+export setpluginvals
