@@ -46,7 +46,7 @@ vec2string(x::Vector) = isempty(x) ? "" : string.(x)
 tmpl_input_field(pgin_name, arg, arg_val::Vector) =
 """
 <textarea id="$(pgin_name)_$(arg)" name="$(arg)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val)) </textarea> <br>
-<label for="project_packages_input" class="comment">A vector of strings is expected. Put each string onto a newline</label>
+<label for="project_packages_input" class="comment">A vector of strings is expected. Put each string onto a newline<br></label>
 """
 
 
