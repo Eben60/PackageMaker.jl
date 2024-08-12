@@ -64,13 +64,15 @@ disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
 
 mutable struct PluginArg
+    type::Type
     const name::String
     const isvector::Bool
     value::ArgTypes
     const meaning::String
 end
 
-PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(String(x[1]), x[2], x[3], String(x[4]))
+PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(typeof(x[3]), String(x[1]), x[2], x[3], String(x[4]))
+PluginArg(x::Tuple{Type, AbstractString, Bool, Any, AbstractString}) = PluginArg(x[1], String(x[2]), x[3], x[4], String(x[5]))
 
 struct PluginInfo
     name::String
@@ -78,20 +80,12 @@ struct PluginInfo
     args::OrderedDict{String, PluginArg} 
 end
 
-# vec2od(args::Vector{PluginArg}) = OrderedDict(v.name => v for v in args)
+function pluginarg_od(v::Vector{T}) where T <: Tuple
+    ar = [PluginArg(x) for x in v]
+    return OrderedDict(v.name => v for v in ar)
+end
 
-PluginInfo(name, purpose, args::Vector{PluginArg}) = PluginInfo(name, purpose, OrderedDict(v.name => v for v in args))
-
-
-PluginInfo(t::Tuple{AbstractString, AbstractString, Vector{Tuple{String, Bool, Any, String}}}) = 
-    PluginInfo(String(t[1]), String(t[2]), PluginArg.(t[3]))
-
-# PluginInfo(t::Tuple{Bool, String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], t[3], PluginArg.(t[4]))
-
-# PluginInfo(t::Tuple{Bool, String, String, Vector{PluginArg}}) = PluginInfo(t[1], t[2], t[3], t[4])
-# PluginInfo(t::Tuple{Bool, String, String, Vector{PluginArg}}) = PluginInfo(t[1], t[2], t[3], t[4])
-
-PluginInfo(t::Tuple{String, String, Vector{Tuple{String, Bool, String, String}}}) = PluginInfo(t[1], t[2], PluginArg.(t[3]))
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]))
 
 ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
 

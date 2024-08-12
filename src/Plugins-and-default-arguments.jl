@@ -17,7 +17,7 @@ dfp = PluginInfo.([
         ("path",  false, "nothing", "Path to a custom license file. This keyword takes priority over name."), 
         ("destination",  false, "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired.")]),
     ("Git", "Creates a Git repository and a .gitignore file", [
-        ("ignore",  true, String[], "Patterns to add to the .gitignore"), 
+        (Vector{String}, "ignore",  true, String[], "Patterns to add to the .gitignore"), 
         ("name",  false, "nothing", "Your real name, if you have not set user.name with Git."), 
         ("email",  false, "nothing", "Your email address, if you have not set user.email with Git."), 
         ("branch",  false, "main", "The desired name of the repository's default branch."), 
