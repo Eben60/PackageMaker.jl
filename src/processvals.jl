@@ -89,3 +89,26 @@ function setpluginvals(fv)
     return fc
 end
 export setpluginvals
+
+function nondefault(pa::PluginArg) 
+    pa.type == Bool && return true
+    isempty(pa.value) && return false
+    strip(pa.value) == "nothing" && return false
+    return true
+end
+export nondefault
+
+function kwval(pa::PluginArg)
+    nondefault(pa::PluginArg) || return nothing
+    pa.type == Bool && return Bool(pa.value)
+    pa.type <: AbstractString && return strip(pa.value)
+    pa.type <: Vector{String} && return split(pa.value, r"[\n\r]+") .|> strip .|> String
+    error("unsupported type $(pa.type)")
+end
+export kwval
+
+function plugin_kwargs(p::PluginInfo)
+    args = p.args
+    return Dict(Symbol(k) => kwval(v) for (k, v) in args if nondefault(v))
+end
+export plugin_kwargs
