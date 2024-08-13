@@ -127,3 +127,5 @@ jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
 
 recall_fv() = load_object(jldcache())
 export recall_fv
+
+# PkgTemplates.default_plugins()
