@@ -112,3 +112,18 @@ function plugin_kwargs(p::PluginInfo)
     return Dict(Symbol(k) => kwval(v) for (k, v) in args if nondefault(v))
 end
 export plugin_kwargs
+
+function plugin_obj(name, activ, kwargs)
+    pgin = eval(Symbol(name))
+    @assert pgin <: PkgTemplates.Plugin
+    activ || return ! pgin
+    return pgin(; kwargs...)
+
+end
+
+export plugin_obj
+
+jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
+
+recall_fv() = load_object(jldcache())
+export recall_fv

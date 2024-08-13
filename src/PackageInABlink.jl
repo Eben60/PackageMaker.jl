@@ -1,6 +1,7 @@
 module PackageInABlink
 
-using Blink, LibGit2, OrderedCollections
+using Blink, LibGit2, OrderedCollections, PkgTemplates
+using JLD2
 
 include("git.jl")
 include("defaults.jl")
