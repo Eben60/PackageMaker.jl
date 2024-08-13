@@ -60,7 +60,7 @@ end
 
 export filterchecked
 
-function sortedprocvals(fv)
+function sortedprocvals(fv) # -> Dict{String, Vector{HtmlElem}}
     lc = listchecked(fv; pgin_only=true)
     fms = Dict(k => Any[] for (k, v) in lc if v)
     for (_, v) in fv
@@ -71,7 +71,7 @@ function sortedprocvals(fv)
 end
 export sortedprocvals
 
-function setpluginvals(fv)
+function collect_plugin_infos(fv) # -> OrderedDict{String, PluginInfo}
     lc = listchecked(fv)
     fc = filterchecked(lc) # selected plugins
     sp = sortedprocvals(fv) # returned values
@@ -81,14 +81,20 @@ function setpluginvals(fv)
         re = Regex("^$(k)_(.+)")
         for el in v
             startswith(String(el.id), "Use_") && continue
-            val = el.value
+            # if el.inputtype == :checkbox
+            #     val = el.checked
+            # else 
+            #     val = el.value
+            # end 
+
+            val = (el.inputtype == :checkbox) ? el.checked : val = el.value
             nm = match(re, String(el.id))[1]
             p.args[nm].value = val
         end
     end
     return fc
 end
-export setpluginvals
+export collect_plugin_infos
 
 function nondefault(pa::PluginArg) 
     pa.type == Bool && return true
@@ -109,16 +115,34 @@ export kwval
 
 function plugin_kwargs(p::PluginInfo)
     args = p.args
+
+    # for (k, v) in args 
+    #     if  nondefault(v)
+    #         try
+    #             kwval(v)
+    #         catch
+    #             println("---")
+    #             @show p.name
+    #             @show k
+    #             @show v
+    #             error("sorry")
+    #         end
+    #     end
+    # end
+
     return Dict(Symbol(k) => kwval(v) for (k, v) in args if nondefault(v))
 end
 export plugin_kwargs
+
+collect_plugin_kwargs(od::OrderedDict{String, PluginInfo}) = OrderedDict(k => plugin_kwargs(v) for (k, v) in od if k in list_deflt_pgins())
+
+export collect_plugin_kwargs
 
 function plugin_obj(name, activ, kwargs)
     pgin = eval(Symbol(name))
     @assert pgin <: PkgTemplates.Plugin
     activ || return ! pgin
     return pgin(; kwargs...)
-
 end
 
 export plugin_obj
@@ -127,5 +151,10 @@ jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
 
 recall_fv() = load_object(jldcache())
 export recall_fv
+
+list_deflt_pgins() = PkgTemplates.default_plugins() .|> typeof .|> Symbol .|> String
+export list_deflt_pgins
+
+# TODO 
 
 # PkgTemplates.default_plugins()
