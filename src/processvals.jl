@@ -134,7 +134,7 @@ function plugin_kwargs(p::PluginInfo)
 end
 export plugin_kwargs
 
-collect_plugin_kwargs(od::OrderedDict{String, PluginInfo}) = OrderedDict(k => plugin_kwargs(v) for (k, v) in od if k in list_deflt_pgins())
+collect_plugin_kwargs(od::OrderedDict{String, PluginInfo}) = OrderedDict(k => plugin_kwargs(v) for (k, v) in od) # if k in list_deflt_pgins())
 
 export collect_plugin_kwargs
 
@@ -152,9 +152,36 @@ jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
 recall_fv() = load_object(jldcache())
 export recall_fv
 
-list_deflt_pgins() = PkgTemplates.default_plugins() .|> typeof .|> Symbol .|> String
+list_deflt_pgins() = PkgTemplates.default_plugins() .|> type2str
 export list_deflt_pgins
 
-# TODO 
+function type2str(x)
+    t = x |>typeof |> Symbol |> String
+    occursin(".", t) || return t
+    re=r".*\.(.+)"
+    return match(re, t)[1]
+end
+export type2str
 
-# PkgTemplates.default_plugins()
+function initialized_pgins(fv)
+    od = collect_plugin_infos(fv)
+    pgc = collect_plugin_kwargs(od)
+    ck = listchecked(fv)
+    pgins = PkgTemplates.Plugin[]
+    for p in PkgTemplates.default_plugins()
+        s = type2str(p)
+        obj = eval(Symbol(s))
+        if !get(ck, s, false)
+            push!(pgins, !obj)
+        else
+            @show s
+            p = obj(; pgc[s]...)
+            @show p
+            push!(pgins, p)
+        end
+    end
+    return pgins
+end
+export initialized_pgins
+
+# Cannot `convert` an object of type SubString{String} to an object of type VersionNumber
