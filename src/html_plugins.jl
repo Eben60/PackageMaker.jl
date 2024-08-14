@@ -64,7 +64,7 @@ disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
 
 mutable struct PluginArg
-    type::Type
+    const type::Union{Type, Symbol}
     const name::String
     const isvector::Bool
     value::ArgTypes
@@ -72,7 +72,7 @@ mutable struct PluginArg
 end
 
 PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(typeof(x[3]), String(x[1]), x[2], x[3], String(x[4]))
-PluginArg(x::Tuple{Type, AbstractString, Bool, Any, AbstractString}) = PluginArg(x[1], String(x[2]), x[3], x[4], String(x[5]))
+PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Bool, Any, AbstractString}) = PluginArg(x[1], String(x[2]), x[3], x[4], String(x[5]))
 
 struct PluginInfo
     name::String
