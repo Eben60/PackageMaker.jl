@@ -61,13 +61,13 @@ tmpl_end() =
 disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 
 
-ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
+# ArgTypes = Union{String, Bool, Nothing, Vector{<:AbstractString}}
 
 mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
     const isvector::Bool
-    value::ArgTypes
+    value
     const meaning::String
 end
 

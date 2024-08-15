@@ -81,15 +81,10 @@ function collect_plugin_infos(fv) # -> OrderedDict{String, PluginInfo}
         re = Regex("^$(k)_(.+)")
         for el in v
             startswith(String(el.id), "Use_") && continue
-            # if el.inputtype == :checkbox
-            #     val = el.checked
-            # else 
-            #     val = el.value
-            # end 
-
-            val = (el.inputtype == :checkbox) ? el.checked : val = el.value
             nm = match(re, String(el.id))[1]
-            p.args[nm].value = val
+            pg_arg = p.args[nm]
+            val = (el.inputtype == :checkbox) ? el.checked : val = el.value
+            pg_arg.value = val
         end
     end
     return fc
@@ -97,15 +92,21 @@ end
 export collect_plugin_infos
 
 function nondefault(pa::PluginArg) 
+    # TODO make proper checking later
     pa.type == Bool && return true
-    isempty(pa.value) && return false
-    strip(pa.value) == "nothing" && return false
+    try
+        isempty(pa.value) && return false
+        strip(pa.value) == "nothing" && return false
+    catch
+        return true
+    end
     return true
 end
 export nondefault
 
 function kwval(pa::PluginArg)
     nondefault(pa::PluginArg) || return nothing
+    pa.type isa Symbol && return conv(Val{pa.type}, pa.value)
     pa.type == Bool && return Bool(pa.value)
     pa.type <: AbstractString && return strip(pa.value)
     pa.type <: Vector{String} && return split(pa.value, r"[\n\r]+") .|> strip .|> String
@@ -151,6 +152,7 @@ jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
 
 recall_fv() = load_object(jldcache())
 export recall_fv
+# fv = recall_fv()
 
 list_deflt_pgins() = PkgTemplates.default_plugins() .|> type2str
 export list_deflt_pgins
@@ -183,5 +185,19 @@ function initialized_pgins(fv)
     return pgins
 end
 export initialized_pgins
+
+function parse_v_string(s)
+    re = r"v\"(.+)\""
+    s = strip(s)
+    m = match(re, s)
+    isnothing(m) && error("$s doesn't look like a valid version string ")
+    return VersionNumber(m[1])
+end
+export parse_v_string
+
+conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
+export conv
+# julia> conv(Val{:VersionNumber}, "v\"1.0.0-DEV\"")
+# v"1.0.0-DEV"
 
 # Cannot `convert` an object of type SubString{String} to an object of type VersionNumber
