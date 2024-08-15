@@ -110,6 +110,7 @@ function kwval(pa::PluginArg)
     pa.type == Bool && return Bool(pa.value)
     pa.type <: AbstractString && return strip(pa.value)
     pa.type <: Vector{String} && return split(pa.value, r"[\n\r]+") .|> strip .|> String
+    pa.type <: Number && return parse(pa.type, pa.value)
     error("unsupported type $(pa.type)")
 end
 export kwval
@@ -152,6 +153,10 @@ jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
 
 recall_fv() = load_object(jldcache())
 export recall_fv
+cache_fv(fv) = jldsave(jldcache(); fv)
+export cache_fv
+
+# cache_fv(finalvals)
 # fv = recall_fv()
 
 list_deflt_pgins() = PkgTemplates.default_plugins() .|> type2str
@@ -169,7 +174,7 @@ function initialized_pgins(fv)
     od = collect_plugin_infos(fv)
     pgc = collect_plugin_kwargs(od)
     ck = listchecked(fv)
-    pgins = PkgTemplates.Plugin[]
+    pgins = []
     for p in PkgTemplates.default_plugins()
         s = type2str(p)
         obj = eval(Symbol(s))

@@ -43,7 +43,7 @@ dfp = PluginInfo.([
         ("registry",  false, "nothing", "Custom registry, in the format owner/repo"), 
         ("branches",  false, "nothing", "Whether not to enable the branches option"), 
         ("dispatch",  false, "nothing", "Whether or not to enable the dispatch option"), 
-        ("dispatch_delay",  false, "nothing", "Number of minutes to delay for dispatch events"), ]),
+        (Int64, "dispatch_delay",  false, "nothing", "Number of minutes to delay for dispatch events"), ]),
         ]);
 
 def_plugins :: OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
