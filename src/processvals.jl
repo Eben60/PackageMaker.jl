@@ -206,3 +206,22 @@ export conv
 # v"1.0.0-DEV"
 
 # Cannot `convert` an object of type SubString{String} to an object of type VersionNumber
+
+
+function general_options(fv)
+    proj_name = fv[:proj_name].value
+    user = fv[:user_name].value
+    authors = fv[:authors].value
+    dir = fv[:project_dir].value
+    host = fv[:host].value
+    julia = fv[:julia_min_version].value |> parse_v_string
+    return (;proj_name, templ_kwargs = (; interactive=false, user, authors, dir, host,julia))
+end
+export general_options
+
+"""
+pgins=initialized_pgins(fv)
+(;proj_name, templ_kwargs) = general_options(fv)
+t = Template(; plugins=pgins, templ_kwargs...)
+
+"""

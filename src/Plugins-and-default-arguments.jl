@@ -1,15 +1,27 @@
 packagename :: String = "MyPackage"
 
+function get_module_directory(module_name)
+    for (pkg, mod) in Base.loaded_modules
+        if pkg.name == String(module_name)
+            return  pathof(mod) |> dirname |> dirname
+        end
+    end
+    return nothing
+end
+export get_module_directory
+
+const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates")
+
 dfp = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [
         (:VersionNumber, "version",  false, "v\"1.0.0-DEV\"", "The initial version of created packages")]),
     ("SrcDir", "Creates a module entrypoint", [
-        ("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/src/module.jl", "Template file for src/$(packagename).jl")]),
+        ("file",  false, "$(templ_dir)/src/module.jl", "Template file for src/$(packagename).jl")]),
     ("Tests", "Sets up testing for packages", [
-        ("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/test/runtests.jl", "Template file for runtests.jl")
+        ("file",  false, "$(templ_dir)/test/runtests.jl", "Template file for runtests.jl")
         ("project",  false, false, "Whether or not to create a new project for tests (test/Project.toml).")]),
     ("Readme", "Creates a README file that contains badges for other included plugins.", [
-        ("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/README.md", ""), 
+        ("file",  false, "$(templ_dir)/README.md", ""), 
         ("destination",  false, "README.md", ""), 
         ("inline_badges",  false, false, "Whether or not to put the badges on the same line as the package name.")]),
     ("License", "Creates a license file", [
@@ -26,11 +38,11 @@ dfp = PluginInfo.([
         ("manifest",  false, false, "Whether or not to commit Manifest.toml."), 
         ("gpgsign",  false, false, "Whether or not to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.")]),
     ("CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [
-        ("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
+        ("file",  false, "$(templ_dir)/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
         ("destination",  false, "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("cron",  false, "0 0 * * *", "Cron expression for the schedule interval"), ]),
     ("TagBot", "Adds GitHub release support via TagBot", [
-        ("file",  false, "~/work/PkgTemplates.jl/PkgTemplates.jl/templates/github/workflows/TagBot.yml", "Template file for the workflow file."), 
+        ("file",  false, "$(templ_dir)/github/workflows/TagBot.yml", "Template file for the workflow file."), 
         ("destination",  false, "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("trigger",  false, "JuliaTagBot", "Username of the trigger user for custom registries"), 
         ("token",  false, "nothing", "Name of the token secret to use"), 
