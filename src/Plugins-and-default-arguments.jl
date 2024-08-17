@@ -53,7 +53,7 @@ dfp = PluginInfo.([
         ("x64",  false, true, "Whether or not to run builds on 64-bit architecture."), 
         ("x86",  false, false, "Whether or not to run builds on 32-bit architecture."), 
         ("coverage",  false, false, "Whether or not to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
-        (Vector{String}, "extra_versions",  true, "1.6<br>\n1.10<br>\npre", "Extra Julia versions to test, as strings."), 
+        (Vector{String}, "extra_versions",  true, ["1.6", "1.10", "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [
         ("file",  false, "$(templ_dir)/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
