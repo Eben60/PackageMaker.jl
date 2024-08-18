@@ -166,9 +166,7 @@ function initialized_pgins(fv)
         if !get(ck, s, false)
             push!(pgins, !obj)
         else
-            @show s
             p = obj(; pgc[s]...)
-            @show p
             push!(pgins, p)
         end
     end
@@ -188,7 +186,9 @@ export parse_v_string
 conv(::Type{Val{:VersionNumber}}, s::AbstractString) = return parse_v_string(s)
 
 function conv(::Type{Val{:ExcludedPlugins}}, s) 
-    ks = split(s, "\n") .|> strip .|> Symbol
+    ks = split(s, "\n") .|> strip
+    filter!(x -> !isempty(x), ks)
+    ks = Symbol.(ks)
     return NamedTuple(k => false for k in ks)
 end
 
@@ -215,6 +215,6 @@ using PkgTemplates
 pgins=initialized_pgins(fv)
 (;proj_name, templ_kwargs) = general_options(fv)
 t = Template(; plugins=pgins, templ_kwargs...)
-t(proj_name)
+t(proj_name);
 
 """
