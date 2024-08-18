@@ -220,8 +220,10 @@ end
 export general_options
 
 """
+using PkgTemplates
 pgins=initialized_pgins(fv)
 (;proj_name, templ_kwargs) = general_options(fv)
 t = Template(; plugins=pgins, templ_kwargs...)
+t(proj_name)
 
 """
