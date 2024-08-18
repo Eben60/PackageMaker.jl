@@ -46,7 +46,10 @@ end
 
 tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractString = tmpl_input_field(pgin, arg)
 
-tmpl_input_field(pgin, arg, Symbol) = tmpl_input_field(pgin, arg) #TODO dispatch on last arguments value may be necessary later on
+function tmpl_input_field(pgin, arg, unused) 
+    arg.value isa AbstractArray && return tmpl_input_arrfield(pgin, arg)
+    return tmpl_input_field(pgin, arg)
+end
 
 function tmpl_input_field(pgin, arg,  ::Type{Bool}) 
     pgin_name = pgin.name
@@ -59,7 +62,9 @@ end
 
 vec2string(x::Vector) = isempty(x) ? "" : join(string.(x), "\n") |> esc_qm
 
-function tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractArray
+tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractArray = tmpl_input_arrfield(pgin, arg)
+
+function tmpl_input_arrfield(pgin, arg)
     pgin_name = pgin.name
     arg_name = arg.name
     arg_val = arg.value

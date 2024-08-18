@@ -23,6 +23,9 @@ dfp = PluginInfo.([
     ("Tests", "Sets up testing for packages", [
         ("file", "$(templ_dir)/test/runtests.jl", "Template file for runtests.jl"),
         ("project", false, "Whether or not to create a new project for tests (test/Project.toml)."),
+        ("aqua", false, "Controls whether or not to add quality tests with Aqua.jl."),
+        (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
+        ("jet", false, "Controls whether or not to add a linting test with JET.jl (works best on type-stable code)."),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
         ("file", "$(templ_dir)/README.md", "Template file for the README."), 

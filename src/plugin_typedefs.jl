@@ -5,8 +5,8 @@ mutable struct PluginArg
     const meaning::String
 end
 
-PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = PluginArg(typeof(x[2]), String(x[1]), x[2], String(x[3]))
-PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = PluginArg(x[1], String(x[2]), x[3], String(x[4]))
+PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]))
+PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = PluginArg(x[1], string(x[2]), x[3], string(x[4]))
 
 struct PluginInfo
     name::String

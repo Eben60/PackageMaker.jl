@@ -117,21 +117,6 @@ export kwval
 
 function plugin_kwargs(p::PluginInfo)
     args = p.args
-
-    # for (k, v) in args 
-    #     if  nondefault(v)
-    #         try
-    #             kwval(v)
-    #         catch
-    #             println("---")
-    #             @show p.name
-    #             @show k
-    #             @show v
-    #             error("sorry")
-    #         end
-    #     end
-    # end
-
     return Dict(Symbol(k) => kwval(v) for (k, v) in args if nondefault(v))
 end
 export plugin_kwargs
@@ -200,7 +185,9 @@ function parse_v_string(s)
 end
 export parse_v_string
 
-conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
+conv(::Type{Val{:VersionNumber}}, s::AbstractString) = (println("hoy"); return parse_v_string(s))
+conv(::Type{Val{:ExcludedPlugins}}, s) = (println("hey"); return vcat(s, "moreone"))
+
 export conv
 # julia> conv(Val{:VersionNumber}, "v\"1.0.0-DEV\"")
 # v"1.0.0-DEV"
