@@ -62,7 +62,7 @@ export filterchecked
 
 function sortedprocvals(fv) # -> Dict{String, Vector{HtmlElem}}
     lc = listchecked(fv; pgin_only=true)
-    fms = Dict(k => Any[] for (k, v) in lc if v)
+    fms = Dict(k => HtmlElem[] for (k, v) in lc if v)
     for (_, v) in fv
         k = v.parentformid |> trunkformname
         haskey(fms, k) && push!(fms[k], v)
@@ -92,11 +92,11 @@ end
 export collect_plugin_infos
 
 function nondefault(pa::PluginArg) 
-    # TODO make proper checking later
     pa.type == Bool && return true
+    pa.value isa AbstractArray && isempty(pa.value) && return false
     try
-        isempty(pa.value) && return false
-        strip(pa.value) == "nothing" && return false
+        pa.value |> strip |> isempty && return false
+        pa.value |> strip == "nothing" && return false
     catch
         return true
     end

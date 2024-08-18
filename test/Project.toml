@@ -1,0 +1,13 @@
+[deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Coverage = "a2441757-f6aa-5fb2-8edb-039e3f45d037"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+Aqua = ">= 0.8"
+Coverage = "1"
+Suppressor = ">= 0.2"
