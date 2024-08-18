@@ -185,8 +185,12 @@ function parse_v_string(s)
 end
 export parse_v_string
 
-conv(::Type{Val{:VersionNumber}}, s::AbstractString) = (println("hoy"); return parse_v_string(s))
-conv(::Type{Val{:ExcludedPlugins}}, s) = (println("hey"); return vcat(s, "moreone"))
+conv(::Type{Val{:VersionNumber}}, s::AbstractString) = return parse_v_string(s)
+
+function conv(::Type{Val{:ExcludedPlugins}}, s) 
+    ks = split(s, "\n") .|> strip .|> Symbol
+    return NamedTuple(k => false for k in ks)
+end
 
 export conv
 # julia> conv(Val{:VersionNumber}, "v\"1.0.0-DEV\"")
