@@ -1,13 +1,12 @@
 mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
-    const isvector::Bool
     value
     const meaning::String
 end
 
-PluginArg(x::Tuple{AbstractString, Bool, Any, AbstractString}) = PluginArg(typeof(x[3]), String(x[1]), x[2], x[3], String(x[4]))
-PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Bool, Any, AbstractString}) = PluginArg(x[1], String(x[2]), x[3], x[4], String(x[5]))
+PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = PluginArg(typeof(x[2]), String(x[1]), x[2], String(x[3]))
+PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = PluginArg(x[1], String(x[2]), x[3], String(x[4]))
 
 struct PluginInfo
     name::String
