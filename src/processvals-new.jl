@@ -65,3 +65,6 @@ function get_pgins_vals!(fv; pgins=def_plugins)
     return pgins
 end
 export get_pgins_vals!
+
+pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if pa.nondefault)
+export pgin_kwargs
