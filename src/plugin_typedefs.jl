@@ -25,13 +25,3 @@ function pluginarg_od(v::Vector{T}) where T <: Tuple
 end
 
 PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]))
-
-# mutable struct PluginArgTODO
-#     const type::Union{Type, Symbol}
-#     const name::String
-#     const default # was value
-#     const meaning::String
-#     html_val::Union{Bool, String, Nothing}
-#     ret_val # parsed and returned value
-#     nondefault::Bool
-# end
