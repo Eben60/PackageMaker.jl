@@ -40,7 +40,7 @@ struct HtmlElem
     eltype::Symbol
     inputtype::Symbol
     parentformid::Symbol
-    value::Union{String, Float64}
+    value::String
     checked::Union{Bool, Nothing}
 end
 

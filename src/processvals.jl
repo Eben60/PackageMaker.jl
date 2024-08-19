@@ -143,8 +143,6 @@ export recall_fv
 cache_fv(fv) = jldsave(jldcache(); fv)
 export cache_fv
 
-# cache_fv(finalvals)
-# fv = recall_fv()
 
 list_deflt_pgins() = PkgTemplates.default_plugins() .|> type2str
 export list_deflt_pgins
@@ -176,25 +174,7 @@ function initialized_pgins(fv)
 end
 export initialized_pgins
 
-function parse_v_string(s)
-    re = r"v\"(.+)\""
-    s = strip(s)
-    m = match(re, s)
-    isnothing(m) && error("$s doesn't look like a valid version string ")
-    return VersionNumber(m[1])
-end
-export parse_v_string
 
-conv(::Type{Val{:VersionNumber}}, s::AbstractString) = return parse_v_string(s)
-
-function conv(::Type{Val{:ExcludedPlugins}}, s) 
-    ks = split(s, "\n") .|> strip
-    filter!(x -> !isempty(x), ks)
-    ks = Symbol.(ks)
-    return NamedTuple(k => false for k in ks)
-end
-
-export conv
 # julia> conv(Val{:VersionNumber}, "v\"1.0.0-DEV\"")
 # v"1.0.0-DEV"
 
@@ -211,6 +191,9 @@ function general_options(fv)
     return (;proj_name, templ_kwargs = (; interactive=false, user, authors, dir, host,julia))
 end
 export general_options
+
+# cache_fv(finalvals)
+# fv = recall_fv()
 
 """
 using PkgTemplates

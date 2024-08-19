@@ -11,5 +11,6 @@ include("blink_interactions.jl")
 include("handleinput.jl")
 include("processvals.jl")
 include("Plugins-and-default-arguments.jl")
+include("processvals-new.jl")
 
 end # module PackageInABlink
