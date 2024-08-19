@@ -13,10 +13,11 @@ PluginArg(x::Tuple{AbstractString, Any, AbstractString}) =
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
     PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false)
 
-struct PluginInfo
-    name::String
-    purpose::String
-    args::OrderedDict{String, PluginArg} 
+mutable struct PluginInfo
+    const name::String
+    const purpose::String
+    const args::OrderedDict{String, PluginArg}
+    checked::Bool
 end
 
 function pluginarg_od(v::Vector{T}) where T <: Tuple
@@ -24,4 +25,4 @@ function pluginarg_od(v::Vector{T}) where T <: Tuple
     return OrderedDict(v.name => v for v in ar)
 end
 
-PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]))
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false)

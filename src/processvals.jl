@@ -1,7 +1,7 @@
 # WIP
 
 "(pre-)process values returned by form"
-function procvals(vals)
+function procvals(vals) # -> Dict{Symbol, Vector{HtmlElem}
     d = Dict{Symbol, Vector{HtmlElem}}()
     for v in values(vals)
         form = v.parentformid
