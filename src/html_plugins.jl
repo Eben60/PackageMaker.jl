@@ -38,7 +38,7 @@ end
 function tmpl_input_field(pgin, arg)
     pgin_name = pgin.name
     arg_name = arg.name
-    arg_val = esc_qm(arg.value)
+    arg_val = esc_qm(arg.default_val)
     return """
 <input size="70" id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onchange="oncng(this)" type="text"><br>
 """
@@ -47,14 +47,14 @@ end
 tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractString = tmpl_input_field(pgin, arg)
 
 function tmpl_input_field(pgin, arg, unused) 
-    arg.value isa AbstractArray && return tmpl_input_arrfield(pgin, arg)
+    arg.default_val isa AbstractArray && return tmpl_input_arrfield(pgin, arg)
     return tmpl_input_field(pgin, arg)
 end
 
 function tmpl_input_field(pgin, arg,  ::Type{Bool}) 
     pgin_name = pgin.name
     arg_name = arg.name
-    arg_val = esc_qm(arg.value)
+    arg_val = esc_qm(arg.default_val)
     return """
 <input id="$(pgin_name)_$(arg_name)" name="$(arg_name)" $(checked(arg_val)) onchange="oncng(this)" type="checkbox">
 """
@@ -67,7 +67,7 @@ tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractArray = tmpl_input_arr
 function tmpl_input_arrfield(pgin, arg)
     pgin_name = pgin.name
     arg_name = arg.name
-    arg_val = arg.value
+    arg_val = arg.default_val
     id="$(pgin_name)_$(arg_name)"
 
     return """

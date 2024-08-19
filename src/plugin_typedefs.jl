@@ -1,10 +1,10 @@
 mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
-    value
+    default_val
     const meaning::String
     html_val::Union{Bool, String, Nothing}
-    ret_val # parsed and returned value
+    returned_val # parsed and returned value
     nondefault::Bool
 end
 
