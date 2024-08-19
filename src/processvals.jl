@@ -24,12 +24,12 @@ function trunkformname(s)
 end
 
 "list checked forms"
-function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}}; pgin_only=true)
+function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}})
     re = r"(.+)(_form)"
     lc = Dict{Symbol, Union{Nothing, Bool}}()
     for (k, v) in pairs(d)
         lc[k] = nothing
-        m = match(re, string(k))
+        m = match(re, string(k)) # check if HtmlElem is a form
         if ! isnothing(m)
             formname = m.captures[1]
             usagekey = Symbol("Use_$formname")
@@ -42,12 +42,14 @@ function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}}; pgin_only=true)
         end
     end
 
-    pgin_only && return Dict(trunkformname(k) => v for (k, v) in lc if !isnothing(v))
-
-    return lc
+    d = Dict(trunkformname(k) => v for (k, v) in lc if !isnothing(v))
+    for (k, v) in d
+        haskey(def_plugins, k) && (def_plugins[k].checked = v)
+    end
+    return d
 end
 
-listchecked(vals; pgin_only=true) = listchecked(procvals(vals); pgin_only)
+listchecked(vals) = listchecked(procvals(vals))
 export listchecked
 
 function filterchecked(checkedforms, pgins=def_plugins) 
@@ -61,7 +63,7 @@ end
 export filterchecked
 
 function sortedprocvals(fv) # -> Dict{String, Vector{HtmlElem}}
-    lc = listchecked(fv; pgin_only=true)
+    lc = listchecked(fv)
     fms = Dict(k => HtmlElem[] for (k, v) in lc if v)
     for (_, v) in fv
         k = v.parentformid |> trunkformname
