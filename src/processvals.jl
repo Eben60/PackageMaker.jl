@@ -1,151 +1,73 @@
-# WIP
-
-"(pre-)process values returned by form"
-function procvals(vals) # -> Dict{Symbol, Vector{HtmlElem}
-    d = Dict{Symbol, Vector{HtmlElem}}()
-    for v in values(vals)
-        form = v.parentformid
-        if ! haskey(d, form)
-            d[form] = [v]
-        else
-            push!(d[form], v)
-        end
+function get_checked_pgins!(fv; pgins=def_plugins)
+    for (k, pgin) in def_plugins
+        box_id = Symbol("Use_$k")
+        pgin.checked = fv[box_id].checked
     end
-    return d
+    return pgins
 end
-export procvals
 
-function trunkformname(s)
-    s = String(s)
-    re = r"^(.+)_form"
+export get_checked_pgins!
+
+function parse_v_string(s)
+    re = r"v\"(.+)\""
+    s = strip(s)
     m = match(re, s)
-    isnothing(m) && return nothing
-    return m[1] 
+    isnothing(m) && error("$s doesn't look like a valid version string ")
+    return VersionNumber(m[1])
 end
+export parse_v_string
 
-"list checked forms"
-function listchecked(d::AbstractDict{Symbol, Vector{HtmlElem}})
-    re = r"(.+)(_form)"
-    lc = Dict{Symbol, Union{Nothing, Bool}}()
-    for (k, v) in pairs(d)
-        lc[k] = nothing
-        m = match(re, string(k)) # check if HtmlElem is a form
-        if ! isnothing(m)
-            formname = m.captures[1]
-            usagekey = Symbol("Use_$formname")
-            for he in v
-                if he.id == usagekey
-                    lc[k] = he.checked
-                    break
-                end
-            end
-        end
-    end
+conv(::Type{Val{:VersionNumber}}, s::AbstractString) = return parse_v_string(s)
 
-    d = Dict(trunkformname(k) => v for (k, v) in lc if !isnothing(v))
-    for (k, v) in d
-        haskey(def_plugins, k) && (def_plugins[k].checked = v)
-    end
-    return d
-end
-
-listchecked(vals) = listchecked(procvals(vals))
-export listchecked
-
-function filterchecked(checkedforms, pgins=def_plugins) 
-    pgc = deepcopy(pgins)
-    for (k, v) in checkedforms
-        v || pop!(pgc, k)
-    end
-    return pgc
-end
-
-export filterchecked
-
-function sortedprocvals(fv) # -> Dict{String, Vector{HtmlElem}}
-    lc = listchecked(fv)
-    fms = Dict(k => HtmlElem[] for (k, v) in lc if v)
-    for (_, v) in fv
-        k = v.parentformid |> trunkformname
-        haskey(fms, k) && push!(fms[k], v)
-    end
-    return fms
-end
-export sortedprocvals
-
-function collect_plugin_infos(fv) # -> OrderedDict{String, PluginInfo}
-    lc = listchecked(fv)
-    fc = filterchecked(lc) # selected plugins
-    sp = sortedprocvals(fv) # returned values
-
-    for (k, v) in sp
-        p = fc[k]
-        re = Regex("^$(k)_(.+)")
-        for el in v
-            startswith(String(el.id), "Use_") && continue
-            nm = match(re, String(el.id))[1]
-            pg_arg = p.args[nm]
-            val = (el.inputtype == :checkbox) ? el.checked : val = el.value
-            pg_arg.value = val
-        end
-    end
-    return fc
-end
-export collect_plugin_infos
-
-function nondefault(pa::PluginArg) 
-    pa.type == Bool && return true
-    pa.value isa AbstractArray && isempty(pa.value) && return false
-    try
-        pa.value |> strip |> isempty && return false
-        pa.value |> strip == "nothing" && return false
-    catch
-        return true
-    end
-    return true
-end
-export nondefault
-
-function kwval(pa::PluginArg)
-    nondefault(pa::PluginArg) || return nothing
-    pa.type isa Symbol && return conv(Val{pa.type}, pa.value)
-    pa.type == Bool && return Bool(pa.value)
-    pa.type <: AbstractString && return strip(pa.value)
-    pa.type <: Vector{String} && return split(pa.value, r"[\n\r]+") .|> strip .|> String
-    pa.type <: Number && return parse(pa.type, pa.value)
+function conv(pa::PluginArg, val)
+    pa.type isa Symbol && return conv(Val{pa.type}, val)
+    pa.type <: AbstractString && return strip(val)
+    pa.type <: Vector{String} && return split(val, r"[\n\r]+") .|> strip .|> String
+    pa.type <: Number && return parse(pa.type, val)
     error("unsupported type $(pa.type)")
 end
 export kwval
 
-function plugin_kwargs(p::PluginInfo)
-    args = p.args
-    return Dict(Symbol(k) => kwval(v) for (k, v) in args if nondefault(v))
-end
-export plugin_kwargs
-
-collect_plugin_kwargs(od::OrderedDict{String, PluginInfo}) = OrderedDict(k => plugin_kwargs(v) for (k, v) in od) # if k in list_deflt_pgins())
-
-export collect_plugin_kwargs
-
-function plugin_obj(name, activ, kwargs)
-    pgin = eval(Symbol(name))
-    @assert pgin <: PkgTemplates.Plugin
-    activ || return ! pgin
-    return pgin(; kwargs...)
+function conv(::Type{Val{:ExcludedPlugins}}, s) 
+    ks = split(s, "\n") .|> strip
+    filter!(x -> !isempty(x), ks)
+    ks = Symbol.(ks)
+    return NamedTuple(k => false for k in ks)
 end
 
-export plugin_obj
+export conv
 
-jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
+function get_pgin_vals!(pgin, fv)
+    for (k, pa) in pgin.args
+        input_id = Symbol("$(pgin.name)_$(pa.name)")
+        el = fv[input_id]
+        if pa.type == Bool
+            pa.nondefault = true
+            pa.returned_val = el.checked
+        else
+            s = strip(el.value)
+            if (isempty(s) || s == "nothing")
+                pa.nondefault = false
+            else
+                pa.nondefault = true
+                pa.returned_val = conv(pa, el.value)
+            end              
+        end
+    end
+    return pgin
+end
+export get_pgin_vals!
 
-recall_fv() = load_object(jldcache())
-export recall_fv
-cache_fv(fv) = jldsave(jldcache(); fv)
-export cache_fv
+function get_pgins_vals!(fv; pgins=def_plugins)
+    for (_, pgin) in pgins
+        get_pgin_vals!(pgin, fv)
+    end
+    return pgins
+end
+export get_pgins_vals!
 
-
-list_deflt_pgins() = PkgTemplates.default_plugins() .|> type2str
-export list_deflt_pgins
+pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if pa.nondefault)
+export pgin_kwargs
 
 function type2str(x)
     t = x |>typeof |> Symbol |> String
@@ -155,31 +77,26 @@ function type2str(x)
 end
 export type2str
 
-function initialized_pgins(fv)
-    od = collect_plugin_infos(fv)
-    pgc = collect_plugin_kwargs(od)
-    ck = listchecked(fv)
-    pgins = []
+function initialized_pgins(fv; pgins=def_plugins)
+    get_checked_pgins!(fv)
+    get_pgins_vals!(fv)
+    # def_plugins["TagBot"].checked = false
+    in_pgins = []
     for p in PkgTemplates.default_plugins()
         s = type2str(p)
         obj = eval(Symbol(s))
-        if !get(ck, s, false)
-            push!(pgins, !obj)
+        if haskey(pgins, s) && pgins[s].checked
+            p = obj(; pgin_kwargs(pgins[s])...)
+            push!(in_pgins, p)
         else
-            p = obj(; pgc[s]...)
-            push!(pgins, p)
+            println(s)
+            p = obj()
+            push!(in_pgins, !obj)
         end
     end
-    return pgins
+    return in_pgins
 end
 export initialized_pgins
-
-
-# julia> conv(Val{:VersionNumber}, "v\"1.0.0-DEV\"")
-# v"1.0.0-DEV"
-
-# Cannot `convert` an object of type SubString{String} to an object of type VersionNumber
-
 
 function general_options(fv)
     proj_name = fv[:proj_name].value
@@ -192,11 +109,19 @@ function general_options(fv)
 end
 export general_options
 
-# cache_fv(finalvals)
-# fv = recall_fv()
+jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
+
+recall_fv() = load_object(jldcache())
+export recall_fv
+cache_fv(fv) = jldsave(jldcache(); fv)
+export cache_fv
 
 """
+using PackageInABlink
 using PkgTemplates
+
+fv = recall_fv()
+
 pgins=initialized_pgins(fv)
 (;proj_name, templ_kwargs) = general_options(fv)
 t = Template(; plugins=pgins, templ_kwargs...)
