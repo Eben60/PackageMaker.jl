@@ -8,7 +8,7 @@ html_head(title = "Initialize Julia Project/Package") =
     <title>$(title)</title>
   </head>
   <body>
-  <h2>Setting up a Julia Project or package</h2>
+  <h2>Setting up a Julia Project or Package</h2>
   <p class="comment">This is mostly a GUI for the Julia package <a href="https://juliaci.github.io/PkgTemplates.jl/stable/" target="_blank">PkgTemplates</a><br>
   here place for some explanations about environments</p>
 

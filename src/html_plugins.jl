@@ -17,7 +17,7 @@ tmpl_beg(pgin_name, purpose, show=true) =
 """
 <div class="plugin_form_div" id="plugin_form_div_$(pgin_name)">
 <form class="plugin_form" name="$(pgin_name)_form" id="$(pgin_name)_form" action="javascript:void(0)">
-    <input id="Use_$(pgin_name)" value="Use_$(pgin_name)" $(checked(show)) onchange="oncng(this)" type="checkbox">
+    <input id="Use_$(pgin_name)" value="Use_$(pgin_name)" $(checked(show)) onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_$(pgin_name)">$(pgin_name) plugin </label>
     <div class="Plugin_Purpose">$(purpose).</div>
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style=$(disp_style(show)) >

@@ -65,6 +65,18 @@ function sendfullstate(isfinalstate){
 };
 
 </script>
+
+<script>
+  jQuery(document).ready(function() {
+    jQuery('.TogglePlugin').change(function() {
+      if(jQuery(this).is(":checked")) {
+        jQuery(this).siblings('.Plugin_Inputs').show();
+      } else {
+        jQuery(this).siblings('.Plugin_Inputs').hide();
+      }
+    });
+  });
+</script>
 """
     return js
 end
