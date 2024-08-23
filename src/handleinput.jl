@@ -1,5 +1,5 @@
 function handleinput(win, el::HtmlElem)
-    
+
     el.parentformid == :use_purpose_form && return handle_purpose(win, el)
     "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el; selectdir=true)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el; selectdir=false)
@@ -16,11 +16,29 @@ function get_file_inp_id(button_id)
     return Symbol(m[1])
 end
 
-export get_file_inp_id
+function pgin_and_field(inp_id)
+    re = r"(.+)_(.+)"
+    m = match(re, string(inp_id))
+    isnothing(m) && return (; pgin=nothing, field=nothing)
+    return (; pgin=m[1], field=m[2])
+end
 
 function set_file_from_dialog(win, el; selectdir)
     inp_id = get_file_inp_id(el)
+    k = string(inp_id)
     path = ""
+    (; pgin, field) = pgin_and_field(inp_id)
+    if haskey(def_plugins, pgin) && haskey(def_plugins[pgin].args, field)
+        p = def_plugins[pgin].args[field].default_val
+        if isfile(p)
+            path = dirname(p)
+        elseif isdir(p)
+            path = p
+        else
+            p = dirname(p)
+            isdir(p) && (path = p)
+        end
+    end
     fl = selectdir ? pick_folder(path) : pick_file(path)
     isnothing(fl) && return nothing
     setelemval(win, inp_id, fl)

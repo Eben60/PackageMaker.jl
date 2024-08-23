@@ -69,7 +69,8 @@ function html_general_options()
     </div>
     
     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="70" id="project_dir" name="project_dir" value="" onchange="oncng(this)" type="text"><br>
+        <input size="65" id="project_dir" name="project_dir" value="" onchange="oncng(this)" type="text">
+        <button id="project_dir_button" onclick="oncng(this)" type="button" class="FolderDialogButton">Select</button><br>
         <span class="plugin_arg_meaning" id="argmeaning_project_dir">Directory to place project in. Required input.</span><br>
     </div>
 

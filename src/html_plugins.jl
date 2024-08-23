@@ -35,6 +35,17 @@ function tmpl_inp(pgin, arg, arg_meaning, color_no)
 """
 end
 
+function tmpl_path_input_field(pgin, arg, folderdialog=false)
+    button_class = folderdialog ? "FolderDialogButton" : "FileDialogButton"
+    pgin_name = pgin.name
+    arg_name = arg.name
+    arg_val = esc_qm(arg.default_val)
+    return """
+<input size="65" id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onchange="oncng(this)" type="text">
+<button id="$(pgin_name)_$(arg_name)_button" onclick="oncng(this)" type="button" class="$button_class">Select</button><br>
+"""
+end
+
 function tmpl_input_field(pgin, arg)
     pgin_name = pgin.name
     arg_name = arg.name
@@ -46,8 +57,10 @@ end
 
 tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractString = tmpl_input_field(pgin, arg)
 
-function tmpl_input_field(pgin, arg, unused) 
+function tmpl_input_field(pgin, arg, arg_type) 
     arg.default_val isa AbstractArray && return tmpl_input_arrfield(pgin, arg)
+    arg_type == :file && return tmpl_path_input_field(pgin, arg, false)
+    arg_type == :dir && return tmpl_path_input_field(pgin, arg, true)
     return tmpl_input_field(pgin, arg)
 end
 

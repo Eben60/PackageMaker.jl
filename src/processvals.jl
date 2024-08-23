@@ -17,7 +17,10 @@ function parse_v_string(s)
 end
 export parse_v_string
 
-conv(::Type{Val{:VersionNumber}}, s::AbstractString) = return parse_v_string(s)
+# conv(::Symbol, s::AbstractString) 
+conv(::Type{Val{:file}}, s)= strip(s) 
+conv(::Type{Val{:dir}}, s)= strip(s) 
+conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
 
 function conv(pa::PluginArg, val)
     pa.type isa Symbol && return conv(Val{pa.type}, val)

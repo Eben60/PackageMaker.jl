@@ -18,23 +18,23 @@ dfp = PluginInfo.([
         (:VersionNumber, "version", "v\"1.0.0-DEV\"", "The initial version of created packages"),
         ]),
     ("SrcDir", "Creates a module entrypoint", [
-        ("file", "$(templ_dir)/src/module.jl", "Template file for src/$(packagename).jl"),
+        (:file, "file", "$(templ_dir)/src/module.jl", "Template file for src/$(packagename).jl"),
         ]),
     ("Tests", "Sets up testing for packages", [
-        ("file", "$(templ_dir)/test/runtests.jl", "Template file for runtests.jl"),
+        (:file, "file", "$(templ_dir)/test/runtests.jl", "Template file for runtests.jl"),
         ("project", false, "Whether or not to create a new project for tests (test/Project.toml)."),
         ("aqua", false, "Controls whether or not to add quality tests with Aqua.jl."),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
         ("jet", false, "Controls whether or not to add a linting test with JET.jl (works best on type-stable code)."),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
-        ("file", "$(templ_dir)/README.md", "Template file for the README."), 
+        (:file, "file", "$(templ_dir)/README.md", "Template file for the README."), 
         ("destination", "README.md", "File destination, relative to the repository root."), 
         ("inline_badges", false, "Whether or not to put the badges on the same line as the package name."),
         ]),
     ("License", "Creates a license file", [
         ("name", "MIT", "Name of a license supported by PkgTemplates. Dropdown menu to be added here!"), 
-        ("path", "nothing", "Path to a custom license file. This keyword takes priority over name."), 
+        (:file, "path", "nothing", "Path to a custom license file. This keyword takes priority over name."), 
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
         ]),
     ("Git", "Creates a Git repository and a .gitignore file", [
@@ -48,7 +48,7 @@ dfp = PluginInfo.([
         ("gpgsign", false, "Whether or not to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity."),
         ]),
     ("GitHubActions", "Creates a Git repository and a .gitignore file", [
-        ("file", "$(templ_dir)/github/workflows/CI.yml", "Template file for the workflow file"), 
+        (:file, "file", "$(templ_dir)/github/workflows/CI.yml", "Template file for the workflow file"), 
         ("destination", "CI.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("linux", true, "Whether or not to run builds on Linux."), 
         ("osx", false, "Whether or not to run builds on OSX (MacOS)."), 
@@ -59,12 +59,12 @@ dfp = PluginInfo.([
         (Vector{String}, "extra_versions",  ["1.6", "1.10", "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [
-        ("file", "$(templ_dir)/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
+        (:file, "file", "$(templ_dir)/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
         ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("cron", "0 0 * * *", "Cron expression for the schedule interval"), 
         ]),
     ("TagBot", "Adds GitHub release support via TagBot", [
-        ("file", "$(templ_dir)/github/workflows/TagBot.yml", "Template file for the workflow file."), 
+        (:file, "file", "$(templ_dir)/github/workflows/TagBot.yml", "Template file for the workflow file."), 
         ("destination", "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("trigger", "JuliaTagBot", "Username of the trigger user for custom registries"), 
         ("token", "nothing", "Name of the token secret to use"), 
@@ -83,7 +83,7 @@ dfp = PluginInfo.([
         ("name", "", "Secrets name."), 
         ]),
     ("Dependabot", "Setups Dependabot to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
-        ("file", "$(templ_dir)/github/dependabot.yml", "Template file."), 
+        (:file, "file", "$(templ_dir)/github/dependabot.yml", "Template file."), 
         ]),
     ]);
 
