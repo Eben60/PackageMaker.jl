@@ -1,6 +1,7 @@
 module PackageInABlink
 
 using Blink, LibGit2, OrderedCollections, PkgTemplates
+using NativeFileDialog
 using JLD2
 
 include("git.jl")
