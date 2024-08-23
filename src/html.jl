@@ -1,9 +1,3 @@
-include("css.jl")
-include("js_scripts.jl")
-include("plugin_typedefs.jl")
-include("html_sections.jl")
-include("html_plugins.jl")
-
 checked(b) = b ? "checked" : ""
 
 esc_qm(s::String) = replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;")

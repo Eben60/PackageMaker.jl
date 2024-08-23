@@ -46,7 +46,7 @@ h2 {
     <title>Initialize Julia Project/Package</title>
   </head>
   <body>
-  <h2>Setting up a Julia Project or package</h2>
+  <h2>Setting up a Julia Project or Package</h2>
   <p class="comment">This is mostly a GUI for the Julia package <a href="https://juliaci.github.io/PkgTemplates.jl/stable/" target="_blank">PkgTemplates</a><br>
   here place for some explanations about environments</p>
 
@@ -81,7 +81,7 @@ h2 {
     </div>
 
     <div class="pgin_inp_margins gen_opt_col1">
-        <input size="70" id="authors" name="authors" value="Eben60 <nomail@nomail.org>" onchange="oncng(this)" type="text"><br>
+        <input size="70" id="authors" name="authors" value="Ben Elkin <8xe8n-cm@online.de>" onchange="oncng(this)" type="text"><br>
         <span class="plugin_arg_meaning" id="argmeaning_authors">Authors. Will be an entry in <code>Project.toml</code>. </span><br>
     </div>
 
@@ -152,7 +152,7 @@ h2 {
     The following section provides access to those plugins which are included in the default installation of <code>PkgTemplates</code></p>
 <div class="plugin_form_div" id="plugin_form_div_ProjectFile">
 <form class="plugin_form" name="ProjectFile_form" id="ProjectFile_form" action="javascript:void(0)">
-    <input id="Use_ProjectFile" value="Use_ProjectFile" checked onchange="oncng(this)" type="checkbox">
+    <input id="Use_ProjectFile" value="Use_ProjectFile" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_ProjectFile">ProjectFile plugin </label>
     <div class="Plugin_Purpose">Creates a Project.toml.</div>
     <div class="Plugin_Inputs" id="ProjectFile_inputs" style="display:block" >
@@ -167,7 +167,7 @@ h2 {
 
 <div class="plugin_form_div" id="plugin_form_div_SrcDir">
 <form class="plugin_form" name="SrcDir_form" id="SrcDir_form" action="javascript:void(0)">
-    <input id="Use_SrcDir" value="Use_SrcDir" checked onchange="oncng(this)" type="checkbox">
+    <input id="Use_SrcDir" value="Use_SrcDir" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_SrcDir">SrcDir plugin </label>
     <div class="Plugin_Purpose">Creates a module entrypoint.</div>
     <div class="Plugin_Inputs" id="SrcDir_inputs" style="display:block" >
@@ -182,7 +182,7 @@ h2 {
 
 <div class="plugin_form_div" id="plugin_form_div_Tests">
 <form class="plugin_form" name="Tests_form" id="Tests_form" action="javascript:void(0)">
-    <input id="Use_Tests" value="Use_Tests" checked onchange="oncng(this)" type="checkbox">
+    <input id="Use_Tests" value="Use_Tests" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Tests">Tests plugin </label>
     <div class="Plugin_Purpose">Sets up testing for packages.</div>
     <div class="Plugin_Inputs" id="Tests_inputs" style="display:block" >
@@ -218,7 +218,7 @@ h2 {
 
 <div class="plugin_form_div" id="plugin_form_div_Readme">
 <form class="plugin_form" name="Readme_form" id="Readme_form" action="javascript:void(0)">
-    <input id="Use_Readme" value="Use_Readme" checked onchange="oncng(this)" type="checkbox">
+    <input id="Use_Readme" value="Use_Readme" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Readme">Readme plugin </label>
     <div class="Plugin_Purpose">Creates a README file that contains badges for other included plugins.</div>
     <div class="Plugin_Inputs" id="Readme_inputs" style="display:block" >
@@ -243,7 +243,7 @@ h2 {
 
 <div class="plugin_form_div" id="plugin_form_div_License">
 <form class="plugin_form" name="License_form" id="License_form" action="javascript:void(0)">
-    <input id="Use_License" value="Use_License" checked onchange="oncng(this)" type="checkbox">
+    <input id="Use_License" value="Use_License" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_License">License plugin </label>
     <div class="Plugin_Purpose">Creates a license file.</div>
     <div class="Plugin_Inputs" id="License_inputs" style="display:block" >
@@ -268,7 +268,7 @@ h2 {
 
 <div class="plugin_form_div" id="plugin_form_div_Git">
 <form class="plugin_form" name="Git_form" id="Git_form" action="javascript:void(0)">
-    <input id="Use_Git" value="Use_Git" checked onchange="oncng(this)" type="checkbox">
+    <input id="Use_Git" value="Use_Git" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Git">Git plugin </label>
     <div class="Plugin_Purpose">Creates a Git repository and a .gitignore file.</div>
     <div class="Plugin_Inputs" id="Git_inputs" style="display:block" >
@@ -319,7 +319,7 @@ h2 {
 
 <div class="plugin_form_div" id="plugin_form_div_GitHubActions">
 <form class="plugin_form" name="GitHubActions_form" id="GitHubActions_form" action="javascript:void(0)">
-    <input id="Use_GitHubActions" value="Use_GitHubActions"  onchange="oncng(this)" type="checkbox">
+    <input id="Use_GitHubActions" value="Use_GitHubActions"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_GitHubActions">GitHubActions plugin </label>
     <div class="Plugin_Purpose">Creates a Git repository and a .gitignore file.</div>
     <div class="Plugin_Inputs" id="GitHubActions_inputs" style="display:none" >
@@ -377,7 +377,7 @@ pre </textarea> <br>
 
 <div class="plugin_form_div" id="plugin_form_div_CompatHelper">
 <form class="plugin_form" name="CompatHelper_form" id="CompatHelper_form" action="javascript:void(0)">
-    <input id="Use_CompatHelper" value="Use_CompatHelper"  onchange="oncng(this)" type="checkbox">
+    <input id="Use_CompatHelper" value="Use_CompatHelper"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_CompatHelper">CompatHelper plugin </label>
     <div class="Plugin_Purpose">Integrates your packages with CompatHelper via GitHub Actions.</div>
     <div class="Plugin_Inputs" id="CompatHelper_inputs" style="display:none" >
@@ -402,7 +402,7 @@ pre </textarea> <br>
 
 <div class="plugin_form_div" id="plugin_form_div_TagBot">
 <form class="plugin_form" name="TagBot_form" id="TagBot_form" action="javascript:void(0)">
-    <input id="Use_TagBot" value="Use_TagBot"  onchange="oncng(this)" type="checkbox">
+    <input id="Use_TagBot" value="Use_TagBot"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_TagBot">TagBot plugin </label>
     <div class="Plugin_Purpose">Adds GitHub release support via TagBot.</div>
     <div class="Plugin_Inputs" id="TagBot_inputs" style="display:none" >
@@ -482,7 +482,7 @@ pre </textarea> <br>
 
 <div class="plugin_form_div" id="plugin_form_div_Secret">
 <form class="plugin_form" name="Secret_form" id="Secret_form" action="javascript:void(0)">
-    <input id="Use_Secret" value="Use_Secret"  onchange="oncng(this)" type="checkbox">
+    <input id="Use_Secret" value="Use_Secret"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Secret">Secret plugin </label>
     <div class="Plugin_Purpose">Represents a GitHub repository secret. When converted to a string, yields ${{ secrets.&lt;name&gt; }}.</div>
     <div class="Plugin_Inputs" id="Secret_inputs" style="display:none" >
@@ -497,7 +497,7 @@ pre </textarea> <br>
 
 <div class="plugin_form_div" id="plugin_form_div_Dependabot">
 <form class="plugin_form" name="Dependabot_form" id="Dependabot_form" action="javascript:void(0)">
-    <input id="Use_Dependabot" value="Use_Dependabot"  onchange="oncng(this)" type="checkbox">
+    <input id="Use_Dependabot" value="Use_Dependabot"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Dependabot">Dependabot plugin </label>
     <div class="Plugin_Purpose">Setups Dependabot to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies.</div>
     <div class="Plugin_Inputs" id="Dependabot_inputs" style="display:none" >
@@ -532,12 +532,13 @@ function oncng(el) {
 function sendel(el, reason) {
     var elid = el.id;
     var elval = el.value;
-    var elchecked = null
-    var eltype = el.tagName.toLowerCase()
-    var inputtype = el.type
-    if ("checked" in el) {elchecked = el.checked}
-    var parentformid = parentForm_Id(el)
-    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
+    var elchecked = null;
+    var elclass = el.className
+    var eltype = el.tagName.toLowerCase();
+    var inputtype = el.type;
+    if ("checked" in el) {elchecked = el.checked};
+    var parentformid = parentForm_Id(el);
+    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
     // alert(el.id + " " + reason)
 };
 
@@ -578,6 +579,18 @@ function sendfullstate(isfinalstate){
   return null;
 };
 
+</script>
+
+<script>
+  jQuery(document).ready(function() {
+    jQuery('.TogglePlugin').change(function() {
+      if(jQuery(this).is(":checked")) {
+        jQuery(this).siblings('.Plugin_Inputs').show();
+      } else {
+        jQuery(this).siblings('.Plugin_Inputs').hide();
+      }
+    });
+  });
 </script>
 </body>
 </html>

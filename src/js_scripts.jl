@@ -18,12 +18,13 @@ function oncng(el) {
 function sendel(el, reason) {
     var elid = el.id;
     var elval = el.value;
-    var elchecked = null
-    var eltype = el.tagName.toLowerCase()
-    var inputtype = el.type
-    if ("checked" in el) {elchecked = el.checked}
-    var parentformid = parentForm_Id(el)
-    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
+    var elchecked = null;
+    var elclass = el.className
+    var eltype = el.tagName.toLowerCase();
+    var inputtype = el.type;
+    if ("checked" in el) {elchecked = el.checked};
+    var parentformid = parentForm_Id(el);
+    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
     // alert(el.id + " " + reason)
 };
 

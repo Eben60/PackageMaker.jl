@@ -1,3 +1,17 @@
+struct HtmlElem
+    id::Symbol
+    eltype::Symbol
+    elclass::Vector{String}
+    inputtype::Symbol
+    parentformid::Symbol
+    value::String
+    checked::Union{Bool, Nothing}
+end
+
+# TODO how can it be value::Real ??
+# HtmlElem(id, eltype, inputtype, parentformid, value::Real, checked) = HtmlElem(id, eltype, inputtype, parentformid, Float64(value), checked)
+export HtmlElem
+
 mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
