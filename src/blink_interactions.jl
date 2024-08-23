@@ -20,6 +20,7 @@ function mainwin(fpath=winpath)
 end
 export mainwin
 
+# may not work if called during interaction
 getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
 export getelemval
 
@@ -64,7 +65,7 @@ end
 export check_entries_def_installed
 
 
-handleinput(x) = nothing # 
+# handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
 handlefinalinput(win) = close(win)
 
@@ -84,7 +85,7 @@ function handlechangeevents(win, newvals, initvals, finalvals)
             arg["reason"] == "init_input" && push!(initvals, id => el)
             arg["reason"] == "finalinput" && push!(finalvals, id => el)
         end
-        arg["reason"] == "newinput" && handleinput(win, el)
+        arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
         arg["reason"] == "init_inputfinished" && handleinit_input()
         arg["reason"] == "finalinputfinished" && handlefinalinput(win)
     end

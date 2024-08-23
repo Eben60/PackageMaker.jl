@@ -1,8 +1,8 @@
-function handleinput(win, el::HtmlElem)
-
+function handleinput(win, el::HtmlElem, prevvals)
+    # (; newvals, initvals) = prevvals
     el.parentformid == :use_purpose_form && return handle_purpose(win, el)
-    "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el; selectdir=true)
-    "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el; selectdir=false)
+    "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=true)
+    "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
     return nothing
 
 end
@@ -23,24 +23,45 @@ function pgin_and_field(inp_id)
     return (; pgin=m[1], field=m[2])
 end
 
-function set_file_from_dialog(win, el; selectdir)
-    inp_id = get_file_inp_id(el)
-    k = string(inp_id)
+function get_base_path(p)
     path = ""
-    (; pgin, field) = pgin_and_field(inp_id)
-    if haskey(def_plugins, pgin) && haskey(def_plugins[pgin].args, field)
-        p = def_plugins[pgin].args[field].default_val
-        if isfile(p)
-            path = dirname(p)
-        elseif isdir(p)
-            path = p
-        else
-            p = dirname(p)
-            isdir(p) && (path = p)
-        end
+    if isfile(p)
+        path = dirname(p)
+    elseif isdir(p)
+        path = p
+    else
+        p = dirname(p)
+        isdir(p) && (path = p)
     end
+    return path
+end
+
+# function get_def_path(inp_id)
+#     path = ""
+#     (; pgin, field) = pgin_and_field(inp_id)
+#     if haskey(def_plugins, pgin) && haskey(def_plugins[pgin].args, field)
+#         p = def_plugins[pgin].args[field].default_val
+#         path = get_base_path(p)
+#     end
+#     return path
+# end
+
+function get_def_path(inp_id, prevvals)
+    (; newvals, initvals) = prevvals
+    vals = haskey(newvals, inp_id) ? newvals : initvals # newvals however are not updated!
+    p = vals[inp_id].value
+    @show p
+    return get_base_path(p)
+end
+
+function set_file_from_dialog(win, el, prevvals; selectdir)
+    # (; newvals, initvals) = prevvals
+    inp_id = get_file_inp_id(el)
+
+    path = get_def_path(inp_id, prevvals)
+
     fl = selectdir ? pick_folder(path) : pick_file(path)
-    isnothing(fl) && return nothing
+    (isnothing(fl) || isempty(fl)) && return nothing
     setelemval(win, inp_id, fl)
     
     return nothing
