@@ -20,10 +20,7 @@ function mainwin(fpath=winpath)
 end
 export mainwin
 
-function getelemval(win, id) 
-    jstr = "document.getElementById(\"$id\").value"
-    return js(win, Blink.JSString(jstr))
-end
+getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
 export getelemval
 
 setelemval(win, id, newval) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
