@@ -102,7 +102,7 @@ gen_options::PluginInfo = PluginInfo(
         ("user", "$(githubuser())", "User name. Required for many plugins."), 
         ("authors", ["$(username()) <$(usermail())>"], "Authors. Will be an entry in Project.toml."), 
         (:dir, "dir", "", "Directory to place project in. Required input."), 
-        ("host", "", "URL to the code hosting service where the project will reside."), 
+        ("host", "github.com", "URL to the code hosting service where the project will reside."), 
         (:VersionNumber, "julia", "v\"1.6\"", "Minimum allowed Julia version for this package."), 
         ]),
     )

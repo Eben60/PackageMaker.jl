@@ -23,12 +23,13 @@ tmpl_beg(pgin_name, purpose, show=true) =
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style=$(disp_style(show)) >
 """
 
-function tmpl_inp(pgin, arg, arg_meaning, color_no) 
+function tmpl_inp(pgin, arg, arg_meaning, color_no, css) 
+    # css = "pgin_inp" : "gen_opt"
     pgin_name = pgin.name
     arg_type = arg.type
     arg_name = arg.name
     return """
-    <div class="pgin_inp_margins pgin_inp_col$(color_no)">
+    <div class="$(css)_margins $(css)_col$(color_no)">
     $(tmpl_input_field(pgin, arg, arg_type))
     <span class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg_name)">$(arg_meaning)</span><br>
     </div>
@@ -85,7 +86,7 @@ function tmpl_input_arrfield(pgin, arg)
 
     return """
 <textarea id="$id" name="$(arg_name)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val)) </textarea> <br>
-<label for="$id" class="comment">A vector of strings is expected. Put each string onto a newline<br></label>
+<label for="$id" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>
 """
 end
 
@@ -100,8 +101,10 @@ disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 
 ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
 
+pgin_inputs(p::PluginInfo, css) = join([tmpl_inp(p, a, esc_qm(a.meaning), (i%2+1), css) for (i, a) in pairs(collect(values(p.args)))], " ") 
+
 pgin_form(p::PluginInfo, selected_pgins=pgins_package) = tmpl_beg(p.name, esc_qm(p.purpose), ischecked(p, selected_pgins)) * 
-    join([tmpl_inp(p, a, esc_qm(a.meaning), (i%2+1)) for (i, a) in pairs(collect(values(p.args)))], " ") *
+    pgin_inputs(p, "pgin_inp") *
     tmpl_end()
 
 html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps], " \n") * tmpl_section_end()

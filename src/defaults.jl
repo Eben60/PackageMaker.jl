@@ -1,5 +1,3 @@
-using DataStructures
-
 "Default plugins for a package to be registered"
 pgins_registered = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 1,
