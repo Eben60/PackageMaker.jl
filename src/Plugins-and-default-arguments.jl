@@ -85,7 +85,7 @@ dfp = PluginInfo.([
     ]);
 
 
-def_plugins :: OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
+def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
 this_def_plugins = keys(def_plugins)
@@ -96,6 +96,16 @@ sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
 
+gen_options::PluginInfo = PluginInfo(
+    ("GenOptions", "Defines general options", [
+        ("proj_name", "", "Project/Package name. Required input."), 
+        ("user", "$(githubuser())", "User name. Required for many plugins."), 
+        ("authors", ["$(username()) <$(usermail())>"], "Authors. Will be an entry in Project.toml."), 
+        (:dir, "dir", "", "Directory to place project in. Required input."), 
+        ("host", "", "URL to the code hosting service where the project will reside."), 
+        (:VersionNumber, "julia", "v\"1.6\"", "Minimum allowed Julia version for this package."), 
+        ]),
+    )
 
 # export def_plugins
 def_plugins
