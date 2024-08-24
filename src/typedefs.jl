@@ -1,4 +1,13 @@
-struct HtmlElem
+function update_struct(h; kwargs...)
+    pns = propertynames(h)
+    d = Dict(pn => getproperty(h, pn) for pn in pns)
+    for (k, v) in pairs(kwargs)
+        d[k] = v
+    end
+    return typeof(h)(; d...)
+end
+export update_struct
+@kwdef struct HtmlElem
     id::Symbol
     eltype::Symbol
     elclass::Vector{String}
@@ -7,11 +16,7 @@ struct HtmlElem
     value::String
     checked::Union{Bool, Nothing}
 end
-
-# TODO how can it be value::Real ??
-# HtmlElem(id, eltype, inputtype, parentformid, value::Real, checked) = HtmlElem(id, eltype, inputtype, parentformid, Float64(value), checked)
 export HtmlElem
-
 mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String

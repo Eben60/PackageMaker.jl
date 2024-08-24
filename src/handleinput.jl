@@ -24,6 +24,9 @@ function pgin_and_field(inp_id)
 end
 
 function get_base_path(p)
+    p = p |> strip
+    (isempty(p) || p == "nothing") && return ""
+
     path = ""
     if isfile(p)
         path = dirname(p)
@@ -36,33 +39,29 @@ function get_base_path(p)
     return path
 end
 
-# function get_def_path(inp_id)
-#     path = ""
-#     (; pgin, field) = pgin_and_field(inp_id)
-#     if haskey(def_plugins, pgin) && haskey(def_plugins[pgin].args, field)
-#         p = def_plugins[pgin].args[field].default_val
-#         path = get_base_path(p)
-#     end
-#     return path
-# end
-
-function get_def_path(inp_id, prevvals)
+function current_val(inp_id, prevvals)
     (; newvals, initvals) = prevvals
-    vals = haskey(newvals, inp_id) ? newvals : initvals # newvals however are not updated!
-    p = vals[inp_id].value
-    @show p
-    return get_base_path(p)
+    vals = haskey(newvals, inp_id) ? newvals : initvals 
+    return vals[inp_id]
 end
 
+get_def_path(inp_id, prevvals) = current_val(inp_id, prevvals).value |> get_base_path
+
+
 function set_file_from_dialog(win, el, prevvals; selectdir)
-    # (; newvals, initvals) = prevvals
+    (; newvals, initvals) = prevvals
     inp_id = get_file_inp_id(el)
 
     path = get_def_path(inp_id, prevvals)
 
     fl = selectdir ? pick_folder(path) : pick_file(path)
     (isnothing(fl) || isempty(fl)) && return nothing
+
     setelemval(win, inp_id, fl)
+
+    v = current_val(inp_id, prevvals)
+    vnew = update_struct(v; value=fl)
+    newvals[inp_id] = vnew
     
     return nothing
 end
