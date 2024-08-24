@@ -90,4 +90,15 @@ dfp = PluginInfo.([
 
 def_plugins :: OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 
+pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
+this_def_plugins = keys(def_plugins)
+
+sd1 = setdiff(this_def_plugins, pkgtmpl_def_plugins)
+sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
+
+isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
+isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
+
+
 # export def_plugins
+def_plugins

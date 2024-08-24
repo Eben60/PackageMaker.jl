@@ -89,7 +89,8 @@ function initialized_pgins(fv; pgins=def_plugins)
         s = type2str(p)
         obj = eval(Symbol(s))
         if haskey(pgins, s) && pgins[s].checked
-            p = obj(; pgin_kwargs(pgins[s])...)
+            # TODO this p should be different from p in for p in PkgTemplates...
+            p = obj(; pgin_kwargs(pgins[s])...) 
             push!(in_pgins, p)
         else
             println(s)
