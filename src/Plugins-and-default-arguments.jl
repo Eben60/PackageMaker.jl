@@ -79,9 +79,6 @@ dfp = PluginInfo.([
         ("dispatch", false, "Whether or not to enable the dispatch option"), 
         (Int64, "dispatch_delay", "nothing", "Number of minutes to delay for dispatch events"), 
         ]),
-    ("Secret", "Represents a GitHub repository secret. When converted to a string, yields \${{ secrets.<name> }}", [
-        ("name", "", "Secrets name."), 
-        ]),
     ("Dependabot", "Setups Dependabot to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
         (:file, "file", "$(templ_dir)/github/dependabot.yml", "Template file."), 
         ]),
