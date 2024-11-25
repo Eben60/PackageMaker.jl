@@ -2,7 +2,7 @@ using PackageInABlink, Blink
 
 isdefined(Main, :win) && close(win)
 
-(;win, initvals, newvals, finalvals, changeeventhandle) = initwin("html/mw_fd2c.html")
+(;win, initvals, newvals, finalvals, changeeventhandle) = initwin("html/tmp/mw_fd2c.html")
 @show finalvals
 ;
 
