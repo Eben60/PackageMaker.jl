@@ -2,8 +2,10 @@ module PackageInABlink
 
 using Blink, LibGit2, OrderedCollections, PkgTemplates
 using DataStructures
-using NativeFileDialog
 using JLD2
+# using NativeFileDialog
+include("FileDialogWorkAround.jl")
+using .FileDialogWorkAround
 
 include("git.jl")
 include("defaults.jl")

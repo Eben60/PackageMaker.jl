@@ -1,5 +1,5 @@
 using Pkg
-
+# currently working
 pkg_dir = joinpath(@__DIR__, "..", "..") |> normpath
 Pkg.activate(pkg_dir)
 
