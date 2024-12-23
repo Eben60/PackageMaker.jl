@@ -3,7 +3,7 @@ using Pkg
 pkg_dir = joinpath(@__DIR__, "..", "..") |> normpath
 Pkg.activate(pkg_dir)
 
-using PackageInABlink, Blink
+using StartYourPk, Blink
 
 isdefined(Main, :win) && close(win)
 

@@ -1,4 +1,4 @@
-module PackageInABlink
+module StartYourPk
 
 using Blink, LibGit2, OrderedCollections, PkgTemplates
 using DataStructures
@@ -25,4 +25,4 @@ include("handleinput.jl")
 
 
 
-end # module PackageInABlink
+end # module StartYourPk

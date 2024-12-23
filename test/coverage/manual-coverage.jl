@@ -1,5 +1,5 @@
 using Pkg, Coverage
-Pkg.test("PackageInABlink"; coverage=true)
+Pkg.test("StartYourPk"; coverage=true)
 
 srcfolder = normpath(@__DIR__, "../../src")
 coverage = process_folder(srcfolder)
