@@ -80,7 +80,7 @@ html_use_purpose() =
 #     </div>
     
 #     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="70" id="julia_min_version" name="julia_min_version" value="v&quot;1.6&quot;" onchange="oncng(this)" type="text"><br>
+#         <input size="70" id="julia_min_version" name="julia_min_version" value="v&quot;1.10&quot;" onchange="oncng(this)" type="text"><br>
 #         <span class="plugin_arg_meaning" id="argmeaning_julia_min_version">Minimum allowed Julia version for this package.</span><br>
 #     </div>
 
