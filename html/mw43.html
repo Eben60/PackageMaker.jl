@@ -10,6 +10,13 @@
   background: hsl(226, 45%, 95%);;
 }
 
+.pgin_inp_margins {
+  padding-top: 10px;
+  padding-right: 100px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+
 .gen_opt_col1 {
   background: hsl(4, 47%, 88%);
 }
@@ -17,12 +24,13 @@
   background: hsl(4, 45%, 95%);;
 }
 
-.pgin_inp_margins {
+.gen_opt_margins {
   padding-top: 10px;
   padding-right: 100px;
   padding-bottom: 5px;
   padding-left: 10px;
 }
+
 
 .plugin_form_div {
   margin: 5px 0px 5px 0px;
@@ -81,7 +89,7 @@ h2 {
     </div>
 
     <div class="pgin_inp_margins gen_opt_col1">
-        <input size="70" id="authors" name="authors" value="Eben60 <nomail@nomail.org>" onchange="oncng(this)" type="text"><br>
+        <input size="70" id="authors" name="authors" value="Eben60 <not_a_mail@nowhere.org>" onchange="oncng(this)" type="text"><br>
         <span class="plugin_arg_meaning" id="argmeaning_authors">Authors. Will be an entry in <code>Project.toml</code>. </span><br>
     </div>
 
@@ -104,40 +112,6 @@ h2 {
 </form>
 </div>
 
-<div id="default_env_div">
-<h2>What packages to add to / uninstall from your default environment?</h2>
-  <p class="comment">The packages installed into the default environment are always available.
-  It is however recommended to keep them at minimum to keep out of
-  <a href="https://en.wikipedia.org/wiki/Dependency_hell" target="_blank">"Dependency Hell"</a>.
-  Though we list some commonly used packages, don't see it as recommendation to check the box.
-  Keep in mind that e.g. plotting packages come with a lot of dependencies which may later conflict
-  with some packages in your projects.
-  </p>
-  <p class="comment">Initially, packages already installed there are shown ckecked.</p>
-  <form name="default_packages" id="deflt_pkg" action="javascript:void(0)">
-    <input id="defpkg1" value="BenchmarkTools" checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg1">BenchmarkTools</label><br>
-    <input id="defpkg2" value="DataFrames" checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg2">DataFrames</label><br>
-    <input id="defpkg3" value="Dates" checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg3">Dates</label><br>
-    <input id="defpkg4" value="Plots" checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg4">Plots</label><br>
-    <input id="defpkg5" value="Revise" checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg5">Revise</label><br>
-    <input id="defpkg6" value="Unitful" checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg6">Unitful</label><br>
-    <input id="defpkg7" value="CSV"  onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg7">CSV</label><br>
-    <input id="defpkg8" value="FileIO"  onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg8">FileIO</label><br>
-    <input id="defpkg9" value="Makie"  onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg9">Makie</label><br>
-    <input id="defpkg10" value="OhMyREPL"  onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg10">OhMyREPL</label><br>
-
-  </form>
-</div>
 <div id="project_env_div">
 <h2>What packages to add to your project?</h2>
 <p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
@@ -173,7 +147,7 @@ h2 {
     <div class="Plugin_Purpose">Creates a module entrypoint.</div>
     <div class="Plugin_Inputs" id="SrcDir_inputs" style="display:block" >
     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="65" id="SrcDir_file" name="file" value="/Users/elk/.julia/packages/PkgTemplates/RSqQO/templates/src/module.jl" onchange="oncng(this)" type="text">
+    <input size="65" id="SrcDir_file" name="file" value="/Users/elk/.julia/packages/PkgTemplates/RSqQO/templates/src/module.jlt" onchange="oncng(this)" type="text">
 <button id="SrcDir_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_SrcDir_file">Template file for src/MyPackage.jl</span><br>
@@ -189,7 +163,7 @@ h2 {
     <div class="Plugin_Purpose">Sets up testing for packages.</div>
     <div class="Plugin_Inputs" id="Tests_inputs" style="display:block" >
     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="65" id="Tests_file" name="file" value="/Users/elk/.julia/packages/PkgTemplates/RSqQO/templates/test/runtests.jl" onchange="oncng(this)" type="text">
+    <input size="65" id="Tests_file" name="file" value="/Users/elk/.julia/packages/PkgTemplates/RSqQO/templates/test/runtests.jlt" onchange="oncng(this)" type="text">
 <button id="Tests_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_file">Template file for runtests.jl</span><br>
@@ -206,7 +180,7 @@ h2 {
     </div>
      <div class="pgin_inp_margins pgin_inp_col1">
     <textarea id="Tests_aqua_kwargs" name="aqua_kwargs" rows="3" cols="70" onchange="oncng(this)" >ambiguities </textarea> <br>
-<label for="Tests_aqua_kwargs" class="comment">A vector of strings is expected. Put each string onto a newline<br></label>
+<label for="Tests_aqua_kwargs" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_aqua_kwargs">List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually.</span><br>
     </div>
@@ -279,7 +253,7 @@ h2 {
     <div class="Plugin_Inputs" id="Git_inputs" style="display:block" >
     <div class="pgin_inp_margins pgin_inp_col2">
     <textarea id="Git_ignore" name="ignore" rows="3" cols="70" onchange="oncng(this)" > </textarea> <br>
-<label for="Git_ignore" class="comment">A vector of strings is expected. Put each string onto a newline<br></label>
+<label for="Git_ignore" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>
 
     <span class="plugin_arg_meaning" id="argmeaning_Git_ignore">Patterns to add to the .gitignore</span><br>
     </div>
@@ -370,10 +344,9 @@ h2 {
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_coverage">Whether or not to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual.</span><br>
     </div>
      <div class="pgin_inp_margins pgin_inp_col2">
-    <textarea id="GitHubActions_extra_versions" name="extra_versions" rows="3" cols="70" onchange="oncng(this)" >1.6
-1.10
+    <textarea id="GitHubActions_extra_versions" name="extra_versions" rows="3" cols="70" onchange="oncng(this)" >1.10
 pre </textarea> <br>
-<label for="GitHubActions_extra_versions" class="comment">A vector of strings is expected. Put each string onto a newline<br></label>
+<label for="GitHubActions_extra_versions" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_extra_versions">Extra Julia versions to test, as strings.</span><br>
     </div>
@@ -483,21 +456,6 @@ pre </textarea> <br>
     <input size="70" id="TagBot_dispatch_delay" name="dispatch_delay" value="nothing" onchange="oncng(this)" type="text"><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_dispatch_delay">Number of minutes to delay for dispatch events</span><br>
-    </div>
-</div>
-</form>
-</div>
-
-<div class="plugin_form_div" id="plugin_form_div_Secret">
-<form class="plugin_form" name="Secret_form" id="Secret_form" action="javascript:void(0)">
-    <input id="Use_Secret" value="Use_Secret"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
-    <label for="Use_Secret">Secret plugin </label>
-    <div class="Plugin_Purpose">Represents a GitHub repository secret. When converted to a string, yields ${{ secrets.&lt;name&gt; }}.</div>
-    <div class="Plugin_Inputs" id="Secret_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="Secret_name" name="name" value="" onchange="oncng(this)" type="text"><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_Secret_name">Secrets name.</span><br>
     </div>
 </div>
 </form>

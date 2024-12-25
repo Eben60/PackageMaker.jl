@@ -41,66 +41,66 @@ html_use_purpose() =
 
 """
 
-# function html_general_options()
-#     i = 1
-#     function onetwo() 
-#         i += 1
-#         return (i%2+1)
-#     end
+function html_general_options()
+    i = 1
+    function onetwo() 
+        i += 1
+        return (i%2+1)
+    end
 
-#     h =    
-# """
-# <div id="general_options_div">
-# <h2>General options</h2>
-# <form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
-#     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="70" id="proj_name" name="proj_name" value="" onchange="oncng(this)" type="text"><br>
-#         <span class="plugin_arg_meaning" id="argmeaning_proj_name">Project/Package name. Required input.</span><br>
-#     </div>
-
-#     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="70" id="user_name" name="user_name" value="$(githubuser())" onchange="oncng(this)" type="text"><br>
-#         <span class="plugin_arg_meaning" id="argmeaning_user_name">User name. Required for many plugins.</span><br>
-#     </div>
-
-#     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="70" id="authors" name="authors" value="$(username()) <$(usermail())>" onchange="oncng(this)" type="text"><br>
-#         <span class="plugin_arg_meaning" id="argmeaning_authors">Authors. Will be an entry in <code>Project.toml</code>. </span><br>
-#     </div>
-    
-#     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="65" id="project_dir" name="project_dir" value="" onchange="oncng(this)" type="text">
-#         <button id="project_dir_button" onclick="oncng(this)" type="button" class="FolderDialogButton">Select</button><br>
-#         <span class="plugin_arg_meaning" id="argmeaning_project_dir">Directory to place project in. Required input.</span><br>
-#     </div>
-
-#     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="70" id="host" name="host" value="github.com" onchange="oncng(this)" type="text"><br>
-#         <span class="plugin_arg_meaning" id="argmeaning_host">URL to the code hosting service where the project will reside.</span><br>
-#     </div>
-    
-#     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-#         <input size="70" id="julia_min_version" name="julia_min_version" value="v&quot;1.10&quot;" onchange="oncng(this)" type="text"><br>
-#         <span class="plugin_arg_meaning" id="argmeaning_julia_min_version">Minimum allowed Julia version for this package.</span><br>
-#     </div>
-
-# </form>   
-# </div>
-
-# """
-#     return h
-# end
-
-function html_general_options(gen_options=gen_options)
-    inputs = pgin_inputs(gen_options, "gen_opt")
-    h = 
-"""<div id="general_options_div">
+    h =    
+"""
+<div id="general_options_div">
 <h2>General options</h2>
 <form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
-$inputs
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+        <input size="70" id="proj_name" name="proj_name" value="" onchange="oncng(this)" type="text"><br>
+        <span class="plugin_arg_meaning" id="argmeaning_proj_name">Project/Package name. Required input.</span><br>
+    </div>
+
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+        <input size="70" id="user_name" name="user_name" value="$(githubuser())" onchange="oncng(this)" type="text"><br>
+        <span class="plugin_arg_meaning" id="argmeaning_user_name">User name. Required for many plugins.</span><br>
+    </div>
+
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+        <input size="70" id="authors" name="authors" value="$(username()) <$(usermail())>" onchange="oncng(this)" type="text"><br>
+        <span class="plugin_arg_meaning" id="argmeaning_authors">Authors. Will be an entry in <code>Project.toml</code>. </span><br>
+    </div>
+    
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+        <input size="65" id="project_dir" name="project_dir" value="" onchange="oncng(this)" type="text">
+        <button id="project_dir_button" onclick="oncng(this)" type="button" class="FolderDialogButton">Select</button><br>
+        <span class="plugin_arg_meaning" id="argmeaning_project_dir">Directory to place project in. Required input.</span><br>
+    </div>
+
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+        <input size="70" id="host" name="host" value="github.com" onchange="oncng(this)" type="text"><br>
+        <span class="plugin_arg_meaning" id="argmeaning_host">URL to the code hosting service where the project will reside.</span><br>
+    </div>
+    
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+        <input size="70" id="julia_min_version" name="julia_min_version" value="v&quot;1.10&quot;" onchange="oncng(this)" type="text"><br>
+        <span class="plugin_arg_meaning" id="argmeaning_julia_min_version">Minimum allowed Julia version for this package.</span><br>
+    </div>
+
 </form>   
-</div>"""
+</div>
+
+"""
+    return h
 end
+
+# function html_general_options(gen_options=gen_options)
+#     inputs = pgin_inputs(gen_options, "gen_opt")
+#     h = 
+# """<div id="general_options_div">
+# <h2>General options</h2>
+# <form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
+# $inputs
+# </form>   
+# </div>"""
+# end
 
 function default_env_checkbox(no, pkg_name; 
     installed = default_env_packages())

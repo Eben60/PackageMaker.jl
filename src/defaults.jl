@@ -47,3 +47,6 @@ pgins_sets = Dict(["Project" => pgins_project,
     "LocalPackage" => pgins_package,
     "RegisteredPackage" => pgins_registered,
 ])
+
+julia_lts = v"1.10"
+julia_lts_str = "$(julia_lts.major).$(julia_lts.minor)"

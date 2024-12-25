@@ -1,4 +1,7 @@
 # from PkgSkeleton.jl
+
+# TODO consider switching to Git.jl
+
 """
 Error type for git options not found in the global environment. Reporting with helpful error
 message to the user.
@@ -24,7 +27,17 @@ end
 
 
 function getgitopt(opt, used_for)
-    c = LibGit2.GitConfig()
+    c = nothing
+    try
+        c = LibGit2.GitConfig(LibGit2.GitRepo(pkgdir(@__MODULE__))) # get local config, if it exists. in most cases, it wouldn't, then fallback to the global one
+    catch e
+        if e isa LibGit2.GitError # if local repo not configured
+            c = LibGit2.GitConfig()
+        else
+            rethrow(e)
+        end
+    end
+
     try
         LibGit2.get(AbstractString, c, opt)
     catch e
@@ -41,3 +54,5 @@ githubuser() = getgitopt("github.user", "your Github username")
 usermail() = getgitopt("user.email", "your e-mail (as the package author)")
 
 # export username, githubuser, usermail
+# LibGit2.Consts.GIT_CONFIG
+LibGit2.GitRepo(pwd())

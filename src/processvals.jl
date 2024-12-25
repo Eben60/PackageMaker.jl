@@ -9,11 +9,16 @@ end
 export get_checked_pgins!
 
 function parse_v_string(s)
-    re = r"v\"(.+)\""
-    s = strip(s)
-    m = match(re, s)
-    isnothing(m) && error("$s doesn't look like a valid version string ")
-    return VersionNumber(m[1])
+    s1 = replace(s, "\"" => "")
+    s1 = strip(s1)
+    v = tryparse(VersionNumber, s1)
+    isnothing(v) && error("$s doesn't look like a valid version string")
+    return v
+    # re = r"v\"(.+)\""
+    # s = strip(s)
+    # m = match(re, s)
+    # isnothing(m) && error("$s doesn't look like a valid version string ")
+    # return VersionNumber(m[1])
 end
 export parse_v_string
 

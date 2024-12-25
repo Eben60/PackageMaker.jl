@@ -18,10 +18,10 @@ dfp = PluginInfo.([
         (:VersionNumber, "version", "v\"1.0.0-DEV\"", "The initial version of created packages"),
         ]),
     ("SrcDir", "Creates a module entrypoint", [
-        (:file, "file", "$(templ_dir)/src/module.jl", "Template file for src/$(packagename).jl"),
+        (:file, "file", "$(templ_dir)/src/module.jlt", "Template file for src/$(packagename).jl"),
         ]),
     ("Tests", "Sets up testing for packages", [
-        (:file, "file", "$(templ_dir)/test/runtests.jl", "Template file for runtests.jl"),
+        (:file, "file", "$(templ_dir)/test/runtests.jlt", "Template file for runtests.jl"),
         ("project", false, "Whether or not to create a new project for tests (test/Project.toml)."),
         ("aqua", false, "Controls whether or not to add quality tests with Aqua.jl."),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
@@ -56,7 +56,7 @@ dfp = PluginInfo.([
         ("x64", true, "Whether or not to run builds on 64-bit architecture."), 
         ("x86", false, "Whether or not to run builds on 32-bit architecture."), 
         ("coverage", false, "Whether or not to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
-        (Vector{String}, "extra_versions",  ["1.6", "1.10", "pre"], "Extra Julia versions to test, as strings."), 
+        (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [
         (:file, "file", "$(templ_dir)/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
@@ -103,7 +103,7 @@ gen_options::PluginInfo = PluginInfo(
         ("authors", ["$(username()) <$(usermail())>"], "Authors. Will be an entry in Project.toml."), 
         (:dir, "dir", "", "Directory to place project in. Required input."), 
         ("host", "github.com", "URL to the code hosting service where the project will reside."), 
-        (:VersionNumber, "julia", "v\"1.6\"", "Minimum allowed Julia version for this package."), 
+        (:VersionNumber, "julia", "v\"$julia_lts_str\"", "Minimum allowed Julia version for this package."), 
         ]),
     )
 
