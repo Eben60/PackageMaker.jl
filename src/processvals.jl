@@ -125,16 +125,57 @@ export recall_fv
 cache_fv(fv) = jldsave(jldcache(); fv)
 export cache_fv
 
+function is_a_package(fv)
+    isproj = fv[:Project_Choice].checked
+    islocal = fv[:LocalPackage_Choice].checked
+    isregistered = fv[:RegisteredPackage_Choice].checked
+
+    @assert isproj + islocal + isregistered == 1
+    return (;ispk = !isproj, isproj, islocal, isregistered)
+end
+
 function create_proj(fv)
     global processing_finished
     processing_finished = false
     pgins=initialized_pgins(fv)
+    (;ispk, ) = is_a_package(fv)
     (;proj_name, templ_kwargs) = general_options(fv)
+    (;dir, ) = templ_kwargs
     t = Template(; plugins=pgins, templ_kwargs...)
     t(proj_name)
+    is_a_package(fv).isproj && depackagize(proj_name, dir)
     processing_finished = true
     return t
 end
+
+function depackagize(proj_name, dir)
+    proj_filename = endswith(proj_name, ".jl") ? proj_name : proj_name * ".jl"
+    file = joinpath(dir, proj_name, "src", proj_filename) |> normpath
+    rm(file; force = true)
+
+    toml_file = joinpath(dir, proj_name, "Project.toml")
+    toml_content = read(toml_file, String)
+    toml_dict = TOML.parse(toml_content)
+    delete!(toml_dict, "name")
+    delete!(toml_dict, "uuid")
+    delete!(toml_dict, "version")
+    open(toml_file, "w") do f
+        TOML.print(f, toml_dict, sorted=true)
+    end
+    return nothing
+end
+export depackagize
+
+
+function startyourpk(exitjulia=true)
+    (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; make_prj = true)
+    if exitjulia
+        println("Project created, exiting julia")
+        exit()
+    end
+    return (;win, initvals, newvals, finalvals, changeeventhandle)
+end
+export startyourpk
 
 """
 using StartYourPk

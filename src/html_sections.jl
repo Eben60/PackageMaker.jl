@@ -32,7 +32,7 @@ html_use_purpose() =
         <input id="LocalPackage_Choice" name="Choice" value="LocalPackage" onchange="oncng(this)" type="radio" checked> 
         <label for="LocalPackage_Choice">Initialize a package for local use</label> <br>
         <input id="RegisteredPackage_Choice" name="Choice" value="RegisteredPackage" onchange="oncng(this)" type="radio"> 
-        <label for="RegisteredPackage_Choice">Initialize a package with all CI bells and Documentation whistles </label> 
+        <label for="RegisteredPackage_Choice">Initialize a package with all CI bells and Documentation (TODO) whistles </label> 
        </div>
        <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually</p>
     </fieldset>

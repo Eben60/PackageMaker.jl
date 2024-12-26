@@ -1,6 +1,6 @@
 module StartYourPk
 
-using Blink, LibGit2, OrderedCollections, PkgTemplates
+using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML
 using DataStructures
 using JLD2
 # using NativeFileDialog
