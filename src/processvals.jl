@@ -125,6 +125,17 @@ export recall_fv
 cache_fv(fv) = jldsave(jldcache(); fv)
 export cache_fv
 
+function create_proj(fv)
+    global processing_finished
+    processing_finished = false
+    pgins=initialized_pgins(fv)
+    (;proj_name, templ_kwargs) = general_options(fv)
+    t = Template(; plugins=pgins, templ_kwargs...)
+    t(proj_name)
+    processing_finished = true
+    return t
+end
+
 """
 using StartYourPk
 fv = recall_fv() # if working with saved data

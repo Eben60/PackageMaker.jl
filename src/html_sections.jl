@@ -144,7 +144,7 @@ html_proj_env_pkg() =
 <h2>What packages to add to your project?</h2>
 <p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
   <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
-    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" > </textarea> <br>
+    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this) disabled" >Sorry_NotImplemented_Yet</textarea> <br>
     <label for="project_packages_input">Put each package name onto a newline</label>
   </form>
 </div>
@@ -155,7 +155,7 @@ html_submit() =
 """
 <div id="submit_div">
 <form class="submit_form" name="submit_form" id="submit_form" action="javascript:void(0)">
-<input id="save_defaults" value="save_defaults" onchange="oncng(this)" type="checkbox">
+<input id="save_defaults" value="save_defaults" onchange="oncng(this)" type="checkbox" disabled>
 <label for="save_defaults" >Save choices as default if applicable</label><br>
 <button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 <button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true)">Submit</button>

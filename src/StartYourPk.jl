@@ -7,6 +7,8 @@ using JLD2
 include("FileDialogWorkAround.jl")
 using .FileDialogWorkAround
 
+processing_finished::Bool = false
+
 include("git.jl")
 include("defaults.jl")
 include("typedefs.jl")

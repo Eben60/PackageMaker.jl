@@ -1,9 +1,10 @@
-try
-    winpath = realpath("html/mainwin.html")
-    @assert isfile(winpath)
-catch
-    @warn "The default file mainwin.html cannot be found."
-end
+# try
+#     winpath = realpath("html/mainwin.html")
+#     @assert isfile(winpath)
+# catch
+#     @warn "The default file mainwin.html cannot be found."
+# end
+
 
 function initcontents(fpath=winpath)
     contents = open(fpath, "r") do file
@@ -67,9 +68,16 @@ export check_entries_def_installed
 
 # handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
-handlefinalinput(win) = close(win)
 
-function handlechangeevents(win, newvals, initvals, finalvals)
+function handlefinalinput(win, finalvals; make_prj = false) 
+    close(win)
+    make_prj && return create_proj(finalvals)
+
+    return nothing
+end
+
+
+function handlechangeevents(win, newvals, initvals, finalvals; make_prj = false)
     handle(win, "change") do arg
         # arg["reason"] == "newinput" && @show arg
         if arg["reason"] in ["newinput", "init_input", "finalinput"]
@@ -87,21 +95,33 @@ function handlechangeevents(win, newvals, initvals, finalvals)
         end
         arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
         arg["reason"] == "init_inputfinished" && handleinit_input()
-        arg["reason"] == "finalinputfinished" && handlefinalinput(win)
+        arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals; make_prj)
     end
 end
 export handlechangeevents
 
-function initwin(wpath)
+function wait_until_finished()
+    while ! processing_finished
+        sleep(0.1)
+    end
+    sleep(0.05)
+    return nothing
+end
+
+function initwin(wpath=make_html(); make_prj = false)
+    global processing_finished
+    @show processing_finished
+    processing_finished = false
     win = mainwin(wpath);
 
     initvals = Dict{Symbol, HtmlElem}()
     newvals = deepcopy(initvals)
     finalvals = deepcopy(initvals)
 
-    changeeventhandle = handlechangeevents(win, newvals, initvals, finalvals)
+    changeeventhandle = handlechangeevents(win, newvals, initvals, finalvals; make_prj)
     js(win, Blink.JSString("""sendfullstate(false)"""))
     check_entries_def_installed(win, initvals)
+    make_prj && wait_until_finished()
     return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
 export initwin
