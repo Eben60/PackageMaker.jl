@@ -52,7 +52,3 @@ end
 username() = getgitopt("user.name", "your name (as the package author)")
 githubuser() = getgitopt("github.user", "your Github username")
 usermail() = getgitopt("user.email", "your e-mail (as the package author)")
-
-# export username, githubuser, usermail
-# LibGit2.Consts.GIT_CONFIG
-LibGit2.GitRepo(pwd())
