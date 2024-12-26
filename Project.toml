@@ -1,7 +1,7 @@
 name = "StartYourPk"
 uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
 authors = ["Eben60"]
-version = "0.1.0"
+version = "0.0.1"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
@@ -22,3 +22,4 @@ UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 Dates = "<0.0.1, 1"
 TOML = "1.0.3"
 julia = "1.10"
+PkgTemplates = "=0.7.53"
