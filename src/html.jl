@@ -1,3 +1,6 @@
+html_dir = mktempdir(; cleanup=false)
+tmp_html = joinpath(html_dir, "start-your-pk.html") |> normpath
+
 checked(b) = b ? "checked" : ""
 
 esc_qm(s::String) = replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;")
@@ -24,7 +27,7 @@ function make_html(pgins, file) # plugins - see file "Plugins-and-default-argume
     return file
 end
 
-make_html(file::AbstractString) = make_html(def_plugins, file)
+make_html(file::AbstractString=tmp_html) = make_html(def_plugins, file)
 # make_html("mw28a.html")
 
 export make_html

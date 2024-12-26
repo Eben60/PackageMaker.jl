@@ -127,13 +127,15 @@ export cache_fv
 
 """
 using StartYourPk
-using PkgTemplates
+fv = recall_fv() # if working with saved data
 
-fv = recall_fv()
+fv = finalvals # else
+using PkgTemplates
 
 pgins=initialized_pgins(fv)
 (;proj_name, templ_kwargs) = general_options(fv)
 t = Template(; plugins=pgins, templ_kwargs...)
 t(proj_name);
+;
 
 """
