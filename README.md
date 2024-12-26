@@ -15,7 +15,7 @@ julia> ]
 (@v1.11) pkg> activate @StartYourPk
   Activating new project at `~/.julia/environments/StartYourPk`
 
-(@StartYourPk) pkg> add https://github.com/Eben60/StartYourPk.jl
+(@StartYourPk) pkg> add https://github.com/Eben60/StartYourPk.jl#master
 ```
 
 ## Usage
