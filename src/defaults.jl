@@ -10,7 +10,8 @@ pgins_registered = DefaultDict(false, Dict{String, Bool}([
     "Secret" => 1,
     "SrcDir" => 1,
     "TagBot" => 1,
-    "Tests" => 1,   
+    "Tests" => 1,
+    "Documenter" => 1,
 ]))
 
 "Default plugins for non-registered package"
@@ -25,7 +26,8 @@ pgins_package = DefaultDict(false, Dict{String, Bool}([
     "Secret" => 0,
     "SrcDir" => 1,
     "TagBot" => 0,
-    "Tests" => 1,   
+    "Tests" => 1,
+    "Documenter" => 0,
 ]))
 
 "Default plugins for project"
@@ -40,7 +42,8 @@ pgins_project = DefaultDict(false, Dict{String, Bool}([
     "Secret" => 0,
     "SrcDir" => 0,
     "TagBot" => 0,
-    "Tests" => 1,    
+    "Tests" => 1,
+    "Documenter" => 0,  
 ]))
 
 pgins_sets = Dict(["Project" => pgins_project,

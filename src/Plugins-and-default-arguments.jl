@@ -82,13 +82,18 @@ dfp = PluginInfo.([
     ("Dependabot", "Setups Dependabot to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
         (:file, "file", "$(templ_dir)/github/dependabot.yml", "Template file."), 
         ]),
+    ("Documenter", "Sets up documentation generation via Documenter.jl. Only subset of options currently supported.", [
+        (:file, "make_jl", "$(templ_dir)/docs/make.jlt", "Template file for make.jl"), 
+        (:file, "index_md", "$(templ_dir)/docs/src/index.md", "Template file for index.md"), 
+        ]),
     ]);
 
-
+extra_plugins = ["Documenter"] # non-default templates of PkgTemplates, supported by StartYourPk
 def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
+this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
-this_def_plugins = keys(def_plugins)
+
 
 sd1 = setdiff(this_def_plugins, pkgtmpl_def_plugins)
 sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
@@ -108,4 +113,4 @@ isempty(sd2) || @warn "This package does not list plugins $sd2, which are among 
 #     )
 
 # export def_plugins
-def_plugins
+
