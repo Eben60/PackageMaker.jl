@@ -69,9 +69,10 @@ export check_entries_def_installed
 # handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
 
-function handlefinalinput(win, finalvals; make_prj = false) 
+function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
     close(win)
-    make_prj && return create_proj(finalvals)
+    submit && make_prj && return create_proj(finalvals)
+    global processing_finished = true
 
     return nothing
 end
@@ -95,7 +96,8 @@ function handlechangeevents(win, newvals, initvals, finalvals; make_prj = false)
         end
         arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
         arg["reason"] == "init_inputfinished" && handleinit_input()
-        arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals; make_prj)
+        arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true; make_prj)
+        arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false; make_prj)
     end
 end
 export handlechangeevents
@@ -109,9 +111,7 @@ function wait_until_finished()
 end
 
 function initwin(wpath=make_html(); make_prj = false)
-    global processing_finished
-    @show processing_finished
-    processing_finished = false
+    global processing_finished = false
     win = mainwin(wpath);
 
     initvals = Dict{Symbol, HtmlElem}()
@@ -119,9 +119,9 @@ function initwin(wpath=make_html(); make_prj = false)
     finalvals = deepcopy(initvals)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, finalvals; make_prj)
-    js(win, Blink.JSString("""sendfullstate(false)"""))
+    js(win, Blink.JSString("""sendfullstate(false, false)"""))
     check_entries_def_installed(win, initvals)
-    make_prj && wait_until_finished()
+    wait_until_finished()
     return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
 export initwin

@@ -43,14 +43,15 @@ function parentForm_Id(el) {
   };
 };
 
-function sendfullstate(isfinalstate){
+function sendfullstate(isfinalstate, submit){
     // alert("sending full state")
     var reasoneach;
     var reasonfinl;
     if (isfinalstate) {
         //alert("finishing")
         reasoneach ="finalinput"
-        reasonfinl ="finalinputfinished"
+        if (submit) {reasonfinl ="finalinputfinished"}
+        else {reasonfinl ="finalinputcancelled"}
    } else {
         reasoneach ="init_input"
         reasonfinl ="init_inputfinished"            

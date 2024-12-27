@@ -157,8 +157,8 @@ html_submit() =
 <form class="submit_form" name="submit_form" id="submit_form" action="javascript:void(0)">
 <input id="save_defaults" value="save_defaults" onchange="oncng(this)" type="checkbox" disabled>
 <label for="save_defaults" >Save choices as default if applicable</label><br>
-<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true)">Submit</button>
+<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)">Submit</button>
 </form>
 </div>
 """

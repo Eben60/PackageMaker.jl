@@ -167,8 +167,8 @@ end
 export depackagize
 
 
-function startyourpk(exitjulia=true)
-    (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; make_prj = true)
+function startyourpk(exitjulia=true; make_prj = true)
+    (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; make_prj)
     if exitjulia
         println("Project created, exiting julia")
         exit()
