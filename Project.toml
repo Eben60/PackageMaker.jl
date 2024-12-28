@@ -1,12 +1,13 @@
 name = "StartYourPk"
 uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
 authors = ["Eben60"]
-version = "0.0.5"
+version = "0.0.6"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+FilePathsBase = "48062228-2e41-5def-b9a4-89aafe57970f"
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 LibGit2 = "76f85450-5226-5b5a-8eaa-529ad045b433"
 NativeFileDialog = "e1fe445b-aa65-4df4-81c1-2041507f0fd4"
@@ -20,6 +21,7 @@ UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [compat]
 Dates = "<0.0.1, 1"
+FilePathsBase = "0.9.22"
+PkgTemplates = "=0.7.53"
 TOML = "1.0.3"
 julia = "1.10"
-PkgTemplates = "=0.7.53"

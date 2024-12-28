@@ -1,11 +1,12 @@
 module StartYourPk
 
-using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML
+using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase
 using DataStructures
 using JLD2
 # using NativeFileDialog
 include("FileDialogWorkAround.jl")
 using .FileDialogWorkAround
+using .FileDialogWorkAround: posixpathstring
 
 processing_finished::Bool = false
 
