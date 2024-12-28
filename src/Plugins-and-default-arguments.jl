@@ -85,7 +85,7 @@ dfp = PluginInfo.([
     ("Documenter", "Sets up documentation generation via Documenter.jl. Only subset of options currently supported.", [
         (:file, "make_jl", "$(templ_dir)/docs/make.jlt", "Template file for make.jl"), 
         (:file, "index_md", "$(templ_dir)/docs/src/index.md", "Template file for index.md"), 
-        ("deploy", false, "Whether to enable the dispatch option"), 
+        ("deploy", false, "Whether to deploy documentation using GitHubActions"), 
         ]),
     ]);
 
