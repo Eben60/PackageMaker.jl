@@ -7,6 +7,7 @@ function update_struct(h; kwargs...)
     return typeof(h)(; d...)
 end
 export update_struct
+
 @kwdef struct HtmlElem
     id::Symbol
     eltype::Symbol
@@ -17,6 +18,7 @@ export update_struct
     checked::Union{Bool, Nothing}
 end
 export HtmlElem
+
 mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
