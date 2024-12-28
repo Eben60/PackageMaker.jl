@@ -2,11 +2,12 @@ module FileDialogWorkAround
 
 using NativeFileDialog, Dates, FilePathsBase
 
-function posixpathstring(x)  
-   x = x |> Path |> normalize
-   (x isa PosixPath) || (x = x |> PosixPath)
-   return string(x)
-end
+# https://discourse.julialang.org/t/better-handling-of-pathnames/36792/33
+posixpathstring(inp) = inp |> Path |> _posixpath |> string
+_posixpath(path::WindowsPath) = PosixPath((path.drive, path.segments...))
+_posixpath(path) = path
+posixpathstring
+
 
 "Returns OS version on Mac, or v0 if other OS"
 function macos_version()

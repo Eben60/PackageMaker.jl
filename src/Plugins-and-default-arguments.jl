@@ -10,7 +10,7 @@ function get_module_directory(module_name)
 end
 export get_module_directory
 
-const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates")
+const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
 const default_branch = LibGit2.getconfig("init.defaultBranch", "main")
 
 dfp = PluginInfo.([
