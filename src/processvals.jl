@@ -85,6 +85,14 @@ function type2str(x)
 end
 export type2str
 
+function init_documenter(nt)
+    deploy = nt.deploy
+    otherkwargs = [k => v for (k, v) in pairs(nt) if k != :deploy]
+    deploy_pgin = deploy ? GitHubActions : NoDeploy
+    return Documenter{deploy_pgin}(; otherkwargs...)
+end
+export init_documenter
+
 function initialized_pgins(fv; pgins=def_plugins)
     str_checked_pgins = get_checked_pgins!(fv) |> keys
     get_pgins_vals!(fv)
@@ -95,8 +103,12 @@ function initialized_pgins(fv; pgins=def_plugins)
     for s in str_all_pgins
         obj = eval(Symbol(s))
         if haskey(pgins, s) && pgins[s].checked
-            # TODO this p should be different from p in for p in PkgTemplates...
-            p = obj(; pgin_kwargs(pgins[s])...) 
+         # TODO this p should be different from p in for p in PkgTemplates...
+            if s == "Documenter" 
+                p = init_documenter(pgin_kwargs(pgins[s]))
+            else
+                p = obj(; pgin_kwargs(pgins[s])...)
+            end
             push!(in_pgins, p)
         else
             println(s)
