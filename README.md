@@ -9,7 +9,7 @@ Try it out! _(on your own risk)_
 Current project state (as of `v0.0.5`)
 - MacOS (ARM), `Julia v1.11` - it is where I develop it, thus somewhat more extensive testing. Currently no problems detected.
 - Ubuntu (Intel "AMD64") - run once, no problems.
-- Win10 - doesn't work due to a semi-identified bug. WIP.
+- Win10 - doesn't work yet due to problems with backslashes (and recursive escapism 😓). Might take some time to solve.
 
 ## Installation
 
