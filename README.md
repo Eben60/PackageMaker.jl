@@ -6,10 +6,10 @@ This package allows you to create either a new package or a new project. The pac
 
 Try it out! _(on your own risk)_
 
-Current project state (as of `v0.0.5`)
+Current project state (as of `v0.0.6`)
 - MacOS (ARM), `Julia v1.11` - it is where I develop it, thus somewhat more extensive testing. Currently no problems detected.
 - Ubuntu (Intel "AMD64") - run once, no problems.
-- Win10 - doesn't work due to a semi-identified bug. WIP.
+- Win10 - the problems with windows paths now appear to be solved: The package can be now used on Windows,too.
 
 ## Installation
 
