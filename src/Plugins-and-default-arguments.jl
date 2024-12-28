@@ -22,7 +22,7 @@ dfp = PluginInfo.([
         ]),
     ("Tests", "Sets up testing for packages", [
         (:file, "file", "$(templ_dir)/test/runtests.jlt", "Template file for runtests.jl"),
-        ("project", false, "Whether or not to create a new project for tests (test/Project.toml)."),
+        ("project", false, "Whether to create a new project for tests (test/Project.toml)."),
         ("aqua", false, "Controls whether or not to add quality tests with Aqua.jl."),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
         ("jet", false, "Controls whether or not to add a linting test with JET.jl (works best on type-stable code)."),
@@ -30,7 +30,7 @@ dfp = PluginInfo.([
     ("Readme", "Creates a README file that contains badges for other included plugins", [
         (:file, "file", "$(templ_dir)/README.md", "Template file for the README."), 
         ("destination", "README.md", "File destination, relative to the repository root."), 
-        ("inline_badges", false, "Whether or not to put the badges on the same line as the package name."),
+        ("inline_badges", false, "Whether to put the badges on the same line as the package name."),
         ]),
     ("License", "Creates a license file", [
         ("name", "MIT", "Name of a license supported by PkgTemplates. Dropdown menu to be added here!"), 
@@ -42,20 +42,20 @@ dfp = PluginInfo.([
         ("name", "nothing", "Your real name, if you have not set user.name with Git."), 
         ("email", "nothing", "Your email address, if you have not set user.email with Git."), 
         ("branch", "$(default_branch)", "The desired name of the repository's default branch."), 
-        ("ssh", false, "Whether or not to use SSH for the remote. If left unset, HTTPS is used."), 
-        ("jl", true, "Whether or not to add a .jl suffix to the remote URL."), 
-        ("manifest", false, "Whether or not to commit Manifest.toml."), 
-        ("gpgsign", false, "Whether or not to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity."),
+        ("ssh", false, "Whether to use SSH for the remote. If left unset, HTTPS is used."), 
+        ("jl", true, "Whether to add a .jl suffix to the remote URL."), 
+        ("manifest", false, "Whether to commit Manifest.toml."), 
+        ("gpgsign", false, "Whether to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity."),
         ]),
     ("GitHubActions", "Creates a Git repository and a .gitignore file", [
         (:file, "file", "$(templ_dir)/github/workflows/CI.yml", "Template file for the workflow file"), 
         ("destination", "CI.yml", "Destination of the workflow file, relative to .github/workflows"), 
-        ("linux", true, "Whether or not to run builds on Linux."), 
-        ("osx", false, "Whether or not to run builds on OSX (MacOS)."), 
-        ("windows", false, "Whether or not to run builds on Windows."), 
-        ("x64", true, "Whether or not to run builds on 64-bit architecture."), 
-        ("x86", false, "Whether or not to run builds on 32-bit architecture."), 
-        ("coverage", false, "Whether or not to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
+        ("linux", true, "Whether to run builds on Linux."), 
+        ("osx", false, "Whether to run builds on OSX (MacOS)."), 
+        ("windows", false, "Whether to run builds on Windows."), 
+        ("x64", true, "Whether to run builds on 64-bit architecture."), 
+        ("x86", false, "Whether to run builds on 32-bit architecture."), 
+        ("coverage", false, "Whether to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
         (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [
@@ -75,8 +75,8 @@ dfp = PluginInfo.([
         ("gpg", "nothing", "Name of the GPG private key secret to use"), 
         ("gpg_password", "nothing", "Name of the GPG private key password secret to use"), 
         ("registry", "nothing", "Custom registry, in the format owner/repo"), 
-        ("branches", false, "Whether not to enable the branches option"), 
-        ("dispatch", false, "Whether or not to enable the dispatch option"), 
+        ("branches", false, "Whether to enable the branches option"), 
+        ("dispatch", false, "Whether to enable the dispatch option"), 
         (Int64, "dispatch_delay", "nothing", "Number of minutes to delay for dispatch events"), 
         ]),
     ("Dependabot", "Setups Dependabot to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
@@ -85,6 +85,7 @@ dfp = PluginInfo.([
     ("Documenter", "Sets up documentation generation via Documenter.jl. Only subset of options currently supported.", [
         (:file, "make_jl", "$(templ_dir)/docs/make.jlt", "Template file for make.jl"), 
         (:file, "index_md", "$(templ_dir)/docs/src/index.md", "Template file for index.md"), 
+        ("deploy", false, "Whether to enable the dispatch option"), 
         ]),
     ]);
 
