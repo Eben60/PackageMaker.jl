@@ -1,7 +1,7 @@
 name = "StartYourPk"
 uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
 authors = ["Eben60"]
-version = "0.0.5"
+version = "0.0.6"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
