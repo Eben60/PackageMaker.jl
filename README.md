@@ -6,6 +6,11 @@ This package allows you to create either a new package or a new project. The pac
 
 Try it out! _(on your own risk)_
 
+Current project state (as of `v0.0.5`)
+- MacOS (ARM), `Julia v1.11` - it is where I develop it, thus somewhat more extensive testing. Currently no problems detected.
+- Ubuntu (Intel "AMD64") - run once, no problems.
+- Win10 - doesn't work due to a semi-identified bug. WIP.
+
 ## Installation
 
 The package is not yet registered, therefore install it from GitHub as below. It is recommended to install this package into a separate shared environment, e.g. one named `@StartYourPk`. 
@@ -17,6 +22,8 @@ julia> ]
 
 (@StartYourPk) pkg> add https://github.com/Eben60/StartYourPk.jl#master
 ```
+
+Before you start, make sure that you set up global `user.name`, `user.email`, and (in case you will use GitHub plugins) `github.user` in `git`.
 
 ## Usage
 
@@ -31,4 +38,4 @@ julia> startyourpk()
 
 Then fill out the GUI form and press "Submit". The project/package will be created. 
 
-By default the function `startyourpk()` will exit Julia after it is finished. If such behavior is undesirable, call it like `startyourpk(false)`
+By default the function `startyourpk()` will exit Julia after it is finished. If such behavior is undesirable, call it as `startyourpk(false)`
