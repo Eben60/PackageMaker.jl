@@ -6,6 +6,11 @@ checked(b) = b ? "checked" : ""
 esc_qm(s::String) = replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;")
 esc_qm(x) = x
 
+function esc_qm(x, url)
+    isempty(url) && return esc_qm(x) 
+    return x
+end
+
 make_html(pgins) = replace(
     html_head() * 
     html_use_purpose() *

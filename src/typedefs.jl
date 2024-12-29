@@ -19,20 +19,23 @@ export update_struct
 end
 export HtmlElem
 
-mutable struct PluginArg
+@kwdef mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
     default_val
-    const meaning::String
+    meaning::String
     html_val::Union{Bool, String, Nothing}
     returned_val # parsed and returned value
     nondefault::Bool
+    const url::String
 end
 
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false)
+    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, "")
+PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
+    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, x[4])
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
-    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false)
+    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "")
 
 mutable struct PluginInfo
     const name::String
@@ -47,3 +50,24 @@ function pluginarg_od(v::Vector{T}) where T <: Tuple
 end
 
 PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false)
+
+function seturl!(pa::PluginArg)
+    isempty(pa.url) && return nothing
+    pa.meaning = setlink(pa.meaning, pa.url)
+    return nothing
+end
+
+function seturl!(pi::PluginInfo)
+    for (_, pa) in pi.args
+        seturl!(pa)
+    end
+    return nothing
+end
+
+function setlink(text, url)
+    isempty(url) && return nothing
+    occursin("<a>", text) || error("$text must contain a link precursor <a>")
+    t = replace(text, "<a>" => """<a href="javascript:sendurl('$url')" >""")
+    return t
+end
+

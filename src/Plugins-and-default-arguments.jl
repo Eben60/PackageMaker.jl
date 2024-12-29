@@ -23,9 +23,9 @@ dfp = PluginInfo.([
     ("Tests", "Sets up testing for packages", [
         (:file, "file", "$(templ_dir)/test/runtests.jlt", "Template file for runtests.jl"),
         ("project", false, "Whether to create a new project for tests (test/Project.toml)."),
-        ("aqua", false, "Controls whether or not to add quality tests with Aqua.jl."),
+        ("aqua", false, "Controls whether or not to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
-        ("jet", false, "Controls whether or not to add a linting test with JET.jl (works best on type-stable code)."),
+        ("jet", false, "Controls whether or not to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
         (:file, "file", "$(templ_dir)/README.md", "Template file for the README."), 
@@ -89,6 +89,8 @@ dfp = PluginInfo.([
         ]),
     ]);
 
+seturl!.(dfp) # TODO do properly esc_qm
+
 extra_plugins = ["Documenter"] # non-default templates of PkgTemplates, supported by StartYourPk
 def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
@@ -101,6 +103,8 @@ sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
+
+
 
 # gen_options::PluginInfo = PluginInfo(
 #     ("GenOptions", "Defines general options", [
