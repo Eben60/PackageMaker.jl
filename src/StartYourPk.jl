@@ -3,6 +3,7 @@ module StartYourPk
 using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase
 using DataStructures
 using JLD2
+# using StartupCustomizer # "1.0.2"
 # using NativeFileDialog
 include("FileDialogWorkAround.jl")
 using .FileDialogWorkAround
