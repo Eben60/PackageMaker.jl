@@ -80,24 +80,27 @@ end
 
 function handlechangeevents(win, newvals, initvals, finalvals; make_prj = false)
     handle(win, "change") do arg
-        # arg["reason"] == "newinput" && @show arg
-        if arg["reason"] in ["newinput", "init_input", "finalinput"]
-            id = Symbol(arg["elid"])
-            eltype = Symbol(arg["eltype"])
-            elclass = arg["elclass"] |> split .|> String
-            inputtype = Symbol(arg["inputtype"])
-            parentformid = Symbol(arg["parentformid"])
-            checked = arg["elchecked"]
-            v = arg["elval"]
-            el = HtmlElem(id, eltype, elclass, inputtype, parentformid, v, checked)
-            arg["reason"] == "newinput" && push!(newvals, id => el)
-            arg["reason"] == "init_input" && push!(initvals, id => el)
-            arg["reason"] == "finalinput" && push!(finalvals, id => el)
+        if arg["reason"] == "external_link"
+            openurl(arg["url"])
+        else
+            if arg["reason"] in ["newinput", "init_input", "finalinput"]
+                id = Symbol(arg["elid"])
+                eltype = Symbol(arg["eltype"])
+                elclass = arg["elclass"] |> split .|> String
+                inputtype = Symbol(arg["inputtype"])
+                parentformid = Symbol(arg["parentformid"])
+                checked = arg["elchecked"]
+                v = arg["elval"]
+                el = HtmlElem(id, eltype, elclass, inputtype, parentformid, v, checked)
+                arg["reason"] == "newinput" && push!(newvals, id => el)
+                arg["reason"] == "init_input" && push!(initvals, id => el)
+                arg["reason"] == "finalinput" && push!(finalvals, id => el)
+            end
+            arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
+            arg["reason"] == "init_inputfinished" && handleinit_input()
+            arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true; make_prj)
+            arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false; make_prj)
         end
-        arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
-        arg["reason"] == "init_inputfinished" && handleinit_input()
-        arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true; make_prj)
-        arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false; make_prj)
     end
 end
 export handlechangeevents

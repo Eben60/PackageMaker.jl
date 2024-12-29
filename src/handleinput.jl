@@ -7,6 +7,16 @@ function handleinput(win, el::HtmlElem, prevvals)
 
 end
 
+function openurl(url)
+    if hasdesktop()
+        browse_url(url)
+    else
+        @info("No desktop environment available.")
+    end
+    return nothing
+end
+export openurl
+
 get_file_inp_id(el::HtmlElem) = get_file_inp_id(el.id |> String)
 
 function get_file_inp_id(button_id)

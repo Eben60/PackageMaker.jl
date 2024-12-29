@@ -55,7 +55,9 @@ h2 {
   </head>
   <body>
   <h2>Setting up a Julia Project or Package</h2>
-  <p class="comment">This is mostly a GUI for the Julia package <a href="https://juliaci.github.io/PkgTemplates.jl/stable/" target="_blank">PkgTemplates</a><br>
+  <p class="comment">This is mostly a GUI for the Julia package 
+  <a href="javascript:sendurl('https://juliaci.github.io/PkgTemplates.jl')" >
+  PkgTemplates</a><br>
   here place for some explanations about environments</p>
 
 <div  id="use_purpose_div">
@@ -496,7 +498,16 @@ function oncng(el) {
     sendel(el, "newinput");
 };
 
+function sendurl(url) {
+  var reason = "external_link"
+  Blink.msg("change", {reason: reason, url: url});
+};
+
 function sendel(el, reason) {
+    if (reason == 'external_link') {
+      alert("reason is " + reason);
+    }
+  
     var elid = el.id;
     var elval = el.value;
     var elchecked = null;
@@ -506,6 +517,9 @@ function sendel(el, reason) {
     if ("checked" in el) {elchecked = el.checked};
     var parentformid = parentForm_Id(el);
     Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
+    if (reason == 'external_link') {
+      alert(el.id + " " + reason);
+    }
     // alert(el.id + " " + reason)
 };
 

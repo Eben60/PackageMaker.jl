@@ -15,6 +15,11 @@ function oncng(el) {
     sendel(el, "newinput");
 };
 
+function sendurl(url) {
+  var reason = "external_link"
+  Blink.msg("change", {reason: reason, url: url});
+};
+
 function sendel(el, reason) {
     var elid = el.id;
     var elval = el.value;

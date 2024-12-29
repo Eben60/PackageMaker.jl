@@ -1,6 +1,6 @@
 module StartYourPk
 
-using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase
+using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase, Desktop
 using DataStructures
 using JLD2
 # using StartupCustomizer # "1.0.2"

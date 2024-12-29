@@ -12,7 +12,7 @@ html_dir = joinpath(@__FILE__, "..", "..", "..", "html") |> normpath
 html_templ = joinpath(html_dir, "mw43.html")
 
 (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(html_templ)
-@show finalvals
+# @show finalvals
 ;
 
 # TODO generate GitHubActions / Extra Julia versions to test, as strings as <textarea>

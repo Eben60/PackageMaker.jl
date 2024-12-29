@@ -9,7 +9,7 @@ html_head(title = "Initialize Julia Project/Package") =
   </head>
   <body>
   <h2>Setting up a Julia Project or Package</h2>
-  <p class="comment">This is mostly a GUI for the Julia package <a href="https://juliaci.github.io/PkgTemplates.jl/stable/" target="_blank">PkgTemplates</a><br>
+  <p class="comment">This is mostly a GUI for the Julia package <a href="javascript:sendurl('https://juliaci.github.io/PkgTemplates.jl')">PkgTemplates</a><br>
   here place for some explanations about environments</p>
 
 """
