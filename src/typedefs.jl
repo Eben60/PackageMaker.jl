@@ -51,23 +51,23 @@ end
 
 PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false)
 
-function seturl!(pa::PluginArg)
-    isempty(pa.url) && return nothing
-    pa.meaning = setlink(pa.meaning, pa.url)
-    return nothing
-end
+# function seturl!(pa::PluginArg)
+#     isempty(pa.url) && return nothing
+#     pa.meaning = setlink(pa.meaning, pa.url)
+#     return nothing
+# end
 
-function seturl!(pi::PluginInfo)
-    for (_, pa) in pi.args
-        seturl!(pa)
-    end
-    return nothing
-end
+# function seturl!(pi::PluginInfo)
+#     for (_, pa) in pi.args
+#         seturl!(pa)
+#     end
+#     return nothing
+# end
 
-function setlink(text, url)
-    isempty(url) && return nothing
-    occursin("<a>", text) || error("$text must contain a link precursor <a>")
-    t = replace(text, "<a>" => """<a href="javascript:sendurl('$url')" >""")
-    return t
-end
+# function setlink(text, url)
+#     isempty(url) && return nothing
+#     occursin("<a>", text) || error("$text must contain a link precursor <a>")
+#     t = replace(text, "<a>" => """<a href="javascript:sendurl('$url')" >""")
+#     return t
+# end
 

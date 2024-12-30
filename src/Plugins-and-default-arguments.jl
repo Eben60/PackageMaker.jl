@@ -89,8 +89,6 @@ dfp = PluginInfo.([
         ]),
     ]);
 
-seturl!.(dfp) # TODO do properly esc_qm
-
 extra_plugins = ["Documenter"] # non-default templates of PkgTemplates, supported by StartYourPk
 def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 this_def_plugins = setdiff(keys(def_plugins), extra_plugins)

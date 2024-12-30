@@ -6,9 +6,14 @@ checked(b) = b ? "checked" : ""
 esc_qm(s::String) = replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;")
 esc_qm(x) = x
 
-function esc_qm(x, url)
-    isempty(url) && return esc_qm(x) 
-    return x
+function insert_url(s, url)
+    isempty(url) && return s |> esc_qm
+    re = r"(.*)<a>(.+)(</a>.*)"
+    m0 = match(re, s)
+    isnothing(m0) && error("string $s doesn't contain proper link precursor")
+    m = m0 |> collect
+    a = """<a href="javascript:sendurl('$url')" >"""
+    return m[1] * a * m[2] * m[3]
 end
 
 make_html(pgins) = replace(
