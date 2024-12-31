@@ -19,7 +19,7 @@ export update_struct
 end
 export HtmlElem
 
-@kwdef mutable struct PluginArg
+mutable struct PluginArg
     const type::Union{Type, Symbol}
     const name::String
     default_val
@@ -42,6 +42,7 @@ mutable struct PluginInfo
     const purpose::String
     const args::OrderedDict{String, PluginArg}
     checked::Bool
+    const url::String
 end
 
 function pluginarg_od(v::Vector{T}) where T <: Tuple
@@ -49,25 +50,5 @@ function pluginarg_od(v::Vector{T}) where T <: Tuple
     return OrderedDict(v.name => v for v in ar)
 end
 
-PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false)
-
-# function seturl!(pa::PluginArg)
-#     isempty(pa.url) && return nothing
-#     pa.meaning = setlink(pa.meaning, pa.url)
-#     return nothing
-# end
-
-# function seturl!(pi::PluginInfo)
-#     for (_, pa) in pi.args
-#         seturl!(pa)
-#     end
-#     return nothing
-# end
-
-# function setlink(text, url)
-#     isempty(url) && return nothing
-#     occursin("<a>", text) || error("$text must contain a link precursor <a>")
-#     t = replace(text, "<a>" => """<a href="javascript:sendurl('$url')" >""")
-#     return t
-# end
-
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "")
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, AbstractString}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, x[4])
