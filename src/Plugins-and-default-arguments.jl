@@ -58,12 +58,12 @@ dfp = PluginInfo.([
         ("coverage", false, "Whether to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
         (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
         ]),
-    ("CompatHelper", "Integrates your packages with CompatHelper via GitHub Actions", [
+    ("CompatHelper", "Integrates your packages with <a>CompatHelper</a> via GitHub Actions", [
         (:file, "file", "$(templ_dir)/github/workflows/CompatHelper.yml", "Template file for the workflow file"), 
         ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("cron", "0 0 * * *", "Cron expression for the schedule interval"), 
-        ]),
-    ("TagBot", "Adds GitHub release support via TagBot", [
+        ], "https://juliaregistries.github.io/CompatHelper.jl"),
+    ("TagBot", "Adds GitHub release support via <a>TagBot</a>", [
         (:file, "file", "$(templ_dir)/github/workflows/TagBot.yml", "Template file for the workflow file."), 
         ("destination", "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("trigger", "JuliaTagBot", "Username of the trigger user for custom registries"), 
@@ -78,8 +78,8 @@ dfp = PluginInfo.([
         ("branches", false, "Whether to enable the branches option"), 
         ("dispatch", false, "Whether to enable the dispatch option"), 
         (Int64, "dispatch_delay", "nothing", "Number of minutes to delay for dispatch events"), 
-        ]),
-    ("Dependabot", "Setups Dependabot to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
+        ], "https://github.com/marketplace/actions/julia-tagbot"),
+    ("Dependabot", "Setups <a>Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
         (:file, "file", "$(templ_dir)/github/dependabot.yml", "Template file."), 
         ]),
     ("Documenter", "Sets up documentation generation via <a>Documenter.jl</a>. Only subset of options currently supported.", [
