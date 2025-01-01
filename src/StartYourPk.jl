@@ -27,6 +27,6 @@ include("html.jl")
 include("blink_interactions.jl")
 include("handleinput.jl")
 
-
+export gogui
 
 end # module StartYourPk

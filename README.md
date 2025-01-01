@@ -33,9 +33,9 @@ julia> ]
 
 julia> using StartYourPk
 
-julia> startyourpk()
+julia> gogui() # it was startyourpk() up to v0.0.8
 ```
 
 Then fill out the GUI form and press "Submit". The project/package will be created. 
 
-By default the function `startyourpk()` will exit Julia after it is finished. If such behavior is undesirable, call it as `startyourpk(false)`
+By default the function `gogui()` will exit Julia after it is finished. If such behavior is undesirable, call it as `gogui(false)`.

@@ -179,16 +179,23 @@ function depackagize(proj_name, dir)
 end
 export depackagize
 
+cleanup() = nothing
 
-function startyourpk(exitjulia=true; make_prj = true)
+function _gogui(exitjulia; make_prj = true)
     (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; make_prj)
+    cleanup()
     if exitjulia
         println("Project created, exiting julia")
         exit()
     end
-    return (;win, initvals, newvals, finalvals, changeeventhandle)
+    return (;finalvals)
 end
+
+gogui(exitjulia=true) = _gogui(exitjulia)
+
+startyourpk(args...; kwargs...) = @warn "Function startyourpk is deprecated as of v.0.0.9. Please use gogui instead"
 export startyourpk
+
 
 """
 using StartYourPk

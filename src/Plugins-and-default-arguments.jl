@@ -81,7 +81,7 @@ dfp = PluginInfo.([
         ], "https://github.com/marketplace/actions/julia-tagbot"),
     ("Dependabot", "Setups <a>Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
         (:file, "file", "$(templ_dir)/github/dependabot.yml", "Template file."), 
-        ]),
+        ], "https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically"),
     ("Documenter", "Sets up documentation generation via <a>Documenter.jl</a>. Only subset of options currently supported.", [
         (:file, "make_jl", "$(templ_dir)/docs/make.jlt", "Template file for make.jl"), 
         (:file, "index_md", "$(templ_dir)/docs/src/index.md", "Template file for index.md"), 
