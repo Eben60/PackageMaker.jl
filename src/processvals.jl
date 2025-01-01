@@ -148,8 +148,7 @@ function is_a_package(fv)
 end
 
 function create_proj(fv)
-    global processing_finished
-    processing_finished = false
+    global processing_finished = false
     pgins=initialized_pgins(fv)
     (;ispk, ) = is_a_package(fv)
     (;proj_name, templ_kwargs) = general_options(fv)
@@ -157,6 +156,7 @@ function create_proj(fv)
     t = Template(; plugins=pgins, templ_kwargs...)
     t(proj_name)
     is_a_package(fv).isproj && depackagize(proj_name, dir)
+    global may_exit_julia = true
     processing_finished = true
     return t
 end
@@ -187,16 +187,22 @@ function cleanup(wpath)
 end
 
 function _gogui(exitjulia; make_prj = true)
+    global may_exit_julia
     (;finalvals, wpath) = initwin(; make_prj)
     cleanup(wpath)
-    if exitjulia
+    if exitjulia && may_exit_julia
         println("Project created, exiting julia")
         exit()
     end
     return (;finalvals)
 end
 
-gogui(exitjulia=true) = _gogui(exitjulia)
+"""
+    gogui(exitjulia=true)
+
+Starts the GUI. If `exitjulia` is `true`, then after the GUI is exited and the project is created, julia will exit.
+"""
+gogui(exitjulia=true) = (_gogui(exitjulia); return nothing)
 
 startyourpk(args...; kwargs...) = @warn "Function startyourpk is deprecated as of v.0.0.9. Please use gogui instead"
 export startyourpk

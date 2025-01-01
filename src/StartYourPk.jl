@@ -1,3 +1,10 @@
+"""
+    Package StartYourPk v$(pkgversion(StartYourPk))
+
+A parser of command line arguments. Type [gogui()](@ref) to start the GUI and create a new package or project.
+
+Package site under https://github.com/Eben60/StartYourPk.jl
+"""
 module StartYourPk
 
 using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase, Desktop
@@ -10,6 +17,7 @@ using .FileDialogWorkAround
 using .FileDialogWorkAround: posixpathstring
 
 processing_finished::Bool = false
+may_exit_julia::Bool = false
 
 include("git.jl")
 include("defaults.jl")

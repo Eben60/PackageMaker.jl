@@ -115,6 +115,7 @@ end
 
 function initwin(wpath=make_html(); make_prj = false)
     global processing_finished = false
+    global may_exit_julia = false
     win = mainwin(wpath);
 
     initvals = Dict{Symbol, HtmlElem}()
