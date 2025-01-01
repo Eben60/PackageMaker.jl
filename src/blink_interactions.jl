@@ -125,7 +125,7 @@ function initwin(wpath=make_html(); make_prj = false)
     js(win, Blink.JSString("""sendfullstate(false, false)"""))
     check_entries_def_installed(win, initvals)
     wait_until_finished()
-    return (;win, initvals, newvals, finalvals, changeeventhandle)
+    return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
 end
 export initwin
 

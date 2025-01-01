@@ -179,11 +179,16 @@ function depackagize(proj_name, dir)
 end
 export depackagize
 
-cleanup() = nothing
+function cleanup(wpath) 
+    isfile(wpath) || return nothing # whatever the reason, it's a temporary dir, nothing bad if not deleted
+    d = dirname(wpath)
+    rm(d; force = true, recursive = true)
+    return nothing 
+end
 
 function _gogui(exitjulia; make_prj = true)
-    (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; make_prj)
-    cleanup()
+    (;finalvals, wpath) = initwin(; make_prj)
+    cleanup(wpath)
     if exitjulia
         println("Project created, exiting julia")
         exit()

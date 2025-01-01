@@ -1,5 +1,5 @@
-html_dir = mktempdir(; cleanup=false)
-tmp_html = joinpath(html_dir, "start-your-pk.html") |> normpath
+html_dir() = mktempdir(; cleanup=false)
+tmp_html() = joinpath(html_dir(), "package_maker.html") |> normpath
 
 checked(b) = b ? "checked" : ""
 
@@ -29,7 +29,9 @@ make_html(pgins) = replace(
     r" +\n" => "\n")
     
 function make_html(pgins, file) # plugins - see file "Plugins-and-default-arguments.jl"
-    file = abspath(joinpath("html", file))
+    # @show file
+    # file = abspath(joinpath("html", file))
+    # @show file
     html = make_html(pgins)
     open(file, "w") do f
         write(f, html)
@@ -37,7 +39,7 @@ function make_html(pgins, file) # plugins - see file "Plugins-and-default-argume
     return file
 end
 
-make_html(file::AbstractString=tmp_html) = make_html(def_plugins, file)
+make_html(file::AbstractString=tmp_html()) = make_html(def_plugins, file)
 # make_html("mw28a.html")
 
 export make_html
