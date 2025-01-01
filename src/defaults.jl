@@ -42,7 +42,7 @@ pgins_project = DefaultDict(false, Dict{String, Bool}([
     "Secret" => 0,
     "SrcDir" => 0,
     "TagBot" => 0,
-    "Tests" => 1,
+    "Tests" => 0,
     "Documenter" => 0,  
 ]))
 
