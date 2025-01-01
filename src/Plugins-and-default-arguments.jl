@@ -23,9 +23,9 @@ dfp = PluginInfo.([
     ("Tests", "Sets up testing for packages", [
         (:file, "file", "$(templ_dir)/test/runtests.jlt", "Template file for runtests.jl"),
         ("project", false, "Whether to create a new project for tests (test/Project.toml)."),
-        ("aqua", false, "Controls whether or not to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
+        ("aqua", false, "Controls whether to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
-        ("jet", false, "Controls whether or not to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
+        ("jet", false, "Controls whether to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
         (:file, "file", "$(templ_dir)/README.md", "Template file for the README."), 
@@ -55,7 +55,7 @@ dfp = PluginInfo.([
         ("windows", false, "Whether to run builds on Windows."), 
         ("x64", true, "Whether to run builds on 64-bit architecture."), 
         ("x86", false, "Whether to run builds on 32-bit architecture."), 
-        ("coverage", false, "Whether to publish code coverage. Another code coverage plugin such as Codecov must also be included.If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
+        ("coverage", false, "Whether to publish code coverage. If activating this option, activate also Codecov plugin. If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
         (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with <a>CompatHelper</a> via GitHub Actions", [
@@ -87,9 +87,15 @@ dfp = PluginInfo.([
         (:file, "index_md", "$(templ_dir)/docs/src/index.md", "Template file for index.md"), 
         ("deploy", false, "Whether to deploy documentation using GitHubActions"), 
         ], "https://documenter.juliadocs.org"),
+    ("Codecov", "Sets up code coverage submission from CI to <a>Codecov</a>.", [
+        (:file, "file", "nothing", "Template file for .codecov.yml, or nothing to create no file."), 
+        ], "https://about.codecov.io"),
+    # ("Coveralls", "Sets up code coverage submission from CI to <a>Coveralls</a>.", [
+    #     (:file, "file", "nothing", "Template file for .coveralls.yml, or nothing to create no file."), 
+    #     ], "https://coveralls.io"),
     ]);
 
-extra_plugins = ["Documenter"] # non-default templates of PkgTemplates, supported by StartYourPk
+extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by StartYourPk
 def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 
