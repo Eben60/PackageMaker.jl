@@ -6,21 +6,13 @@ function get_checked_pgins!(fv; pgins=def_plugins)
     return pgins
 end
 
-export get_checked_pgins!
-
 function parse_v_string(s)
     s1 = replace(s, "\"" => "")
     s1 = strip(s1)
     v = tryparse(VersionNumber, s1)
     isnothing(v) && error("$s doesn't look like a valid version string")
     return v
-    # re = r"v\"(.+)\""
-    # s = strip(s)
-    # m = match(re, s)
-    # isnothing(m) && error("$s doesn't look like a valid version string ")
-    # return VersionNumber(m[1])
 end
-export parse_v_string
 
 # conv(::Symbol, s::AbstractString) 
 conv(::Type{Val{:file}}, s)= strip(s) 
@@ -34,7 +26,6 @@ function conv(pa::PluginArg, val)
     pa.type <: Number && return parse(pa.type, val)
     error("unsupported type $(pa.type)")
 end
-export kwval
 
 function conv(::Type{Val{:ExcludedPlugins}}, s) 
     ks = split(s, "\n") .|> strip
@@ -42,8 +33,6 @@ function conv(::Type{Val{:ExcludedPlugins}}, s)
     ks = Symbol.(ks)
     return NamedTuple(k => false for k in ks)
 end
-
-export conv
 
 function get_pgin_vals!(pgin, fv)
     for (k, pa) in pgin.args
@@ -64,7 +53,6 @@ function get_pgin_vals!(pgin, fv)
     end
     return pgin
 end
-export get_pgin_vals!
 
 function get_pgins_vals!(fv; pgins=def_plugins)
     for (_, pgin) in pgins
@@ -72,10 +60,8 @@ function get_pgins_vals!(fv; pgins=def_plugins)
     end
     return pgins
 end
-export get_pgins_vals!
 
 pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if pa.nondefault)
-export pgin_kwargs
 
 function type2str(x)
     t = x |>typeof |> Symbol |> String
@@ -83,7 +69,6 @@ function type2str(x)
     re=r".*\.(.+)"
     return match(re, t)[1]
 end
-export type2str
 
 function init_documenter(nt)
     deploy = nt.deploy
@@ -91,12 +76,10 @@ function init_documenter(nt)
     deploy_pgin = deploy ? GitHubActions : NoDeploy
     return Documenter{deploy_pgin}(; otherkwargs...)
 end
-export init_documenter
 
 function initialized_pgins(fv; pgins=def_plugins)
     str_checked_pgins = get_checked_pgins!(fv) |> keys
     get_pgins_vals!(fv)
-    # def_plugins["TagBot"].checked = false
     in_pgins = []
     str_default_pgins = [type2str(p) for p in PkgTemplates.default_plugins()]
     str_all_pgins = union(str_checked_pgins, str_default_pgins)
@@ -118,7 +101,6 @@ function initialized_pgins(fv; pgins=def_plugins)
     end
     return in_pgins
 end
-export initialized_pgins
 
 function split_pkg_list(x)
     jl_re = r"(?i)\.jl$"
@@ -168,7 +150,6 @@ function check_packages(x)
 
     return (;known_pkgs = v, unknown_pkgs)
 end
-export check_packages
 
 function general_options(fv)
     (;known_pkgs, unknown_pkgs) = check_packages(fv[:project_packages_input].value)
@@ -183,14 +164,13 @@ function general_options(fv)
         dependencies=known_pkgs,
         unknown_pkgs)
 end
-export general_options
 
 jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
 
 recall_fv() = load_object(jldcache())
-export recall_fv
+# export recall_fv
 cache_fv(fv) = jldsave(jldcache(); fv)
-export cache_fv
+# export cache_fv
 
 function is_a_package(fv)
     isproj = fv[:Project_Choice].checked
@@ -230,7 +210,7 @@ function add_dependencies(proj_name, dir, dependencies)
     return nothing
 end
 
-
+"converts (degrades) a package into a project"
 function depackagize(proj_name, dir)
     proj_filename = endswith(proj_name, ".jl") ? proj_name : proj_name * ".jl"
     file = joinpath(dir, proj_name, "src", proj_filename) |> normpath
@@ -247,7 +227,6 @@ function depackagize(proj_name, dir)
     end
     return nothing
 end
-export depackagize
 
 function cleanup(wpath) 
     isfile(wpath) || return nothing # whatever the reason, it's a temporary dir, nothing bad if not deleted

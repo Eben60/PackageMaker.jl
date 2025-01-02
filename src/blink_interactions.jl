@@ -19,27 +19,17 @@ function mainwin(fpath=winpath)
     content!(win, "html", wincontent; async=false)
     return win
 end
-export mainwin
 
 # may not work if called during interaction
 getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
-export getelemval
 
 setelemval(win, id, newval) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
-export setelemval
 
 checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
-export checkelem
 
 disableinputelem(win, id) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = true;"""); callback=false)
-export disableinputelem
-
-
-export default_env_packages
 
 getforminputs(d, form) = filter(e -> (e.second.parentformid == Symbol(form)), d) 
-export getforminputs
-
 
 function getpkgid(d, pkname)
     for (_, el) in d
@@ -63,10 +53,7 @@ function check_entries_def_installed(win, initvals)
     end
     return nothing
 end
-export check_entries_def_installed
 
-
-# handleinput(x) = nothing # 
 handleinit_input() = nothing # println("init_input finished")
 
 function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
@@ -103,7 +90,6 @@ function handlechangeevents(win, newvals, initvals, finalvals; make_prj = false)
         end
     end
 end
-export handlechangeevents
 
 function wait_until_finished()
     while ! processing_finished
@@ -128,7 +114,6 @@ function initwin(wpath=make_html(); make_prj = false)
     wait_until_finished()
     return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
 end
-export initwin
 
 function showhide(win, id, show=true, duration=100) 
     jqselector = "#$(id)"

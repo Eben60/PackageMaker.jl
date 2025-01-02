@@ -15,7 +15,6 @@ function openurl(url)
     end
     return nothing
 end
-export openurl
 
 get_file_inp_id(el::HtmlElem) = get_file_inp_id(el.id |> String)
 

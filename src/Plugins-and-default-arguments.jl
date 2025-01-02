@@ -8,7 +8,6 @@ function get_module_directory(module_name)
     end
     return nothing
 end
-export get_module_directory
 
 const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
 const default_branch = LibGit2.getconfig("init.defaultBranch", "main")
@@ -23,9 +22,9 @@ dfp = PluginInfo.([
     ("Tests", "Sets up testing for packages", [
         (:file, "file", "$(templ_dir)/test/runtests.jlt", "Template file for runtests.jl"),
         ("project", false, "Whether to create a new project for tests (test/Project.toml)."),
-        ("aqua", false, "Controls whether to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
+        ("aqua", false, "Whether to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
-        ("jet", false, "Controls whether to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
+        ("jet", false, "Whether to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
         (:file, "file", "$(templ_dir)/README.md", "Template file for the README."), 
@@ -88,7 +87,7 @@ dfp = PluginInfo.([
         ("deploy", false, "Whether to deploy documentation using GitHubActions"), 
         ], "https://documenter.juliadocs.org"),
     ("Codecov", "Sets up code coverage submission from CI to <a>Codecov</a>.", [
-        (:file, "file", "nothing", "Template file for .codecov.yml, or nothing to create no file."), 
+        (:file, "file", "nothing", "Template file for .codecov.yml, or nothing to create no file (in the last case, check the corresponding option at GitHubActions plugin)."), 
         ], "https://about.codecov.io"),
     # ("Coveralls", "Sets up code coverage submission from CI to <a>Coveralls</a>.", [
     #     (:file, "file", "nothing", "Template file for .coveralls.yml, or nothing to create no file."), 

@@ -15,7 +15,6 @@ function macos_version()
     osversion = read(`sw_vers --productVersion`, String)
     return VersionNumber(osversion)
 end
-# export macos_version
 
 const BUGGY_MACOS = macos_version() >= v"15"
 export BUGGY_MACOS
@@ -123,4 +122,4 @@ function alias2posix(fl)
     return readchomp(cmd)
 end
 
-end # module NatFlDlgWorkAround
+end # module FileDialogWorkAround

@@ -40,7 +40,5 @@ function make_html(pgins, file) # plugins - see file "Plugins-and-default-argume
 end
 
 make_html(file::AbstractString=tmp_html()) = make_html(def_plugins, file)
-# make_html("mw28a.html")
 
-export make_html
 

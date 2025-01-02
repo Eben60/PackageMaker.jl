@@ -108,5 +108,3 @@ pgin_form(p::PluginInfo, selected_pgins=pgins_package) = tmpl_beg(p.name, insert
     tmpl_end()
 
 html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps], " \n") * tmpl_section_end()
-
-export html_plugins, PluginArg, PluginInfo
