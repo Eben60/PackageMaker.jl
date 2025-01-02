@@ -33,7 +33,10 @@ html_use_purpose() =
         <input id="LocalPackage_Choice" name="Choice" value="LocalPackage" onchange="oncng(this)" type="radio" checked> 
         <label for="LocalPackage_Choice">Initialize a package for local use</label> <br>
         <input id="RegisteredPackage_Choice" name="Choice" value="RegisteredPackage" onchange="oncng(this)" type="radio"> 
-        <label for="RegisteredPackage_Choice">Initialize a package with more CI bells and a Documentation whistle </label> 
+        <label for="RegisteredPackage_Choice">Initialize a package with more CI bells and a Documentation whistle. 
+        If you plan to register the package later on, check 
+        <a href="javascript:sendurl('https://juliaregistries.github.io/RegistryCI.jl/stable/guidelines/')" >
+        Registration Guidelines</a> esp. relating to package naming. </label> 
        </div>
        <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually.</p>
     </fieldset>
@@ -124,7 +127,8 @@ function htmp_default_env_pkg()
 <h2>What packages to add to / uninstall from your default environment?</h2>
   <p class="comment">The packages installed into the default environment are always available. 
   It is however recommended to keep them at minimum to keep out of 
-  <a href="https://en.wikipedia.org/wiki/Dependency_hell" target="_blank">"Dependency Hell"</a>.
+  <a href="javascript:sendurl('https://en.wikipedia.org/wiki/Dependency_hell')" >
+  "Dependency Hell"</a>.
   Though we list some commonly used packages, don't see it as recommendation to check the box. 
   Keep in mind that e.g. plotting packages come with a lot of dependencies which may later conflict 
   with some packages in your projects. 
