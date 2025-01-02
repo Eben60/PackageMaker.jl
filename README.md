@@ -16,6 +16,7 @@ No issues on Mac 🙂.
 ## Installation
 
 It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. The package [`ShareAdd`](https://github.com/Eben60/ShareAdd.jl) can help you with using shared environments.
+
 The package is currently under registration. At the moment you can install it from GitHub as shown below. 
 
 
