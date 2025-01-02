@@ -15,14 +15,16 @@ No issues on Mac 🙂.
 
 ## Installation
 
-The package is yet to be registered, therefore install it from GitHub as below. It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. The package [`ShareAdd`](https://github.com/Eben60/ShareAdd.jl) can help you with using shared environments.
+It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. The package [`ShareAdd`](https://github.com/Eben60/ShareAdd.jl) can help you with using shared environments.
+The package is currently under registration. At the moment you can install it from GitHub as shown below. 
+
 
 ```julia
 julia> ]
 (@v1.11) pkg> activate @PackageMaker
   Activating new project at `~/.julia/environments/PackageMaker`
 
-(@PackageMaker) pkg> add https://github.com/Eben60/PackageMaker.jl#PackageMaker
+(@PackageMaker) pkg> add https://github.com/Eben60/PackageMaker.jl#main
 ```
 
 Before you start, make sure that you set up global `user.name`, `user.email`, and (in case you will use GitHub plugins) `github.user` in `git`.
