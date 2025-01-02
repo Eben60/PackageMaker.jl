@@ -105,6 +105,7 @@ end
 function split_pkg_list(x)
     jl_re = r"(?i)\.jl$"
     v = readlines(IOBuffer(x)) .|> strip 
+    v = filter(!isempty, v)
     v = replace.(v, jl_re => "")
     return v
 end
