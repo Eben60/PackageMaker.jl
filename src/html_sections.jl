@@ -1,4 +1,4 @@
-html_head(title = "Initialize Julia Project/Package") = 
+html_head(title = "PackageMaker: Initialize Julia Project/Package") = 
 """
 <!DOCTYPE html>
 <html lang="">
@@ -9,8 +9,9 @@ html_head(title = "Initialize Julia Project/Package") =
   </head>
   <body>
   <h2>Setting up a Julia Project or Package</h2>
-  <p class="comment">This is mostly a GUI for the Julia package <a href="javascript:sendurl('https://juliaci.github.io/PkgTemplates.jl')">PkgTemplates</a><br>
-  here place for some explanations about environments</p>
+  <p class="comment"><a href="javascript:sendurl('https://github.com/Eben60/PackageMaker.jl')">PackageMaker</a> is mostly a GUI for the Julia package <a href="javascript:sendurl('https://juliaci.github.io/PkgTemplates.jl')">PkgTemplates</a><br>
+  <!-- more explanations here? -->
+  </p>
 
 """
 
@@ -34,7 +35,7 @@ html_use_purpose() =
         <input id="RegisteredPackage_Choice" name="Choice" value="RegisteredPackage" onchange="oncng(this)" type="radio"> 
         <label for="RegisteredPackage_Choice">Initialize a package with more CI bells and a Documentation whistle </label> 
        </div>
-       <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually</p>
+       <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually.</p>
     </fieldset>
 </form>
 </div>
