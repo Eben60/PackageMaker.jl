@@ -7,7 +7,7 @@ Package site under https://github.com/Eben60/StartYourPk.jl
 """
 module StartYourPk
 
-using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase, Desktop
+using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using DataStructures
 using JLD2
 # using StartupCustomizer # "1.0.2"

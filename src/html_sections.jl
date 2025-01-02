@@ -144,8 +144,8 @@ html_proj_env_pkg() =
 <h2>What packages to add to your project?</h2>
 <p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
   <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
-    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this) disabled" >Sorry_NotImplemented_Yet</textarea> <br>
-    <label for="project_packages_input">Put each package name onto a newline</label>
+    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" > </textarea> <br>
+    <label for="project_packages_input">Put each package name onto a newline. Suffix <code>.jl</code> is accepted, but not required. </label>
   </form>
 </div>
 

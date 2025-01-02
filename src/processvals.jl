@@ -120,14 +120,68 @@ function initialized_pgins(fv; pgins=def_plugins)
 end
 export initialized_pgins
 
+function split_pkg_list(x)
+    jl_re = r"(?i)\.jl$"
+    v = readlines(IOBuffer(x)) .|> strip 
+    v = replace.(v, jl_re => "")
+    return v
+end
+
+# list packages in the standard environment @stdlib
+function stdlib_packages()
+    pkg_dirlist = readdir(Sys.STDLIB) 
+    pkgs = [s for s in pkg_dirlist if isdir(joinpath(Sys.STDLIB, s)) && !endswith(s, "_jll")]
+    return pkgs
+end
+
+const stdlib_pkgs = stdlib_packages()
+
+function is_in_registry(pkname, reg=nothing)
+    isnothing(reg) && (reg = Pkg.Registry.reachable_registries()[1])
+    pkgs = reg.pkgs
+    for (_, pkg) in pkgs
+        pkg.name == pkname && return true
+    end
+    return false
+end
+
+function is_known_pkg(pkg_name)
+    pkg_name in stdlib_pkgs && return true
+    registries = Pkg.Registry.reachable_registries() 
+    for reg in registries
+        if is_in_registry(pkg_name, reg)
+            return true
+        end
+    end
+    return false
+end
+
+"""
+    check_packages(x) -> ::String[]
+
+Takes a multiline string, check if packages all exits and returns a vector of package names.
+"""
+function check_packages(x)
+    v0 = split_pkg_list(x)
+    unknown_pkgs = filter(x -> !is_known_pkg(x), v0)
+    v = setdiff(v0, unknown_pkgs)
+
+    return (;known_pkgs = v, unknown_pkgs)
+end
+export check_packages
+
 function general_options(fv)
+    (;known_pkgs, unknown_pkgs) = check_packages(fv[:project_packages_input].value)
     proj_name = fv[:proj_name].value
     user = fv[:user_name].value
     authors = fv[:authors].value
     dir = fv[:project_dir].value
     host = fv[:host].value
     julia = fv[:julia_min_version].value |> parse_v_string
-    return (;proj_name, templ_kwargs = (; interactive=false, user, authors, dir, host,julia))
+    return (;proj_name, 
+        templ_kwargs = (; interactive=false, user, authors, dir, host,julia), 
+        dependencies=known_pkgs,
+        unknown_pkgs)
 end
 export general_options
 
@@ -151,15 +205,31 @@ function create_proj(fv)
     global processing_finished = false
     pgins=initialized_pgins(fv)
     (;ispk, ) = is_a_package(fv)
-    (;proj_name, templ_kwargs) = general_options(fv)
+    (;proj_name, templ_kwargs, dependencies, unknown_pkgs) = general_options(fv)
     (;dir, ) = templ_kwargs
     t = Template(; plugins=pgins, templ_kwargs...)
     t(proj_name)
     is_a_package(fv).isproj && depackagize(proj_name, dir)
+
+    isempty(dependencies) || add_dependencies(proj_name, dir, dependencies)
+    isempty(unknown_pkgs) || @info "Unknown packages: $(unknown_pkgs) were ignored. Check the spelling, and add the package(s) manually, if needed."
+    
     global may_exit_julia = true
     processing_finished = true
     return t
 end
+
+function add_dependencies(proj_name, dir, dependencies)
+    pr = Base.active_project()
+    curr_pr_path = dirname(pr)
+    new_proj_path = joinpath(dir, proj_name)
+    @assert isdir(new_proj_path)
+    Pkg.activate(new_proj_path)
+    Pkg.add(dependencies)
+    Pkg.activate(curr_pr_path)
+    return nothing
+end
+
 
 function depackagize(proj_name, dir)
     proj_filename = endswith(proj_name, ".jl") ? proj_name : proj_name * ".jl"
@@ -186,7 +256,7 @@ function cleanup(wpath)
     return nothing 
 end
 
-function _gogui(exitjulia; make_prj = true)
+function _gogui(exitjulia=false; make_prj = true)
     global may_exit_julia
     (;finalvals, wpath) = initwin(; make_prj)
     cleanup(wpath)
