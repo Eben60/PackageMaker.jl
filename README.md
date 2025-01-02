@@ -1,4 +1,4 @@
-# StartYourPk
+# PackageMaker
 
 GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.
 
@@ -13,14 +13,14 @@ Current project state (as of `v0.0.11`)
 
 ## Installation
 
-The package is not yet registered, therefore install it from GitHub as below. It is recommended to install this package into a separate shared environment, e.g. one named `@StartYourPk`. 
+The package is not yet registered, therefore install it from GitHub as below. It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. 
 
 ```julia
 julia> ]
-(@v1.11) pkg> activate @StartYourPk
-  Activating new project at `~/.julia/environments/StartYourPk`
+(@v1.11) pkg> activate @PackageMaker
+  Activating new project at `~/.julia/environments/PackageMaker`
 
-(@StartYourPk) pkg> add https://github.com/Eben60/StartYourPk.jl#master
+(@PackageMaker) pkg> add https://github.com/Eben60/PackageMaker.jl#master
 ```
 
 Before you start, make sure that you set up global `user.name`, `user.email`, and (in case you will use GitHub plugins) `github.user` in `git`.
@@ -29,9 +29,9 @@ Before you start, make sure that you set up global `user.name`, `user.email`, an
 
 ```julia
 julia> ]
-(@v1.11) pkg> activate @StartYourPk
+(@v1.11) pkg> activate @PackageMaker
 
-julia> using StartYourPk
+julia> using PackageMaker
 
 julia> gogui() # it was startyourpk() up to v0.0.8
 ```

@@ -1,4 +1,4 @@
-using StartYourPk, Blink
+using PackageMaker, Blink
 
 isdefined(Main, :win) && close(win)
 

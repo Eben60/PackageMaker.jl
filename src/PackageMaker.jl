@@ -1,11 +1,11 @@
 """
-    Package StartYourPk v$(pkgversion(StartYourPk))
+    Package PackageMaker v$(pkgversion(PackageMaker))
 
 A parser of command line arguments. Type [gogui()](@ref) to start the GUI and create a new package or project.
 
-Package site under https://github.com/Eben60/StartYourPk.jl
+Package site under https://github.com/Eben60/PackageMaker.jl
 """
-module StartYourPk
+module PackageMaker
 
 using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using DataStructures
@@ -37,4 +37,4 @@ include("handleinput.jl")
 
 export gogui
 
-end # module StartYourPk
+end # module PackageMaker

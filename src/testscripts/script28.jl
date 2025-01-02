@@ -1,4 +1,4 @@
-using StartYourPk, Blink
+using PackageMaker, Blink
 # not currently working as is
 isdefined(Main, :win) && close(win)
 

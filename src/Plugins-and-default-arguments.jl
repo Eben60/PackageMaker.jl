@@ -95,7 +95,7 @@ dfp = PluginInfo.([
     #     ], "https://coveralls.io"),
     ]);
 
-extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by StartYourPk
+extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
 def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
 this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 

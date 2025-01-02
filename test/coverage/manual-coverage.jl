@@ -1,5 +1,5 @@
 using Pkg, Coverage
-Pkg.test("StartYourPk"; coverage=true)
+Pkg.test("PackageMaker"; coverage=true)
 
 srcfolder = normpath(@__DIR__, "../../src")
 coverage = process_folder(srcfolder)
