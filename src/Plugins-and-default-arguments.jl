@@ -14,7 +14,7 @@ const default_branch = LibGit2.getconfig("init.defaultBranch", "main")
 
 dfp = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [
-        (:VersionNumber, "version", "v\"0.0.1\"", "The initial version of created project or package."),
+        (:VersionNumber, "version", "v\"0.0.1\"", "The initial version of created package (ignored for projects)."),
         ]),
     ("SrcDir", "Creates a module entrypoint", [
         (:file, "file", "$(templ_dir)/src/module.jlt", "Template file for src/$(packagename).jl"),
