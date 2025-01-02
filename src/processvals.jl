@@ -184,6 +184,7 @@ end
 
 function create_proj(fv)
     global processing_finished = false
+    global may_exit_julia
     pgins=initialized_pgins(fv)
     (;ispk, ) = is_a_package(fv)
     (;proj_name, templ_kwargs, dependencies, unknown_pkgs) = general_options(fv)
@@ -193,9 +194,11 @@ function create_proj(fv)
     is_a_package(fv).isproj && depackagize(proj_name, dir)
 
     isempty(dependencies) || add_dependencies(proj_name, dir, dependencies)
-    isempty(unknown_pkgs) || @info "Unknown packages: $(unknown_pkgs) were ignored. Check the spelling, and add the package(s) manually, if needed."
-    
-    global may_exit_julia = true
+    if !isempty(unknown_pkgs) 
+        @info "Unknown package(s): $(unknown_pkgs) were ignored. Check the spelling, and add the package(s) manually, if needed."
+    else 
+        may_exit_julia = true
+    end
     processing_finished = true
     return t
 end
