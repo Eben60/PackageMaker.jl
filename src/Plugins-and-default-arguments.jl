@@ -33,7 +33,7 @@ dfp = PluginInfo.([
         ("inline_badges", false, "Whether to put the badges on the same line as the package name."),
         ]),
     ("License", "Creates a license file", [
-        ("name", "MIT", "Name of a license supported by PkgTemplates. Dropdown menu to be added here!"), 
+        ("name", "MIT", "Name of a <a>license supported</a> by PkgTemplates.", "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses"), 
         (:file, "path", "nothing", "Path to a custom license file. This keyword takes priority over name."), 
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
         ]),
