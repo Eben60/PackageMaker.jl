@@ -1,3 +1,5 @@
+# # https://stackoverflow.com/questions/67895677/electron-problem-to-import-my-own-js-file
+
 function js_scripts() 
     fpath = joinpath(@__DIR__, "javascript/jquery.js")
     jq = open(fpath, "r") do file
@@ -83,6 +85,18 @@ function sendfullstate(isfinalstate, submit){
       }
     });
   });
+
+  function checkJq()
+  {
+      if (window.jQuery)
+      {
+          alert('jQuery is loaded');
+      }
+      else
+      {
+          alert('jQuery is not loaded');
+      }
+  };
 </script>
 """
     return js
