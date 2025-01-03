@@ -107,7 +107,17 @@ sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
 
+function get_licences()
+    pkgpath = abspath(dirname(pathof(PkgTemplates)))
 
+    lic_dir = joinpath(pathof(PkgTemplates), "..", "..", "templates", "licenses") |> normpath #, "licenses")
+    @assert isdir(lic_dir)
+    licences = readdir(lic_dir)
+    deleteat!(licences, findfirst(==("MIT"), licences))
+    pushfirst!(licences, "MIT")
+    return licences
+end
+# export get_licences
 
 # gen_options::PluginInfo = PluginInfo(
 #     ("GenOptions", "Defines general options", [
