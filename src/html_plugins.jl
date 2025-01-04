@@ -62,8 +62,11 @@ function tmpl_input_field(pgin, arg, arg_type)
     arg.default_val isa AbstractArray && return tmpl_input_arrfield(pgin, arg)
     arg_type == :file && return tmpl_path_input_field(pgin, arg, false)
     arg_type == :dir && return tmpl_path_input_field(pgin, arg, true)
+    arg_type == :menu && return tmpl_menu_field(pgin, arg)
     return tmpl_input_field(pgin, arg)
 end
+
+tmpl_menu_field(pgin, arg) = tmpl_input_field(pgin, arg)
 
 function tmpl_input_field(pgin, arg,  ::Type{Bool}) 
     pgin_name = pgin.name

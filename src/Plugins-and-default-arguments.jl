@@ -12,7 +12,18 @@ end
 const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
 const default_branch = LibGit2.getconfig("init.defaultBranch", "main")
 
-dfp = PluginInfo.([
+function get_licences()
+    pkgpath = abspath(dirname(pathof(PkgTemplates)))
+
+    lic_dir = joinpath(pathof(PkgTemplates), "..", "..", "templates", "licenses") |> normpath #, "licenses")
+    @assert isdir(lic_dir)
+    licences = readdir(lic_dir)
+    deleteat!(licences, findfirst(==("MIT"), licences))
+    pushfirst!(licences, "MIT")
+    return licences
+end
+
+dfp() = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [
         (:VersionNumber, "version", "v\"0.0.1\"", "The initial version of created package (ignored for projects)."),
         ]),
@@ -34,7 +45,8 @@ dfp = PluginInfo.([
     ("License", "Creates a license file", [
         (; name="name", default_val = "MIT", 
             meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
-            url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses"), 
+            url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
+            options = get_licences()), 
         (:file, "path", "nothing", "Path to a custom license file. This keyword takes priority over name."), 
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
         ]),
@@ -97,8 +109,8 @@ dfp = PluginInfo.([
     ]);
 
 extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
-def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
-this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
+def_plugins()::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp())
+this_def_plugins = setdiff(keys(def_plugins()), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
 
@@ -109,16 +121,6 @@ sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
 
-function get_licences()
-    pkgpath = abspath(dirname(pathof(PkgTemplates)))
-
-    lic_dir = joinpath(pathof(PkgTemplates), "..", "..", "templates", "licenses") |> normpath #, "licenses")
-    @assert isdir(lic_dir)
-    licences = readdir(lic_dir)
-    deleteat!(licences, findfirst(==("MIT"), licences))
-    pushfirst!(licences, "MIT")
-    return licences
-end
 # export get_licences
 
 # gen_options::PluginInfo = PluginInfo(
