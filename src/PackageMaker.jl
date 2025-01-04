@@ -28,6 +28,7 @@ include("packages.jl")
 
 include("css.jl")
 include("js_scripts.jl")
+include("html_dropdownmenu.jl")
 include("html_plugins.jl")
 include("html_sections.jl")
 include("html.jl")
