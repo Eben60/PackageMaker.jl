@@ -11,7 +11,7 @@ function make_dd_menu(parentname, fieldname, options)
 
     templ = """
     <div class="menu_container" id="$outerdiv_id">
-    <input size="30" id="$(outerdiv_id)" name="$(fieldname)" class="menu_target" value="$(default_opt)" onchange="alert('value changed');oncng(this)" type="text"> <span class="activate_menu" id="$(activatemenuid)">Show/hide licenses</span>  <br>
+    <input size="30" id="$(inputid)" name="$(fieldname)" class="menu_target" value="$(default_opt)" onchange="alert('value changed');oncng(this)" type="text"> <span class="activate_menu" id="$(activatemenuid)">Show/hide licenses</span>  <br>
     <div class="radio-container" id="$(menucontainerid)">
 $(labels_str)
     </div>
@@ -38,14 +38,26 @@ function make_dd_label(parentname, fieldname, options)
     return labels
 end
 
-make_dd_js() = """
+make_dd_js_sel_lic() = """
 function select_license(el) {
   var granddad = jQuery(el).closest("div").parent().closest("div");
   var target = granddad.find(".menu_target");
   var lic = el.value;
   target.val(lic);
   target.trigger("change");
-}
+};
+"""
+
+make_dd_act_menu() = """
+    jQuery('.activate_menu').click(function(){
+        var radiocontainer = jQuery(this).siblings('.radio-container');
+        radiocontainer.toggle();
+        var offset = jQuery(this).offset();
+        radiocontainer.css({
+            top: offset.top + jQuery(this).outerHeight(),
+            left: offset.left
+        });
+    });
 """
 
 make_dd_css() = """

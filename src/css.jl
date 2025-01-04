@@ -47,5 +47,7 @@ h2 {
   color: #606060; 
 }
 
+$(make_dd_css())
+
 </style>
 """

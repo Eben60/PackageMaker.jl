@@ -14,7 +14,7 @@ using Test
 
     mn = """
     <div class="menu_container" id="parent_fieldname_menu">
-    <input size="30" id="parent_fieldname_menu" name="fieldname" class="menu_target" value="MIT" onchange="alert('value changed');oncng(this)" type="text"> <span class="activate_menu" id="parent_activate_menu">Show/hide licenses</span>  <br>
+    <input size="30" id="parent_fieldname" name="fieldname" class="menu_target" value="MIT" onchange="alert('value changed');oncng(this)" type="text"> <span class="activate_menu" id="parent_activate_menu">Show/hide licenses</span>  <br>
     <div class="radio-container" id="parent_radio_container">
 <label><input type="radio" name="option" value="MIT" id="parent_fieldname_1" onchange="select_license(this)">MIT</label><br>
 <label><input type="radio" name="option" value="AGPL-3.0+" id="parent_fieldname_2" onchange="select_license(this)">AGPL-3.0+</label><br>

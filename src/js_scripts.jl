@@ -12,10 +12,11 @@ function js_scripts()
 $(jq)
 </script>
 <script>
-
 function oncng(el) {
     sendel(el, "newinput");
 };
+
+$(make_dd_js_sel_lic())
 
 function sendurl(url) {
   var reason = "external_link"
@@ -84,9 +85,12 @@ function sendfullstate(isfinalstate, submit){
         jQuery(this).siblings('.Plugin_Inputs').hide();
       }
     });
+  $(make_dd_act_menu())
   });
+</script>
 
-  function checkJq()
+<script type="text/javascript">
+window.onload = function()
   {
       if (window.jQuery)
       {
