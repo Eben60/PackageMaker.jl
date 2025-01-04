@@ -27,14 +27,15 @@ end
     nondefault::Bool = false
     const url::String = ""
     const options::Vector{String} = String[]
+    const menulabel::String = "Show licenses"
 end
 
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, "", [])
+    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, "", [], "")
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, x[4], [])
+    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, x[4], [], "")
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
-    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "", [])
+    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "", [], "")
 PluginArg(nt::NamedTuple) = PluginArg(; nt...)
 
 

@@ -44,9 +44,10 @@ const dfp = PluginInfo.([
         ]),
     ("License", "Creates a license file", [
         (; type = :menu, name="name", default_val = "", # will be filled in from the options get_licences()[1], 
-        meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
-        url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
-        options = get_licences()), 
+            meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
+            url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
+            options = get_licences(),
+            menulabel = "Show licenses"), 
         (:file, "path", "nothing", "Path to a custom license file. This keyword takes priority over name."), 
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
         ]),
