@@ -15,15 +15,16 @@ function parse_v_string(s)
 end
 
 # conv(::Symbol, s::AbstractString) 
-conv(::Type{Val{:file}}, s)= strip(s) 
-conv(::Type{Val{:dir}}, s)= strip(s) 
+conv(::Type{Val{:file}}, s) = strip(s) 
+conv(::Type{Val{:dir}}, s) = strip(s)
+conv(::Type{Val{:menu}}, s) = strip(s) 
 conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
 
 function conv(pa::PluginArg, val)
     pa.type isa Symbol && return conv(Val{pa.type}, val)
-    pa.type <: AbstractString && return strip(val)
     pa.type <: Vector{String} && return split(val, r"[\n\r]+") .|> strip .|> String
     pa.type <: Number && return parse(pa.type, val)
+    pa.type <: AbstractString && return strip(val)
     error("unsupported type $(pa.type)")
 end
 

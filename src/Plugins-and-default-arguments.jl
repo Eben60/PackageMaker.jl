@@ -23,7 +23,7 @@ function get_licences()
     return licences
 end
 
-dfp() = PluginInfo.([
+dfp = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [
         (:VersionNumber, "version", "v\"0.0.1\"", "The initial version of created package (ignored for projects)."),
         ]),
@@ -43,7 +43,7 @@ dfp() = PluginInfo.([
         ("inline_badges", false, "Whether to put the badges on the same line as the package name."),
         ]),
     ("License", "Creates a license file", [
-        (; name="name", default_val = "MIT", 
+        (; type = :menu, name="name", default_val = get_licences()[2], 
             meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
             url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
             options = get_licences()), 
@@ -109,8 +109,8 @@ dfp() = PluginInfo.([
     ]);
 
 extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
-def_plugins()::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp())
-this_def_plugins = setdiff(keys(def_plugins()), extra_plugins)
+def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
+this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
 

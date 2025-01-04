@@ -6,7 +6,7 @@ function make_dd_menu(parentname, fieldname, options)
     inputid = "$(parentname)_$(fieldname)"
     activatemenuid = "$(parentname)_activate_menu"
     menucontainerid = "$(parentname)_radio_container"
-    default_opt = options[1]
+    default_opt = options[1] |> esc_qm
     labels_str = join(labels, "\n")
 
     templ = """

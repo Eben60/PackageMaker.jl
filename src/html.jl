@@ -47,6 +47,6 @@ function make_html(file::AbstractString=tmp_html())
     else
         f = joinpath(defaultpath, "$(file).html")
     end
-    return make_html(def_plugins(), f)
+    return make_html(def_plugins, f)
 end
 

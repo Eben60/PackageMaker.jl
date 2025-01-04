@@ -66,7 +66,7 @@ function tmpl_input_field(pgin, arg, arg_type)
     return tmpl_input_field(pgin, arg)
 end
 
-tmpl_menu_field(pgin, arg) = tmpl_input_field(pgin, arg)
+tmpl_menu_field(pgin, arg) = make_dd_menu(pgin.name, arg.name, arg.options)
 
 function tmpl_input_field(pgin, arg,  ::Type{Bool}) 
     pgin_name = pgin.name
