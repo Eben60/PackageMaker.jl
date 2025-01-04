@@ -255,7 +255,6 @@ h2 {
     <div class="Plugin_Inputs" id="License_inputs" style="display:block" >
     <div class="pgin_inp_margins pgin_inp_col2">
 
-
       <div class="menu_container" id="License_name_menu">
         <input size="30" id="License_name" name="name" class="menu_target" value="MIT" onchange="alert('value changed');oncng(this)" type="text"> <span class="activate_menu" id="License_activate_menu">Show licenses</span>  <br>
         <div class="radio-container" id="License_radio_container">
@@ -268,7 +267,6 @@ h2 {
 <!--
     <input size="70" id="License_name" name="name" value="MIT" onchange="oncng(this)" type="text"><br>
 -->
-
 
     <span class="plugin_arg_meaning" id="argmeaning_License_name">Name of a <a href="javascript:sendurl('https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses')" >license supported</a> by PkgTemplates.</span><br>
     </div>
@@ -576,112 +574,113 @@ pre </textarea> <br>
 
 </script>
 <script>
-  function oncng(el) {
-      sendel(el, "newinput");
-  };
-  
-  function select_license(el) {
-    var granddad = jQuery(el).closest("div").parent().closest("div");
-    var target = granddad.find(".menu_target");
-    var lic = el.value;
-    target.val(lic);
-    target.trigger("change");
-  };
-  
-  
-  function sendurl(url) {
-    var reason = "external_link"
-    Blink.msg("change", {reason: reason, url: url});
-  };
-  
-  function sendel(el, reason) {
-      var elid = el.id;
-      var elval = el.value;
-      var elchecked = null;
-      var elclass = el.className
-      var eltype = el.tagName.toLowerCase();
-      var inputtype = el.type;
-      if ("checked" in el) {elchecked = el.checked};
-      var parentformid = parentForm_Id(el);
-      Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
-      // alert(el.id + " " + reason)
-  };
-  
-  function parentForm_Id(el) {
-    var parent = el.parentElement;
-    var parenttype = parent.tagName;
-    if (parenttype == null) {
-      return null;
-    } else {
-      parenttype = parenttype.toLowerCase()
-    };
-    if (parenttype == "form") {
-      return parent.id
-    } else {
-      return parentForm_Id(parent)
-    };
-  };
-  
-  function sendfullstate(isfinalstate, submit){
-      // alert("sending full state")
-      var reasoneach;
-      var reasonfinl;
-      if (isfinalstate) {
-          //alert("finishing")
-          reasoneach ="finalinput"
-          if (submit) {reasonfinl ="finalinputfinished"}
-          else {reasonfinl ="finalinputcancelled"}
-     } else {
-          reasoneach ="init_input"
-          reasonfinl ="init_inputfinished"
-     }
-  
-      inps = document.querySelectorAll("input, textarea");
-      for (el of inps) {
-          sendel(el, reasoneach) ;
-    };
-    Blink.msg("change", {reason: reasonfinl});
-  
+function oncng(el) {
+    sendel(el, "newinput");
+};
+
+function select_license(el) {
+  var parentdiv = jQuery(el).closest("div");
+  var granddad = jQuery(el).closest("div").parent().closest("div");
+  var target = granddad.find(".menu_target");
+  var lic = el.value;
+  parentdiv.hide();
+  target.val(lic);
+  target.trigger("change");
+};
+
+
+function sendurl(url) {
+  var reason = "external_link"
+  Blink.msg("change", {reason: reason, url: url});
+};
+
+function sendel(el, reason) {
+    var elid = el.id;
+    var elval = el.value;
+    var elchecked = null;
+    var elclass = el.className
+    var eltype = el.tagName.toLowerCase();
+    var inputtype = el.type;
+    if ("checked" in el) {elchecked = el.checked};
+    var parentformid = parentForm_Id(el);
+    Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
+    // alert(el.id + " " + reason)
+};
+
+function parentForm_Id(el) {
+  var parent = el.parentElement;
+  var parenttype = parent.tagName;
+  if (parenttype == null) {
     return null;
+  } else {
+    parenttype = parenttype.toLowerCase()
   };
-  
-  </script>
-  
-  <script>
-    jQuery(document).ready(function() {
-      jQuery('.TogglePlugin').change(function() {
-        if(jQuery(this).is(":checked")) {
-          jQuery(this).siblings('.Plugin_Inputs').show();
-        } else {
-          jQuery(this).siblings('.Plugin_Inputs').hide();
-        }
-      });
-        jQuery('.activate_menu').click(function(){
-          var radiocontainer = jQuery(this).siblings('.radio-container');
-          radiocontainer.toggle();
-          var offset = jQuery(this).offset();
-          radiocontainer.css({
-              top: offset.top + jQuery(this).outerHeight(),
-              left: offset.left
-          });
-      });
-  
+  if (parenttype == "form") {
+    return parent.id
+  } else {
+    return parentForm_Id(parent)
+  };
+};
+
+function sendfullstate(isfinalstate, submit){
+    // alert("sending full state")
+    var reasoneach;
+    var reasonfinl;
+    if (isfinalstate) {
+        //alert("finishing")
+        reasoneach ="finalinput"
+        if (submit) {reasonfinl ="finalinputfinished"}
+        else {reasonfinl ="finalinputcancelled"}
+   } else {
+        reasoneach ="init_input"
+        reasonfinl ="init_inputfinished"
+   }
+
+    inps = document.querySelectorAll("input, textarea");
+    for (el of inps) {
+        sendel(el, reasoneach) ;
+  };
+  Blink.msg("change", {reason: reasonfinl});
+
+  return null;
+};
+
+</script>
+
+<script>
+  jQuery(document).ready(function() {
+    jQuery('.TogglePlugin').change(function() {
+      if(jQuery(this).is(":checked")) {
+        jQuery(this).siblings('.Plugin_Inputs').show();
+      } else {
+        jQuery(this).siblings('.Plugin_Inputs').hide();
+      }
     });
-  </script>
+    jQuery('.activate_menu').click(function(){
+      var radiocontainer = jQuery(this).siblings('.radio-container');
+      radiocontainer.show();
+      var offset = jQuery(this).offset();
+      radiocontainer.css({
+        top: offset.top + jQuery(this).outerHeight(),
+        left: offset.left
+    });
+  });
 
-  <script type="text/javascript">
-  window.onload = function()
-    {
-        if (window.jQuery)
-        {
-            alert('jQuery is loaded');
-        }
-        else
-        {
-            alert('jQuery is not loaded');
-        }
-    };
-  </script>
+  });
+</script>
 
+<script type="text/javascript">
+window.onload = function()
+  {
+      if (window.jQuery)
+      {
+          alert('jQuery is loaded');
+      }
+      else
+      {
+          alert('jQuery is not loaded');
+      }
+  };
+</script>
 </body>
 </html>
