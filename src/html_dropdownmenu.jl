@@ -1,6 +1,6 @@
 
 
-function make_dd_menu(parentname, fieldname, options)
+function make_dd_menu(parentname, fieldname, options, menutext="Show options")
     labels = make_dd_label(parentname, fieldname, options)
     outerdiv_id = "$(parentname)_$(fieldname)_menu"
     inputid = "$(parentname)_$(fieldname)"
@@ -11,8 +11,8 @@ function make_dd_menu(parentname, fieldname, options)
 
     templ = """
     <div class="menu_container" id="$outerdiv_id">
-    <input size="30" id="$(inputid)" name="$(fieldname)" class="menu_target" value="$(default_opt)" onchange="alert('value changed');oncng(this)" type="text"> 
-    <span class="activate_menu" id="$(activatemenuid)">Show licenses</span>  <br>
+    <input size="30" id="$(inputid)" name="$(fieldname)" class="menu_target" value="$(default_opt)" onchange="oncng(this)" type="text"> 
+    <span class="activate_menu" id="$(activatemenuid)">$(menutext)</span>  <br>
     <div class="radio-container" id="$(menucontainerid)">
 $(labels_str)
     </div>

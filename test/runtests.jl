@@ -6,6 +6,7 @@ using PackageMaker: make_dd_label, make_dd_menu
     parentname = "parent"
     fieldname = "fieldname"
     options = ["MIT", "AGPL-3.0+", "ASL"]
+    menutext = "Show options"
 
     lbl = make_dd_label(parentname, fieldname, options)
     lbl2 = """<label><input type="radio" name="option" value="AGPL-3.0+" id="parent_fieldname_2" onchange="select_license(this)">AGPL-3.0+</label><br>"""
@@ -16,7 +17,7 @@ using PackageMaker: make_dd_label, make_dd_menu
     mn = """
     <div class="menu_container" id="parent_fieldname_menu">
     <input size="30" id="parent_fieldname" name="fieldname" class="menu_target" value="MIT" onchange="alert('value changed');oncng(this)" type="text"> 
-    <span class="activate_menu" id="parent_activate_menu">Show licenses</span>  <br>
+    <span class="activate_menu" id="parent_activate_menu">Show options</span>  <br>
     <div class="radio-container" id="parent_radio_container">
 <label><input type="radio" name="option" value="MIT" id="parent_fieldname_1" onchange="select_license(this)">MIT</label><br>
 <label><input type="radio" name="option" value="AGPL-3.0+" id="parent_fieldname_2" onchange="select_license(this)">AGPL-3.0+</label><br>
@@ -24,7 +25,7 @@ using PackageMaker: make_dd_label, make_dd_menu
     </div>
   </div>
 """
-    @test make_dd_menu(parentname, fieldname, options) == mn
+    @test make_dd_menu(parentname, fieldname, options, menutext) == mn
 
 end
 ;
