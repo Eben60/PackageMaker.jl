@@ -39,6 +39,14 @@ function make_html(pgins, file) # plugins - see file "Plugins-and-default-argume
     return file
 end
 
-make_html(file::AbstractString=tmp_html()) = make_html(def_plugins, file)
-
+"if provided a file name without suffix, will add .html and save generated file into default directory"
+function make_html(file::AbstractString=tmp_html())
+    defaultpath = "html_tests"
+    if endswith(file, ".html")
+        f = file
+    else
+        f = joinpath(defaultpath, "$(file).html")
+    end
+    return make_html(def_plugins, f)
+end
 

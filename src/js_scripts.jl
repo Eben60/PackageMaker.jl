@@ -1,3 +1,27 @@
+# # https://stackoverflow.com/questions/67895677/electron-problem-to-import-my-own-js-file
+
+# in Electron window, no effect anyway, but could be useful
+function checkonload(debug)
+    debug || return ""
+
+return """
+<script type="text/javascript">
+window.onload = function()
+  {
+      if (window.jQuery)
+      {
+          alert('jQuery is loaded');
+      }
+      else
+      {
+          alert('jQuery is not loaded');
+      }
+  };
+</script>"""
+end
+
+debug::Bool = false
+
 function js_scripts() 
     fpath = joinpath(@__DIR__, "javascript/jquery.js")
     jq = open(fpath, "r") do file
@@ -10,10 +34,11 @@ function js_scripts()
 $(jq)
 </script>
 <script>
-
 function oncng(el) {
     sendel(el, "newinput");
 };
+
+$(make_dd_js_sel_lic())
 
 function sendurl(url) {
   var reason = "external_link"
@@ -82,8 +107,11 @@ function sendfullstate(isfinalstate, submit){
         jQuery(this).siblings('.Plugin_Inputs').hide();
       }
     });
+  $(make_dd_act_menu())
   });
 </script>
+$(checkonload(debug))
+
 """
     return js
 end

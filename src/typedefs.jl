@@ -17,23 +17,27 @@ end
     checked::Union{Bool, Nothing}
 end
 
-mutable struct PluginArg
-    const type::Union{Type, Symbol}
+@kwdef mutable struct PluginArg
+    const type::Union{Type, Symbol} = Any
     const name::String
-    default_val
-    meaning::String
-    html_val::Union{Bool, String, Nothing}
-    returned_val # parsed and returned value
-    nondefault::Bool
-    const url::String
+    default_val = nothing
+    meaning::String 
+    html_val::Union{Bool, String, Nothing} = nothing
+    returned_val = nothing # parsed and returned value
+    nondefault::Bool = false
+    const url::String = ""
+    const options::Vector{String} = String[]
+    const menulabel::String = "Show licenses"
 end
 
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, "")
+    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, "", [], "")
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, x[4])
+    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, x[4], [], "")
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
-    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "")
+    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "", [], "")
+PluginArg(nt::NamedTuple) = PluginArg(; nt...)
+
 
 mutable struct PluginInfo
     const name::String
@@ -43,10 +47,10 @@ mutable struct PluginInfo
     const url::String
 end
 
-function pluginarg_od(v::Vector{T}) where T <: Tuple
+function pluginarg_od(v::Vector{T}) where T
     ar = [PluginArg(x) for x in v]
-    return OrderedDict(v.name => v for v in ar)
+    return OrderedDict(x.name => x for x in ar)
 end
 
-PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "")
-PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, AbstractString}) where T <: Tuple = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, x[4])
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "")
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, AbstractString}) where T <: Union{Tuple, NamedTuple} = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, x[4])
