@@ -2,7 +2,7 @@
 
 GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.
 
-This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which hopefully cover >90% of its use cases) It also adds a couple of features of its own, e.g. ability to create Julia projects, or adding dependencies to project or packages being created, with more to come. Being a GUI app, it should be mostly self-explanatory.
+This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which hopefully cover >90% of its use cases) It also adds a couple of features of its own, e.g. ability to create Julia projects, or adding dependencies to project or packages being created, with more to come. Being a GUI app, it should be mostly self-explanatory, and external links for more information are provided from the GUI, too.
 
 ### Compatibility limitations
 
@@ -17,18 +17,17 @@ No issues on Mac 🙂.
 
 It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. The package [`ShareAdd`](https://github.com/Eben60/ShareAdd.jl) can help you with using shared environments.
 
-The package is currently under registration. At the moment you can install it from GitHub as shown below. 
-
 
 ```julia
 julia> ]
 (@v1.11) pkg> activate @PackageMaker
   Activating new project at `~/.julia/environments/PackageMaker`
 
-(@PackageMaker) pkg> add https://github.com/Eben60/PackageMaker.jl#main
+(@PackageMaker) pkg> add PackageMaker
 ```
 
-Before you start, make sure that you set up global `user.name`, `user.email`, and (in case you will use GitHub plugins) `github.user` in `git`.
+Before you start, make sure that you set up global `user.name`, `user.email`, as well as 
+(in case you are to use GitHub-bound plugins) `github.user` in `git`.
 
 ## Usage
 

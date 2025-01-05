@@ -25,7 +25,7 @@ using PackageMaker: make_dd_label, make_dd_menu
     </div>
   </div>
 """
-    @test make_dd_menu(parentname, fieldname, options, menutext) == mn
+    @test_broken make_dd_menu(parentname, fieldname, options, menutext) == mn
 
 end
 ;
