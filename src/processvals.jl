@@ -191,12 +191,13 @@ function create_proj(fv)
     global processing_finished = false
     global may_exit_julia
     pgins=initialized_pgins(fv)
-    (;ispk, ) = is_a_package(fv)
-    (;proj_name, templ_kwargs, dependencies, unknown_pkgs) = general_options(fv)
+    (;ispk, isproj) = is_a_package(fv)
+    gen_options = general_options(fv)
+    (;proj_name, templ_kwargs, dependencies, unknown_pkgs) = gen_options
     (;dir, ) = templ_kwargs
     t = Template(; plugins=pgins, templ_kwargs...)
     t(proj_name)
-    is_a_package(fv).isproj && depackagize(proj_name, dir)
+    isproj && depackagize(proj_name, dir)
 
     isempty(dependencies) || add_dependencies(proj_name, dir, dependencies)
     if !isempty(unknown_pkgs) 
@@ -204,8 +205,49 @@ function create_proj(fv)
     else 
         may_exit_julia = true
     end
+    ispk && add_docstring(gen_options)
     processing_finished = true
     return t
+end
+
+function make_docstring(proj_name, docstring)
+    pre_header = "# should you ask why the last line of the docstring looks like that:" *
+        "# it will show the package path when help on the package invoked like help?> $(proj_name)\n" *
+        "# and interpolates to an empty string on CI server, preventing appearing the path in the documentation built there"
+    header = "    Package $(proj_name) v\$(pkgversion($(proj_name)))"
+    footer = """\$(isnothing(get(ENV, "CI", nothing)) ? ("\\n" * "Package local path: " * pathof($(proj_name))) : "") """
+    fulldocstring = "$pre_header
+\"\"\"
+$header
+
+$docstring
+
+$footer
+\"\"\"
+"
+end
+
+function add_docstring(gen_options)
+    (;proj_name, templ_kwargs, docstring) = gen_options
+
+    isempty(docstring) && return nothing
+
+    (;dir, user, host) = templ_kwargs
+    proj_main_file = joinpath(dir, proj_name, "src", proj_name * ".jl")
+    isfile(proj_main_file) || error("file $proj_main_file not found")
+    file_content = read(proj_main_file, String)
+    insertion_range = findfirst("module", file_content)
+    isnothing(insertion_range) && error("module not found in file $proj_main_file")
+    insertion_point = insertion_range.start
+    header = insertion_point == 1 ? "" : file_content[1:(insertion_point-1)] * "\n"
+
+    full_docstring = make_docstring(proj_name, docstring)
+    new_content = header * full_docstring * file_content[insertion_point:end]
+
+    open(proj_main_file, "w") do f
+        write(f, new_content)
+    end
+
 end
 
 function add_dependencies(proj_name, dir, dependencies)

@@ -96,7 +96,7 @@ function html_general_options()
         it is recommended to provide (the same) short info under "About", 
         which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
       </span><br>
-      <span class="comment"> <sup>*</sup>Projects has no docstrings
+      <span class="comment"> <sup>*</sup>Projects have no docstrings
       </span><br>
 </form>   
 </div>
@@ -159,7 +159,7 @@ html_proj_env_pkg() =
 <h2>What packages to add to your project?</h2>
 <p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
   <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
-    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" > </textarea> <br>
+    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" ></textarea> <br>
     <label for="project_packages_input">Put each package name onto a newline. Suffix <code>.jl</code> is accepted, but not required. </label>
   </form>
 </div>
