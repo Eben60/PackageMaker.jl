@@ -39,7 +39,6 @@ html_use_purpose() =
         Registration Guidelines</a> esp. relating to package naming. </label> 
        </div>
        <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually.</p>
-        <p class="comment"><a href="javascript:checkJq()">Click here</a> to check if JQuery is installed</p>
     </fieldset>
 </form>
 </div>
