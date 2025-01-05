@@ -88,6 +88,16 @@ function html_general_options()
         <span class="plugin_arg_meaning" id="argmeaning_julia_min_version">Minimum allowed Julia version for this package.</span><br>
     </div>
 
+    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
+      <textarea id="docstring" name="docstring" rows="6" cols="70" onchange="oncng(this)" ></textarea> <br>
+      <span class="plugin_arg_meaning" id="argmeaning_docstring">
+        Short <sup>*</sup>package info. This will be put into the package docstring. If you plan to publish it on 
+        <a href="javascript:sendurl('https://github.com/')" >GitHub</a>,
+        it is recommended to provide (the same) short info under "About", 
+        which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
+      </span><br>
+      <span class="comment"> <sup>*</sup>Projects has no docstrings
+      </span><br>
 </form>   
 </div>
 

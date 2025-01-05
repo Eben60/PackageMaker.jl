@@ -161,10 +161,14 @@ function general_options(fv)
     dir = fv[:project_dir].value
     host = fv[:host].value
     julia = fv[:julia_min_version].value |> parse_v_string
-    return (;proj_name, 
+    docstring = fv[:docstring].value |> strip
+    return (;
+        proj_name, 
         templ_kwargs = (; interactive=false, user, authors, dir, host,julia), 
         dependencies=known_pkgs,
-        unknown_pkgs)
+        unknown_pkgs,
+        docstring,
+        )
 end
 
 jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
