@@ -12,8 +12,13 @@ posixpathstring
 "Returns OS version on Mac, or v0 if other OS"
 function macos_version()
     Sys.isapple() || return v"0"
-    osversion = read(`sw_vers --productVersion`, String)
-    return VersionNumber(osversion)
+    try
+        osversion = read(`sw_vers -productVersion`, String) # this works both on old MacOS and MacOs 15
+        return VersionNumber(osversion)
+    catch
+        osversion = read(`sw_vers --productVersion`, String) # this is the official way to get the version on MacOS 15, but it doesn't work on old MacOS
+        return VersionNumber(osversion)
+    end
 end
 
 const BUGGY_MACOS = macos_version() >= v"15"
