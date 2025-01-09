@@ -110,7 +110,7 @@ function initwin(wpath=make_html(); make_prj = false)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, finalvals; make_prj)
     js(win, Blink.JSString("""sendfullstate(false, false)"""))
-    check_entries_def_installed(win, initvals)
+    # check_entries_def_installed(win, initvals) # refers to checking packages in the default env, might be in future
     wait_until_finished()
     return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
 end

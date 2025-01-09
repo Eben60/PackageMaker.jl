@@ -91,7 +91,7 @@ function html_general_options()
     <div class="pgin_inp_margins gen_opt_col$(onetwo())">
       <textarea id="docstring" name="docstring" rows="6" cols="70" onchange="oncng(this)" ></textarea> <br>
       <span class="plugin_arg_meaning" id="argmeaning_docstring">
-        Short <sup>*</sup>package info. This will be put into the package docstring. If you plan to publish it on 
+        Short package<sup>*</sup> info. This will be put into the package docstring. If you plan to publish it on 
         <a href="javascript:sendurl('https://github.com/')" >GitHub</a>,
         it is recommended to provide (the same) short info under "About", 
         which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
