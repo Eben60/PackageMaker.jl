@@ -1,9 +1,14 @@
 """
     Package PackageMaker v$(pkgversion(PackageMaker))
 
-A parser of command line arguments. Type [gogui()](@ref) to start the GUI and create a new package or project.
+GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler. 
+This package allows you to create either a new package or a new project.
+    
+Type [gogui()](@ref) to start the GUI and create a new package or project.
 
 Package site under https://github.com/Eben60/PackageMaker.jl
+
+$(isnothing(get(ENV, "CI", nothing)) ? ("\n" * "Package local path: " * pathof(PackageMaker)) : "") 
 """
 module PackageMaker
 
