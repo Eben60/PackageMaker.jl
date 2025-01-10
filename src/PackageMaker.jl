@@ -12,9 +12,8 @@ $(isnothing(get(ENV, "CI", nothing)) ? ("\n" * "Package local path: " * pathof(P
 """
 module PackageMaker
 
-using Blink, LibGit2, OrderedCollections, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
+using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using DataStructures
-using JLD2
 # using StartupCustomizer # "1.0.2"
 # using NativeFileDialog
 include("FileDialogWorkAround.jl")
@@ -40,6 +39,8 @@ include("html.jl")
 
 include("blink_interactions.jl")
 include("handleinput.jl")
+
+include("jld2_to_extend.jl")
 
 export gogui
 

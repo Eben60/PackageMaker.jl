@@ -171,13 +171,6 @@ function general_options(fv)
         )
 end
 
-jldcache() = joinpath(dirname(@__DIR__), "data", "valscache.jld2")
-
-recall_fv() = load_object(jldcache())
-# export recall_fv
-cache_fv(fv) = jldsave(jldcache(); fv)
-# export cache_fv
-
 function is_a_package(fv)
     isproj = fv[:Project_Choice].checked
     islocal = fv[:LocalPackage_Choice].checked
