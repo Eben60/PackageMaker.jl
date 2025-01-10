@@ -1,10 +1,10 @@
+# winpath = nothing
 # try
-#     winpath = realpath("html/mainwin.html")
+#     global winpath = realpath("html_tests/mainwin.html")
 #     @assert isfile(winpath)
 # catch
 #     @warn "The default file mainwin.html cannot be found."
 # end
-
 
 function initcontents(fpath=winpath)
     contents = open(fpath, "r") do file
@@ -14,7 +14,21 @@ function initcontents(fpath=winpath)
 end
 
 function mainwin(fpath=winpath)
-    win = Window();
+    info_unsafe = """There is a bug on Ubuntu 24, which may have caused this error. 
+You may want to run `PackageMaker` from VSCode, 
+or run the macro `@unsafe` before calling `gogui()`.
+See docstring of `@unsafe`, or `PackageMaker` documentation. """
+
+    try
+        global win = Window();
+    catch e
+        if e isa Base.IOError
+            @info info_unsafe
+            error("IO error on calling Blink.Window()")
+        else
+            rethrow(e)
+        end
+    end
     wincontent = initcontents(fpath)
     content!(win, "html", wincontent; async=false)
     return win

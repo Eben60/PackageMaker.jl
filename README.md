@@ -4,10 +4,7 @@ GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creati
 
 This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which hopefully cover >90% of its use cases). It also adds a couple of features of its own, e.g. ability to create Julia projects, or adding dependencies to project or packages being created, with more to come. Being a GUI app, it should be mostly self-explanatory, and external links for more information are provided from the GUI, too.
 
-### Current issues
 
-Currently may be [broken](https://github.com/Eben60/PackageMaker.jl/issues/1) if run from Julia in terminal on Ubuntu. 
-**Worked however on same machine from Julia in VSCode.**
 
 ## Installation
 
@@ -39,3 +36,14 @@ julia> gogui()
 Then fill out the GUI form and press "Submit". The project/package will be created. 
 
 By default the function `gogui()` will exit Julia after a successfull finish. If such behavior is undesirable, call it as `gogui(false)`.
+
+### Current issues
+
+There may be a [problem](https://github.com/Eben60/PackageMaker.jl/issues/1) if run from Julia in terminal on Ubuntu 24, due to an upstream bug. 
+If possible, in such a case run the package from VSCode, then it should work. Otherwise run the macro `@unsafe`, which would disable `Electron` 
+sandboxing. To be on the safe side, make sure to terminate `Julia` after creating a package (which is actually the default behavior of `gogui()`).
+
+```julia-repl
+julia> @unsafe;
+julia> gogui()
+``` 
