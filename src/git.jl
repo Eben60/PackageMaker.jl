@@ -25,7 +25,6 @@ function Base.showerror(io::IO, e::GitOptionNotFound)
     """)
 end
 
-
 function getgitopt(opt, used_for)
     c = nothing
     try

@@ -115,14 +115,11 @@ this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
 
-
 sd1 = setdiff(this_def_plugins, pkgtmpl_def_plugins)
 sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
-
-# export get_licences
 
 # gen_options::PluginInfo = PluginInfo(
 #     ("GenOptions", "Defines general options", [

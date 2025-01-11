@@ -1,4 +1,6 @@
-using Test, PackageMaker
+using Test
+# using SafeTestsets # TODO check if needed
+using PackageMaker
 using PackageMaker: make_dd_label, make_dd_menu
 # include("test_processvals.jl")
 

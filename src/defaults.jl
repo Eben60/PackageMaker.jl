@@ -1,5 +1,5 @@
 "Default plugins for a package to be registered"
-pgins_registered = DefaultDict(false, Dict{String, Bool}([
+const pgins_registered = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 1,
     "Dependabot" => 1,
     "Git" => 1,
@@ -15,7 +15,7 @@ pgins_registered = DefaultDict(false, Dict{String, Bool}([
 ]))
 
 "Default plugins for non-registered package"
-pgins_package = DefaultDict(false, Dict{String, Bool}([
+const pgins_package = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 0,
     "Dependabot" => 0,
     "Git" => 1,
@@ -31,7 +31,7 @@ pgins_package = DefaultDict(false, Dict{String, Bool}([
 ]))
 
 "Default plugins for project"
-pgins_project = DefaultDict(false, Dict{String, Bool}([
+const pgins_project = DefaultDict(false, Dict{String, Bool}([
     "CompatHelper" => 0,
     "Dependabot" => 0,
     "Git" => 1,
@@ -46,10 +46,10 @@ pgins_project = DefaultDict(false, Dict{String, Bool}([
     "Documenter" => 0,  
 ]))
 
-pgins_sets = Dict(["Project" => pgins_project,
+const pgins_sets = Dict(["Project" => pgins_project,
     "LocalPackage" => pgins_package,
     "RegisteredPackage" => pgins_registered,
 ])
 
 julia_lts = v"1.10"
-julia_lts_str = "$(julia_lts.major).$(julia_lts.minor)"
+const julia_lts_str = "$(julia_lts.major).$(julia_lts.minor)"
