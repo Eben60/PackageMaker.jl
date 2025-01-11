@@ -40,6 +40,10 @@ include("html.jl")
 include("blink_interactions.jl")
 include("handleinput.jl")
 
+include("macro_unsafe.jl")
+using .MacroUnsafe
+export @unsafe
+
 include("jld2_to_extend.jl")
 
 export gogui
