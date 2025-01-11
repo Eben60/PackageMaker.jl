@@ -28,7 +28,7 @@ include("defaults.jl")
 include("typedefs.jl")
 include("processvals.jl")
 include("Plugins-and-default-arguments.jl")
-include("packages.jl")
+# include("packages.jl")
 
 include("css.jl")
 include("js_scripts.jl")
