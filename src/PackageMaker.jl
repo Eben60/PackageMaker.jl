@@ -28,7 +28,7 @@ include("defaults.jl")
 include("typedefs.jl")
 include("processvals.jl")
 include("Plugins-and-default-arguments.jl")
-include("packages.jl")
+# include("packages.jl")
 
 include("css.jl")
 include("js_scripts.jl")
@@ -49,3 +49,5 @@ include("jld2_to_extend.jl")
 export gogui
 
 end # module PackageMaker
+
+# TODO refactor: move caller functions to the top, and callees to the bottom

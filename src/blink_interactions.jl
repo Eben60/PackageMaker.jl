@@ -45,29 +45,6 @@ disableinputelem(win, id) = js(win, Blink.JSString("""el = document.getElementBy
 
 getforminputs(d, form) = filter(e -> (e.second.parentformid == Symbol(form)), d) 
 
-function getpkgid(d, pkname)
-    for (_, el) in d
-        el.value == pkname && return el.id => pkname
-    end
-    return nothing
-end
-
-function getpkgids(d, pknames)
-    items = [getpkgid(d, pkname) for pkname in pknames]
-    return Dict([item for item in items if ! isnothing(item) ])
-end
-
-function check_entries_def_installed(win, initvals)
-    pkgs = default_env_packages()
-    form1 = getforminputs(initvals, :deflt_pkg)
-    installed_pks = getpkgids(form1, pkgs)
-    for item in keys(installed_pks)
-        checkelem(win, item, true)
-        # disableinputelem(win, item)
-    end
-    return nothing
-end
-
 handleinit_input() = nothing # println("init_input finished")
 
 function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
@@ -77,7 +54,6 @@ function handlefinalinput(win, finalvals, submit::Bool; make_prj = false)
 
     return nothing
 end
-
 
 function handlechangeevents(win, newvals, initvals, finalvals; make_prj = false)
     handle(win, "change") do arg

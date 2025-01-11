@@ -16,9 +16,9 @@ end
 
 
 complete_tests = false
-include("some_tests.jl")
+include("test_processvals2.jl")
 
-@suppress begin
-Pkg.rm(parent_proj_name)
-Pkg.activate(prev_proj)
-end
+# @suppress begin
+# Pkg.rm(parent_proj_name)
+# Pkg.activate(prev_proj)
+# end

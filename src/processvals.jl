@@ -95,7 +95,6 @@ function initialized_pgins(fv; pgins=def_plugins)
             end
             push!(in_pgins, p)
         else
-            println(s)
             p = obj()
             push!(in_pgins, !obj)
         end
@@ -111,7 +110,7 @@ function split_pkg_list(x)
     return v
 end
 
-# list packages in the standard environment @stdlib
+"list packages in the standard environment @stdlib"
 function stdlib_packages()
     pkg_dirlist = readdir(Sys.STDLIB) 
     pkgs = [s for s in pkg_dirlist if isdir(joinpath(Sys.STDLIB, s)) && !endswith(s, "_jll")]
@@ -143,7 +142,7 @@ end
 """
     check_packages(x) -> ::String[]
 
-Takes a multiline string, check if packages all exits and returns a vector of package names.
+Takes a multiline string, check if packages all exist and returns a vector of package names.
 """
 function check_packages(x)
     v0 = split_pkg_list(x)
