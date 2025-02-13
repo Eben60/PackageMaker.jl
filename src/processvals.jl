@@ -143,7 +143,7 @@ end
 """
     check_packages(x) -> ::String[]
 
-Takes a multiline string, check if packages all exits and returns a vector of package names.
+Takes a multiline string, check if packages all exist and returns a vector of package names.
 """
 function check_packages(x)
     v0 = split_pkg_list(x)
