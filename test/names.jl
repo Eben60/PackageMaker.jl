@@ -18,7 +18,7 @@ checked
 checkelem
 checkonload
 cleanup
-conv # incomplete # conv(pa::PluginArg, val) not yet
+conv # tested
 create_proj
 css_styles
 current_val

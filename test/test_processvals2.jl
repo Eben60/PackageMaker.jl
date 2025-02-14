@@ -1,21 +1,21 @@
-module test_processvals
+module Processvals2
 
-using PackageMaker: HtmlElem, conv, trunkformname, listchecked, filterchecked, PluginInfo, PluginArg, 
+using PackageMaker: HtmlElem, listchecked, filterchecked, PluginInfo, PluginArg, 
     sortedprocvals, collect_plugin_infos, nondefault, kwval
 
 using Aqua, Suppressor
 using Test
-using JLD2, OrderedCollections
+using JLD2: load_object
+using OrderedCollections
 
-@testset "processvals" begin
+vals_cache = "valscache-34.jld2"
 
-@test conv(Val{:ExcludedPlugins}, " piracy \n ambiguities")== (;piracy = false, ambiguities = false)
-@test conv(Val{:VersionNumber}, "v\"1.6.7\"") ==  v"1.6.7"
-@test trunkformname(:SrcDir_form) == "SrcDir"
+@testset "Processvals2" begin
+
 
 valscache_dir = joinpath(@__DIR__, "..", "data")
 @test isdir(valscache_dir)
-valscache_file = joinpath(valscache_dir, "valscache-34.jld2")
+valscache_file = joinpath(valscache_dir, vals_cache)
 @test isfile(valscache_file)
 fv = load_object(valscache_file)
 @test fv isa Dict{Symbol, HtmlElem} 

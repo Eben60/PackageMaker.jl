@@ -16,7 +16,7 @@ end
 
 
 complete_tests = false
-include("test_checkpackages.jl")
+include("test_processvals2.jl")
 
 # @suppress begin
 # Pkg.rm(parent_proj_name)

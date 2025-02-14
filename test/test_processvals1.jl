@@ -1,6 +1,7 @@
-module Checkpackages
+module Processvals1
 
-using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, check_packages, type2str, parse_v_string
+using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
+    check_packages, type2str, parse_v_string
 
 using Test
 
@@ -25,7 +26,7 @@ end
 end
 end
 
-@testset "checkpackages" begin
+@testset "Processvals1" begin
     @test is_known_pkg("Plots")
     @test is_known_pkg("UUIDs")
     @test !is_known_pkg("suRE_no_such_ackaje")
@@ -49,7 +50,10 @@ end
         v"1.0.0"
 
     @test_throws ErrorException parse_v_string("beta.3")
-end
+
+end # testset
+
+###########
 
 using PackageMaker: conv, PluginArg
 
@@ -61,6 +65,7 @@ val2 = "12"
 
 pa3 = PluginArg(; type = :file, name="ignore", meaning="meaningless")
 val3 = "abc/def.jhl"
+
 @testset "conv" begin
 
     @test conv(Val{:file}, " abc/def ") == "abc/def"
@@ -73,6 +78,6 @@ val3 = "abc/def.jhl"
     @test conv(pa2, val2) == 12
     @test conv(pa3, val3) == "abc/def.jhl"
 
-end
+end # testset
 
-end
+end # module
