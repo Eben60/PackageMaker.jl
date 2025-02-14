@@ -1,6 +1,6 @@
 module Checkpackages
 
-using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, check_packages, type2str, parse_v_string, conv
+using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, check_packages, type2str, parse_v_string
 
 using Test
 
@@ -49,6 +49,19 @@ end
         v"1.0.0"
 
     @test_throws ErrorException parse_v_string("beta.3")
+end
+
+using PackageMaker: conv, PluginArg
+
+pa1 = PluginArg(; type = Vector{String}, name="ignore", meaning="meaningless")
+val1 = pkglist
+
+pa2 = PluginArg(; type = Int, name="ignore", meaning="meaningless")
+val2 = "12"
+
+pa3 = PluginArg(; type = :file, name="ignore", meaning="meaningless")
+val3 = "abc/def.jhl"
+@testset "conv" begin
 
     @test conv(Val{:file}, " abc/def ") == "abc/def"
     @test conv(Val{:dir}, "abc/def ") == "abc/def"
@@ -56,7 +69,10 @@ end
     @test conv(Val{:VersionNumber}, "v1.0.0") == v"1.0.0"
     @test conv(Val{:ExcludedPlugins}, excl_pgins) == (GitHubActions = false, Tests = false) 
 
-
+    @test conv(pa1, val1) == [ "Plots.jl", "Makie", "UUIDs", "suRE_no_such_ackaje", ""]
+    @test conv(pa2, val2) == 12
+    @test conv(pa3, val3) == "abc/def.jhl"
 
 end
+
 end
