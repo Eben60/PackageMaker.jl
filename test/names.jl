@@ -29,15 +29,15 @@ disp_style
 esc_qm
 eval
 extract_docslink
-general_options
+general_options # tested
 get_base_path
-get_checked_pgins!
+get_checked_pgins! # tested
 get_def_path
 get_file_inp_id
 get_licences
 get_module_directory
-get_pgin_vals!
-get_pgins_vals!
+get_pgin_vals! # included in test
+get_pgins_vals! # tested
 getelemval
 getforminputs
 getgitopt
@@ -58,12 +58,12 @@ html_tail
 html_use_purpose
 htmp_default_env_pkg
 include
-init_documenter
+init_documenter # tested
 initcontents
-initialized_pgins
+initialized_pgins # tested
 initwin
 insert_url
-is_a_package
+is_a_package # tested
 is_in_registry # tested
 is_known_pkg # tested
 ischecked
@@ -75,14 +75,14 @@ make_dd_css
 make_dd_js_sel_lic
 make_dd_label
 make_dd_menu
-make_docstring
+make_docstring # tested
 make_html
 openurl
 parse_v_string # tested
 pgin_and_field
 pgin_form
 pgin_inputs
-pgin_kwargs
+pgin_kwargs # tested
 pluginarg_od
 recall_fv
 set_file_from_dialog

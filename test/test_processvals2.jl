@@ -1,66 +1,72 @@
 module Processvals2
 
-using PackageMaker: HtmlElem, listchecked, filterchecked, PluginInfo, PluginArg, 
-    sortedprocvals, collect_plugin_infos, nondefault, kwval
+using PackageMaker: PluginInfo
+using PackageMaker: get_checked_pgins!, get_pgins_vals!, pgin_kwargs, init_documenter, initialized_pgins, general_options, is_a_package, make_docstring
+using PkgTemplates
 
-using Aqua, Suppressor
 using Test
-using JLD2: load_object
-using OrderedCollections
 
-vals_cache = "valscache-34.jld2"
+# using OrderedCollections
+
+include("TestData.jl")
+
+fv = TestData.fv
 
 @testset "Processvals2" begin
 
+pgins = get_checked_pgins!(fv)
+@test pgins["ProjectFile"].checked
+@test ! pgins["Codecov"].checked
+@test pgins["Codecov"] isa PluginInfo
 
-valscache_dir = joinpath(@__DIR__, "..", "data")
-@test isdir(valscache_dir)
-valscache_file = joinpath(valscache_dir, vals_cache)
-@test isfile(valscache_file)
-fv = load_object(valscache_file)
-@test fv isa Dict{Symbol, HtmlElem} 
+pgins_vals = get_pgins_vals!(fv)
+@test pgins_vals["GitHubActions"].args["file"].returned_val == "/Users/eben60/.julia/packages/PkgTemplates/RSqQO/templates/github/workflows/CI.yml"
+@test pgins_vals["License"].args["destination"].returned_val == "LICENSE.md"
+@test pgins_vals["License"].args["name"].returned_val == "BSD3"
+@test ! pgins_vals["Documenter"].args["deploy"].returned_val
 
-pv = procvals(fv)
-@test HtmlElem(:Tests_aqua, :input, :checkbox, :Tests_form, "on", true) in pv[:Tests_form]
+@test pgin_kwargs(pgins_vals["License"]) == (; name = "BSD3", destination = "LICENSE.md")
 
-lc = listchecked(fv)
-@test  lc == Dict{String, Bool}(
-"CompatHelper"  => 1,
-"Tests"         => 1,
-"SrcDir"        => 1,
-"Readme"        => 1,
-"TagBot"        => 1,
-"License"       => 1,
-"Git"           => 1,
-"Dependabot"    => 1,
-"Secret"        => 0,
-"GitHubActions" => 1,
-"ProjectFile"   => 1,)
+nt = pgin_kwargs(pgins_vals["Documenter"])
+documenter1 =  init_documenter(nt)
+@test documenter1 isa Documenter{PkgTemplates.NoDeploy}
 
-fc = filterchecked(lc)
-@test fc["Git"] isa PluginInfo
-@test !haskey(fc, "Secret")
+pgins_vals["Documenter"].args["deploy"].returned_val = true
+documenter2 =  init_documenter(pgin_kwargs(pgins_vals["Documenter"]))
 
-sp = sortedprocvals(fv)
+@test documenter2 isa Documenter{PkgTemplates.GitHubActions}
+@test documenter2.make_jl ==  "/Users/eben60/.julia/packages/PkgTemplates/RSqQO/templates/docs/make.jlt"
 
-@test sp["GitHubActions"] isa Vector{HtmlElem}
-@test length(sp["GitHubActions"]) == 10
+ipg = initialized_pgins(fv) .|> typeof
 
-cpi = collect_plugin_infos(fv)
-@test cpi isa OrderedDict{String, PluginInfo}
-@test length(cpi) == 10
-@test cpi["Dependabot"].name == "Dependabot"
+@test Set(ipg) == Set([
+    PkgTemplates.Disabled{Codecov},
+    Documenter{NoDeploy},
+    CompatHelper,
+    Tests,
+    SrcDir,
+    Readme,
+    TagBot,
+    License,
+    Git,
+    GitHubActions,
+    Dependabot,
+    ProjectFile])
 
-@test PluginArg(("project", false, "Whether or not?")) |> nondefault
-@test PluginArg((Vector{String}, "ignore",  String[], "Patterns to add ")) |> x -> !nondefault(x)
-@test !nondefault(PluginArg(("name", "nothing ", "Your real name"))) 
-@test PluginArg(("aim", " ", "Your real aim.")) |> x -> !nondefault(x)
-@test PluginArg(("claim", "claim", "Your real claim.")) |> nondefault
+gen_options = general_options(fv)
+@test gen_options == (proj_name = "PackageMakerTestPackage", 
+    templ_kwargs = (interactive = false, user = "Eben60", authors = "Eben60 <not_a_mail@nowhere.org>", dir = "/Users/eben60/Julia/GUITests/tmp", host = "github.com", julia = v"1.10.0"), 
+    dependencies = ["ShareAdd", "Plots", "DataFrames"], 
+    unknown_pkgs = String[], 
+    docstring = "This is a PackageMakerTestPackage for PackageMaker testing.")
 
-@test ! kwval(PluginArg(("project", false, "Whether or not?")))
-@test kwval(PluginArg(("name", "nothing ", "Your real name"))) |> isnothing
-@test kwval(PluginArg(("claim", "game", "Your real claim."))) == "game"
+@test is_a_package(fv) == (ispk = true, isproj = false, islocal = false, isregistered = true)
 
-end #testset
+docstr = "# should you ask why the last line of the docstring looks like that:\n# it will show the package path when help on the package is invoked like     help?> PackageMakerTestPackage\n# but will interpolate to an empty string on CI server, preventing appearing the path in the documentation built there\n\n\"\"\"\n    Package PackageMakerTestPackage v\$(pkgversion(PackageMakerTestPackage))\n\nThis is a PackageMakerTestPackage for PackageMaker testing.\n\nDocs under https://github.com/Eben60/PackageMakerTestPackage.jl\n\n\$(isnothing(get(ENV, \"CI\", nothing)) ? (\"\\n\" * \"Package local path: \" * pathof(PackageMakerTestPackage)) : \"\") \n\"\"\"\n"
+@test make_docstring(gen_options.proj_name, gen_options.docstring, "https://github.com/Eben60/PackageMakerTestPackage.jl") == docstr
 
+
+end # testset
+
+nothing
 end # module

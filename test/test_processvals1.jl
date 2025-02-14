@@ -80,4 +80,17 @@ val3 = "abc/def.jhl"
 
 end # testset
 
+# using PackageMaker: PluginArg
+# @testset "PluginArg" begin
+#     @test PluginArg(("project", false, "Whether or not?")) |> nondefault
+#     @test PluginArg((Vector{String}, "ignore",  String[], "Patterns to add ")) |> x -> !nondefault(x)
+#     @test !nondefault(PluginArg(("name", "nothing ", "Your real name"))) 
+#     @test PluginArg(("aim", " ", "Your real aim.")) |> x -> !nondefault(x)
+#     @test PluginArg(("claim", "claim", "Your real claim.")) |> nondefault
+
+#     # @test ! kwval(PluginArg(("project", false, "Whether or not?")))
+#     # @test kwval(PluginArg(("name", "nothing ", "Your real name"))) |> isnothing
+#     # @test kwval(PluginArg(("claim", "game", "Your real claim."))) == "game"
+# end # testset
+
 end # module
