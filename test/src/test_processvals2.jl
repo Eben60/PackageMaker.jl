@@ -6,10 +6,7 @@ using PkgTemplates
 
 using Test
 
-# using OrderedCollections
-
 include("TestData.jl")
-
 fv = TestData.fv
 
 @testset "Processvals2" begin

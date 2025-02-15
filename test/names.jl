@@ -8,6 +8,27 @@ for n in ns
 end
 
 """
+ "FileDialogWorkAround.jl" # skip
+ "PackageMaker.jl"
+ "Plugins-and-default-arguments.jl"
+ "blink_interactions.jl"
+ "css.jl"
+ "defaults.jl" # skip
+ "git.jl" # skip
+ "handleinput.jl"
+ "html.jl"
+ "html_dropdownmenu.jl"
+ "html_plugins.jl"
+ "html_sections.jl"
+ "jld2_to_extend.jl" # skip
+ "js_scripts.jl"
+ "macro_unsafe.jl" # skip
+ "packages.jl" # unused
+ "processvals.jl" # finished
+ "typedefs.jl"
+"""
+
+"""
 @unsafe
 _gogui
 add_dependencies
@@ -41,7 +62,7 @@ get_pgins_vals! # tested
 getelemval
 getforminputs
 getgitopt
-githubuser
+githubuser # skip
 gogui
 handle_purpose
 handlechangeevents
@@ -83,6 +104,7 @@ pgin_and_field
 pgin_form
 pgin_inputs
 pgin_kwargs # tested
+PluginArg # tested
 pluginarg_od
 recall_fv
 set_file_from_dialog
@@ -102,9 +124,9 @@ tmpl_path_input_field
 tmpl_section_beg
 tmpl_section_end
 type2str # tested
-update_struct
-usermail
-username
+update_struct # tested
+usermail # skip
+username # skip
 vec2string
 wait_until_finished
 """

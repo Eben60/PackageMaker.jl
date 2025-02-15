@@ -1,8 +1,9 @@
 using Pkg, TOML
 
 prev_proj = Base.active_project()
-Pkg.activate(@__DIR__)
-path = joinpath(@__DIR__ , "..") |> normpath
+curr_proj = joinpath(@__DIR__ , "..")
+Pkg.activate(curr_proj)
+path = joinpath(curr_proj , "..") |> normpath
 
 project_toml_path = joinpath(path, "Project.toml")
 project_toml = TOML.parsefile(project_toml_path)
@@ -14,11 +15,10 @@ Pkg.develop(;path)
 end
 
 
-
 complete_tests = false
-include("test_processvals2.jl")
+include("test_typedefs.jl")
 
-# @suppress begin
-# Pkg.rm(parent_proj_name)
-# Pkg.activate(prev_proj)
-# end
+@suppress begin
+Pkg.rm(parent_proj_name)
+Pkg.activate(prev_proj)
+end

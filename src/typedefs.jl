@@ -28,6 +28,7 @@ PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) =
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
     PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "", [], "")
 PluginArg(nt::NamedTuple) = PluginArg(; nt...)
+PluginArg(x::PluginArg) = update_struct(x; )
 
 mutable struct PluginInfo
     const name::String
