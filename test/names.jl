@@ -10,9 +10,9 @@ end
 """
  "FileDialogWorkAround.jl" # skip
  "PackageMaker.jl"
- "Plugins-and-default-arguments.jl"
+ "Plugins-and-default-arguments.jl" # skip for the moment
  "blink_interactions.jl"
- "css.jl"
+ "css.jl" # skip for the moment
  "defaults.jl" # skip
  "git.jl" # skip
  "handleinput.jl"
@@ -21,11 +21,11 @@ end
  "html_plugins.jl"
  "html_sections.jl"
  "jld2_to_extend.jl" # skip
- "js_scripts.jl"
+ "js_scripts.jl" # skip for the moment
  "macro_unsafe.jl" # skip
  "packages.jl" # unused
  "processvals.jl" # finished
- "typedefs.jl"
+ "typedefs.jl" # finished
 """
 
 """
