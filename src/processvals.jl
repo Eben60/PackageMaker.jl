@@ -35,13 +35,17 @@ function conv(::Type{Val{:ExcludedPlugins}}, s)
     return NamedTuple(k => false for k in ks)
 end
 
-function get_pgin_vals!(pgin, fv)
+function get_pgin_vals!(pgin, fv; def_plugins=def_plugins)
     for (k, pa) in pgin.args
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
         if pa.type == Bool
             pa.nondefault = true
             pa.returned_val = el.checked
+        elseif pa.type == :file
+            s = strip(el.value)
+            default = def_plugins[pgin.name].args[pa.name].default_val
+            pa.nondefault = (default != s) || s == "nothing"
         else
             s = strip(el.value)
             if (isempty(s) || s == "nothing")
