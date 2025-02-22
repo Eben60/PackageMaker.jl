@@ -17,7 +17,8 @@ pgins = get_checked_pgins!(fv)
 @test pgins["Codecov"] isa PluginInfo
 
 pgins_vals = get_pgins_vals!(fv)
-@test pgins_vals["GitHubActions"].args["file"].returned_val == "/Users/eben60/.julia/packages/PkgTemplates/RSqQO/templates/github/workflows/CI.yml"
+@test ! pgins_vals["GitHubActions"].args["file"].nondefault
+@test pgins_vals["GitHubActions"].args["destination"].returned_val == "CI_new.yml"
 @test pgins_vals["License"].args["destination"].returned_val == "LICENSE.md"
 @test pgins_vals["License"].args["name"].returned_val == "BSD3"
 @test ! pgins_vals["Documenter"].args["deploy"].returned_val
@@ -30,9 +31,9 @@ documenter1 =  init_documenter(nt)
 
 pgins_vals["Documenter"].args["deploy"].returned_val = true
 documenter2 =  init_documenter(pgin_kwargs(pgins_vals["Documenter"]))
+@test pgin_kwargs(pgins_vals["Documenter"]) == (;deploy = true,)
 
 @test documenter2 isa Documenter{PkgTemplates.GitHubActions}
-@test documenter2.make_jl ==  "/Users/eben60/.julia/packages/PkgTemplates/RSqQO/templates/docs/make.jlt"
 
 ipg = initialized_pgins(fv) .|> typeof
 
@@ -52,10 +53,10 @@ ipg = initialized_pgins(fv) .|> typeof
 
 gen_options = general_options(fv)
 @test gen_options == (proj_name = "PackageMakerTestPackage", 
-    templ_kwargs = (interactive = false, user = "Eben60", authors = "Eben60 <not_a_mail@nowhere.org>", dir = "/Users/eben60/Julia/GUITests/tmp", host = "github.com", julia = v"1.10.0"), 
+    templ_kwargs = (interactive = false, user = "Eben60", authors = "Eben60 <not_a_mail@nowhere.org>", dir = "/Users/Eben60/Julia/GUITests/tmp", host = "github.com", julia = v"1.10.0"), 
     dependencies = ["ShareAdd", "Plots", "DataFrames"], 
     unknown_pkgs = String[], 
-    docstring = "This is a PackageMakerTestPackage for PackageMaker testing.")
+    docstring = "This is a PackageMakerTestPackage for PackageMaker testing.") 
 
 @test is_a_package(fv) == (ispk = true, isproj = false, islocal = false, isregistered = true)
 
