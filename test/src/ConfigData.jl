@@ -1,6 +1,8 @@
 module TestData
 
 using PackageMaker: HtmlElem, def_plugins_original, def_plugins, get_pgins_vals!
+using PackageMaker: PluginArg, PluginInfo
+using DataStructures
 
 fv = Dict{Symbol, HtmlElem}(
     :Use_SrcDir => HtmlElem(:Use_SrcDir, :input, ["TogglePlugin"], :checkbox, :SrcDir_form, "Use_SrcDir", true), 
@@ -97,5 +99,12 @@ fv = Dict{Symbol, HtmlElem}(
 # get_pgins_vals!(fv)
 
 pgins = get_pgins_vals!(fv; pgins=deepcopy(def_plugins_original))
+
+od(pgin::PluginInfo) = OrderedDict([k => pa.returned_val for (k, pa) in pgin.args])
+
+od(pgins::OrderedDict{String, PluginInfo}) = OrderedDict([k => od(pgin) for (k, pgin) in pgins])
+
+ogpg = od(pgins)
+
 
 end # module

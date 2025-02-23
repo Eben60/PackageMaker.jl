@@ -20,11 +20,17 @@ conv(::Type{Val{:dir}}, s) = strip(s)
 conv(::Type{Val{:menu}}, s) = strip(s) 
 conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
 
+function conv(::Type{Vector{S}}, val) where S <: AbstractString
+    vs = split(val, r"[\n\r]+") .|> strip .|> String
+    filter!(x -> !isempty(x), vs)
+    return vs
+end
+
 function conv(pa::PluginArg, val)
     pa.type isa Symbol && return conv(Val{pa.type}, val)
-    pa.type <: Vector{String} && return split(val, r"[\n\r]+") .|> strip .|> String
     pa.type <: Number && return parse(pa.type, val)
     pa.type <: AbstractString && return strip(val)
+    pa.type <: Vector{S} where S <: AbstractString && return conv(pa.type, val)
     error("unsupported type $(pa.type)")
 end
 
@@ -35,7 +41,7 @@ function conv(::Type{Val{:ExcludedPlugins}}, s)
     return NamedTuple(k => false for k in ks)
 end
 
-function get_pgin_vals!(pgin, fv; def_plugins=def_plugins)
+function get_pgin_vals!(pgin, fv; plugins=def_plugins)
     for (k, pa) in pgin.args
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
@@ -44,26 +50,27 @@ function get_pgin_vals!(pgin, fv; def_plugins=def_plugins)
             pa.returned_val = el.checked
         elseif pa.type == :file
             s = strip(el.value)
-            default = def_plugins[pgin.name].args[pa.name].default_val
+            default = plugins[pgin.name].args[pa.name].default_val
             pa.nondefault = (default != s) && s != "nothing"
         else
             s = strip(el.value)
-            if (isempty(s) || s == "nothing")
+            if s == "nothing"
                 pa.nondefault = false
             else
                 pa.nondefault = true
                 pa.returned_val = conv(pa, el.value)
+
             end              
         end
     end
     return pgin
 end
 
-function get_pgins_vals!(fv; pgins=def_plugins)
-    for (_, pgin) in pgins
-        get_pgin_vals!(pgin, fv)
+function get_pgins_vals!(fv; plugins=def_plugins)
+    for (_, pgin) in plugins
+        get_pgin_vals!(pgin, fv; plugins)
     end
-    return pgins
+    return plugins
 end
 
 pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if pa.nondefault)
