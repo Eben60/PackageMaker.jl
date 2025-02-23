@@ -1,10 +1,9 @@
 module TestData
 
-using PackageMaker: HtmlElem
+using PackageMaker: HtmlElem, def_plugins_original, def_plugins, get_pgins_vals!
 
-Dict{Symbol, HtmlElem}(
-
-:Use_SrcDir => HtmlElem(:Use_SrcDir, :input, ["TogglePlugin"], :checkbox, :SrcDir_form, "Use_SrcDir", true), 
+fv = Dict{Symbol, HtmlElem}(
+    :Use_SrcDir => HtmlElem(:Use_SrcDir, :input, ["TogglePlugin"], :checkbox, :SrcDir_form, "Use_SrcDir", true), 
     :Documenter_make_jl => HtmlElem(:Documenter_make_jl, :input, String[], :text, :Documenter_form, "DEFAULT_FILE", false), 
     :Project_Choice => HtmlElem(:Project_Choice, :input, String[], :radio, :use_purpose_form, "Project", false), 
     :TagBot_changelog => HtmlElem(:TagBot_changelog, :input, String[], :text, :TagBot_form, "nothing", false), 
@@ -96,5 +95,7 @@ Dict{Symbol, HtmlElem}(
 
 # str_checked_pgins = get_checked_pgins!(fv) |> keys
 # get_pgins_vals!(fv)
+
+pgins = get_pgins_vals!(fv; pgins=deepcopy(def_plugins_original))
 
 end # module

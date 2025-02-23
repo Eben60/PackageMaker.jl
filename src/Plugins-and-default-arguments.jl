@@ -111,6 +111,7 @@ const dfp = PluginInfo.([
 
 extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
 const def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
+const def_plugins_original = deepcopy(def_plugins)
 this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
