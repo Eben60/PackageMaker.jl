@@ -98,7 +98,7 @@ fv = Dict{Symbol, HtmlElem}(
 # str_checked_pgins = get_checked_pgins!(fv) |> keys
 # get_pgins_vals!(fv)
 
-pgins = get_pgins_vals!(fv; pgins=deepcopy(def_plugins_original))
+pgins = get_pgins_vals!(fv; plugins=deepcopy(def_plugins_original))
 
 od(pgin::PluginInfo) = OrderedDict([k => pa.returned_val for (k, pa) in pgin.args])
 

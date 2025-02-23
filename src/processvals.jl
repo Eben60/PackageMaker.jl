@@ -27,6 +27,7 @@ function conv(::Type{Vector{S}}, val) where S <: AbstractString
 end
 
 function conv(pa::PluginArg, val)
+    strip(val) == "nothing" && return nothing
     pa.type isa Symbol && return conv(Val{pa.type}, val)
     pa.type <: Number && return parse(pa.type, val)
     pa.type <: AbstractString && return strip(val)
@@ -45,22 +46,21 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
     for (k, pa) in pgin.args
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
-        if pa.type == Bool
+        s = strip(el.value)
+        default_val = plugins[pgin.name].args[pa.name].default_val
+        is_all_nothing = (s == "nothing") && isnothing(default_val)
+        if is_all_nothing
+            pa.nondefault = false
+            pa.returned_val = nothing
+        elseif pa.type == Bool
             pa.nondefault = true
             pa.returned_val = el.checked
         elseif pa.type == :file
-            s = strip(el.value)
-            default = plugins[pgin.name].args[pa.name].default_val
-            pa.nondefault = (default != s) && s != "nothing"
+            pa.returned_val = conv(pa, s)
+            pa.nondefault = (default_val != pa.returned_val)
         else
-            s = strip(el.value)
-            if s == "nothing"
-                pa.nondefault = false
-            else
-                pa.nondefault = true
-                pa.returned_val = conv(pa, el.value)
-
-            end              
+            pa.nondefault = true
+            pa.returned_val = conv(pa, s)
         end
     end
     return pgin
