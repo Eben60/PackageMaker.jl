@@ -41,6 +41,8 @@ include("html.jl")
 include("blink_interactions.jl")
 include("handleinput.jl")
 
+include("configurations.jl")
+
 include("macro_unsafe.jl")
 using .MacroUnsafe
 export @unsafe

@@ -1,7 +1,7 @@
 module Processvals2
 
 using PackageMaker: PluginInfo
-using PackageMaker: get_checked_pgins!, get_pgins_vals!, pgin_kwargs, init_documenter, initialized_pgins, general_options, is_a_package, make_docstring
+using PackageMaker: get_checked_pgins!, get_pgins_vals!, pgin_kwargs, init_documenter, initialized_ptpgins, general_options, is_a_package, make_docstring
 using PkgTemplates
 
 using Test
@@ -35,21 +35,20 @@ documenter2 =  init_documenter(pgin_kwargs(pgins_vals["Documenter"]))
 
 @test documenter2 isa Documenter{PkgTemplates.GitHubActions}
 
-ipg = initialized_pgins(fv) .|> typeof
+ipg = initialized_ptpgins(fv) .|> typeof
 
-@test Set(ipg) == Set([
-    PkgTemplates.Disabled{Codecov},
+@test Set(ipg) == Set{DataType}([
+    License,
+    Readme,
+    ProjectFile,
+    Git,
+    TagBot,
+    Dependabot,
     Documenter{NoDeploy},
     CompatHelper,
-    Tests,
-    SrcDir,
-    Readme,
-    TagBot,
-    License,
-    Git,
     GitHubActions,
-    Dependabot,
-    ProjectFile])
+    SrcDir,
+    Tests,])
 
 gen_options = general_options(fv)
 @test gen_options == (proj_name = "PackageMakerTestPackage", 

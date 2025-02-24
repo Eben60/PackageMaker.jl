@@ -1,5 +1,5 @@
 function get_checked_pgins!(fv; pgins=def_plugins)
-    for (k, pgin) in def_plugins
+    for (k, pgin) in pgins
         box_id = Symbol("Use_$k")
         pgin.checked = fv[box_id].checked
     end
@@ -89,10 +89,10 @@ function init_documenter(nt)
     return Documenter{deploy_pgin}(; otherkwargs...)
 end
 
-function initialized_pgins(fv; pgins=def_plugins)
-    str_checked_pgins = get_checked_pgins!(fv) |> keys
+function initialized_ptpgins(fv; pgins=def_plugins)
+    str_checked_pgins = get_checked_pgins!(fv) |> checked_names
     get_pgins_vals!(fv)
-    in_pgins = []
+    in_ptpgins = []
     str_default_pgins = [type2str(p) for p in PkgTemplates.default_plugins()]
     str_all_pgins = union(str_checked_pgins, str_default_pgins)
     for s in str_all_pgins
@@ -104,13 +104,13 @@ function initialized_pgins(fv; pgins=def_plugins)
             else
                 p = obj(; pgin_kwargs(pgins[s])...)
             end
-            push!(in_pgins, p)
+            push!(in_ptpgins, p)
         else
             p = obj()
-            push!(in_pgins, !obj)
+            push!(in_ptpgins, !obj)
         end
     end
-    return in_pgins
+    return in_ptpgins
 end
 
 function split_pkg_list(x)
@@ -193,7 +193,7 @@ end
 function create_proj(fv)
     global processing_finished = false
     global may_exit_julia
-    pgins=initialized_pgins(fv)
+    pgins=initialized_ptpgins(fv)
     (;ispk, isproj) = is_a_package(fv)
     gen_options = general_options(fv)
     (;proj_name, templ_kwargs, dependencies, unknown_pkgs) = gen_options
