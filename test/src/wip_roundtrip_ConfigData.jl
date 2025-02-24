@@ -1,5 +1,5 @@
 using PackageMaker
-using PackageMaker: PluginArg, PluginInfo
+using PackageMaker: PluginArg, PluginInfo, pg2od, write_config, read_config
 using DataStructures
 using JSON3
 
@@ -15,14 +15,14 @@ checked_names(pgins)
 
 get_pgins_changed!(pgins)
 
-odc(pgin::PluginInfo) = OrderedDict([k => pa.returned_val for (k, pa) in pgin.args if pa.changed])
-odc(pgins::OrderedDict{String, PluginInfo}) = OrderedDict([k => odc(pgin) for (k, pgin) in pgins if !isempty(odc(pgin))])
-
-ogcpg = odc(pgins)
+ogcpg = pg2od(pgins)
 
 
 pa = pgins["Tests"].args["aqua_kwargs"]
 ogcpg
 
-jsw = JSON3.write(ogcpg)
-jsr = JSON3.read(jsw)
+# jsw = JSON3.write(ogcpg)
+# jsr = JSON3.read(jsw);
+
+write_config("Pref1", ogcpg)
+jsr = read_config("Pref1")

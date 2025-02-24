@@ -38,5 +38,5 @@ lcov.info
 .vscode
 tmp*
 html/mws*
-
+/LocalPreferences.toml
 
