@@ -23,9 +23,9 @@ p1 = PluginArg(
     menulabel = ""
 )
 
-p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, false, "", String[], "")
-p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, false, "", String[], "")
-p4 = PluginArg(Nothing, "aim", nothing, "Your real aim.", nothing, nothing, false, "", String[], "")
+p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, false, "", String[], "", false)
+p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, false, "", String[], "", false)
+p4 = PluginArg(Nothing, "aim", nothing, "Your real aim.", nothing, nothing, false, "", String[], "", false)
 nt5 = (;
     type = String,
     name = "project",
@@ -38,8 +38,8 @@ nt5 = (;
     options = ["option 1", "option2"],
     menulabel = "This is menu"
 )
-p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu")
-p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu")
+p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
+p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
 
 pi1 = PluginInfo(("AName", "A purpose", [p1, p2, p3, p4]))
 pi2 = PluginInfo(("BName", "B purpose", [nt5], "https://abc.de/efg.html"))

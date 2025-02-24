@@ -19,14 +19,16 @@ end
     const url::String = ""
     const options::Vector{String} = String[]
     const menulabel::String = "Show licenses"
+    changed::Bool = false
 end
 
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, "", [], "")
+    PluginArg(; type=typeof(x[2]), name=x[1], default_val=x[2], meaning=x[3], menulabel="")
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(typeof(x[2]), string(x[1]), x[2], string(x[3]), nothing, nothing, false, x[4], [], "")
+    PluginArg(; type=typeof(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4], menulabel="")
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
-    PluginArg(x[1], string(x[2]), x[3], string(x[4]), nothing, nothing, false, "", [], "")
+    PluginArg(; type=x[1], name=x[2], default_val=x[3], meaning=x[4], menulabel="")
+
 PluginArg(nt::NamedTuple) = PluginArg(; nt...)
 PluginArg(x::PluginArg) = update_struct(x; )
 
