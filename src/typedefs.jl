@@ -11,7 +11,7 @@ end
 @kwdef mutable struct PluginArg
     const type::Union{Type, Symbol} = Any
     const name::String
-    default_val:: Union{Bool, String, Vector{String}, Nothing} = nothing
+    default_val:: Union{Bool, String, Vector{String}, VersionNumber, Nothing} = nothing
     meaning::String 
     html_val::Union{Bool, String, Nothing} = nothing
     returned_val = nothing # parsed and returned value

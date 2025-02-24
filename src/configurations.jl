@@ -2,7 +2,12 @@ checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked]
 
 function get_pgin_changed!(pgin)
     for (_, pa) in pgin.args
-        pa.changed = pa.default_val != pa.returned_val
+        if pa.type == :ExcludedPlugins
+            def_val = conv(Val{:ExcludedPlugins}, pa.default_val)
+            pa.changed = def_val != pa.returned_val
+        else
+            pa.changed = pa.default_val != pa.returned_val
+        end
     end
     return pgin
 end

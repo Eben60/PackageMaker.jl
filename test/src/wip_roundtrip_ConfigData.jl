@@ -1,0 +1,28 @@
+using PackageMaker
+using PackageMaker: PluginArg, PluginInfo
+using DataStructures
+using JSON3
+
+include("ConfigData.jl")
+
+using PackageMaker: checked_names, get_pgins_changed!, get_checked_pgins!
+
+fv = TestData.fv
+pgins = TestData.pgins
+
+pgins = get_checked_pgins!(fv; pgins)
+checked_names(pgins)
+
+get_pgins_changed!(pgins)
+
+odc(pgin::PluginInfo) = OrderedDict([k => pa.returned_val for (k, pa) in pgin.args if pa.changed])
+odc(pgins::OrderedDict{String, PluginInfo}) = OrderedDict([k => odc(pgin) for (k, pgin) in pgins if !isempty(odc(pgin))])
+
+ogcpg = odc(pgins)
+
+
+pa = pgins["Tests"].args["aqua_kwargs"]
+ogcpg
+
+jsw = JSON3.write(ogcpg)
+jsr = JSON3.read(jsw)

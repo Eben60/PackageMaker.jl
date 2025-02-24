@@ -71,7 +71,7 @@ val3 = "abc/def.jhl"
     @test conv(Val{:file}, " abc/def ") == "abc/def"
     @test conv(Val{:dir}, "abc/def ") == "abc/def"
     @test conv(Val{:menu}, " bla bla ") == "bla bla"
-    @test conv(Val{:VersionNumber}, "v1.0.0") == v"1.0.0"
+#     @test conv(Val{:VersionNumber}, "v1.0.0") == v"1.0.0"
     @test conv(Val{:ExcludedPlugins}, excl_pgins) == (GitHubActions = false, Tests = false) 
 
     @test conv(pa1, val1) == [ "Plots.jl", "Makie", "UUIDs", "suRE_no_such_ackaje"]

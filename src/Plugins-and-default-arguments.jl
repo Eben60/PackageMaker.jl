@@ -25,7 +25,7 @@ end
 
 const dfp = PluginInfo.([
     ("ProjectFile", "Creates a Project.toml", [
-        (:VersionNumber, "version", "v\"0.0.1\"", "The initial version of created package (ignored for projects)."),
+        (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),
         ]),
     ("SrcDir", "Creates a module entrypoint", [
         (:file, "file", "DEFAULT_FILE", "Template file for src/$(packagename).jl"),

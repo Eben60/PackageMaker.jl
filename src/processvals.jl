@@ -18,7 +18,7 @@ end
 conv(::Type{Val{:file}}, s) = strip(s) 
 conv(::Type{Val{:dir}}, s) = strip(s)
 conv(::Type{Val{:menu}}, s) = strip(s) 
-conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
+# conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
 
 function conv(::Type{Vector{S}}, val) where S <: AbstractString
     vs = split(val, r"[\n\r]+") .|> strip .|> String
@@ -27,20 +27,25 @@ function conv(::Type{Vector{S}}, val) where S <: AbstractString
 end
 
 function conv(pa::PluginArg, val)
-    strip(val) == "nothing" && return nothing
-    pa.type isa Symbol && return conv(Val{pa.type}, val)
-    pa.type <: Number && return parse(pa.type, val)
-    pa.type <: AbstractString && return strip(val)
-    pa.type <: Vector{S} where S <: AbstractString && return conv(pa.type, val)
+    s = strip(val)
+    s == "nothing" && return nothing
+    pa.type isa Symbol && return conv(Val{pa.type}, s)
+    pa.type <: Number && return parse(pa.type, s)
+    pa.type <: VersionNumber && return replace(s, "\"" => "") |> VersionNumber
+    pa.type <: AbstractString && return s
+    pa.type <: Vector{S} where S <: AbstractString && return conv(pa.type, s)
     error("unsupported type $(pa.type)")
 end
 
-function conv(::Type{Val{:ExcludedPlugins}}, s) 
-    ks = split(s, "\n") .|> strip
+function conv(::Type{Val{:ExcludedPlugins}}, v::Vector{<:AbstractString})
+    ks = v .|> strip
     filter!(x -> !isempty(x), ks)
     ks = Symbol.(ks)
     return NamedTuple(k => false for k in ks)
 end
+
+conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
+
 
 function get_pgin_vals!(pgin, fv; plugins=def_plugins)
     for (k, pa) in pgin.args
