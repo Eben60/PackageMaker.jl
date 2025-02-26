@@ -22,6 +22,8 @@ pgins_vals = get_pgins_vals!(fv)
 @test pgins_vals["License"].args["destination"].returned_val == "LICENSE.md"
 @test pgins_vals["License"].args["name"].returned_val == "BSD3"
 @test ! pgins_vals["Documenter"].args["deploy"].returned_val
+@test ! pgins_vals["Documenter"].args["deploy"].returned_rawval
+@test pgins_vals["Tests"].args["aqua_kwargs"].returned_rawval == "ambiguities"
 
 @test pgin_kwargs(pgins_vals["License"]) == (; name = "BSD3", destination = "LICENSE.md")
 

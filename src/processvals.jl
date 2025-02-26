@@ -10,24 +10,26 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
     for (k, pa) in pgin.args
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
-        s = el.value |> tidystring
-        default_val = plugins[pgin.name].args[pa.name].default_val
-        is_all_nothing = (s == "nothing") && isnothing(default_val)
 
-        pa.returned_rawval = (pa.type == Bool) ? el.checked : s
-
-        if is_all_nothing
-            pa.nondefault = false
-            pa.returned_val = nothing
-        elseif pa.type == Bool
+        if pa.type == Bool
             pa.nondefault = true
-            pa.returned_val = el.checked
-        elseif pa.type == :file
-            pa.returned_val = conv(pa, s)
-            pa.nondefault = (default_val != pa.returned_val)
+            pa.returned_val = pa.returned_rawval = el.checked
         else
-            pa.nondefault = true
-            pa.returned_val = conv(pa, s)
+            s = el.value |> tidystring
+            default_val = plugins[pgin.name].args[pa.name].default_val
+            is_all_nothing = (s == "nothing") && isnothing(default_val)
+            pa.returned_rawval = s
+
+            if is_all_nothing
+                pa.nondefault = false
+                pa.returned_val = nothing
+            elseif pa.type == :file
+                pa.returned_val = conv(pa, s)
+                pa.nondefault = (default_val != pa.returned_val)
+            else
+                pa.nondefault = true
+                pa.returned_val = conv(pa, s)
+            end
         end
     end
     return pgin
