@@ -48,6 +48,17 @@ end
 PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "")
 PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, AbstractString}) where T <: Union{Tuple, NamedTuple} = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, x[4])
 
+function Base.show(io::IO, pi::PluginInfo) 
+    println(io, "$(pi.name): checked=$(pi.checked)")
+    for arg in values(pi.args)
+        show(io, arg)
+    end
+end
+
+Base.show(io::IO, pa::PluginArg) = show(io, (; name = pa.name, type = pa.type, raw_val=pa.returned_rawval, pa.returned_val, changed=pa.changed))
+
+Base.getindex(pi::PluginInfo, key::String) = pi.args[key]
+
 "create a copy of a struct with correspondingly updated fields"
 function update_struct(h; kwargs...)
     pns = propertynames(h)

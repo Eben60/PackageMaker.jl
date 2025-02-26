@@ -19,7 +19,7 @@ function get_pgins_changed!(plugins)
     return plugins
 end
 
-pg2od(pgin::PluginInfo) = OrderedDict([k => pa.returned_val for (k, pa) in pgin.args if pa.changed])
+pg2od(pgin::PluginInfo) = OrderedDict([k => pa.returned_rawval for (k, pa) in pgin.args if pa.changed])
 pg2od(pgins::OrderedDict{String, PluginInfo}) = OrderedDict([k => pg2od(pgin) for (k, pgin) in pgins if !isempty(pg2od(pgin))])
 
 

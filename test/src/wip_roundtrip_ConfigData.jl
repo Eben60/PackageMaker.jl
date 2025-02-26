@@ -26,3 +26,4 @@ ogcpg
 
 write_config("Pref1", ogcpg)
 jsr = read_config("Pref1")
+;
