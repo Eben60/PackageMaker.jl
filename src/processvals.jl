@@ -6,54 +6,16 @@ function get_checked_pgins!(fv; pgins=def_plugins)
     return pgins
 end
 
-function parse_v_string(s)
-    s1 = replace(s, "\"" => "")
-    s1 = strip(s1)
-    v = tryparse(VersionNumber, s1)
-    isnothing(v) && error("$s doesn't look like a valid version string")
-    return v
-end
-
-# conv(::Symbol, s::AbstractString) 
-conv(::Type{Val{:file}}, s) = strip(s) 
-conv(::Type{Val{:dir}}, s) = strip(s)
-conv(::Type{Val{:menu}}, s) = strip(s) 
-# conv(::Type{Val{:VersionNumber}}, s::AbstractString) = parse_v_string(s)
-
-function conv(::Type{Vector{S}}, val) where S <: AbstractString
-    vs = split(val, r"[\n\r]+") .|> strip .|> String
-    filter!(x -> !isempty(x), vs)
-    return vs
-end
-
-function conv(pa::PluginArg, val)
-    s = strip(val)
-    s == "nothing" && return nothing
-    pa.type isa Symbol && return conv(Val{pa.type}, s)
-    pa.type <: Number && return parse(pa.type, s)
-    pa.type <: VersionNumber && return replace(s, "\"" => "") |> VersionNumber
-    pa.type <: AbstractString && return s
-    pa.type <: Vector{S} where S <: AbstractString && return conv(pa.type, s)
-    error("unsupported type $(pa.type)")
-end
-
-function conv(::Type{Val{:ExcludedPlugins}}, v::Vector{<:AbstractString})
-    ks = v .|> strip
-    filter!(x -> !isempty(x), ks)
-    ks = Symbol.(ks)
-    return NamedTuple(k => false for k in ks)
-end
-
-conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
-
-
 function get_pgin_vals!(pgin, fv; plugins=def_plugins)
     for (k, pa) in pgin.args
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
-        s = strip(el.value)
+        s = el.value |> tidystring
         default_val = plugins[pgin.name].args[pa.name].default_val
         is_all_nothing = (s == "nothing") && isnothing(default_val)
+
+        pa.returned_rawval = (pa.type == Bool) ? el.checked : s
+
         if is_all_nothing
             pa.nondefault = false
             pa.returned_val = nothing
@@ -271,10 +233,6 @@ end
 Starts the GUI. If `exitjulia` is `true`, then after the GUI is exited and the project is created, julia will exit.
 """
 gogui(exitjulia=true) = (_gogui(exitjulia); return nothing)
-
-startyourpk(args...; kwargs...) = @warn "Function startyourpk is deprecated as of v.0.0.9. Please use gogui instead"
-export startyourpk
-
 
 """
 using PackageMaker

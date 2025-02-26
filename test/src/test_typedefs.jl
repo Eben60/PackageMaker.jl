@@ -10,17 +10,18 @@ using StructEqualHash
 
 @testset "TestTypedefs" begin
 
-p1 = PluginArg(
+p1 = PluginArg(;
     type = Bool,
     name = "project",
     default_val = false,
     meaning = "Whether or not?",
-    html_val = nothing,
+    returned_rawval = nothing,
     returned_val = nothing ,
     nondefault = false,
     url = "",
     options = String[],
-    menulabel = ""
+    menulabel = "",
+    changed = false,
 )
 
 p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, false, "", String[], "", false)
@@ -31,15 +32,32 @@ nt5 = (;
     name = "project",
     default_val = "false",
     meaning = "Whether or not?",
-    html_val = "a value",
+    returned_rawval = "a value",
     returned_val = nothing ,
     nondefault = true,
     url = "https://abc.de/efg.html",
     options = ["option 1", "option2"],
-    menulabel = "This is menu"
+    menulabel = "This is menu",
+    changed = false,
 )
+
+nt6 = (;
+    type = String,
+    name = "claim",
+    default_val = "false",
+    meaning = "Whether or not?",
+    returned_rawval = "a value",
+    returned_val = nothing ,
+    nondefault = true,
+    url = "https://abc.de/efg.html",
+    options = ["option 1", "option2"],
+    menulabel = "This is menu",
+    changed = true,
+)
+
 p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
 p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
+p6 = PluginArg(; nt6...)
 
 pi1 = PluginInfo(("AName", "A purpose", [p1, p2, p3, p4]))
 pi2 = PluginInfo(("BName", "B purpose", [nt5], "https://abc.de/efg.html"))
@@ -51,7 +69,9 @@ pi3 = PluginInfo(("CName", "C purpose", [("project", false, "Whether or not?"), 
         @test isequal(PluginArg(("name", "nothing", "Your real name")), p3)
         @test isequal(PluginArg(("aim", nothing, "Your real aim.")), p4)
         @test isequal(PluginArg(nt5), p5)
-        @test update_struct(p5; name="claim") == p5c
+        @test p6.changed
+        @test update_struct(p6; changed=false) == p5c
+
     end
 
     @testset "PluginInfo" begin

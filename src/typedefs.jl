@@ -13,7 +13,7 @@ end
     const name::String
     default_val:: Union{Bool, String, Vector{String}, VersionNumber, Nothing} = nothing
     meaning::String 
-    html_val::Union{Bool, String, Nothing} = nothing
+    returned_rawval::Union{Bool, String, Nothing} = nothing
     returned_val = nothing # parsed and returned value
     nondefault::Bool = false
     const url::String = ""

@@ -27,6 +27,7 @@ may_exit_julia::Bool = false
 include("git.jl")
 include("defaults.jl")
 include("typedefs.jl")
+include("conversions.jl")
 include("processvals.jl")
 include("make_docstrings.jl")
 include("Plugins-and-default-arguments.jl")

@@ -1,7 +1,7 @@
 module Processvals1
 
 using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
-    check_packages, type2str, parse_v_string
+    check_packages, type2str, parse_v_string, tidystring
 
 using Test
 
@@ -66,6 +66,9 @@ val2 = "12"
 pa3 = PluginArg(; type = :file, name="ignore", meaning="meaningless")
 val3 = "abc/def.jhl"
 
+s1 = "  abc \n\r def \t \n\n hig\r"
+s2 = "abcdef"
+
 @testset "conv" begin
 
     @test conv(Val{:file}, " abc/def ") == "abc/def"
@@ -77,6 +80,9 @@ val3 = "abc/def.jhl"
     @test conv(pa1, val1) == [ "Plots.jl", "Makie", "UUIDs", "suRE_no_such_ackaje"]
     @test conv(pa2, val2) == 12
     @test conv(pa3, val3) == "abc/def.jhl"
+    @test tidystring(s1) == "abc\ndef\nhig"
+    @test tidystring(s2) == "abcdef"
+    
 
 end # testset
 
