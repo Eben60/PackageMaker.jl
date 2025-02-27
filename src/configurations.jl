@@ -6,7 +6,7 @@ function get_pgin_changed!(pgin)
             def_val = conv(Val{:ExcludedPlugins}, pa.default_val)
             pa.changed = def_val != pa.returned_val
         else
-            pa.changed = pa.default_val != pa.returned_val
+            pa.changed = (! ismissing(pa.returned_val)) && (pa.default_val != pa.returned_val)
         end
     end
     return pgin
@@ -14,6 +14,7 @@ end
 
 function get_pgins_changed!(plugins)
     for (_, pgin) in plugins
+        @show pgin.name
         get_pgin_changed!(pgin)
     end
     return plugins

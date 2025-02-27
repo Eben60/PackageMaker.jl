@@ -12,10 +12,11 @@ end
     const type::Union{Type, Symbol} = Any
     const name::String
     default_val:: Union{Bool, String, Vector{String}, VersionNumber, Nothing} = nothing
-    meaning::String 
+    meaning::String
+    "Raw value as returned from GUI, with a bit post-cleaning."
     returned_rawval::Union{Bool, String, Nothing} = nothing
-    returned_val = nothing # parsed and returned value
-    nondefault::Bool = false
+    "Parsed returned value. Set it to missing to indicate the value is unchanged from default."
+    returned_val = nothing
     const url::String = ""
     const options::Vector{String} = String[]
     const menulabel::String = "Show licenses"

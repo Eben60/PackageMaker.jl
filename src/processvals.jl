@@ -12,7 +12,7 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
         el = fv[input_id]
 
         if pa.type == Bool
-            pa.nondefault = true
+            # pa.nondefault = true
             pa.returned_val = pa.returned_rawval = el.checked
         else
             s = el.value |> tidystring
@@ -21,13 +21,17 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
             pa.returned_rawval = s
 
             if is_all_nothing
-                pa.nondefault = false
-                pa.returned_val = nothing
+                # pa.nondefault = false
+                pa.returned_val = missing
             elseif pa.type == :file
-                pa.returned_val = conv(pa, s)
-                pa.nondefault = (default_val != pa.returned_val)
+                returned = conv(pa, s)
+                default = (default_val == returned)
+                # pa.nondefault = ! default
+                # pa.returned_val = returned
+                pa.returned_val = default ? missing : returned
+                #(default_val != pa.returned_val)
             else
-                pa.nondefault = true
+                # pa.nondefault = true
                 pa.returned_val = conv(pa, s)
             end
         end
@@ -42,7 +46,7 @@ function get_pgins_vals!(fv; plugins=def_plugins)
     return plugins
 end
 
-pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if pa.nondefault)
+pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if !ismissing(pa.returned_val)) # pa.nondefault)
 
 function type2str(x)
     t = x |>typeof |> Symbol |> String

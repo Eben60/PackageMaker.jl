@@ -17,16 +17,15 @@ p1 = PluginArg(;
     meaning = "Whether or not?",
     returned_rawval = nothing,
     returned_val = nothing ,
-    nondefault = false,
     url = "",
     options = String[],
     menulabel = "",
     changed = false,
 )
 
-p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, false, "", String[], "", false)
-p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, false, "", String[], "", false)
-p4 = PluginArg(Nothing, "aim", nothing, "Your real aim.", nothing, nothing, false, "", String[], "", false)
+p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, "", String[], "", false)
+p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, "", String[], "", false)
+p4 = PluginArg(Nothing, "aim", nothing, "Your real aim.", nothing, nothing, "", String[], "", false)
 nt5 = (;
     type = String,
     name = "project",
@@ -34,7 +33,6 @@ nt5 = (;
     meaning = "Whether or not?",
     returned_rawval = "a value",
     returned_val = nothing ,
-    nondefault = true,
     url = "https://abc.de/efg.html",
     options = ["option 1", "option2"],
     menulabel = "This is menu",
@@ -48,15 +46,14 @@ nt6 = (;
     meaning = "Whether or not?",
     returned_rawval = "a value",
     returned_val = nothing ,
-    nondefault = true,
     url = "https://abc.de/efg.html",
     options = ["option 1", "option2"],
     menulabel = "This is menu",
     changed = true,
 )
 
-p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
-p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, true, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
+p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
+p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
 p6 = PluginArg(; nt6...)
 
 pi1 = PluginInfo(("AName", "A purpose", [p1, p2, p3, p4]))

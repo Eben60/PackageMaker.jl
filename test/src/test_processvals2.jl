@@ -17,7 +17,6 @@ pgins = get_checked_pgins!(fv)
 @test pgins["Codecov"] isa PluginInfo
 
 pgins_vals = get_pgins_vals!(fv)
-@test ! pgins_vals["GitHubActions"].args["file"].nondefault
 @test pgins_vals["GitHubActions"].args["destination"].returned_val == "CI_new.yml"
 @test pgins_vals["License"].args["destination"].returned_val == "LICENSE.md"
 @test pgins_vals["License"].args["name"].returned_val == "BSD3"

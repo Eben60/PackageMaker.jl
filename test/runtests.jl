@@ -1,5 +1,6 @@
 using PackageMaker
 using Aqua
+
 Aqua.test_all(PackageMaker)
 
 include("src/test_dropdown_menus.jl")
