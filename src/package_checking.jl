@@ -52,10 +52,9 @@ function default_checking_settings()
     Dict(
         "enabled" => true,
         "warn_frequency" => 7, # days
-        "last_check" => "", # Date
-        "newest_version" => "",
+        "last_check" => "1914-07-28", # Date
+        "newest_version" => "0.0.1",
         "skip" => false,
-        "id" => (randstring(24) |> uppercase)
       )
   end
 
@@ -80,4 +79,86 @@ function update_checking_settings(pkg=@__MODULE__; enabled=true, warn_frequency=
 
 end
 
+function pester_user(pkg=@__MODULE__)
 
+    key = UPDATE_CHECK_PREF_KEY
+    if @has_preference(key)
+        prefs = @load_preference(key)
+    else
+        prefs = default_checking_settings()
+    end
+
+    @show prefs
+
+    prefs["enabled"] || return nothing
+
+    prev_check = prefs["last_check"] |> Date
+    @show today()  prev_check Dates.days(today() - prev_check) prefs["warn_frequency"]
+
+
+
+    Dates.days(today() - prev_check) < prefs["warn_frequency"] && (@info("recently checked"); return nothing) 
+
+    prefs["last_check"] = (today() |> string)
+    prev_version = prefs["newest_version"] |> VersionNumber
+    prefs["skip"] && latest_v == prev_version && (@info("skipping"); return nothing)  
+
+    (;not_latest, latest_v) = upgradable(pkg)
+
+    prefs["newest_version"] = latest_v |> string
+    not_latest || (@info("latest"); return nothing) # TODO!!! write last visit!
+
+    options = OrderedDict([
+        1 => "Remind me again in 1 week",
+        2 => "Don't check for updates anymore",
+        3 => "Skip this version",
+        4 => "Remind me again in 2 weeks",
+        5 => "Remind me again in 4 weeks",
+        6 => "Update $pkg now",
+        7 => "Update now current environment and $pkg"
+    ])
+
+    menu = RadioMenu(options |> values |> collect)
+
+    println("Use the arrow keys to move the cursor. Press Enter to select.")
+
+    menu_idx = request(menu)
+    if menu_idx == 1
+        prefs["warn_frequency"] = 7
+    elseif menu_idx == 2
+        prefs["enabled"] = true
+    elseif menu_idx == 3
+        prefs["skip"] = true
+    elseif menu_idx == 4
+        prefs["warn_frequency"] = 14
+    elseif menu_idx == 5
+        prefs["warn_frequency"] = 28
+    elseif menu_idx == 6
+        prefs["skip"] = false
+        prefs["warn_frequency"] = 7
+        @info "update $pkg yourself!"
+    elseif menu_idx == 7
+        prefs["skip"] = false
+        prefs["warn_frequency"] = 7
+        @info "update environment and $pkg yourself!"
+    else
+        throw("wrong index")
+    end
+    @info "Your choice was $(menu_idx) => $(options[menu_idx])"
+end
+
+# menu = RadioMenu(options)
+
+# println("Use the arrow keys to move the cursor. Press Enter to select.")
+# println("Please select a shared environment to install package $new_package")
+
+# menu_idx = request(menu)
+
+# if (menu_idx == length(options)) || menu_idx <= 0
+#     @info "Quiting. No action taken."
+#     return nothing
+# elseif menu_idx == length(options) - 1
+#     return prompt4newenv(new_package)
+# else
+#     return envs[menu_idx]
+# end
