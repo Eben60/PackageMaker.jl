@@ -27,9 +27,9 @@ end
 end
 
 @testset "Processvals1" begin
-    @test is_known_pkg("Plots")
-    @test is_known_pkg("UUIDs")
-    @test !is_known_pkg("suRE_no_such_ackaje")
+    @test is_known_pkg("Plots").found
+    @test is_known_pkg("UUIDs").found
+    @test !is_known_pkg("suRE_no_such_ackaje").found
 
 
     @test split_pkg_list(pkglist) == ["Plots", "Makie", "UUIDs", "suRE_no_such_ackaje"]

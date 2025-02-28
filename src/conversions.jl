@@ -38,3 +38,10 @@ function conv(::Type{Val{:ExcludedPlugins}}, v::Vector{<:AbstractString})
 end
 
 conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
+
+function split_pkg_list(x)
+    v = split(x |> tidystring, "\n") 
+    jl_re = r"(?i)\.jl$"
+    v = replace.(v, jl_re => "")
+    return v
+end

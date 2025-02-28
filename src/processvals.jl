@@ -86,43 +86,6 @@ function initialized_ptpgins(fv; pgins=def_plugins)
     return in_ptpgins
 end
 
-function split_pkg_list(x)
-    jl_re = r"(?i)\.jl$"
-    v = readlines(IOBuffer(x)) .|> strip 
-    v = filter(!isempty, v)
-    v = replace.(v, jl_re => "")
-    return v
-end
-
-"list packages in the standard environment @stdlib"
-function stdlib_packages()
-    pkg_dirlist = readdir(Sys.STDLIB) 
-    pkgs = [s for s in pkg_dirlist if isdir(joinpath(Sys.STDLIB, s)) && !endswith(s, "_jll")]
-    return pkgs
-end
-
-const stdlib_pkgs = stdlib_packages()
-
-function is_in_registry(pkname, reg=nothing)
-    isnothing(reg) && (reg = Pkg.Registry.reachable_registries()[1])
-    pkgs = reg.pkgs
-    for (_, pkg) in pkgs
-        pkg.name == pkname && return true
-    end
-    return false
-end
-
-function is_known_pkg(pkg_name)
-    pkg_name in stdlib_pkgs && return true
-    registries = Pkg.Registry.reachable_registries() 
-    for reg in registries
-        if is_in_registry(pkg_name, reg)
-            return true
-        end
-    end
-    return false
-end
-
 """
     check_packages(x) -> ::String[]
 
@@ -130,7 +93,7 @@ Takes a multiline string, check if packages all exist and returns a vector of pa
 """
 function check_packages(x)
     v0 = split_pkg_list(x)
-    unknown_pkgs = filter(x -> !is_known_pkg(x), v0)
+    unknown_pkgs = filter(x -> !is_known_pkg(x).found, v0)
     v = setdiff(v0, unknown_pkgs)
 
     return (;known_pkgs = v, unknown_pkgs)

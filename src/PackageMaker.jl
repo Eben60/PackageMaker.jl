@@ -31,6 +31,7 @@ include("conversions.jl")
 include("processvals.jl")
 include("make_docstrings.jl")
 include("Plugins-and-default-arguments.jl")
+include("package_checking.jl")
 # include("packages.jl")
 
 include("css.jl")
