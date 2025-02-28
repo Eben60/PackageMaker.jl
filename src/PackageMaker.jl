@@ -14,6 +14,7 @@ module PackageMaker
 
 using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using Preferences, JSON3
+using REPL.TerminalMenus, Dates, Random
 using DataStructures
 # using StartupCustomizer # "1.0.2"
 # using NativeFileDialog

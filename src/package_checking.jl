@@ -45,3 +45,39 @@ function upgradable(pkg=@__MODULE__)
     not_latest = latest_v > current_v
     return (;not_latest, current_v, latest_v)
 end
+
+const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
+
+function default_checking_settings()
+    Dict(
+        "enabled" => true,
+        "warn_frequency" => 7, # days
+        "last_check" => "", # Date
+        "newest_version" => "",
+        "skip" => false,
+        "id" => (randstring(24) |> uppercase)
+      )
+  end
+
+function update_checking_settings(pkg=@__MODULE__; enabled=true, warn_frequency=7, skip=false)
+    key = UPDATE_CHECK_PREF_KEY
+    (;not_latest, current_v, latest_v) = upgradable()
+    last_check = (now() |> Date |> string)
+    newest_version = latest_v
+
+    if ! @has_preference(key)
+        d = default_checking_settings()
+    else
+        d = @load_preference(key)
+    end
+
+    for (k, v) in pairs((; enabled, warn_frequency, skip, last_check, newest_version))
+        v isa Union{Real, AbstractString, Bool} || (v = string(v))
+        d[k |> string] = v
+    end
+
+    @set_preferences!(key=>d)
+
+end
+
+
