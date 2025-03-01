@@ -55,11 +55,22 @@ include("jld2_to_extend.jl")
 
 export gogui
 
+function get_importing_module(m::Module)
+    parent = parentmodule(m)
+    if parent === @__MODULE__
+        return "Module was not imported from another module"
+    else
+        return parent
+    end
+end
+
 function __init__()
-    try
-        pester_user_about_updates()
-    catch e
-        @warn "failed to check for $(@__MODULE__) updates"
+    if get(ENV, "CI", nothing) != "true"
+        try
+            pester_user_about_updates()
+        catch e
+            @warn "failed to check for $(@__MODULE__) updates"
+        end
     end
 end
 
