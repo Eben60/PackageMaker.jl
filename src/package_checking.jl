@@ -41,7 +41,13 @@ end
 
 function upgradable(pkg=@__MODULE__)
     current_v = pkgversion(pkg)
+    if isnothing(current_v) # TODO maybe pass the actuall path to the function or iterate upwards over directories
+        project_file = joinpath(@__DIR__, "..", "Project.toml")
+        parsed_toml = TOML.parsefile(project_file)
+        current_v = parsed_toml["version"] |> VersionNumber
+    end
     latest_v = latest_version(pkg)
+    @show latest_v current_v
     not_latest = latest_v > current_v
     return (;not_latest, current_v, latest_v)
 end
@@ -51,14 +57,14 @@ const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 function default_checking_settings()
     Dict(
         "enabled" => true,
-        "warn_frequency" => 7, # days
+        "check_frequency" => 7, # days
         "last_check" => "1914-07-28", # Date
         "newest_version" => "0.0.1",
         "skip" => false,
       )
   end
 
-function update_checking_settings(pkg=@__MODULE__; enabled=true, warn_frequency=7, skip=false)
+function update_checking_settings(pkg=@__MODULE__; enabled=true, check_frequency=7, skip=false)
     key = UPDATE_CHECK_PREF_KEY
     (;not_latest, current_v, latest_v) = upgradable()
     last_check = (now() |> Date |> string)
@@ -70,7 +76,7 @@ function update_checking_settings(pkg=@__MODULE__; enabled=true, warn_frequency=
         d = @load_preference(key)
     end
 
-    for (k, v) in pairs((; enabled, warn_frequency, skip, last_check, newest_version))
+    for (k, v) in pairs((; enabled, check_frequency, skip, last_check, newest_version))
         v isa Union{Real, AbstractString, Bool} || (v = string(v))
         d[k |> string] = v
     end
@@ -79,7 +85,7 @@ function update_checking_settings(pkg=@__MODULE__; enabled=true, warn_frequency=
 
 end
 
-function pester_user(pkg=@__MODULE__)
+function pester_user_about_updates(pkg=@__MODULE__)
 
     key = UPDATE_CHECK_PREF_KEY
     if @has_preference(key)
@@ -88,26 +94,41 @@ function pester_user(pkg=@__MODULE__)
         prefs = default_checking_settings()
     end
 
-    @show prefs
-
-    prefs["enabled"] || return nothing
+    prefs["enabled"] ||  return nothing
 
     prev_check = prefs["last_check"] |> Date
-    @show today()  prev_check Dates.days(today() - prev_check) prefs["warn_frequency"]
 
-
-
-    Dates.days(today() - prev_check) < prefs["warn_frequency"] && (@info("recently checked"); return nothing) 
+    Dates.days(today() - prev_check) < prefs["check_frequency"] && return nothing
 
     prefs["last_check"] = (today() |> string)
     prev_version = prefs["newest_version"] |> VersionNumber
-    prefs["skip"] && latest_v == prev_version && (@info("skipping"); return nothing)  
 
-    (;not_latest, latest_v) = upgradable(pkg)
+    (;not_latest, current_v, latest_v) = upgradable(pkg)
+    prefs["skip"] && latest_v == prev_version && (@set_preferences!(key => prefs); return nothing)  
 
     prefs["newest_version"] = latest_v |> string
-    not_latest || (@info("latest"); return nothing) # TODO!!! write last visit!
+    if not_latest 
+        (; choice , update_pkg, update_env) = dialogue!(prefs, pkg, current_v, latest_v)
+    else 
+        update_pkg = update_env = false
+    end
+    @set_preferences!(key => prefs)
+    perform_update(pkg, update_pkg, update_env)
+end
 
+function perform_update(pkg, update_pkg, update_env)
+    update_pkg || update_env || return nothing
+    update_env && Pkg.update()
+    pkg = pkg|>string
+    if update_pkg
+        (; shared_pkgs, current_pr) = ShareAdd.check_packages(pkg)
+        pkg in current_pr.pkgs && Pkg.update(pkg)
+        pkg in keys(shared_pkgs) && ShareAdd.update(pkg)
+    end
+    return nothing
+end
+
+function dialogue!(prefs, pkg, current_v, latest_v)
     options = OrderedDict([
         1 => "Remind me again in 1 week",
         2 => "Don't check for updates anymore",
@@ -118,47 +139,38 @@ function pester_user(pkg=@__MODULE__)
         7 => "Update now current environment and $pkg"
     ])
 
+    @info "Version $latest_v of package $pkg became available.\nYou are currently using $current_v. Upgrading?"
+    println()
+
     menu = RadioMenu(options |> values |> collect)
 
     println("Use the arrow keys to move the cursor. Press Enter to select.")
 
     menu_idx = request(menu)
+
+    update_pkg = update_env = false
+
     if menu_idx == 1
-        prefs["warn_frequency"] = 7
+        prefs["check_frequency"] = 7
     elseif menu_idx == 2
-        prefs["enabled"] = true
+        prefs["enabled"] = false
     elseif menu_idx == 3
         prefs["skip"] = true
     elseif menu_idx == 4
-        prefs["warn_frequency"] = 14
+        prefs["check_frequency"] = 14
     elseif menu_idx == 5
-        prefs["warn_frequency"] = 28
+        prefs["check_frequency"] = 28
     elseif menu_idx == 6
         prefs["skip"] = false
-        prefs["warn_frequency"] = 7
-        @info "update $pkg yourself!"
+        prefs["check_frequency"] = 7
+        update_pkg = true
     elseif menu_idx == 7
         prefs["skip"] = false
-        prefs["warn_frequency"] = 7
-        @info "update environment and $pkg yourself!"
+        prefs["check_frequency"] = 7
+        update_pkg = true
+        update_env = true
     else
-        throw("wrong index")
+        throw("invalid index returned")
     end
-    @info "Your choice was $(menu_idx) => $(options[menu_idx])"
+    return (; choice = (menu_idx => options[menu_idx]), update_pkg, update_env)
 end
-
-# menu = RadioMenu(options)
-
-# println("Use the arrow keys to move the cursor. Press Enter to select.")
-# println("Please select a shared environment to install package $new_package")
-
-# menu_idx = request(menu)
-
-# if (menu_idx == length(options)) || menu_idx <= 0
-#     @info "Quiting. No action taken."
-#     return nothing
-# elseif menu_idx == length(options) - 1
-#     return prompt4newenv(new_package)
-# else
-#     return envs[menu_idx]
-# end

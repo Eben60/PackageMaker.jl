@@ -14,7 +14,7 @@ module PackageMaker
 
 using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using Preferences, JSON3
-using REPL.TerminalMenus, Dates
+using REPL.TerminalMenus, Dates, ShareAdd
 using DataStructures
 # using StartupCustomizer # "1.0.2"
 # using NativeFileDialog
@@ -54,6 +54,15 @@ export @unsafe
 include("jld2_to_extend.jl")
 
 export gogui
+
+function __init__()
+    try
+        pester_user_about_updates()
+    catch e
+        @warn "failed to check for $(@__MODULE__) updates"
+        rethrow(e)
+    end
+end
 
 end # module PackageMaker
 
