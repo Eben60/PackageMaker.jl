@@ -47,7 +47,6 @@ function upgradable(pkg=@__MODULE__)
         current_v = parsed_toml["version"] |> VersionNumber
     end
     latest_v = latest_version(pkg)
-    @show latest_v current_v
     not_latest = latest_v > current_v
     return (;not_latest, current_v, latest_v)
 end
