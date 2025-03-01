@@ -60,7 +60,6 @@ function __init__()
         pester_user_about_updates()
     catch e
         @warn "failed to check for $(@__MODULE__) updates"
-        rethrow(e)
     end
 end
 
