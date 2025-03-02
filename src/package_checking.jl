@@ -51,12 +51,7 @@ function latest_version(pkg_name)
 end
 
 function upgradable(pkg=@__MODULE__)
-    current_v = pkgversion(pkg)
-    if isnothing(current_v) # TODO maybe pass the actuall path to the function or iterate upwards over directories
-        project_file = joinpath(@__DIR__, "..", "Project.toml")
-        parsed_toml = TOML.parsefile(project_file)
-        current_v = parsed_toml["version"] |> VersionNumber
-    end
+    current_v = PkgVersion.@Version
     latest_v = latest_version(pkg)
     not_latest = latest_v > current_v
     return (;not_latest, current_v, latest_v)

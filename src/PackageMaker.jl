@@ -14,7 +14,7 @@ module PackageMaker
 
 using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using Preferences, JSON3
-using REPL.TerminalMenus, Dates, ShareAdd
+using REPL.TerminalMenus, Dates, ShareAdd, PkgVersion
 using DataStructures
 # using StartupCustomizer # "1.0.2"
 # using NativeFileDialog
@@ -56,6 +56,7 @@ include("jld2_to_extend.jl")
 export gogui
 
 function __init__()
+    # @info "PackageMaker v-$(PkgVersion.@Version) started"
     if get(ENV, "CI", nothing) != "true"
         try
             pester_user_about_updates()
