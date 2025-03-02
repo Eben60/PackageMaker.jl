@@ -55,15 +55,6 @@ include("jld2_to_extend.jl")
 
 export gogui
 
-function get_importing_module(m::Module)
-    parent = parentmodule(m)
-    if parent === @__MODULE__
-        return "Module was not imported from another module"
-    else
-        return parent
-    end
-end
-
 function __init__()
     # @info "PackageMaker v-$(PkgVersion.@Version) started"
     if get(ENV, "CI", nothing) != "true"
