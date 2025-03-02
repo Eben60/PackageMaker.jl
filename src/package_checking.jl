@@ -29,6 +29,16 @@ function is_known_pkg(pkg_name)
     return (;found=false, registry=nothing)
 end
 
+# currently unused. suggesstion by AI, probably wrong
+function get_importing_module(m::Module)
+    parent = parentmodule(m)
+    if parent === @__MODULE__
+        return "Module was not imported from another module"
+    else
+        return parent
+    end
+end
+
 function latest_version(pkg_name)
     pkg_name = pkg_name |> string
     registry = is_known_pkg(pkg_name).registry
