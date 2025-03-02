@@ -54,9 +54,9 @@ export @unsafe
 include("jld2_to_extend.jl")
 
 export gogui
+VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public updatecheck_settings"))
 
 function __init__()
-    # @info "PackageMaker v-$(PkgVersion.@Version) started"
     if get(ENV, "CI", nothing) != "true"
         try
             pester_user_about_updates()

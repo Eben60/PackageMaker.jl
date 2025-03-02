@@ -1,0 +1,7 @@
+
+[PackageMaker.UpdateCheckingPrefs]
+check_frequency = 7
+enabled = true
+last_check = "2025-02-01"
+newest_version = "0.1.8"
+skip = false

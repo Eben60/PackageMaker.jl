@@ -62,51 +62,41 @@ const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 function default_checking_settings()
     Dict(
         "enabled" => true,
-        "check_frequency" => 7, # days
+        "default_frequency" => 7, # days
         "last_check" => "1914-07-28", # Date
+        "next_check" => 7, # days
         "newest_version" => "0.0.1",
         "skip" => false,
       )
   end
 
-function update_checking_settings(pkg=@__MODULE__; enabled=true, check_frequency=7, skip=false)
-    key = UPDATE_CHECK_PREF_KEY
-    (;not_latest, current_v, latest_v) = upgradable()
-    last_check = (now() |> Date |> string)
-    newest_version = latest_v
+filter_prefs!(prefs) = filter!(x->x[1] in keys(default_checking_settings()), prefs)
 
-    if ! @has_preference(key)
-        d = default_checking_settings()
-    else
-        d = @load_preference(key)
-    end
-
-    for (k, v) in pairs((; enabled, check_frequency, skip, last_check, newest_version))
-        v isa Union{Real, AbstractString, Bool} || (v = string(v))
-        d[k |> string] = v
-    end
-
-    @set_preferences!(key=>d)
-
-end
-
-function pester_user_about_updates(pkg=@__MODULE__)
-
+function getprefs()
     key = UPDATE_CHECK_PREF_KEY
     if @has_preference(key)
-        prefs = @load_preference(key)
+        prefs = merge(default_checking_settings(), @load_preference(key))
     else
         prefs = default_checking_settings()
     end
+    return prefs
+end
+
+
+function pester_user_about_updates(pkg=@__MODULE__)
+    prefs = getprefs()
 
     prefs["enabled"] ||  return nothing
 
     prev_check = prefs["last_check"] |> Date
 
-    Dates.days(today() - prev_check) < prefs["check_frequency"] && return nothing
+    haskey(prefs, "check_frequency") && (prefs["next_check"] = prefs["check_frequency"]) # old keys -> new
+
+    Dates.days(today() - prev_check) < prefs["next_check"] && return nothing
 
     prefs["last_check"] = (today() |> string)
     prev_version = prefs["newest_version"] |> VersionNumber
+    filter_prefs!(prefs) # old keys -> new
 
     (;not_latest, current_v, latest_v) = upgradable(pkg)
     prefs["skip"] && latest_v == prev_version && (@set_preferences!(key => prefs); return nothing)  
@@ -117,6 +107,7 @@ function pester_user_about_updates(pkg=@__MODULE__)
     else 
         update_pkg = update_env = false
     end
+
     @set_preferences!(key => prefs)
     perform_update(pkg, update_pkg, update_env)
 end
@@ -135,9 +126,9 @@ end
 
 function dialogue!(prefs, pkg, current_v, latest_v)
     options = OrderedDict([
-        1 => "Remind me again in 1 week",
+        1 => "Skip this version",
         2 => "Don't check for updates anymore",
-        3 => "Skip this version",
+        3 => "Remind me again in 1 week",
         4 => "Remind me again in 2 weeks",
         5 => "Remind me again in 4 weeks",
         6 => "Update $pkg now",
@@ -156,26 +147,39 @@ function dialogue!(prefs, pkg, current_v, latest_v)
     update_pkg = update_env = false
 
     if menu_idx == 1
-        prefs["check_frequency"] = 7
+        prefs["skip"] = true
     elseif menu_idx == 2
         prefs["enabled"] = false
     elseif menu_idx == 3
-        prefs["skip"] = true
+        prefs["next_check"] = 7
     elseif menu_idx == 4
-        prefs["check_frequency"] = 14
+        prefs["next_check"] = 14
     elseif menu_idx == 5
-        prefs["check_frequency"] = 28
+        prefs["next_check"] = 28
     elseif menu_idx == 6
         prefs["skip"] = false
-        prefs["check_frequency"] = 7
+        prefs["next_check"] = prefs["default_frequency"]
         update_pkg = true
     elseif menu_idx == 7
         prefs["skip"] = false
-        prefs["check_frequency"] = 7
+        prefs["next_check"] = prefs["default_frequency"]
         update_pkg = true
         update_env = true
     else
         throw("invalid index returned")
     end
     return (; choice = (menu_idx => options[menu_idx]), update_pkg, update_env)
+end
+
+function updatecheck_settings(; kwargs...)
+    prefs = getprefs()
+    filter_prefs!(prefs)
+    for (k, v) in kwargs
+        k = k |> string
+        k in keys(prefs) || error("$k is a wrong key")
+        conv = typeof(prefs[k])
+        conv == String && (conv = string) # more flexible conversion
+        prefs[k] = conv(v)
+    end
+    @show prefs
 end
