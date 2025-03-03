@@ -51,8 +51,6 @@ include("macro_unsafe.jl")
 using .MacroUnsafe
 export @unsafe
 
-include("jld2_to_extend.jl")
-
 export gogui
 VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public updatecheck_settings"))
 
