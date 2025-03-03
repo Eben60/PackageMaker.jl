@@ -47,3 +47,12 @@ sandboxing. To be on the safe side, make sure to terminate `Julia` after creatin
 julia> @unsafe;
 julia> gogui()
 ``` 
+
+### Checking for updates
+
+Starting with the `PackageMaker` version `v0.1.8`, on the startup of the package a check is performed whether a new version of it became avaliable. 
+You might find this function too intrusive. The public function `PackageMaker.updatecheck_settings` provides an interface to disable this feature of change other  defaults. For details, call
+
+```julia-repl
+help?> PackageMaker.updatecheck_settings
+``` 

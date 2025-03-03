@@ -83,27 +83,38 @@ function getprefs()
 end
 
 
-function pester_user_about_updates(pkg=@__MODULE__)
+function pester_user_about_updates(pkg=@__MODULE__; reason=false)
+    key = UPDATE_CHECK_PREF_KEY
     prefs = getprefs()
 
-    prefs["enabled"] ||  return nothing
+    if ! prefs["enabled"]
+        reason && println("disabled")
+        return nothing
+    end
 
     prev_check = prefs["last_check"] |> Date
 
     haskey(prefs, "check_frequency") && (prefs["next_check"] = prefs["check_frequency"]) # old keys -> new
 
-    Dates.days(today() - prev_check) < prefs["next_check"] && return nothing
+    if Dates.days(today() - prev_check) < prefs["next_check"] 
+        reason && println("was recently checked")
+        return nothing
+    end
 
     prefs["last_check"] = (today() |> string)
     prev_version = prefs["newest_version"] |> VersionNumber
     filter_prefs!(prefs) # old keys -> new
 
     (;not_latest, current_v, latest_v) = upgradable(pkg)
-    prefs["skip"] && latest_v == prev_version && (@set_preferences!(key => prefs); return nothing)  
+    if prefs["skip"] && latest_v == prev_version 
+        @set_preferences!(key => prefs)
+        reason && println("Setting last_visit to today and skipping this version")
+        return nothing
+    end
 
     prefs["newest_version"] = latest_v |> string
     if not_latest 
-        (; choice , update_pkg, update_env) = dialogue!(prefs, pkg, current_v, latest_v)
+        (; choice , update_pkg, update_env) = upd_dialogue!(prefs, pkg, current_v, latest_v)
     else 
         update_pkg = update_env = false
     end
@@ -124,7 +135,7 @@ function perform_update(pkg, update_pkg, update_env)
     return nothing
 end
 
-function dialogue!(prefs, pkg, current_v, latest_v)
+function upd_dialogue!(prefs, pkg, current_v, latest_v)
     options = OrderedDict([
         1 => "Skip this version",
         2 => "Don't check for updates anymore",
@@ -141,6 +152,7 @@ function dialogue!(prefs, pkg, current_v, latest_v)
     menu = RadioMenu(options |> values |> collect)
 
     println("Use the arrow keys to move the cursor. Press Enter to select.")
+    println("You can also use the  PackageMaker.updatecheck_settings function to edit defaults - call help for it for details." )
 
     menu_idx = request(menu)
 
@@ -170,10 +182,37 @@ function dialogue!(prefs, pkg, current_v, latest_v)
     end
     return (; choice = (menu_idx => options[menu_idx]), update_pkg, update_env)
 end
+"""
+    updatecheck_settings(; kwargs...)
 
+Edits preferences applied to checking for update on the startup of `PackageMaker`.
+
+`PackageMaker` checks regularly whether a new version of it became avaliable. 
+`updatecheck_settings` function is one of the ways to define how often the checks are done etc.
+You may also call it without arguments to display current settings.
+
+# kwargs
+- `enabled::Bool`: Default is `true`
+- `default_frequency::Int`: How often the check is performed by default, in days. Default is 7,
+- `next_check::Int`: Delay in days till the next check from today. Default is `default_frequency`, and will be reset to default after the next check
+- `skip::Bool`: Skip this version. Default is `false`
+
+# Examples
+```julia-repl
+
+julia> PackageMaker.updatecheck_settings(; enabled=false) # don't bother me again
+
+julia> PackageMaker.updatecheck_settings(; skip=true) # I might update to this version myself
+
+julia> PackageMaker.updatecheck_settings(; next_check=365*100) # Let's see then
+``` 
+This function is public, not exported. Therefore call it as `PackageMaker.updatecheck_settings(;kwargs...)`
+"""
 function updatecheck_settings(; kwargs...)
+    key = UPDATE_CHECK_PREF_KEY
     prefs = getprefs()
     filter_prefs!(prefs)
+    prefs["last_check"] = today() |> string
     for (k, v) in kwargs
         k = k |> string
         k in keys(prefs) || error("$k is a wrong key")
@@ -181,5 +220,8 @@ function updatecheck_settings(; kwargs...)
         conv == String && (conv = string) # more flexible conversion
         prefs[k] = conv(v)
     end
-    @show prefs
+    @set_preferences!(key => prefs)
+    println("Update checking preferences successfully changed to:")
+    println(prefs)
+    return nothing
 end
