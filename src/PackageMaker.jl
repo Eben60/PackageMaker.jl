@@ -24,6 +24,8 @@ using .FileDialogWorkAround: posixpathstring
 
 processing_finished::Bool = false
 may_exit_julia::Bool = false
+const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
+debug_update_checking::Bool = false
 
 include("git.jl")
 include("defaults.jl")
@@ -57,9 +59,14 @@ VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public updatecheck_settings"))
 function __init__()
     if get(ENV, "CI", nothing) != "true"
         try
+            key = UPDATE_CHECK_PREF_KEY
+            global debug_update_checking = @has_preference(key) &&
+                get(@load_preference(key), "debug", false)
+
             pester_user_about_updates()
         catch e
             @warn "failed to check for $(@__MODULE__) updates"
+            debug_update_checking && rethrow(e)
         end
     end
 end

@@ -57,8 +57,6 @@ function upgradable(pkg=@__MODULE__)
     return (;not_latest, current_v, latest_v)
 end
 
-const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
-
 function default_checking_settings()
     Dict(
         "enabled" => true,
@@ -81,7 +79,6 @@ function getprefs()
     end
     return prefs
 end
-
 
 function pester_user_about_updates(pkg=@__MODULE__; reason=false)
     key = UPDATE_CHECK_PREF_KEY
