@@ -8,7 +8,7 @@ This package allows you to create either a new package or a new project. It impl
 
 ## Installation
 
-It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. The package [`ShareAdd`](https://github.com/Eben60/ShareAdd.jl) can help you with using shared environments.
+It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. The package [`ShareAdd.jl`](https://github.com/Eben60/ShareAdd.jl) can help you with using shared environments.
 
 
 ```julia
@@ -50,8 +50,9 @@ julia> gogui()
 
 ### Checking for updates
 
-Starting with the `PackageMaker` version `v0.1.8`, on the startup of the package a check is performed whether a new version of it became avaliable. 
-You might find this function too intrusive. The public function `PackageMaker.updatecheck_settings` provides an interface to disable this feature of change other  defaults. For details, call
+Starting with the `PackageMaker` version `v0.1.8`, on the startup of the package a check is performed whether a new version of it became avaliable. This feature is still experimental, and appears not always to work properly (possibly, if `PackageMaker` was imported throgh [`ShareAdd.jl`](https://github.com/Eben60/ShareAdd.jl)). 
+
+You might find this function too intrusive. The public function `PackageMaker.updatecheck_settings` provides an interface to disable this feature or to change other  defaults. For details, get the function's help:
 
 ```julia-repl
 help?> PackageMaker.updatecheck_settings
