@@ -47,6 +47,10 @@ h2 {
   color: #606060; 
 }
 
+#GeneralOptions_docstring {
+  height: 7em;
+}
+
 $(make_dd_css())
 
 </style>
