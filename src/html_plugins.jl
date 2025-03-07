@@ -104,8 +104,9 @@ ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
 
 pgin_inputs(p::PluginInfo, css) = join([tmpl_inp(p, a, insert_url(a.meaning, a.url), (i%2+1), css) for (i, a) in pairs(collect(values(p.args)))], " ") 
 
-pgin_form(p::PluginInfo, selected_pgins=pgins_package) = tmpl_beg(p.name, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
+pgin_form(p::PluginInfo, selected_pgins=pgins_package, css="pgin_inp") = 
+    tmpl_beg(p.name, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
     pgin_inputs(p, "pgin_inp") *
     tmpl_end()
 
-html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps], " \n") * tmpl_section_end()
+html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps if ! p.is_general_info], " \n") * tmpl_section_end()

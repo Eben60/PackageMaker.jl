@@ -22,8 +22,24 @@ function get_licences()
     pushfirst!(licences, "MIT")
     return licences
 end
+Vector{String}
+
+package_info_descr = 
+"""Short package<sup>*</sup> info. This will be put into the package docstring. If you plan to publish it on 
+        <a href="javascript:sendurl('https://github.com/')" >GitHub</a>,
+        it is recommended to provide (the same) short info under "About", 
+        which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration."""
 
 const dfp = PluginInfo.([
+    ("GeneralOptions", "Creates a Project.toml", [
+        ("proj_name", "", "Project/Package name. Required input."),
+        ("user_name", "$(githubuser())", "User name. Required for many plugins."),
+        ("authors", "$(username()) <$(usermail())>", "Authors. Will be an entry in <code>Project.toml</code>. "),
+        (:dir, "project_dir", "", "Directory to place project in. Required input."),
+        ("host", "github.com", "URL to the code hosting service where the project will reside."),
+        (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
+        (Vector{String}, "docstring", [""], "$(package_info_descr)"),
+        ], true),
     ("ProjectFile", "Creates a Project.toml", [
         (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),
         ]),
@@ -110,7 +126,10 @@ const dfp = PluginInfo.([
     ]);
 
 extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
-const def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
+
+const all_plugins = OrderedDict(v.name => v for v in dfp)
+
+const def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp) # if ! v.is_general_info)
 const def_plugins_original = deepcopy(def_plugins)
 this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
 
