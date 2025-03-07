@@ -98,6 +98,7 @@ function html_general_options()
       </span><br>
       <span class="comment"> <sup>*</sup>Projects have no docstrings
       </span><br>
+    </div>
 </form>   
 </div>
 
