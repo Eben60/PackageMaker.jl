@@ -1,9 +1,11 @@
 module Processvals1
 
 using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
-    check_packages, type2str, parse_v_string, tidystring
+    check_packages, type2str, parse_v_string, tidystring, initialize
 
 using Test
+
+initialize()
 
 pkglist =
 """ Plots.jl

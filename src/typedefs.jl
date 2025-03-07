@@ -13,32 +13,38 @@ end
     const name::String
     default_val:: Union{Bool, String, Vector{String}, VersionNumber, Nothing} = nothing
     meaning::String
+
     "Raw value as returned from GUI, with a bit post-cleaning."
     returned_rawval::Union{Bool, String, Nothing} = nothing
+
     "Parsed returned value. Set it to missing to indicate the value is unchanged from default."
     returned_val = nothing
+    
     const url::String = ""
-    const options::Vector{String} = String[]
+    const options::@NamedTuple{opt_list::Vector{String}, show_first::Bool} = (; opt_list = String[], show_first = false)
     const menulabel::String = "Show licenses"
     changed::Bool = false
 end
 
+makeout_argtype(x) = isnothing(x) ? String : typeof(x)
+
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(; type=typeof(x[2]), name=x[1], default_val=x[2], meaning=x[3], menulabel="")
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], menulabel="")
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(; type=typeof(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4], menulabel="")
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4], menulabel="")
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
     PluginArg(; type=x[1], name=x[2], default_val=x[3], meaning=x[4], menulabel="")
 
 PluginArg(nt::NamedTuple) = PluginArg(; nt...)
 PluginArg(x::PluginArg) = update_struct(x; )
 
-mutable struct PluginInfo
+@kwdef mutable struct PluginInfo
     const name::String
-    const purpose::String
+    const purpose::String = ""
     const args::OrderedDict{String, PluginArg}
-    checked::Bool
-    const url::String
+    checked::Bool = false
+    const url::String = ""
+    const is_general_info::Bool = false
 end
 
 function pluginarg_od(v::Vector{T}) where T
@@ -46,8 +52,12 @@ function pluginarg_od(v::Vector{T}) where T
     return OrderedDict(x.name => x for x in ar)
 end
 
-PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "")
-PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, AbstractString}) where T <: Union{Tuple, NamedTuple} = PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, x[4])
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}}) where T = 
+    PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "", false)
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, AbstractString}) where T <: Union{Tuple, NamedTuple} = 
+    PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, x[4], false)
+PluginInfo(x::Tuple{AbstractString, AbstractString, Vector{T}, Bool}) where T = 
+    PluginInfo(x[1], x[2], pluginarg_od(x[3]), false, "", x[4])
 
 function Base.show(io::IO, pi::PluginInfo) 
     println(io, "$(pi.name): checked=$(pi.checked)")

@@ -53,3 +53,17 @@ const pgins_sets = Dict(["Project" => pgins_project,
 
 julia_lts = v"1.10"
 const julia_lts_str = "$(julia_lts.major).$(julia_lts.minor)"
+
+@kwdef mutable struct ValidateForm
+    ProjName::Bool = false
+    ProjDir::Bool = false
+    SaveConfig::Bool = true
+end
+
+function form_valid(v::ValidateForm)
+    ns = propertynames(v)
+    fs = getfield.(Ref(v), ns)
+    return all(fs)
+end
+
+val_form::ValidateForm = ValidateForm()

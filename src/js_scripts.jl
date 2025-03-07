@@ -35,7 +35,11 @@ $(jq)
 </script>
 <script>
 function oncng(el) {
+  if (el.id == "Save_Configuration_SaveConfigButton") {
+    sendfullstate(false, true);
+  } else {
     sendel(el, "newinput");
+  }
 };
 
 $(make_dd_js_sel_lic())
@@ -82,8 +86,11 @@ function sendfullstate(isfinalstate, submit){
         reasoneach ="finalinput"
         if (submit) {reasonfinl ="finalinputfinished"}
         else {reasonfinl ="finalinputcancelled"}
-   } else {
-        reasoneach ="init_input"
+    } else if ((!isfinalstate) && submit) {
+        reasoneach ="intermediate_input";
+        reasonfinl ="intermediate_inputfinished"}
+      else {
+        reasoneach ="init_input";
         reasonfinl ="init_inputfinished"            
    }
 

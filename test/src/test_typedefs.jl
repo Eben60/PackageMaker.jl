@@ -18,14 +18,14 @@ p1 = PluginArg(;
     returned_rawval = nothing,
     returned_val = nothing ,
     url = "",
-    options = String[],
+    options = (; opt_list = String[], show_first = false),
     menulabel = "",
     changed = false,
 )
 
-p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, "", String[], "", false)
-p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, "", String[], "", false)
-p4 = PluginArg(Nothing, "aim", nothing, "Your real aim.", nothing, nothing, "", String[], "", false)
+p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
+p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
+p4 = PluginArg(String, "aim", nothing, "Your real aim.", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
 nt5 = (;
     type = String,
     name = "project",
@@ -34,7 +34,7 @@ nt5 = (;
     returned_rawval = "a value",
     returned_val = nothing ,
     url = "https://abc.de/efg.html",
-    options = ["option 1", "option2"],
+    options = (; opt_list = ["option 1", "option2"], show_first = false),
     menulabel = "This is menu",
     changed = false,
 )
@@ -47,13 +47,13 @@ nt6 = (;
     returned_rawval = "a value",
     returned_val = nothing ,
     url = "https://abc.de/efg.html",
-    options = ["option 1", "option2"],
+    options = (; opt_list = ["option 1", "option2"], show_first = false),
     menulabel = "This is menu",
     changed = true,
 )
 
-p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
-p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, "https://abc.de/efg.html", ["option 1", "option2"], "This is menu", false)
+p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, "https://abc.de/efg.html", (; opt_list = ["option 1", "option2"], show_first = false), "This is menu", false)
+p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, "https://abc.de/efg.html", (; opt_list = ["option 1", "option2"], show_first = false), "This is menu", false)
 p6 = PluginArg(; nt6...)
 
 pi1 = PluginInfo(("AName", "A purpose", [p1, p2, p3, p4]))
@@ -61,10 +61,13 @@ pi2 = PluginInfo(("BName", "B purpose", [nt5], "https://abc.de/efg.html"))
 pi3 = PluginInfo(("CName", "C purpose", [("project", false, "Whether or not?"), (Vector{String}, "item",  String[], "Patterns to add ")], "https://abc.de/efg.html"))
 
     @testset "PluginArg" begin
+        @test isequal(PluginArg(("project", false, "Whether or not?")), PluginArg(("project", false, "Whether or not?")),)
+
         @test isequal(PluginArg(("project", false, "Whether or not?")), p1)
         @test isequal(PluginArg((Vector{String}, "ignore",  String[], "Patterns to add ")), p2)
         @test isequal(PluginArg(("name", "nothing", "Your real name")), p3)
         @test isequal(PluginArg(("aim", nothing, "Your real aim.")), p4)
+
         @test isequal(PluginArg(nt5), p5)
         @test p6.changed
         @test update_struct(p6; changed=false) == p5c

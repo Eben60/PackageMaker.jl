@@ -39,11 +39,15 @@ html_use_purpose() =
         Registration Guidelines</a> esp. relating to package naming. </label> 
        </div>
        <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually.</p>
+       $(html_configs())
     </fieldset>
 </form>
 </div>
 
 """
+
+general_inputs() = pgin_inputs(def_plugins["GeneralOptions"],  "gen_opt", false)
+
 
 function html_general_options()
     i = 1
@@ -57,64 +61,13 @@ function html_general_options()
 <div id="general_options_div">
 <h2>General options</h2>
 <form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="70" id="proj_name" name="proj_name" value="" onchange="oncng(this)" type="text"><br>
-        <span class="plugin_arg_meaning" id="argmeaning_proj_name">Project/Package name. Required input.</span><br>
-    </div>
-
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="70" id="user_name" name="user_name" value="$(githubuser())" onchange="oncng(this)" type="text"><br>
-        <span class="plugin_arg_meaning" id="argmeaning_user_name">User name. Required for many plugins.</span><br>
-    </div>
-
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="70" id="authors" name="authors" value="$(username()) <$(usermail())>" onchange="oncng(this)" type="text"><br>
-        <span class="plugin_arg_meaning" id="argmeaning_authors">Authors. Will be an entry in <code>Project.toml</code>. </span><br>
-    </div>
-    
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="65" id="project_dir" name="project_dir" value="" onchange="oncng(this)" type="text">
-        <button id="project_dir_button" onclick="oncng(this)" type="button" class="FolderDialogButton">Select</button><br>
-        <span class="plugin_arg_meaning" id="argmeaning_project_dir">Directory to place project in. Required input.</span><br>
-    </div>
-
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="70" id="host" name="host" value="github.com" onchange="oncng(this)" type="text"><br>
-        <span class="plugin_arg_meaning" id="argmeaning_host">URL to the code hosting service where the project will reside.</span><br>
-    </div>
-    
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-        <input size="70" id="julia_min_version" name="julia_min_version" value="v&quot;1.10&quot;" onchange="oncng(this)" type="text"><br>
-        <span class="plugin_arg_meaning" id="argmeaning_julia_min_version">Minimum allowed Julia version for this package.</span><br>
-    </div>
-
-    <div class="pgin_inp_margins gen_opt_col$(onetwo())">
-      <textarea id="docstring" name="docstring" rows="6" cols="70" onchange="oncng(this)" ></textarea> <br>
-      <span class="plugin_arg_meaning" id="argmeaning_docstring">
-        Short package<sup>*</sup> info. This will be put into the package docstring. If you plan to publish it on 
-        <a href="javascript:sendurl('https://github.com/')" >GitHub</a>,
-        it is recommended to provide (the same) short info under "About", 
-        which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
-      </span><br>
-      <span class="comment"> <sup>*</sup>Projects have no docstrings
-      </span><br>
+$(general_inputs())
 </form>   
 </div>
 
 """
     return h
 end
-
-# function html_general_options(gen_options=gen_options)
-#     inputs = pgin_inputs(gen_options, "gen_opt")
-#     h = 
-# """<div id="general_options_div">
-# <h2>General options</h2>
-# <form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
-# $inputs
-# </form>   
-# </div>"""
-# end
 
 function default_env_checkbox(no, pkg_name; 
     installed = default_env_packages())
@@ -170,11 +123,34 @@ html_submit() =
 """
 <div id="submit_div">
 <form class="submit_form" name="submit_form" id="submit_form" action="javascript:void(0)">
-<input id="save_defaults" value="save_defaults" onchange="oncng(this)" type="checkbox" disabled>
-<label for="save_defaults" >Save choices as default if applicable (not yet implemented)</label><br>
-<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)">Submit</button>
+<br>
+<span class="checkfield_NOK" id="checkfield_ProjName">🞫</span>&nbsp;Project name OK <br>
+<span class="checkfield_NOK" id="checkfield_ProjDir">🞫</span>&nbsp;Project directory OK <br>
+<span class="checkfield_OK" id="checkfield_SaveConfig">✓</span>&nbsp;"Save Configuration" checkbox unselected (if desired, save config prior to creating project)<br><br>
+<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)" disabled>Create package</button>
 </form>
 </div>
 """
 
+function html_configs()
+    isempty(savedconfigs) && return ""
+    cfarr = String[]
+    for (i, cn) in savedconfignames() |> pairs
+        cftag = "SavedConfigTag_$i"
+        cfsec = 
+"""
+    <input id="$(cftag)" name="Choice" value="$(cftag)" onchange="oncng(this)" type="radio">
+    <label for="$(cftag)">$(cn)</label><br>
+"""
+        push!(cfarr, cfsec)
+    end
+    confsections = join(cfarr, "\n")
+    htm = 
+"""
+    <p>Saved configurations:</p>
+$(confsections)"""
+    return htm
+
+end
