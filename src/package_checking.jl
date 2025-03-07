@@ -65,6 +65,7 @@ function default_checking_settings()
         "next_check" => 7, # days
         "newest_version" => "0.0.1",
         "skip" => false,
+        "debug" => false,
       )
   end
 
