@@ -6,9 +6,9 @@ function parse_v_string(s)
     return v
 end
 
-function tidystring(s)
+function tidystring(s; remove_empty_lines=true)
     vs = [strip(line) for line in readlines(IOBuffer(s))]
-    filter!(x -> !isempty(x), vs)
+    remove_empty_lines && filter!(x -> !isempty(x), vs)
     return join(vs, "\n") |> String
 end
 
@@ -40,6 +40,8 @@ end
 conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
 
 function split_pkg_list(x)
+    x = tidystring(x)
+    isempty(x) && return String[]
     v = split(x |> tidystring, "\n") 
     jl_re = r"(?i)\.jl$"
     v = replace.(v, jl_re => "")

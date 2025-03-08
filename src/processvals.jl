@@ -1,7 +1,7 @@
 function get_checked_pgins!(fv; pgins=def_plugins)
     for (k, pgin) in pgins
         box_id = Symbol("Use_$k")
-        pgin.checked = fv[box_id].checked
+        pgin.checked = haskey(fv, box_id) && fv[box_id].checked
     end
     return pgins
 end
@@ -41,7 +41,7 @@ end
 
 function get_pgins_vals!(fv; plugins=def_plugins)
     for (_, pgin) in plugins
-        pgin.is_general_info || get_pgin_vals!(pgin, fv; plugins)
+        get_pgin_vals!(pgin, fv; plugins)
     end
     return plugins
 end
@@ -64,7 +64,6 @@ end
 
 function initialized_ptpgins(fv; pgins=def_plugins)
     str_checked_pgins = get_checked_pgins!(fv) |> checked_names
-    get_pgins_vals!(fv)
     in_ptpgins = []
     str_default_pgins = [type2str(p) for p in PkgTemplates.default_plugins()]
     str_all_pgins = union(str_checked_pgins, str_default_pgins)
@@ -95,20 +94,23 @@ function check_packages(x)
     v0 = split_pkg_list(x)
     unknown_pkgs = filter(x -> !is_known_pkg(x).found, v0)
     v = setdiff(v0, unknown_pkgs)
-
     return (;known_pkgs = v, unknown_pkgs)
 end
 
-function general_options(fv)
-    (;known_pkgs, unknown_pkgs) = check_packages(fv[:project_packages_input].value)
-    proj_name = fv[:proj_name].value
-    user = fv[:user_name].value
-    authors = fv[:authors].value
-    dir = fv[:project_dir].value
-    host = fv[:host].value
-    julia = fv[:julia_min_version].value |> parse_v_string
-    docstring = fv[:docstring].value |> strip
+function general_options(fv; plugins=def_plugins)
+    gargs = def_plugins["GeneralOptions"].args
+
+    (;known_pkgs, unknown_pkgs) = check_packages(gargs["proj_pkg"].returned_rawval)
+    proj_name = gargs["proj_name"].returned_val
+    user = gargs["user_name"].returned_val
+    authors = gargs[:"authors"].returned_val
+    dir = gargs["project_dir"].returned_val
+    host = gargs["host"].returned_val
+    julia = gargs["julia_min_version"].returned_val # |> parse_v_string
+    docstring = tidystring(gargs["docstring"].returned_rawval; remove_empty_lines=false)
+    ispk = gargs["is_package"].returned_val
     return (;
+        ispk,
         proj_name, 
         templ_kwargs = (; interactive=false, user, authors, dir, host,julia), 
         dependencies=known_pkgs,
@@ -117,26 +119,19 @@ function general_options(fv)
         )
 end
 
-function is_a_package(fv)
-    isproj = fv[:Project_Choice].checked
-    islocal = fv[:LocalPackage_Choice].checked
-    isregistered = fv[:RegisteredPackage_Choice].checked
-
-    @assert isproj + islocal + isregistered == 1
-    return (;ispk = !isproj, isproj, islocal, isregistered)
-end
-
-function create_proj(fv)
+function create_proj(fv; plugins=def_plugins)
     global processing_finished = false
     global may_exit_julia
+    get_pgins_vals!(fv; plugins)
     pgins=initialized_ptpgins(fv)
-    (;ispk, isproj) = is_a_package(fv)
-    gen_options = general_options(fv)
-    (;proj_name, templ_kwargs, dependencies, unknown_pkgs) = gen_options
+
+    # (;ispk, isproj) = is_a_package(fv)
+    gen_options = general_options(fv; plugins)
+    (;ispk, proj_name, templ_kwargs, dependencies, unknown_pkgs) = gen_options
     (;dir, ) = templ_kwargs
     t = Template(; plugins=pgins, templ_kwargs...)
     t(proj_name)
-    isproj && depackagize(proj_name, dir)
+    ispk || depackagize(proj_name, dir)
 
     isempty(dependencies) || add_dependencies(proj_name, dir, dependencies)
     if !isempty(unknown_pkgs) 
