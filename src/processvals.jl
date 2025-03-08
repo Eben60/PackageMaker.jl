@@ -41,7 +41,7 @@ end
 
 function get_pgins_vals!(fv; plugins=def_plugins)
     for (_, pgin) in plugins
-        get_pgin_vals!(pgin, fv; plugins)
+        pgin.is_general_info || get_pgin_vals!(pgin, fv; plugins)
     end
     return plugins
 end

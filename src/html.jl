@@ -21,7 +21,7 @@ make_html(pgins) = replace(
     html_use_purpose() *
     html_general_options() *
     # htmp_default_env_pkg() *
-    html_proj_env_pkg() *
+    # html_proj_env_pkg() *
     html_plugins(pgins) *
     html_submit() *
     js_scripts() *

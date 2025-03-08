@@ -32,6 +32,7 @@ package_info_descr =
 
 const dfp = PluginInfo.([
     ("GeneralOptions", "Creates a Project.toml", [
+        ("is_package", true, "Whether to create a package (vs. a project)."), 
         ("proj_name", "", "Project/Package name. Required input."),
         ("user_name", "$(githubuser())", "User name. Required for many plugins."),
         ("authors", "$(username()) <$(usermail())>", "Authors. Will be an entry in <code>Project.toml</code>. "),
@@ -39,6 +40,7 @@ const dfp = PluginInfo.([
         ("host", "github.com", "URL to the code hosting service where the project will reside."),
         (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
         (Vector{String}, "docstring", [""], "$(package_info_descr)"),
+        (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Put each package name onto a newline. Suffix .jl is accepted, but not required. You can of course always add packages later on by using Pkg"),
         ], true),
     ("ProjectFile", "Creates a Project.toml", [
         (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),

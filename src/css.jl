@@ -51,6 +51,12 @@ h2 {
   height: 7em;
 }
 
+#GeneralOptions_proj_pkg {
+  height: 7em;
+  width: 40ch;
+  white-space: nowrap;
+}
+
 $(make_dd_css())
 
 </style>

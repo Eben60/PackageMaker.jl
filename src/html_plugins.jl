@@ -23,14 +23,14 @@ tmpl_beg(pgin_name, purpose, show=true) =
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style=$(disp_style(show)) >
 """
 
-function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_label=true) # TODO pass last arg further
+function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_footnote=true) # TODO pass last arg further
     # css = "pgin_inp" : "gen_opt"
     pgin_name = pgin.name
     arg_type = arg.type
     arg_name = arg.name
     return """
     <div class="$(css)_margins $(css)_col$(color_no)">
-    $(tmpl_input_field(pgin, arg, arg_type, arr_label))
+    $(tmpl_input_field(pgin, arg, arg_type, arr_footnote))
     <span class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg_name)">$(arg_meaning)</span><br>
     </div>
 """
@@ -58,15 +58,15 @@ end
 
 tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractString = tmpl_input_field(pgin, arg)
 
-function tmpl_input_field(pgin, arg, arg_type, arr_label=true) 
-    arg.default_val isa AbstractArray && return tmpl_input_arrfield(pgin, arg, arr_label)
+function tmpl_input_field(pgin, arg, arg_type, arr_footnote=true) 
+    arg.default_val isa AbstractArray && return tmpl_input_arrfield(pgin, arg, arr_footnote)
     arg_type == :file && return tmpl_path_input_field(pgin, arg, false)
     arg_type == :dir && return tmpl_path_input_field(pgin, arg, true)
     arg_type == :menu && return make_dd_menu(pgin.name, arg.name, arg.options, arg.menulabel)
     return tmpl_input_field(pgin, arg)
 end
 
-function tmpl_input_field(pgin, arg,  ::Type{Bool}) 
+function tmpl_input_field(pgin, arg,  ::Type{Bool}, arr_footnote=true) 
     pgin_name = pgin.name
     arg_name = arg.name
     arg_val = esc_qm(arg.default_val)
@@ -77,15 +77,15 @@ end
 
 vec2string(x::Vector) = isempty(x) ? "" : join(string.(x), "\n") |> esc_qm
 
-# tmpl_input_field(pgin, arg, ::Type{T}, arr_label=true) where T <: AbstractArray = tmpl_input_arrfield(pgin, arg, arr_label)
+# tmpl_input_field(pgin, arg, ::Type{T}, arr_footnote=true) where T <: AbstractArray = tmpl_input_arrfield(pgin, arg, arr_footnote)
 
-function tmpl_input_arrfield(pgin, arg, arr_label=true)
+function tmpl_input_arrfield(pgin, arg, arr_footnote=true)
     pgin_name = pgin.name
     arg_name = arg.name
     arg_val = arg.default_val
     id="$(pgin_name)_$(arg_name)"
     label = """<label for="$id" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>"""
-    label_source = arr_label ? label : ""
+    label_source = arr_footnote ? label : ""
 
     return """
 <textarea id="$id" name="$(arg_name)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val)) </textarea> <br>
@@ -104,7 +104,7 @@ disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 
 ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
 
-pgin_inputs(p::PluginInfo, css, arr_label=true) = join([tmpl_inp(p, a, insert_url(a.meaning, a.url), (i%2+1), css, arr_label) for (i, a) in pairs(collect(values(p.args)))], " ") 
+pgin_inputs(p::PluginInfo, css, arr_footnote=true) = join([tmpl_inp(p, a, insert_url(a.meaning, a.url), (i%2+1), css, arr_footnote) for (i, a) in pairs(collect(values(p.args)))], " ") 
 
 pgin_form(p::PluginInfo, selected_pgins=pgins_package, css="pgin_inp") = 
     tmpl_beg(p.name, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
