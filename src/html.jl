@@ -7,8 +7,6 @@ esc_qm(x) = x
 esc_qm(s::AbstractString) = occursin(r"(</span>)|(</code>)|(</sup>)|(<br>)", s) ? s :
      replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;")
 
-
-
 function insert_url(s, url)
     isempty(url) && return s |> esc_qm
     re = r"(.*)<a>(.+)(</a>.*)"
@@ -22,7 +20,7 @@ end
 make_html(pgins) = replace(
     html_head() * 
     html_use_purpose() *
-    html_general_options() *
+    # html_general_options() *
     # htmp_default_env_pkg() *
     # html_proj_env_pkg() *
     html_plugins(pgins) *

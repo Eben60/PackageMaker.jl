@@ -68,6 +68,7 @@ function initialized_ptpgins(fv; pgins=def_plugins)
     str_default_pgins = [type2str(p) for p in PkgTemplates.default_plugins()]
     str_all_pgins = union(str_checked_pgins, str_default_pgins)
     for s in str_all_pgins
+        pgins[s].is_general_info && continue
         obj = eval(Symbol(s))
         if haskey(pgins, s) && pgins[s].checked
          # TODO this p should be different from p in for p in PkgTemplates...

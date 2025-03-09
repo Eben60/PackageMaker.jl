@@ -32,7 +32,7 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
 <br><span class="comment"> <sup>*</sup>Projects have no docstrings</span>"""
 
 const dfp = PluginInfo.([
-    ("GeneralOptions", "Creates a Project.toml", [
+    ("GeneralOptions", "General Options", [
         ("is_package", true, "Whether to create a package (vs. a project)."), 
         ("proj_name", "", "Project/Package name. Required input."),
         ("user_name", "$(githubuser())", "User name. Required for many plugins."),
@@ -41,7 +41,7 @@ const dfp = PluginInfo.([
         ("host", "github.com", "URL to the code hosting service where the project will reside."),
         (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
         (Vector{String}, "docstring", [""], "$(package_info_descr)"),
-        (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Put each package name onto a newline. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on by using <code>Pkg</code>."),
+        (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on by using <code>Pkg</code>."),
         ], true),
     ("ProjectFile", "Creates a Project.toml", [
         (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),

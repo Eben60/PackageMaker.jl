@@ -15,10 +15,10 @@ css_styles() =
   padding-left: 10px;
 }
   
-.gen_opt_col1 {
+#GeneralOptions_form .pgin_inp_col1 {
   background: hsl(4, 47%, 88%);
 }
-.gen_opt_col2 {
+#GeneralOptions_form .pgin_inp_col2 {
   background: hsl(4, 45%, 95%);;
 }
 
@@ -58,6 +58,25 @@ h2 {
 }
 
 $(make_dd_css())
+
+#GeneralOptions_form > label {
+  display: none;
+}
+
+#Use_GeneralOptions {
+  display: none;
+}
+
+#GeneralOptions_form div.Plugin_Purpose {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 125%;
+  color: #606060;
+}
+
+label[for="GeneralOptions_docstring"] {
+  display: none;
+}
 
 </style>
 """

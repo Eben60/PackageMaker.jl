@@ -1,9 +1,9 @@
 tmpl_section_beg() = 
 """
 <div  id="tmpl_section_div">
-<h2>Plugins and their parameter</h2>
-    <p class="comment">Most of the functionalities of <code>PkgTemplates</code> is provided by plugins. 
-    The following section provides access to those plugins which are included in the default installation of <code>PkgTemplates</code></p>
+<h2>Options and Plugins</h2>
+    <p class="comment">Most of the functionalities of <code>PkgTemplates</code> is provided by plugins.<br>
+    The following section provides access to general options as well as to selected <code>PkgTemplates</code> plugins.</p>
 """
 
 tmpl_section_end() = 
@@ -23,7 +23,7 @@ tmpl_beg(pgin_name, purpose, show=true) =
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style=$(disp_style(show)) >
 """
 
-function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_footnote=true) # TODO pass last arg further
+function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_footnote=true)
     # css = "pgin_inp" : "gen_opt"
     pgin_name = pgin.name
     arg_type = arg.type
@@ -102,13 +102,21 @@ tmpl_end() =
 
 disp_style(show::Bool) = show ? "\"display:block\"" : "\"display:none\""
 
-ischecked(p::PluginInfo, selected_pgins=pgins_package) = selected_pgins[p.name]
+function shown_pgins()
+    pgins = copy(pgins_package)
+    pgins["GeneralOptions"] = true
+    return pgins
+end
+
+
+
+ischecked(p::PluginInfo, selected_pgins=shown_pgins()) = selected_pgins[p.name]
 
 pgin_inputs(p::PluginInfo, css, arr_footnote=true) = join([tmpl_inp(p, a, insert_url(a.meaning, a.url), (i%2+1), css, arr_footnote) for (i, a) in pairs(collect(values(p.args)))], " ") 
 
-pgin_form(p::PluginInfo, selected_pgins=pgins_package, css="pgin_inp") = 
+pgin_form(p::PluginInfo, selected_pgins=shown_pgins(), css="pgin_inp") = 
     tmpl_beg(p.name, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
     pgin_inputs(p, "pgin_inp") *
     tmpl_end()
 
-html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps if ! p.is_general_info], " \n") * tmpl_section_end()
+html_plugins(ps) = tmpl_section_beg() * join([pgin_form(p) for (_, p) in ps #=if ! p.is_general_info=#], " \n") * tmpl_section_end()
