@@ -85,8 +85,12 @@ function showhidepgin(win, pgin_name, show=true)
     showhide(win, divid, show) 
 end
 
-function handle_purpose(win, el) 
-    pgins_to_show = pgins_sets[el.value]
+function handle_purpose(win, el)
+    val = el.value
+    is_pkg = (val  != "Project")
+    checkelem(win, "GeneralOptions_is_package", is_pkg)
+
+    pgins_to_show = pgins_sets[val]
     for (pgname, v) in pgins_to_show
         showhidepgin(win, pgname, v)
     end
