@@ -25,10 +25,11 @@ end
 Vector{String}
 
 package_info_descr = 
-"""Short package<sup>*</sup> info. This will be put into the package docstring. If you plan to publish it on 
-        <a href="javascript:sendurl('https://github.com/')" >GitHub</a>,
-        it is recommended to provide (the same) short info under "About", 
-        which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration."""
+"""<b>Short package<sup>*</sup> info.</b><br> 
+This will be put into the package docstring. If you plan to publish it on 
+<a href="javascript:sendurl('https://github.com/')" >GitHub</a>, it is recommended to provide (the same) short info under "About", 
+which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
+<br><span class="comment"> <sup>*</sup>Projects have no docstrings</span>"""
 
 const dfp = PluginInfo.([
     ("GeneralOptions", "Creates a Project.toml", [
@@ -40,23 +41,23 @@ const dfp = PluginInfo.([
         ("host", "github.com", "URL to the code hosting service where the project will reside."),
         (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
         (Vector{String}, "docstring", [""], "$(package_info_descr)"),
-        (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Put each package name onto a newline. Suffix .jl is accepted, but not required. You can of course always add packages later on by using Pkg"),
+        (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Put each package name onto a newline. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on by using <code>Pkg</code>."),
         ], true),
     ("ProjectFile", "Creates a Project.toml", [
         (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),
         ]),
     ("SrcDir", "Creates a module entrypoint", [
-        (:file, "file", "DEFAULT_FILE", "Template file for src/$(packagename).jl"),
+        (:file, "file", "<DEFAULT_FILE>", "Template file for src/$(packagename).jl"),
         ]),
     ("Tests", "Sets up testing for packages", [
-        (:file, "file", "DEFAULT_FILE", "Template file for runtests.jl"),
+        (:file, "file", "<DEFAULT_FILE>", "Template file for runtests.jl"),
         ("project", false, "Whether to create a new project for tests (test/Project.toml)."),
         ("aqua", false, "Whether to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
         ("jet", false, "Whether to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the README."), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the README."), 
         ("destination", "README.md", "File destination, relative to the repository root."), 
         ("inline_badges", false, "Whether to put the badges on the same line as the package name."),
         ]),
@@ -80,7 +81,7 @@ const dfp = PluginInfo.([
         ("gpgsign", false, "Whether to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity."),
         ]),
     ("GitHubActions", "Creates a Git repository and a .gitignore file", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the workflow file"), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
         ("destination", "CI.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("linux", true, "Whether to run builds on Linux."), 
         ("osx", false, "Whether to run builds on OSX (MacOS)."), 
@@ -91,12 +92,12 @@ const dfp = PluginInfo.([
         (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with <a>CompatHelper</a> via GitHub Actions", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the workflow file"), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
         ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("cron", "0 0 * * *", "Cron expression for the schedule interval"), 
         ], "https://juliaregistries.github.io/CompatHelper.jl"),
     ("TagBot", "Adds GitHub release support via <a>TagBot</a>", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the workflow file."), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file."), 
         ("destination", "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("trigger", "JuliaTagBot", "Username of the trigger user for custom registries"), 
         ("token", nothing, "Name of the token secret to use"), 
@@ -112,11 +113,11 @@ const dfp = PluginInfo.([
         (Int64, "dispatch_delay", nothing, "Number of minutes to delay for dispatch events"), 
         ], "https://github.com/marketplace/actions/julia-tagbot"),
     ("Dependabot", "Setups <a>Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
-        (:file, "file", "DEFAULT_FILE", "Template file."), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file."), 
         ], "https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically"),
     ("Documenter", "Sets up documentation generation via <a>Documenter.jl</a>. Only subset of options currently supported", [
-        (:file, "make_jl", "DEFAULT_FILE", "Template file for make.jl"), 
-        (:file, "index_md", "DEFAULT_FILE", "Template file for index.md"), 
+        (:file, "make_jl", "<DEFAULT_FILE>", "Template file for make.jl"), 
+        (:file, "index_md", "<DEFAULT_FILE>", "Template file for index.md"), 
         ("deploy", false, "Whether to deploy documentation using GitHubActions"), 
         ], "https://documenter.juliadocs.org"),
     ("Codecov", "Sets up code coverage submission from CI to <a>Codecov</a>.", [
