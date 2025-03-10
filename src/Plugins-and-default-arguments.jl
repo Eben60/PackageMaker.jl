@@ -126,10 +126,14 @@ const dfp = PluginInfo.([
     # ("Coveralls", "Sets up code coverage submission from CI to <a>Coveralls</a>.", [
     #     (:file, "file", nothing, "Template file for .coveralls.yml, or nothing to create no file."), 
     #     ], "https://coveralls.io"),
+    ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [
+        ("config_name", "", 
+            "Configuration name. You can use alphanumeric characters, space and following characters: <code>.,+-_*</code>"), 
+         ], true),
     ]);
 
-extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
-
+# non-default templates of PkgTemplates, supported by PackageMaker, as well as pseudo-plugins
+extra_plugins = ["Documenter", "Codecov", "GeneralOptions", "Save_Configuration", #="Coveralls"=#] 
 const all_plugins = OrderedDict(v.name => v for v in dfp)
 
 const def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp) # if ! v.is_general_info)

@@ -13,15 +13,19 @@ tmpl_section_end() =
 
 
 # create one for per plugin
-tmpl_beg(pgin_name, purpose, show=true) =
+function tmpl_beg(pgin, purpose, show=true)
+    pgin_name = pgin.name
+    shown_name = replace(pgin_name, "_" => " ")
+    plugin_word = pgin.is_general_info ? "" : "plugin"
 """
 <div class="plugin_form_div" id="plugin_form_div_$(pgin_name)">
 <form class="plugin_form" name="$(pgin_name)_form" id="$(pgin_name)_form" action="javascript:void(0)">
     <input id="Use_$(pgin_name)" value="Use_$(pgin_name)" $(checked(show)) onchange="oncng(this)" type="checkbox" class="TogglePlugin">
-    <label for="Use_$(pgin_name)">$(pgin_name) plugin </label>
+    <label for="Use_$(pgin_name)">$(shown_name) $(plugin_word) </label>
     <div class="Plugin_Purpose">$(purpose).</div>
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style=$(disp_style(show)) >
 """
+end
 
 function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_footnote=true)
     # css = "pgin_inp" : "gen_opt"
@@ -115,7 +119,7 @@ ischecked(p::PluginInfo, selected_pgins=shown_pgins()) = selected_pgins[p.name]
 pgin_inputs(p::PluginInfo, css, arr_footnote=true) = join([tmpl_inp(p, a, insert_url(a.meaning, a.url), (i%2+1), css, arr_footnote) for (i, a) in pairs(collect(values(p.args)))], " ") 
 
 pgin_form(p::PluginInfo, selected_pgins=shown_pgins(), css="pgin_inp") = 
-    tmpl_beg(p.name, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
+    tmpl_beg(p, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
     pgin_inputs(p, "pgin_inp") *
     tmpl_end()
 

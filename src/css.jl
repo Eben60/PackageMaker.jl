@@ -78,5 +78,9 @@ label[for="GeneralOptions_docstring"] {
   display: none;
 }
 
+div.plugin_form_div#plugin_form_div_Save_Configuration, #Save_Configuration_form .pgin_inp_col1, #Save_Configuration_form .pgin_inp_col2 {
+  background: rgb(240, 240, 240);
+}
+
 </style>
 """
