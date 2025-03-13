@@ -79,7 +79,7 @@ function tmpl_input_field(pgin, arg,  ::Type{Bool}, arr_footnote=true)
 """
 end
 
-vec2string(x::Vector) = isempty(x) ? "" : join(string.(x), "\n") |> esc_qm
+vec2string(x::Vector) = isempty(x) ? "" : join(x .|> string .|> strip, "\n") |> esc_qm
 
 # tmpl_input_field(pgin, arg, ::Type{T}, arr_footnote=true) where T <: AbstractArray = tmpl_input_arrfield(pgin, arg, arr_footnote)
 
@@ -92,7 +92,7 @@ function tmpl_input_arrfield(pgin, arg, arr_footnote=true)
     label_source = arr_footnote ? label : ""
 
     return """
-<textarea id="$id" name="$(arg_name)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val)) </textarea> <br>
+<textarea id="$id" name="$(arg_name)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val))</textarea> <br>
 $(label_source)
 """
 end

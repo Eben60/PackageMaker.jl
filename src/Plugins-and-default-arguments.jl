@@ -22,7 +22,6 @@ function get_licences()
     pushfirst!(licences, "MIT")
     return licences
 end
-Vector{String}
 
 package_info_descr = 
 """<b>Short package<sup>*</sup> info.</b><br> 

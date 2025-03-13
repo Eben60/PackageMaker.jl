@@ -14,7 +14,6 @@ end
 
 function get_pgins_changed!(plugins)
     for (_, pgin) in plugins
-        @show pgin.name
         get_pgin_changed!(pgin)
     end
     return plugins
@@ -23,6 +22,31 @@ end
 pg2od(pgin::PluginInfo) = OrderedDict([k => pa.returned_rawval for (k, pa) in pgin.args if pa.changed])
 pg2od(pgins::OrderedDict{String, PluginInfo}) = OrderedDict([k => pg2od(pgin) for (k, pgin) in pgins if !isempty(pg2od(pgin))])
 
+function remove_key!(od, pi, arg) 
+    if haskey(od, pi) 
+        delete!(od[pi], arg)
+        isempty(od[pi]) && delete!(od, pi)
+    end
+    return od
+end
+
+remove_key!(od, p::Pair) = remove_key!(od, p.first, p.second)
+
+function remove_key!(od, ps::Vector{<:Pair})
+    for p in ps 
+        remove_key!(od, p)
+    end
+    return od
+end
+
+function remove_inapplicable!(od)
+    not_config_saved = [
+        "GeneralOptions" => "proj_name",
+        "GeneralOptions" => "docstring",
+        "GeneralOptions" => "proj_pkg",
+        ]
+    return remove_key!(od, not_config_saved)
+end
 
 write_config(configname, config::Union{AbstractDict, NamedTuple}) = @set_preferences!(configname => JSON3.write(config))
 write_config(configname, config::Vector{<:Pair}) = write_config(configname, Dict(config)) # not that I need it
