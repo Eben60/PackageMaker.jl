@@ -1,6 +1,7 @@
-checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked]
+# checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked]
 
 function get_pgin_changed!(pgin)
+    pgin.checked || return pgin
     for (_, pa) in pgin.args
         if pa.type == :ExcludedPlugins
             def_val = conv(Val{:ExcludedPlugins}, pa.default_val)
@@ -19,8 +20,19 @@ function get_pgins_changed!(plugins)
     return plugins
 end
 
-pg2od(pgin::PluginInfo) = OrderedDict([k => pa.returned_rawval for (k, pa) in pgin.args if pa.changed])
-pg2od(pgins::OrderedDict{String, PluginInfo}) = OrderedDict([k => pg2od(pgin) for (k, pgin) in pgins if !isempty(pg2od(pgin))])
+function pg2od(pgin::PluginInfo)
+    pgin.name == "Save_Configuration" && return OrderedDict{String, Any}() # nothing saveable to config
+
+    od = OrderedDict{String, Any}([k => pa.returned_rawval for (k, pa) in pgin.args if pa.changed])
+    od["checked"] = (pgin.name == "GeneralOptions") ? true : pgin.checked
+    return od
+end
+
+
+function pg2od(pgins::OrderedDict{String, PluginInfo}) 
+    od = OrderedDict([k => pg2od(pgin) for (k, pgin) in pgins if !isempty(pg2od(pgin))])
+    remove_inapplicable!(od)
+end
 
 function remove_key!(od, pi, arg) 
     if haskey(od, pi) 
@@ -51,7 +63,4 @@ end
 write_config(configname, config::Union{AbstractDict, NamedTuple}) = @set_preferences!(configname => JSON3.write(config))
 write_config(configname, config::Vector{<:Pair}) = write_config(configname, Dict(config)) # not that I need it
 
-Vector{<:Pair}
 read_config(configname) = @load_preference(configname) |> JSON3.read
-
-

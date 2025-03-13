@@ -70,7 +70,7 @@ const dfp = PluginInfo.([
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
         ]),
     ("Git", "Creates a Git repository and a .gitignore file", [
-        (Vector{String}, "ignore",  String[], "Patterns to add to the .gitignore"), 
+        (Vector{String}, "ignore",  [""], "Patterns to add to the .gitignore"), 
         ("name", nothing, "Your real name, if you have not set user.name with Git."), 
         ("email", nothing, "Your email address, if you have not set user.email with Git."), 
         ("branch", "$(default_branch)", "The desired name of the repository's default branch."), 
