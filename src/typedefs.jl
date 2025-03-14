@@ -21,7 +21,7 @@ end
     returned_val = nothing
     
     const url::String = ""
-    const options::Vector{String} = String[]
+    const options = (; opt_list = String[], show_first = false)
     const menulabel::String = "Show licenses"
     changed::Bool = false
 end

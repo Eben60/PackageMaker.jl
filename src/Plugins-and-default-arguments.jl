@@ -64,7 +64,7 @@ const dfp = PluginInfo.([
         (; type = :menu, name="name", default_val = "", # will be filled in from the options get_licences()[1], 
             meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
             url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
-            options = get_licences(),
+            options = (; opt_list = get_licences(), show_first = true),
             menulabel = "Show licenses"), 
         (:file, "path", nothing, "Path to a custom license file. This keyword takes priority over name."), 
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
@@ -125,9 +125,12 @@ const dfp = PluginInfo.([
     # ("Coveralls", "Sets up code coverage submission from CI to <a>Coveralls</a>.", [
     #     (:file, "file", nothing, "Template file for .coveralls.yml, or nothing to create no file."), 
     #     ], "https://coveralls.io"),
-    ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [
-        ("config_name", "", 
-            "Configuration name. You can use alphanumeric characters, space and following characters: <code>.,+-_*</code>"), 
+    ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
+        (; type = :menu, name="config_name", default_val = "",  
+            meaning = "Configuration name. You can select an existing config (if there are any) to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,+-_*</code>", 
+            options = (; opt_list = savedconfignames(), show_first = false),
+            # options = (; opt_list = String[], show_first = false),
+            menulabel = "Show saved configurations"),
          ], true),
     ]);
 
