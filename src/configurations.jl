@@ -1,4 +1,13 @@
-const SAVEDCONFIGS = @has_preference(SAVEDCONFIGS_KEY) ? @load_preference(SAVEDCONFIGS_KEY) : nothing
+function dict2od(d)
+    od = OrderedDict{String, Any}()
+    ks = keys(d) |> collect |> sort!
+    for k in ks
+        od[k] = d[k]
+    end
+    return ks
+end
+
+const SAVEDCONFIGS = @has_preference(SAVEDCONFIGS_KEY) ? @load_preference(SAVEDCONFIGS_KEY) |> dict2od : nothing
 
 function get_pgin_changed!(pgin)
     pgin.checked || return pgin
@@ -79,7 +88,10 @@ function write_config(configname, config::AbstractDict)
     @set_preferences!(SAVEDCONFIGS_KEY => configdict)
 end
 
-read_config(configname) = SAVEDCONFIGS[configname] |> json2dict
+read_config(configname::AbstractString) = SAVEDCONFIGS[configname] |> json2dict
+
+read_config(i::Int) = SAVEDCONFIGS[keys(SAVEDCONFIGS)[i]]
+
 
 dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
 
