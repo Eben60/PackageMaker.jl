@@ -24,8 +24,10 @@ using .FileDialogWorkAround: posixpathstring
 
 processing_finished::Bool = false
 may_exit_julia::Bool = false
-const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 debug_update_checking::Bool = false
+
+const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
+const SAVEDCONFIGS_KEY = "SavedConfigurations"
 
 include("git.jl")
 include("defaults.jl")
@@ -34,6 +36,7 @@ include("conversions.jl")
 include("processvals.jl")
 include("make_docstrings.jl")
 include("package_checking.jl")
+include("configurations.jl")
 # include("packages.jl")
 
 include("css.jl")
@@ -45,8 +48,6 @@ include("html.jl")
 
 include("blink_interactions.jl")
 include("handleinput.jl")
-
-include("configurations.jl")
 
 include("Plugins-and-default-arguments.jl")
 include("macro_unsafe.jl")

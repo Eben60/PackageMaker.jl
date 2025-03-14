@@ -1,4 +1,4 @@
-# checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked]
+const SAVEDCONFIGS = @has_preference(SAVEDCONFIGS_KEY) ? @load_preference(SAVEDCONFIGS_KEY) : nothing
 
 function get_pgin_changed!(pgin)
     pgin.checked || return pgin
@@ -60,8 +60,6 @@ function remove_inapplicable!(od)
     return remove_key!(od, not_config_saved)
 end
 
-const SAVEDCONFIGS = "SavedConfigurations"
-
 function odod2odjson(od)
     od2 = OrderedDict{String, String}()
     for (k, v) in od
@@ -72,16 +70,16 @@ end
 export odod2odjson
 
 function write_config(configname, config::AbstractDict)
-    if @has_preference(SAVEDCONFIGS)
-        configdict = @load_preference(SAVEDCONFIGS)
+    if ! isnothing(SAVEDCONFIGS)
+        configdict = SAVEDCONFIGS
         configdict[configname] = odod2odjson(config)
     else
         configdict = Dict(configname => odod2odjson(config))
     end
-    @set_preferences!(SAVEDCONFIGS => configdict)
+    @set_preferences!(SAVEDCONFIGS_KEY => configdict)
 end
 
-read_config(configname) = @load_preference(SAVEDCONFIGS)[configname] |> json2dict
+read_config(configname) = SAVEDCONFIGS[configname] |> json2dict
 
 dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
 
@@ -95,10 +93,4 @@ function json2dict(x)
     return d0
 end
 
-function savedconfignames()
-    if @has_preference(SAVEDCONFIGS)
-        return @load_preference(SAVEDCONFIGS) |> keys |> collect |> sort!
-    else
-        return String[]
-    end
-end
+savedconfignames() = isnothing(SAVEDCONFIGS) ? String[] : keys(SAVEDCONFIGS) |> collect |> sort!

@@ -8,7 +8,7 @@ fv = ConfigData.fv
 # include("TestData.jl")
 # fv = TestData.fv
 
-using PackageMaker: checked_names, get_pgins_changed!, get_checked_pgins!, def_plugins_original, remove_key!, remove_inapplicable!
+using PackageMaker: get_pgins_changed!, get_checked_pgins!, def_plugins_original, remove_key!, remove_inapplicable!
 
 
 pgins = get_pgins_vals!(fv; plugins=deepcopy(def_plugins_original))
@@ -29,12 +29,12 @@ ogcpg
 # jsw = JSON3.write(ogcpg)
 # jsr = JSON3.read(jsw);
 
-write_config("Pref1", ogcpg)
+# write_config("Pref1", ogcpg)
 write_config("Pref2a", ogcpg)
 jsr2a = read_config("Pref2a")
 jsr1 = read_config("Pref1") 
 
-cnames = savedconfignames()
+# cnames = savedconfignames()
 
 
 
