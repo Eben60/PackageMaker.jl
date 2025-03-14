@@ -4,7 +4,7 @@ function dict2od(d)
     for k in ks
         od[k] = d[k]
     end
-    return ks
+    return od
 end
 
 const SAVEDCONFIGS = @has_preference(SAVEDCONFIGS_KEY) ? @load_preference(SAVEDCONFIGS_KEY) |> dict2od : nothing
@@ -88,10 +88,20 @@ function write_config(configname, config::AbstractDict)
     @set_preferences!(SAVEDCONFIGS_KEY => configdict)
 end
 
-read_config(configname::AbstractString) = SAVEDCONFIGS[configname] |> json2dict
+function read_config(configname::AbstractString)
+    i = savedconfig_tag_no(configname)
+    isnothing(i) && return (; name=configname, config=(SAVEDCONFIGS[configname] |> json2dict))
+    return read_config(i)
+end
 
-read_config(i::Int) = SAVEDCONFIGS[keys(SAVEDCONFIGS)[i]]
+read_config(i::Int) = read_config(collect(keys(SAVEDCONFIGS))[i])
 
+function savedconfig_tag_no(tag)
+    re = r"SavedConfigTag_(\d+)"
+    m = match(re, tag)
+    isnothing(m) && return nothing
+    return parse(Int, m[1])
+end
 
 dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
 
