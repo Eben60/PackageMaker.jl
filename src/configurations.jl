@@ -60,7 +60,31 @@ function remove_inapplicable!(od)
     return remove_key!(od, not_config_saved)
 end
 
-write_config(configname, config::Union{AbstractDict, NamedTuple}) = @set_preferences!(configname => JSON3.write(config))
-write_config(configname, config::Vector{<:Pair}) = write_config(configname, Dict(config)) # not that I need it
+const SAVEDCONFIGS = "SavedConfigurations"
 
-read_config(configname) = @load_preference(configname) |> JSON3.read
+function write_config(configname, config::Union{AbstractDict, NamedTuple})
+
+    configdict = @load_preference(SAVEDCONFIGS) |> JSON3.read |> Dict{String, Dict{String, Any}}
+
+
+ @set_preferences!(SAVEDCONFIGS => JSON3.write(configdict))
+
+end
+
+ #write_config(configname, config::Vector{<:Pair}) = write_config(configname, Dict(config)) # not that I need it
+
+read_config(configname) = @load_preference(configname)
+
+dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
+
+json2dstr(x) = x |> JSON3.read |> Dict{Symbol, Any} |> dsym2dstr
+
+function json2dict(x)
+    d = x |> json2dstr
+    d0 = Dict{String, Any}()
+    for (k, v) in d
+        d0[k] = v |> Dict |> dsym2dstr
+    end
+    return d0
+end
+export json2dict

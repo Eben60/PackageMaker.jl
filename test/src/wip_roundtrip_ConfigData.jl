@@ -29,6 +29,6 @@ ogcpg
 # jsw = JSON3.write(ogcpg)
 # jsr = JSON3.read(jsw);
 
-write_config("Pref1", ogcpg)
-jsr = read_config("Pref1")
+# write_config("Pref1", ogcpg)
+jsr = read_config("Pref1") |> json2dict
 ;
