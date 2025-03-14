@@ -1,5 +1,5 @@
 using PackageMaker
-using PackageMaker: PluginArg, PluginInfo, pg2od, write_config, read_config, get_pgins_vals!
+using PackageMaker: PluginArg, PluginInfo, pg2od, write_config, read_config, get_pgins_vals!, savedconfignames
 using DataStructures
 using JSON3
 
@@ -29,6 +29,14 @@ ogcpg
 # jsw = JSON3.write(ogcpg)
 # jsr = JSON3.read(jsw);
 
-# write_config("Pref1", ogcpg)
-jsr = read_config("Pref1") |> json2dict
+write_config("Pref1", ogcpg)
+write_config("Pref2a", ogcpg)
+jsr2a = read_config("Pref2a")
+jsr1 = read_config("Pref1") 
+
+cnames = savedconfignames()
+
+
+
+
 ;

@@ -62,29 +62,43 @@ end
 
 const SAVEDCONFIGS = "SavedConfigurations"
 
-function write_config(configname, config::Union{AbstractDict, NamedTuple})
+function odod2odjson(od)
+    od2 = OrderedDict{String, String}()
+    for (k, v) in od
+        od2[k] = v |> JSON3.write
+    end
+    return od2
+end
+export odod2odjson
 
-    configdict = @load_preference(SAVEDCONFIGS) |> JSON3.read |> Dict{String, Dict{String, Any}}
-
-
- @set_preferences!(SAVEDCONFIGS => JSON3.write(configdict))
-
+function write_config(configname, config::AbstractDict)
+    if @has_preference(SAVEDCONFIGS)
+        configdict = @load_preference(SAVEDCONFIGS)
+        configdict[configname] = odod2odjson(config)
+    else
+        configdict = Dict(configname => odod2odjson(config))
+    end
+    @set_preferences!(SAVEDCONFIGS => configdict)
 end
 
- #write_config(configname, config::Vector{<:Pair}) = write_config(configname, Dict(config)) # not that I need it
-
-read_config(configname) = @load_preference(configname)
+read_config(configname) = @load_preference(SAVEDCONFIGS)[configname] |> json2dict
 
 dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
 
 json2dstr(x) = x |> JSON3.read |> Dict{Symbol, Any} |> dsym2dstr
 
 function json2dict(x)
-    d = x |> json2dstr
     d0 = Dict{String, Any}()
-    for (k, v) in d
-        d0[k] = v |> Dict |> dsym2dstr
+    for (k, v) in x
+        d0[k] = v |> json2dstr
     end
     return d0
 end
-export json2dict
+
+function savedconfignames()
+    if @has_preference(SAVEDCONFIGS)
+        return @load_preference(SAVEDCONFIGS) |> keys |> collect |> sort!
+    else
+        return String[]
+    end
+end
