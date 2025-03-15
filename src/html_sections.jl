@@ -39,6 +39,7 @@ html_use_purpose() =
         Registration Guidelines</a> esp. relating to package naming. </label> 
        </div>
        <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually.</p>
+       $(html_configs())
     </fieldset>
 </form>
 </div>
@@ -67,17 +68,6 @@ $(general_inputs())
 """
     return h
 end
-
-# function html_general_options(gen_options=gen_options)
-#     inputs = pgin_inputs(gen_options, "gen_opt")
-#     h = 
-# """<div id="general_options_div">
-# <h2>General options</h2>
-# <form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
-# $inputs
-# </form>   
-# </div>"""
-# end
 
 function default_env_checkbox(no, pkg_name; 
     installed = default_env_packages())
@@ -139,3 +129,23 @@ html_submit() =
 </div>
 """
 
+function html_configs()
+    isnothing(SAVEDCONFIGS) && return ""
+    cfarr = String[]
+    for (i, cn) in savedconfignames() |> pairs
+        cftag = "SavedConfigTag_$i"
+        cfsec = 
+"""
+    <input id="$(cftag)" name="Choice" value="$(cftag)" onchange="oncng(this)" type="radio">
+    <label for="$(cftag)">$(cn)</label><br>
+"""
+        push!(cfarr, cfsec)
+    end
+    confsections = join(cfarr, "\n")
+    htm = 
+"""
+    <p>Saved configurations:</p>
+$(confsections)"""
+    return htm
+
+end
