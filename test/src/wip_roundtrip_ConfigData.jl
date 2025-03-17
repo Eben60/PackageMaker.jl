@@ -30,7 +30,8 @@ ogcpg
 # jsr = JSON3.read(jsw);
 
 # write_config("Pref1", ogcpg)
-write_config("Pref2a", ogcpg)
+# write_config("Pref2a", ogcpg)
+write_config("This_is, whay- bekauze + .", ogcpg)
 jsr2a = read_config("Pref2a")
 jsr1 = read_config("Pref1") 
 

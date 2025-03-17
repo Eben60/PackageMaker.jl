@@ -7,7 +7,17 @@ function dict2od(d)
     return od
 end
 
-const SAVEDCONFIGS = @has_preference(SAVEDCONFIGS_KEY) ? @load_preference(SAVEDCONFIGS_KEY) |> dict2od : nothing
+SavedConfigsType = OrderedDict{String, Dict{String, String}}
+
+function get_saved_configs() 
+    if @has_preference(SAVEDCONFIGS_KEY) 
+        return @load_preference(SAVEDCONFIGS_KEY) |> dict2od |> SavedConfigsType
+    else
+        return SavedConfigsType()
+    end
+end
+
+savedconfigs::SavedConfigsType = get_saved_configs()
 
 function get_pgin_changed!(pgin)
     pgin.checked || return pgin
@@ -79,8 +89,8 @@ end
 export odod2odjson
 
 function write_config(configname, config::AbstractDict)
-    if ! isnothing(SAVEDCONFIGS)
-        configdict = SAVEDCONFIGS
+    if ! isempty(savedconfigs)
+        configdict = savedconfigs
         configdict[configname] = odod2odjson(config)
     else
         configdict = Dict(configname => odod2odjson(config))
@@ -90,11 +100,11 @@ end
 
 function read_config(configname::AbstractString)
     i = savedconfig_tag_no(configname)
-    isnothing(i) && return (; name=configname, config=(SAVEDCONFIGS[configname] |> json2dict))
+    isnothing(i) && return (; name=configname, config=(savedconfigs[configname] |> json2dict))
     return read_config(i)
 end
 
-read_config(i::Int) = read_config(collect(keys(SAVEDCONFIGS))[i])
+read_config(i::Int) = read_config(collect(keys(savedconfigs))[i])
 
 function savedconfig_tag_no(tag)
     re = r"SavedConfigTag_(\d+)"
@@ -115,4 +125,18 @@ function json2dict(x)
     return d0
 end
 
-savedconfignames() = isnothing(SAVEDCONFIGS) ? String[] : keys(SAVEDCONFIGS) |> collect |> sort!
+savedconfignames() = isempty(savedconfigs) ? String[] : keys(savedconfigs) |> collect |> sort!
+
+function save_config(fv)
+    pgins = get_pgins_vals!(fv)
+    scpi = pgins["Save_Configuration"]
+    get_checked_pgins!(fv; pgins)
+    scpi.checked || return nothing
+    config_name = scpi["config_name"].returned_val
+    isempty(config_name) && error("You didn't provide config name. Configuration not saved.")
+    get_pgins_changed!(pgins)
+    ogcpg = pg2od(pgins)
+    write_config(config_name, ogcpg)
+    println("Configuration $(config_name) saved to preferences.")
+    return nothing
+end

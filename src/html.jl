@@ -5,7 +5,7 @@ checked(b) = b ? "checked" : ""
 
 esc_qm(x) = x
 esc_qm(s::AbstractString) = occursin(r"(</span>)|(</code>)|(</sup>)|(<br>)", s) ? s :
-     replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;")
+     replace(s, "\""=>"&quot;", ">" => "&gt;", "<" => "&lt;", "&" => "&amp;", "#" => "&#35;")
 
 function insert_url(s, url)
     isempty(url) && return s |> esc_qm

@@ -29,15 +29,14 @@ debug_update_checking::Bool = false
 const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 const SAVEDCONFIGS_KEY = "SavedConfigurations"
 
-include("git.jl")
 include("defaults.jl")
 include("typedefs.jl")
+include("configurations.jl")
+include("git.jl")
 include("conversions.jl")
 include("processvals.jl")
 include("make_docstrings.jl")
 include("package_checking.jl")
-include("configurations.jl")
-# include("packages.jl")
 
 include("css.jl")
 include("js_scripts.jl")

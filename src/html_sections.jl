@@ -130,7 +130,7 @@ html_submit() =
 """
 
 function html_configs()
-    isnothing(SAVEDCONFIGS) && return ""
+    isempty(savedconfigs) && return ""
     cfarr = String[]
     for (i, cn) in savedconfignames() |> pairs
         cftag = "SavedConfigTag_$i"

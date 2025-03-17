@@ -180,13 +180,16 @@ function cleanup(wpath)
     return nothing 
 end
 
-function _gogui(exitjulia=false; make_prj = true)
+function _gogui(exitjulia=false; make_prj = true, saveconfig = true)
     global may_exit_julia
     (;finalvals, wpath) = initwin(; make_prj)
     cleanup(wpath)
+    saveconfig && save_config(finalvals)
     if exitjulia && may_exit_julia
         println("Project created, exiting julia")
         exit()
+    else
+        global savedconfigs = get_saved_configs() # re-read the global
     end
     return (;finalvals)
 end
