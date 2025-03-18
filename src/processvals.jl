@@ -125,7 +125,6 @@ function create_proj(fv; plugins=def_plugins)
     global may_exit_julia
     get_pgins_vals!(fv; plugins)
     pgins=initialized_ptpgins(fv)
-
     gen_options = general_options(fv; plugins)
     (;ispk, proj_name, templ_kwargs, dependencies, unknown_pkgs) = gen_options
     (;dir, ) = templ_kwargs

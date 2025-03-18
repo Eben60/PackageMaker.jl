@@ -1,3 +1,5 @@
+checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked && !(pgin.name in ("GeneralOptions", "Save_Configuration")) ]
+
 function dict2od(d)
     od = OrderedDict{String, Any}()
     ks = keys(d) |> collect |> sort!
