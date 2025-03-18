@@ -184,11 +184,15 @@ function _gogui(exitjulia=false; make_prj = true, saveconfig = true)
     global may_exit_julia
     (;finalvals, wpath) = initwin(; make_prj)
     cleanup(wpath)
-    saveconfig && save_config(finalvals)
+    if saveconfig 
+        configsaved = save_config(finalvals)
+    else 
+        configsaved = false
+    end
     if exitjulia && may_exit_julia
         println("Project created, exiting julia")
         exit()
-    else
+    elseif configsaved
         global savedconfigs = get_saved_configs() # re-read the global
     end
     return (;finalvals)

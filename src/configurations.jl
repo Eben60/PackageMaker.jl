@@ -131,12 +131,12 @@ function save_config(fv)
     pgins = get_pgins_vals!(fv)
     scpi = pgins["Save_Configuration"]
     get_checked_pgins!(fv; pgins)
-    scpi.checked || return nothing
+    scpi.checked || return false
     config_name = scpi["config_name"].returned_val
-    isempty(config_name) && error("You didn't provide config name. Configuration not saved.")
+    isempty(config_name) && return false
     get_pgins_changed!(pgins)
     ogcpg = pg2od(pgins)
     write_config(config_name, ogcpg)
     println("Configuration $(config_name) saved to preferences.")
-    return nothing
+    return true
 end
