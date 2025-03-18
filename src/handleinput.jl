@@ -1,6 +1,7 @@
 function handleinput(win, el::HtmlElem, prevvals)
     # (; newvals, initvals) = prevvals
     el.parentformid == :use_purpose_form && return handle_purpose(win, el)
+    el.id == :GeneralOptions_is_package && return enable_docstring(win, el.checked)
     "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=true)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
     return nothing
@@ -87,6 +88,7 @@ function handle_purpose(win, el)
     startswith(val, "SavedConfigTag_") && return handle_savedconfig(win, val)
     is_pkg = (val  != "Project")
     checkelem(win, "GeneralOptions_is_package", is_pkg)
+    enable_docstring(win, is_pkg)
 
     haskey(pgins_sets, val) || return nothing
     pgins_to_show = pgins_sets[val]
@@ -115,5 +117,12 @@ function setfields_saved(win, config)
         for (fldname, val) in pgdict
             setelemval(win, pgname, fldname, val)
         end
-    end  
+    end
+    is_package = config["GeneralOptions"]["is_package"]
+    enable_docstring(win, is_package) 
+end
+
+function enable_docstring(win, is_package)
+    is_package || setelemval(win, "GeneralOptions_docstring", "")
+    enable_html_elem(win, "GeneralOptions_docstring", is_package)
 end

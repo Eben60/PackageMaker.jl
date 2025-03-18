@@ -32,6 +32,7 @@ function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_footnote=true)
     pgin_name = pgin.name
     arg_type = arg.type
     arg_name = arg.name
+    # <div class="$(css)_margins $(css)_col$(color_no)" id="div_$(pgin_name)_$(arg_name)"> # currently unnecessary
     return """
     <div class="$(css)_margins $(css)_col$(color_no)">
     $(tmpl_input_field(pgin, arg, arg_type, arr_footnote))

@@ -31,6 +31,9 @@ function get_pgin_changed!(pgin)
             pa.changed = (! ismissing(pa.returned_val)) && (pa.default_val != pa.returned_val)
         end
     end
+    if pgin.name == "GeneralOptions" 
+        pgin.args["is_package"].changed = true
+    end
     return pgin
 end
 

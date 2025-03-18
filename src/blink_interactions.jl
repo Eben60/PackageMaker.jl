@@ -108,9 +108,16 @@ function initwin(wpath=make_html(); make_prj = false)
     return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
 end
 
-function showhide(win, id, show=true, duration=100) 
+function showhide(win, id, show_tag=true, duration=100) 
     jqselector = "#$(id)"
-    jqaction = show ? "show($(duration))" : "hide($(duration))"
+    jqaction = show_tag ? "show($(duration))" : "hide($(duration))"
     js(win, Blink.JSString("""jQuery("$(jqselector)").$(jqaction)"""); callback=false)
+    return nothing
+end
+
+function enable_html_elem(win, id, enable=true)
+    jqselector = "#$(id)"
+    jqaction = string(! enable)
+    js(win, Blink.JSString("""jQuery("$(jqselector)").attr("disabled", $(jqaction))"""); callback=false)
     return nothing
 end
