@@ -37,7 +37,10 @@ end
 # may not work if called during interaction
 getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
 
-setelemval(win, id, newval) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
+setelemval(win, id, newval::AbstractString) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
+setelemval(win, id, newval::Bool) = checkelem(win, id, newval::Bool) 
+
+setelemval(win, pgname, fldname, newval) = setelemval(win, "$(pgname)_$(fldname)", newval)
 
 checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
 
