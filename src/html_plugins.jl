@@ -61,6 +61,15 @@ function tmpl_input_field(pgin, arg)
 """
 end
 
+function tmpl_button(pgin, arg)
+    pgin_name = pgin.name
+    arg_name = arg.name
+    arg_val = esc_qm(arg.default_val)
+    return """
+<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onchange="oncng(this)" type="button" >$(arg_val)</button>
+"""
+end
+
 tmpl_input_field(pgin, arg, ::Type{T}) where T <: AbstractString = tmpl_input_field(pgin, arg)
 
 function tmpl_input_field(pgin, arg, arg_type, arr_footnote=true) 
@@ -68,6 +77,7 @@ function tmpl_input_field(pgin, arg, arg_type, arr_footnote=true)
     arg_type == :file && return tmpl_path_input_field(pgin, arg, false)
     arg_type == :dir && return tmpl_path_input_field(pgin, arg, true)
     arg_type == :menu && return make_dd_menu(pgin.name, arg.name, arg.options, arg.menulabel)
+    arg_type == :button && return tmpl_button(pgin, arg)
     return tmpl_input_field(pgin, arg)
 end
 

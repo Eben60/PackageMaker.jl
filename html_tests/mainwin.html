@@ -641,7 +641,7 @@ pre</textarea> <br>
     <input id="Use_Save_Configuration" value="Use_Save_Configuration"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Save_Configuration">Save Configuration  </label>
     <div class="Plugin_Purpose">You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies.</div>
-    <div class="Plugin_Inputs" id="Save_Configuration_inputs" style="display:none" >
+    <div class="Plugin_Inputs" id="Save_Configuration_inputs" >
     <div class="pgin_inp_margins pgin_inp_col2" id="div_Save_Configuration_config_name">
         <div class="menu_container" id="Save_Configuration_config_name_menu">
     <input size="30" id="Save_Configuration_config_name" name="config_name" class="menu_target" value="" onchange="oncng(this)" type="text">
@@ -659,6 +659,14 @@ pre</textarea> <br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">Configuration name. You can select an existing config (if there are any) to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,+-_*</code></span><br>
     </div>
+
+    <div class="pgin_inp_margins pgin_inp_col1" id="div_CompatHelper_destination">
+      <button id="SaveConfig" onclick="oncng(this)" type="button" >Save configuration</button><br>
+  
+      <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_destination">Destination of the workflow file, relative to .github/workflows</span><br>
+      </div>
+
+
 </div>
 </form>
 </div>

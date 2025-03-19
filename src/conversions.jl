@@ -16,6 +16,7 @@ end
 conv(::Type{Val{:file}}, s) = strip(s) 
 conv(::Type{Val{:dir}}, s) = strip(s)
 conv(::Type{Val{:menu}}, s) = strip(s) 
+conv(::Type{Val{:button}}, s) = strip(s) 
 
 conv(::Type{Vector{S}}, val) where S <: AbstractString = split(val, "\n")
 

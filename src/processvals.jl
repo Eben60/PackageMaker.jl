@@ -8,6 +8,7 @@ end
 
 function get_pgin_vals!(pgin, fv; plugins=def_plugins)
     for (k, pa) in pgin.args
+        pa.type == :button && continue
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
 
