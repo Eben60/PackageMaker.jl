@@ -1,11 +1,20 @@
 function handleinput(win, el::HtmlElem, prevvals)
     # (; newvals, initvals) = prevvals
     el.parentformid == :use_purpose_form && return handle_purpose(win, el)
-    el.id == :GeneralOptions_is_package && return enable_docstring(win, el.checked)
+    el.id == :GeneralOptions_is_package && return (enable_docstring(win, el.checked); setsubmitbutton(win, el.checked))
     "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=true)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
     return nothing
 
+end
+
+function setsubmitbutton(win, is_package)
+    if is_package
+        setelemtext(win, "subm1", "Create package")
+    else
+        setelemtext(win, "subm1", "Create project")
+    end
+    return nothing
 end
 
 function openurl(url)
@@ -86,9 +95,10 @@ end
 function handle_purpose(win, el)
     val = el.value
     startswith(val, "SavedConfigTag_") && return handle_savedconfig(win, val)
-    is_pkg = (val  != "Project")
-    checkelem(win, "GeneralOptions_is_package", is_pkg)
-    enable_docstring(win, is_pkg)
+    is_package = (val  != "Project")
+    checkelem(win, "GeneralOptions_is_package", is_package)
+    enable_docstring(win, is_package)
+    setsubmitbutton(win, is_package)
 
     haskey(pgins_sets, val) || return nothing
     pgins_to_show = pgins_sets[val]
@@ -119,7 +129,8 @@ function setfields_saved(win, config)
         end
     end
     is_package = config["GeneralOptions"]["is_package"]
-    enable_docstring(win, is_package) 
+    enable_docstring(win, is_package)
+    setsubmitbutton(win, is_package)
 end
 
 function enable_docstring(win, is_package)

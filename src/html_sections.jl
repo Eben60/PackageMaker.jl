@@ -124,7 +124,7 @@ html_submit() =
 <div id="submit_div">
 <form class="submit_form" name="submit_form" id="submit_form" action="javascript:void(0)">
 <button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)">Submit</button>
+<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)">Create package</button>
 </form>
 </div>
 """
