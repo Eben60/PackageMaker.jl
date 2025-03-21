@@ -4,9 +4,25 @@ function handleinput(win, el::HtmlElem, prevvals)
     el.id == :GeneralOptions_is_package && return (enable_docstring(win, el.checked); setsubmitbutton(win, el.checked))
     "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=true)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
+    el.id == :GeneralOptions_proj_name && return check_projname(win, el.value)
     return nothing
 
 end
+
+check_projname(win, projname) = set_checkfield(win, "checkfield_ProjName", Base.isidentifier(projname))
+
+function set_checkfield(win, id, ok)
+    if ok
+        setelemtext(win, id, "✓")
+        setelemclass(win, id, "checkfield_OK")
+    else
+        setelemtext(win, id, "🞫")
+        setelemclass(win, id, "checkfield_NOK")
+    end
+    return nothing
+end
+
+
 
 function setsubmitbutton(win, is_package)
     if is_package

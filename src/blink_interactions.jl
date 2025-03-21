@@ -41,7 +41,12 @@ setelemval(win, id, newval::AbstractString) = js(win, Blink.JSString("""el = doc
 setelemval(win, id, newval::Bool) = checkelem(win, id, newval::Bool) 
 setelemval(win, pgname, fldname, newval) = setelemval(win, "$(pgname)_$(fldname)", newval)
 
-setelemtext(win, id, newval::AbstractString) = js(win, Blink.JSString("""document.getElementById("$id").textContent = "$newval";"""); callback=false)
+setelemtext(win, id, newval::AbstractString) = 
+    js(win, Blink.JSString("""document.getElementById("$id").textContent = "$newval";"""); callback=false)
+
+setelemclass(win, id, newval::AbstractString) = 
+    js(win, Blink.JSString("""document.getElementById("$id").className = "$newval";"""); callback=false)
+
 
 checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
 

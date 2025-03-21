@@ -82,5 +82,15 @@ div.plugin_form_div#plugin_form_div_Save_Configuration, #Save_Configuration_form
   background: rgb(240, 240, 240);
 }
 
+.checkfield_OK {
+  color: green;
+  font-weight: bold;
+}
+
+.checkfield_NOK {
+  color: rgb(247, 36, 36);
+  font-weight: bold;
+}
+
 </style>
 """

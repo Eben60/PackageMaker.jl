@@ -123,8 +123,13 @@ html_submit() =
 """
 <div id="submit_div">
 <form class="submit_form" name="submit_form" id="submit_form" action="javascript:void(0)">
-<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)">Create package</button>
+<br>
+<span class="checkfield_NOK" id="checkfield_ProjName">🞫</span>&nbsp;Project name OK <br>
+<span class="checkfield_NOK" id="checkfield_ProjDir">🞫</span>&nbsp;Project directory OK <br>
+<span class="checkfield_OK" id="checkfield_SaveConfig">✓</span>&nbsp;"Save Configuration" checkbox unselected (if desired, save config prior to creating project)<br><br>
+<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)">Create project</button>
 </form>
 </div>
 """
