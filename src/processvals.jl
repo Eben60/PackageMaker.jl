@@ -16,7 +16,7 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
             # pa.nondefault = true
             pa.returned_val = pa.returned_rawval = el.checked
         else
-            s = el.value |> tidystring
+            s = tidystring(el.value; remove_empty_lines=false)
             default_val = plugins[pgin.name].args[pa.name].default_val
             is_all_nothing = (s == "nothing") && isnothing(default_val)
             pa.returned_rawval = s
@@ -175,25 +175,18 @@ end
 
 function initialize()
     global val_form = ValidateForm()
-    global def_plugins = deepcopy(def_plugins_original) 
-    println("TODO finalize initialize function")
+    global def_plugins = deepcopy(def_plugins_original)
+    global savedconfigs = get_saved_configs()
 end
 
-function _gogui(exitjulia=false; make_prj = true, saveconfig = true)
+function _gogui(exitjulia=false; make_prj = true)
     global may_exit_julia
     initialize()
     (;finalvals, wpath) = initwin(; make_prj)
     cleanup(wpath)
-    if saveconfig 
-        configsaved = save_config(finalvals)
-    else 
-        configsaved = false
-    end
     if exitjulia && may_exit_julia
         println("Project created, exiting julia")
         exit()
-    elseif configsaved
-        global savedconfigs = get_saved_configs() # re-read the global
     end
     return (;finalvals)
 end

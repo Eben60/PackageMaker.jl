@@ -19,7 +19,7 @@ function get_saved_configs()
     end
 end
 
-savedconfigs::SavedConfigsType = get_saved_configs()
+savedconfigs::SavedConfigsType = SavedConfigsType()
 
 function get_pgin_changed!(pgin)
     pgin.checked || return pgin
@@ -144,4 +144,10 @@ function save_config(fv)
     write_config(config_name, ogcpg)
     println("Configuration $(config_name) saved to preferences.")
     return true
+end
+
+function handle_intermed_input(win, vals)
+    save_config(vals)
+    showhidepgin(win, "Save_Configuration", false)
+    check_saveconfig_done(win, false)
 end

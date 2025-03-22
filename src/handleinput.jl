@@ -47,7 +47,7 @@ end
 
 function enable_submit(win)
     valid = form_valid(val_form)
-    disableinputelem(win, "subm1", !valid)
+    enable_html_elem(win, "subm1", valid)
     return nothing
 end
 
@@ -124,7 +124,6 @@ function set_file_from_dialog(win, el, prevvals; selectdir)
     v = current_val(inp_id, prevvals)
     vnew = update_struct(v; value=fl)
     newvals[inp_id] = vnew
-    @show el.id
     el.id == :GeneralOptions_project_dir_button && check_projdir(win, fl)
     
     return nothing
@@ -157,6 +156,8 @@ function handle_savedconfig(win, val)
     (; config) = read_config(val)
     showhide_saved(win, config)
     setfields_saved(win, config)
+    haskey(config, "GeneralOptions") && haskey(config["GeneralOptions"], "project_dir") && check_projdir(win, config["GeneralOptions"]["project_dir"])
+    return nothing
 end
 
 function showhide_saved(win, config)
