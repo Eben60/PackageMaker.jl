@@ -5,11 +5,34 @@ function handleinput(win, el::HtmlElem, prevvals)
     "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=true)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
     el.id == :GeneralOptions_proj_name && return check_projname(win, el.value)
+    el.id == :GeneralOptions_project_dir && return check_projdir(win, el.value)
+    el.id == :Use_Save_Configuration && return check_saveconfig_done(win, el.checked)
     return nothing
-
 end
 
-check_projname(win, projname) = set_checkfield(win, "checkfield_ProjName", Base.isidentifier(projname))
+function check_saveconfig_done(win, checked)
+    ok = ! checked
+    set_checkfield(win, "checkfield_SaveConfig", ok)
+    val_form.SaveConfig = ok
+    enable_submit(win)
+    return nothing
+end
+
+function check_projname(win, projname)
+    ok = Base.isidentifier(projname)
+    set_checkfield(win, "checkfield_ProjName", ok)
+    val_form.ProjName = ok
+    enable_submit(win)
+    return nothing
+end
+
+function check_projdir(win, projdir)
+    ok = ispath(projdir) && isabspath(projdir)
+    set_checkfield(win, "checkfield_ProjDir", ok)
+    val_form.ProjDir = ok
+    enable_submit(win)
+    return nothing
+end
 
 function set_checkfield(win, id, ok)
     if ok
@@ -22,7 +45,11 @@ function set_checkfield(win, id, ok)
     return nothing
 end
 
-
+function enable_submit(win)
+    valid = form_valid(val_form)
+    disableinputelem(win, "subm1", !valid)
+    return nothing
+end
 
 function setsubmitbutton(win, is_package)
     if is_package
@@ -97,6 +124,8 @@ function set_file_from_dialog(win, el, prevvals; selectdir)
     v = current_val(inp_id, prevvals)
     vnew = update_struct(v; value=fl)
     newvals[inp_id] = vnew
+    @show el.id
+    el.id == :GeneralOptions_project_dir_button && check_projdir(win, fl)
     
     return nothing
 end

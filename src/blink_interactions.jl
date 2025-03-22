@@ -50,7 +50,7 @@ setelemclass(win, id, newval::AbstractString) =
 
 checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
 
-disableinputelem(win, id) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = true;"""); callback=false)
+disableinputelem(win, id, disable=true) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = $(disable);"""); callback=false)
 
 getforminputs(d, form) = filter(e -> (e.second.parentformid == Symbol(form)), d) 
 

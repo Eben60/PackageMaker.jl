@@ -180,8 +180,14 @@ function cleanup(wpath)
     return nothing 
 end
 
+function initialize()
+    global val_form = ValidateForm()
+    println("TODO finalize initialize function")
+end
+
 function _gogui(exitjulia=false; make_prj = true, saveconfig = true)
     global may_exit_julia
+    initialize()
     (;finalvals, wpath) = initwin(; make_prj)
     cleanup(wpath)
     if saveconfig 
