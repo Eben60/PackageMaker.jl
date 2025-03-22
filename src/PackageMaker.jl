@@ -31,12 +31,10 @@ const SAVEDCONFIGS_KEY = "SavedConfigurations"
 
 include("defaults.jl")
 include("typedefs.jl")
-include("configurations.jl")
 include("git.jl")
+include("configurations.jl")
 include("conversions.jl")
-include("processvals.jl")
-include("make_docstrings.jl")
-include("package_checking.jl")
+include("Plugins-and-default-arguments.jl")
 
 include("css.jl")
 include("js_scripts.jl")
@@ -48,7 +46,10 @@ include("html.jl")
 include("blink_interactions.jl")
 include("handleinput.jl")
 
-include("Plugins-and-default-arguments.jl")
+include("package_checking.jl")
+
+include("processvals.jl")
+include("make_docstrings.jl")
 include("macro_unsafe.jl")
 using .MacroUnsafe
 export @unsafe

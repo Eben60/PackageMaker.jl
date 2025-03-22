@@ -48,3 +48,10 @@ function split_pkg_list(x)
     v = replace.(v, jl_re => "")
     return v
 end
+
+function type2str(x)
+    t = x |>typeof |> Symbol |> String
+    occursin(".", t) || return t
+    re=r".*\.(.+)"
+    return match(re, t)[1]
+end

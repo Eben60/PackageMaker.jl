@@ -49,13 +49,6 @@ end
 
 pgin_kwargs(pgin::PluginInfo) = NamedTuple(Symbol(pa.name) => pa.returned_val for (_, pa) in pgin.args if !ismissing(pa.returned_val)) # pa.nondefault)
 
-function type2str(x)
-    t = x |>typeof |> Symbol |> String
-    occursin(".", t) || return t
-    re=r".*\.(.+)"
-    return match(re, t)[1]
-end
-
 function init_documenter(nt)
     deploy = nt.deploy
     otherkwargs = [k => v for (k, v) in pairs(nt) if k != :deploy]
@@ -182,6 +175,7 @@ end
 
 function initialize()
     global val_form = ValidateForm()
+    global def_plugins = deepcopy(def_plugins_original) 
     println("TODO finalize initialize function")
 end
 

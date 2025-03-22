@@ -138,11 +138,11 @@ const dfp = PluginInfo.([
 
 # non-default templates of PkgTemplates, supported by PackageMaker, as well as pseudo-plugins
 extra_plugins = ["Documenter", "Codecov", "GeneralOptions", "Save_Configuration", #="Coveralls"=#] 
-const all_plugins = OrderedDict(v.name => v for v in dfp)
 
-const def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp) # if ! v.is_general_info)
-const def_plugins_original = deepcopy(def_plugins)
-this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
+const def_plugins_original = OrderedDict(v.name => v for v in dfp)
+def_plugins::OrderedDict{String, PluginInfo} = OrderedDict{String, PluginInfo}()# = deepcopy(def_plugins_original) 
+
+this_def_plugins = setdiff(keys(def_plugins_original), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
 
@@ -152,16 +152,4 @@ sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
 
-# gen_options::PluginInfo = PluginInfo(
-#     ("GenOptions", "Defines general options", [
-#         ("proj_name", "", "Project/Package name. Required input."), 
-#         ("user_name", "$(githubuser())", "User name. Required for many plugins."), # was "user", probably wrong
-#         ("authors", ["$(username()) <$(usermail())>"], "Authors. Will be an entry in Project.toml."), 
-#         (:dir, "dir", "", "Directory to place project in. Required input."), 
-#         ("host", "github.com", "URL to the code hosting service where the project will reside."), 
-#         (:VersionNumber, "julia", "v\"$julia_lts_str\"", "Minimum allowed Julia version for this package."), 
-#         ]),
-#     )
-
-# export def_plugins
 
