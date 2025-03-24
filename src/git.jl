@@ -25,6 +25,22 @@ function Base.showerror(io::IO, e::GitOptionNotFound)
     """)
 end
 
+function warn_git_notconfigured(e) # e::GitOptionNotFound
+    get(ENV, "CI", nothing) == "true" && return nothing
+    
+    @warn """
+Could not find option “$(e.option)” in your global git configuration.
+
+It is necessary to set this for $(e.used_for).
+
+You can set this in the command line with
+
+git config --global $(e.option) "…"
+""" maxlog=3
+    
+    return nothing
+end
+
 function getgitopt(opt, used_for)
     c = nothing
     try
@@ -40,11 +56,13 @@ function getgitopt(opt, used_for)
     try
         LibGit2.get(AbstractString, c, opt)
     catch e
-        if e isa LibGit2.GitError # assume it is not found
-            throw(GitOptionNotFound(opt, used_for))
-        else
-            rethrow(e)
-        end
+        # if e isa LibGit2.GitError # assume it is not found
+        #     throw(GitOptionNotFound(opt, used_for))
+        # else
+        #     rethrow(e)
+        # end
+        warn_git_notconfigured(e)
+        return ""
     end
 end
 
