@@ -26,7 +26,7 @@ function Base.showerror(io::IO, e::GitOptionNotFound)
 end
 
 function warn_git_notconfigured(e) # e::GitOptionNotFound
-    get(ENV, "CI", nothing) == "true" && return ""
+    get(ENV, "CI", nothing) == "true" && return nothing
     
     @warn """
 Could not find option “$(e.option)” in your global git configuration.
