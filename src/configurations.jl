@@ -19,7 +19,7 @@ function get_saved_configs()
     end
 end
 
-savedconfigs::SavedConfigsType = SavedConfigsType()
+savedconfigs::SavedConfigsType = get_saved_configs()
 
 function get_pgin_changed!(pgin)
     pgin.checked || return pgin
