@@ -180,9 +180,11 @@ function cleanup(wpath)
 end
 
 function initialize()
-    global val_form = ValidateForm()
-    global def_plugins = deepcopy(def_plugins_original)
     global savedconfigs = get_saved_configs()
+    global val_form = ValidateForm()
+    global def_plugins_original = plugins_od()
+    check_default_pktplugins(def_plugins_original)
+    global def_plugins = deepcopy(def_plugins_original)
 end
 
 function _gogui(exitjulia=false; make_prj = true)
