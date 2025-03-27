@@ -26,10 +26,12 @@ end
     changed::Bool = false
 end
 
+makeout_argtype(x) = isnothing(x) ? String : typeof(x)
+
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(; type=typeof(x[2]), name=x[1], default_val=x[2], meaning=x[3], menulabel="")
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], menulabel="")
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(; type=typeof(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4], menulabel="")
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4], menulabel="")
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
     PluginArg(; type=x[1], name=x[2], default_val=x[3], meaning=x[4], menulabel="")
 
