@@ -23,22 +23,40 @@ function get_licences()
     return licences
 end
 
+package_info_descr = 
+"""<b>Short package<sup>*</sup> info.</b><br> 
+This will be put into the package docstring. If you plan to publish it on 
+<a href="javascript:sendurl('https://github.com/')" >GitHub</a>, it is recommended to provide (the same) short info under "About", 
+which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
+<br><span class="comment"> <sup>*</sup>Projects have no docstrings</span>"""
+
 const dfp = PluginInfo.([
+    ("GeneralOptions", "General Options", [
+        ("is_package", true, "Whether to create a package (vs. a project)."), 
+        ("proj_name", "", "Project/Package name. Required input."),
+        ("user_name", "$(githubuser())", "User name. Required for many plugins."),
+        ("authors", "$(username()) <$(usermail())>", "Authors. Will be an entry in <code>Project.toml</code>. "),
+        (:dir, "project_dir", "", "Directory to place project in. Required input."),
+        ("host", "github.com", "URL to the code hosting service where the project will reside."),
+        (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
+        (Vector{String}, "docstring", [""], "$(package_info_descr)"),
+        (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on by using <code>Pkg</code>."),
+        ], true),
     ("ProjectFile", "Creates a Project.toml", [
         (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),
         ]),
     ("SrcDir", "Creates a module entrypoint", [
-        (:file, "file", "DEFAULT_FILE", "Template file for src/$(packagename).jl"),
+        (:file, "file", "<DEFAULT_FILE>", "Template file for src/$(packagename).jl"),
         ]),
     ("Tests", "Sets up testing for packages", [
-        (:file, "file", "DEFAULT_FILE", "Template file for runtests.jl"),
+        (:file, "file", "<DEFAULT_FILE>", "Template file for runtests.jl"),
         ("project", false, "Whether to create a new project for tests (test/Project.toml)."),
         ("aqua", false, "Whether to add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
         (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
         ("jet", false, "Whether to add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
         ]),
     ("Readme", "Creates a README file that contains badges for other included plugins", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the README."), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the README."), 
         ("destination", "README.md", "File destination, relative to the repository root."), 
         ("inline_badges", false, "Whether to put the badges on the same line as the package name."),
         ]),
@@ -46,13 +64,13 @@ const dfp = PluginInfo.([
         (; type = :menu, name="name", default_val = "", # will be filled in from the options get_licences()[1], 
             meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
             url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
-            options = get_licences(),
+            options = (; opt_list = get_licences(), show_first = true),
             menulabel = "Show licenses"), 
         (:file, "path", nothing, "Path to a custom license file. This keyword takes priority over name."), 
         ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
         ]),
     ("Git", "Creates a Git repository and a .gitignore file", [
-        (Vector{String}, "ignore",  String[], "Patterns to add to the .gitignore"), 
+        (Vector{String}, "ignore",  [""], "Patterns to add to the .gitignore"), 
         ("name", nothing, "Your real name, if you have not set user.name with Git."), 
         ("email", nothing, "Your email address, if you have not set user.email with Git."), 
         ("branch", "$(default_branch)", "The desired name of the repository's default branch."), 
@@ -62,7 +80,7 @@ const dfp = PluginInfo.([
         ("gpgsign", false, "Whether to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity."),
         ]),
     ("GitHubActions", "Creates a Git repository and a .gitignore file", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the workflow file"), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
         ("destination", "CI.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("linux", true, "Whether to run builds on Linux."), 
         ("osx", false, "Whether to run builds on OSX (MacOS)."), 
@@ -73,12 +91,12 @@ const dfp = PluginInfo.([
         (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
         ]),
     ("CompatHelper", "Integrates your packages with <a>CompatHelper</a> via GitHub Actions", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the workflow file"), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
         ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("cron", "0 0 * * *", "Cron expression for the schedule interval"), 
         ], "https://juliaregistries.github.io/CompatHelper.jl"),
     ("TagBot", "Adds GitHub release support via <a>TagBot</a>", [
-        (:file, "file", "DEFAULT_FILE", "Template file for the workflow file."), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file."), 
         ("destination", "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("trigger", "JuliaTagBot", "Username of the trigger user for custom registries"), 
         ("token", nothing, "Name of the token secret to use"), 
@@ -94,11 +112,11 @@ const dfp = PluginInfo.([
         (Int64, "dispatch_delay", nothing, "Number of minutes to delay for dispatch events"), 
         ], "https://github.com/marketplace/actions/julia-tagbot"),
     ("Dependabot", "Setups <a>Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
-        (:file, "file", "DEFAULT_FILE", "Template file."), 
+        (:file, "file", "<DEFAULT_FILE>", "Template file."), 
         ], "https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically"),
     ("Documenter", "Sets up documentation generation via <a>Documenter.jl</a>. Only subset of options currently supported", [
-        (:file, "make_jl", "DEFAULT_FILE", "Template file for make.jl"), 
-        (:file, "index_md", "DEFAULT_FILE", "Template file for index.md"), 
+        (:file, "make_jl", "<DEFAULT_FILE>", "Template file for make.jl"), 
+        (:file, "index_md", "<DEFAULT_FILE>", "Template file for index.md"), 
         ("deploy", false, "Whether to deploy documentation using GitHubActions"), 
         ], "https://documenter.juliadocs.org"),
     ("Codecov", "Sets up code coverage submission from CI to <a>Codecov</a>.", [
@@ -107,12 +125,24 @@ const dfp = PluginInfo.([
     # ("Coveralls", "Sets up code coverage submission from CI to <a>Coveralls</a>.", [
     #     (:file, "file", nothing, "Template file for .coveralls.yml, or nothing to create no file."), 
     #     ], "https://coveralls.io"),
+    ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
+        (; type = :menu, name="config_name", default_val = "",  
+            meaning = "Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
+            options = (; opt_list = savedconfignames(), show_first = false),
+            # options = (; opt_list = String[], show_first = false),
+            menulabel = "Show saved configurations"),
+            (:button, "SaveConfigButton", "Save Configuration", "Some comments and explanations"), 
+
+         ], true),
     ]);
 
-extra_plugins = ["Documenter", "Codecov", #="Coveralls"=#] # non-default templates of PkgTemplates, supported by PackageMaker
-const def_plugins::OrderedDict{String, PluginInfo} = OrderedDict(v.name => v for v in dfp)
-const def_plugins_original = deepcopy(def_plugins)
-this_def_plugins = setdiff(keys(def_plugins), extra_plugins)
+# non-default templates of PkgTemplates, supported by PackageMaker, as well as pseudo-plugins
+extra_plugins = ["Documenter", "Codecov", "GeneralOptions", "Save_Configuration", #="Coveralls"=#] 
+
+const def_plugins_original = OrderedDict(v.name => v for v in dfp)
+def_plugins::OrderedDict{String, PluginInfo} = OrderedDict{String, PluginInfo}()# = deepcopy(def_plugins_original) 
+
+this_def_plugins = setdiff(keys(def_plugins_original), extra_plugins)
 
 pkgtmpl_def_plugins =  PkgTemplates.default_plugins() .|> type2str
 
@@ -122,16 +152,4 @@ sd2 = setdiff(pkgtmpl_def_plugins, this_def_plugins)
 isempty(sd1) || @warn "This package lists plugins $sd1, which are not among the default templates of PkgTemplates"
 isempty(sd2) || @warn "This package does not list plugins $sd2, which are among the default templates of PkgTemplates"
 
-# gen_options::PluginInfo = PluginInfo(
-#     ("GenOptions", "Defines general options", [
-#         ("proj_name", "", "Project/Package name. Required input."), 
-#         ("user_name", "$(githubuser())", "User name. Required for many plugins."), # was "user", probably wrong
-#         ("authors", ["$(username()) <$(usermail())>"], "Authors. Will be an entry in Project.toml."), 
-#         (:dir, "dir", "", "Directory to place project in. Required input."), 
-#         ("host", "github.com", "URL to the code hosting service where the project will reside."), 
-#         (:VersionNumber, "julia", "v\"$julia_lts_str\"", "Minimum allowed Julia version for this package."), 
-#         ]),
-#     )
-
-# export def_plugins
 

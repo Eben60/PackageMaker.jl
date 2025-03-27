@@ -15,10 +15,10 @@ css_styles() =
   padding-left: 10px;
 }
   
-.gen_opt_col1 {
+#GeneralOptions_form .pgin_inp_col1 {
   background: hsl(4, 47%, 88%);
 }
-.gen_opt_col2 {
+#GeneralOptions_form .pgin_inp_col2 {
   background: hsl(4, 45%, 95%);;
 }
 
@@ -47,7 +47,50 @@ h2 {
   color: #606060; 
 }
 
+#GeneralOptions_docstring {
+  height: 7em;
+}
+
+#GeneralOptions_proj_pkg {
+  height: 7em;
+  width: 40ch;
+  white-space: nowrap;
+}
+
 $(make_dd_css())
+
+#GeneralOptions_form > label {
+  display: none;
+}
+
+#Use_GeneralOptions {
+  display: none;
+}
+
+#GeneralOptions_form div.Plugin_Purpose {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 125%;
+  color: #606060;
+}
+
+label[for="GeneralOptions_docstring"] {
+  display: none;
+}
+
+div.plugin_form_div#plugin_form_div_Save_Configuration, #Save_Configuration_form .pgin_inp_col1, #Save_Configuration_form .pgin_inp_col2 {
+  background: rgb(240, 240, 240);
+}
+
+.checkfield_OK {
+  color: green;
+  font-weight: bold;
+}
+
+.checkfield_NOK {
+  color: rgb(247, 36, 36);
+  font-weight: bold;
+}
 
 </style>
 """
