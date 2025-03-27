@@ -25,7 +25,7 @@ p1 = PluginArg(;
 
 p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
 p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
-p4 = PluginArg(Nothing, "aim", nothing, "Your real aim.", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
+p4 = PluginArg(String, "aim", nothing, "Your real aim.", nothing, nothing, "", (; opt_list = String[], show_first = false), "", false)
 nt5 = (;
     type = String,
     name = "project",
