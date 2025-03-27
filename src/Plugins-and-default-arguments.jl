@@ -79,7 +79,7 @@ const dfp = PluginInfo.([
         ("manifest", false, "Whether to commit Manifest.toml."), 
         ("gpgsign", false, "Whether to sign commits with your GPG key. This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity."),
         ]),
-    ("GitHubActions", "Creates a Git repository and a .gitignore file", [
+    ("GitHubActions", "Integrates your packages with <a>GitHub Actions</a>.", [
         (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
         ("destination", "CI.yml", "Destination of the workflow file, relative to .github/workflows"), 
         ("linux", true, "Whether to run builds on Linux."), 
@@ -89,7 +89,7 @@ const dfp = PluginInfo.([
         ("x86", false, "Whether to run builds on 32-bit architecture."), 
         ("coverage", false, "Whether to publish code coverage. If activating this option, activate also Codecov plugin. If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual."), 
         (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
-        ]),
+        ], "https://github.com/features/actions"),
     ("CompatHelper", "Integrates your packages with <a>CompatHelper</a> via GitHub Actions", [
         (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
         ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
