@@ -12,29 +12,35 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
         input_id = Symbol("$(pgin.name)_$(pa.name)")
         el = fv[input_id]
 
-        if pa.type == Bool
-            # pa.nondefault = true
-            pa.returned_val = pa.returned_rawval = el.checked
-        else
-            s = tidystring(el.value; remove_empty_lines=false)
-            default_val = plugins[pgin.name].args[pa.name].default_val
-            is_all_nothing = (s == "nothing") && isnothing(default_val)
-            pa.returned_rawval = s
-
-            if is_all_nothing
-                # pa.nondefault = false
-                pa.returned_val = missing
-            elseif pa.type == :file
-                returned = conv(pa, s)
-                default = (default_val == returned)
-                # pa.nondefault = ! default
-                # pa.returned_val = returned
-                pa.returned_val = default ? missing : returned
-                #(default_val != pa.returned_val)
-            else
+        try
+            if pa.type == Bool
                 # pa.nondefault = true
-                pa.returned_val = conv(pa, s)
+                pa.returned_val = pa.returned_rawval = el.checked
+            else
+                s = tidystring(el.value; remove_empty_lines=false)
+                default_val = plugins[pgin.name].args[pa.name].default_val
+                is_all_nothing = (s == "nothing") && isnothing(default_val)
+                pa.returned_rawval = s
+
+                if is_all_nothing
+                    # pa.nondefault = false
+                    pa.returned_val = missing
+                elseif pa.type == :file
+                    returned = conv(pa, s)
+                    default = (default_val == returned)
+                    # pa.nondefault = ! default
+                    # pa.returned_val = returned
+                    pa.returned_val = default ? missing : returned
+                    #(default_val != pa.returned_val)
+                else
+                    # pa.nondefault = true
+                    pa.returned_val = conv(pa, s)
+                end
             end
+        catch e
+            println("Error in processing argument $(pa.name) of $(pgin.name)")
+            @show pa.type el.checked el.value
+            rethrow(e)
         end
     end
     return pgin
