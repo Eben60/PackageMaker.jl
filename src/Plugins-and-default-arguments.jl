@@ -132,7 +132,7 @@ function plugins_od()
                 options = (; opt_list = savedconfignames(), show_first = false),
                 # options = (; opt_list = String[], show_first = false),
                 menulabel = "Show saved configurations"),
-                (:button, "SaveConfigButton", "Save Configuration", "Some comments and explanations"), 
+                (:button, "SaveConfigButton", "Save Configuration", ""), 
     
              ], true),
         ]);
