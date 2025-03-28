@@ -104,12 +104,13 @@ function general_options(fv; plugins=def_plugins)
     (;known_pkgs, unknown_pkgs) = check_packages(gargs["proj_pkg"].returned_rawval)
     proj_name = gargs["proj_name"].returned_val
     user = gargs["user_name"].returned_val
-    authors = gargs[:"authors"].returned_val
+    authors = gargs["authors"].returned_val
     dir = gargs["project_dir"].returned_val
     host = gargs["host"].returned_val
     julia = gargs["julia_min_version"].returned_val # |> parse_v_string
     docstring = tidystring(gargs["docstring"].returned_rawval; remove_empty_lines=false)
     ispk = gargs["is_package"].returned_val
+    add_imports = gargs["add_imports"].returned_val
     return (;
         ispk,
         proj_name, 
@@ -117,6 +118,7 @@ function general_options(fv; plugins=def_plugins)
         dependencies=known_pkgs,
         unknown_pkgs,
         docstring,
+        add_imports,
         )
 end
 
@@ -138,7 +140,7 @@ function create_proj(fv; plugins=def_plugins)
     else 
         may_exit_julia = true
     end
-    ispk && add_docstring(gen_options)
+    ispk && finalize_pkg(gen_options) # add_docstring(gen_options)
     processing_finished = true
     return t
 end
@@ -205,18 +207,3 @@ end
 Starts the GUI. If `exitjulia` is `true`, then after the GUI is exited and the project is created, julia will exit.
 """
 gogui(exitjulia=true) = (_gogui(exitjulia); return nothing)
-
-"""
-using PackageMaker
-fv = recall_fv() # if working with saved data
-
-fv = finalvals # else
-using PkgTemplates
-
-pgins=initialized_pgins(fv)
-(;proj_name, templ_kwargs) = general_options(fv)
-t = Template(; plugins=pgins, templ_kwargs...)
-t(proj_name);
-;
-
-"""

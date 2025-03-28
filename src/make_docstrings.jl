@@ -1,3 +1,19 @@
+function finalize_pkg(gen_options)
+    (;dependencies, docstring, add_imports,) = gen_options
+    add_imports &= !isempty(dependencies)
+    add_docstring = !isempty(docstring)
+    add_docstring || add_imports || return nothing
+    # read file
+    # normalize line endings
+
+    add_docstring && (fl = add_docstring(gen_options))
+    add_imports && (fl = add_imports(gen_options))
+    # write file
+end
+
+function add_imports(gen_options)
+    return nothing
+end
 
 function make_docstring(proj_name, docstring, docslink)
 
@@ -65,5 +81,5 @@ function add_docstring(gen_options)
     open(proj_main_file, "w") do f
         write(f, new_content)
     end
-
+    return nothing
 end
