@@ -48,9 +48,9 @@ By default the function `gogui()` will exit Julia after a successfull finish. If
 
 Starting with the `PackageMaker` version `v0.1.14`, it is possible to save a configuration for a later reuse. The configurations are saved with the help of [Preferences.jl](https://github.com/JuliaPackaging/Preferences.jl), which by default would save them into `LocalPreferences.toml` file next to the currently-active project. You can manually edit the file to e.g. delete some config.
 
-A configuration is saved and applied according to the following logic: Only the parameter, which were changed respective to the default values are saved/applied. That means, you can independently save several configs, dealing with diferent aspects, then sequentially apply them. E.g. you can save in a config `"Lab user data"` only the user name/email specific to some context, and in a config `"Public documentation"` the `Documenter` plugin settings. Then you can apply them one after another, and you will have both.
+A configuration is saved and applied according to the following logic: Only those parameters which were changed respective to the default values are saved/applied. That means, you can independently save several configs, dealing with diferent aspects, then sequentially apply them. E.g. you can save in a config `"Lab user data"` only the user name/email specific to some context, and in a config `"Public documentation"` the `Documenter` plugin settings. Then you can apply them one after another, and you will have both.
 
-This logics however (currently) differs in respect to the selection of "activated" state of all plugins. Each config saves selection state of all plugins, and applies all of them. In the example above, the plugins will be selected/unselected according to the state saved in the `"Public documentation"` config, if it was applied last
+This logics however (currently) differs in respect to the selection of "activated" state of all plugins. Each config saves selection state of **all** plugins, and applies all of them. In the example above, the plugins will be selected/unselected according to the state saved in the `"Public documentation"` config, if it was applied last.
 
 ### Checking for updates
 
