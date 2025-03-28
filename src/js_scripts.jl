@@ -103,6 +103,12 @@ function sendfullstate(isfinalstate, submit){
   return null;
 };
 
+function reload_window() {
+  jQuery("form").each(function() {
+    this.reset();
+  });
+};
+
 </script>
 
 <script>
