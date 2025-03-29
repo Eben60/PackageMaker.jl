@@ -24,6 +24,7 @@ end
     const options::@NamedTuple{opt_list::Vector{String}, show_first::Bool} = (; opt_list = String[], show_first = false)
     const menulabel::String = "Show licenses"
     changed::Bool = false
+    enabled::Bool = true
 end
 
 makeout_argtype(x) = isnothing(x) ? String : typeof(x)
