@@ -16,7 +16,7 @@ end
 
 
 complete_tests = false
-include("runtests.jl")
+include("src/test_processvals2.jl")
 
 @suppress begin
 Pkg.rm(parent_proj_name)
