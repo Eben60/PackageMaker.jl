@@ -128,7 +128,7 @@ function plugins_od()
         #     ], "https://coveralls.io"),
         ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
             (; type = :menu, name="config_name", default_val = "",  
-                meaning = "Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
+                meaning = "Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code><br><br><b>Warning</b>: currently there is an issue preventing saving values of multiline inputs. This affects i.a. the <code>.gitignore</code> field.", 
                 options = (; opt_list = savedconfignames(), show_first = false),
                 # options = (; opt_list = String[], show_first = false),
                 menulabel = "Show saved configurations"),
