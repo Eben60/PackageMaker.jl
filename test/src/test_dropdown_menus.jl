@@ -11,15 +11,16 @@ mn = "    <div class=\"menu_container\" id=\"parent_fieldname_menu\">\n    <inpu
     fieldname = "fieldname"
     opt_list = ["MIT", "AGPL-3.0+", "ASL"]
     options = (; opt_list, show_first=true)
-    menutext = "Show options"
+    menulabel = "Show options"
+    show_first = true
+    pa = (;name=fieldname, options=(; menuoptions=(; opt_list, menulabel, show_first)))
 
     lbl = make_dd_label(parentname, fieldname, opt_list)
  
     @test lbl[2] == lbl2
     @test length(lbl) == 3
 
-    @test make_dd_menu(parentname, fieldname, options, menutext) == mn
-
+    @test make_dd_menu(parentname, pa) == mn
 
 end # testset
 end # module

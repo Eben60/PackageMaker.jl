@@ -17,7 +17,7 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
                 # pa.nondefault = true
                 pa.returned_val = pa.returned_rawval = el.checked
             else
-                s = tidystring(el.value; remove_empty_lines=false)
+                s = tidystring(el.value; conv2array=false)
                 default_val = plugins[pgin.name].args[pa.name].default_val
                 is_all_nothing = (s == "nothing") && isnothing(default_val)
                 pa.returned_rawval = s
@@ -93,8 +93,8 @@ Takes a multiline string, check if packages all exist and returns a vector of pa
 """
 function check_packages(x)
     v0 = split_pkg_list(x)
-    unknown_pkgs = filter(x -> !is_known_pkg(x).found, v0)
-    v = setdiff(v0, unknown_pkgs)
+    unknown_pkgs = filter(x -> !is_known_pkg(x).found, v0) |> sort!
+    v = setdiff(v0, unknown_pkgs) |> sort!
     return (;known_pkgs = v, unknown_pkgs)
 end
 
@@ -104,12 +104,13 @@ function general_options(fv; plugins=def_plugins)
     (;known_pkgs, unknown_pkgs) = check_packages(gargs["proj_pkg"].returned_rawval)
     proj_name = gargs["proj_name"].returned_val
     user = gargs["user_name"].returned_val
-    authors = gargs[:"authors"].returned_val
+    authors = gargs["authors"].returned_val
     dir = gargs["project_dir"].returned_val
     host = gargs["host"].returned_val
     julia = gargs["julia_min_version"].returned_val # |> parse_v_string
-    docstring = tidystring(gargs["docstring"].returned_rawval; remove_empty_lines=false)
+    docstring = gargs["docstring"].returned_val
     ispk = gargs["is_package"].returned_val
+    add_imports = gargs["add_imports"].returned_val
     return (;
         ispk,
         proj_name, 
@@ -117,6 +118,7 @@ function general_options(fv; plugins=def_plugins)
         dependencies=known_pkgs,
         unknown_pkgs,
         docstring,
+        add_imports,
         )
 end
 
@@ -138,7 +140,7 @@ function create_proj(fv; plugins=def_plugins)
     else 
         may_exit_julia = true
     end
-    ispk && add_docstring(gen_options)
+    ispk && finalize_pkg(gen_options) # add_docstring(gen_options)
     processing_finished = true
     return t
 end
@@ -205,18 +207,3 @@ end
 Starts the GUI. If `exitjulia` is `true`, then after the GUI is exited and the project is created, julia will exit.
 """
 gogui(exitjulia=true) = (_gogui(exitjulia); return nothing)
-
-"""
-using PackageMaker
-fv = recall_fv() # if working with saved data
-
-fv = finalvals # else
-using PkgTemplates
-
-pgins=initialized_pgins(fv)
-(;proj_name, templ_kwargs) = general_options(fv)
-t = Template(; plugins=pgins, templ_kwargs...)
-t(proj_name);
-;
-
-"""

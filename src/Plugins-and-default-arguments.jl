@@ -40,8 +40,9 @@ function plugins_od()
             (:dir, "project_dir", "", "Directory to place project in. Required input."),
             ("host", "github.com", "URL to the code hosting service where the project will reside."),
             (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
-            (Vector{String}, "docstring", [""], "$(package_info_descr)"),
-            (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on by using <code>Pkg</code>."),
+            (:text, "docstring", [""], "$(package_info_descr)"),
+            (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on using <code>Pkg</code>."),
+            (; type = Bool, name="add_imports", default_val = false, meaning = """Add these packages to the source code like <code>using Foo</code>""", enabled=false), 
             ], true),
         ("ProjectFile", "Creates a Project.toml", [
             (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),
@@ -64,9 +65,9 @@ function plugins_od()
         ("License", "Creates a license file", [
             (; type = :menu, name="name", default_val = "", # will be filled in from the options get_licences()[1], 
                 meaning = "Name of a <a>license supported</a> by PkgTemplates.", 
-                url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses",
-                options = (; opt_list = get_licences(), show_first = true),
-                menulabel = "Show licenses"), 
+                options = (;url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses", 
+                            menuoptions = (; opt_list = get_licences(), show_first = true, menulabel = "Show licenses")),
+                ), 
             (:file, "path", nothing, "Path to a custom license file. This keyword takes priority over name."), 
             ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
             ]),
@@ -129,9 +130,8 @@ function plugins_od()
         ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
             (; type = :menu, name="config_name", default_val = "",  
                 meaning = "Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
-                options = (; opt_list = savedconfignames(), show_first = false),
-                # options = (; opt_list = String[], show_first = false),
-                menulabel = "Show saved configurations"),
+                options = (; menuoptions = (; opt_list = savedconfignames(), show_first = false, menulabel = "Show saved configurations")),
+                ),
                 (:button, "SaveConfigButton", "Save Configuration", ""), 
     
              ], true),

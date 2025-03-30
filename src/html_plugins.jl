@@ -76,7 +76,7 @@ function tmpl_input_field(pgin, arg, arg_type, arr_footnote=true)
     arg.default_val isa AbstractArray && return tmpl_input_arrfield(pgin, arg, arr_footnote)
     arg_type == :file && return tmpl_path_input_field(pgin, arg, false)
     arg_type == :dir && return tmpl_path_input_field(pgin, arg, true)
-    arg_type == :menu && return make_dd_menu(pgin.name, arg.name, arg.options, arg.menulabel)
+    arg_type == :menu && return make_dd_menu(pgin.name, arg)
     arg_type == :button && return tmpl_button(pgin, arg)
     return tmpl_input_field(pgin, arg)
 end
@@ -99,7 +99,7 @@ function tmpl_input_arrfield(pgin, arg, arr_footnote=true)
     arg_name = arg.name
     arg_val = arg.default_val
     id="$(pgin_name)_$(arg_name)"
-    label = """<label for="$id" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>"""
+    label = """<label for="$id" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>"""
     label_source = arr_footnote ? label : ""
 
     return """
@@ -127,9 +127,15 @@ end
 
 ischecked(p::PluginInfo, selected_pgins=shown_pgins()) = selected_pgins[p.name]
 
-pgin_inputs(p::PluginInfo, css, arr_footnote=true) = join([tmpl_inp(p, a, insert_url(a.meaning, a.url), (i%2+1), css, arr_footnote) for (i, a) in pairs(collect(values(p.args)))], " ") 
+
+geturl(a::PluginArg) = get(a.options, :url, "")
+
+function pgin_inputs(p::PluginInfo, css, arr_footnote=true) 
+    join([tmpl_inp(p, a, insert_url(a.meaning, geturl(a)), (i%2+1), css, arr_footnote) for (i, a) in pairs(collect(values(p.args)))], " ") 
+end
 
 pgin_form(p::PluginInfo, selected_pgins=shown_pgins(), css="pgin_inp") = 
+    # url = get(p.options, :url, "")
     tmpl_beg(p, insert_url(p.purpose, p.url), ischecked(p, selected_pgins)) * 
     pgin_inputs(p, "pgin_inp") *
     tmpl_end()
