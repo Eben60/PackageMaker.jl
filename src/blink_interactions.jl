@@ -29,19 +29,35 @@ end
 # may not work if called during interaction
 getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
 
-function setelemval(win, id, newval::AbstractString)
-    @show "TODO remove it later once the bug is fixed"
-    if id == "GeneralOptions_proj_pkg" 
-        newval = "SomePack\r\nOtherPack"
-        @show newval
-        # js(win, Blink.JSString("""document.getElementById("$id").textContent = '$newval';"""); callback=false)
-        js(win, Blink.JSString("""jQuery("#$id").val("$newval");"""); callback=false)
-    else
-        js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
-    end
-    
-end
+# function setelemval(win, id, newval::AbstractString)
+#     @show "TODO remove it later once the bug is fixed"
 
+# innerhtml = """<textarea id="GeneralOptions_proj_pkg" name="proj_pkg" rows="3" cols="70" onchange="oncng(this)" >SomePackOtherPack</textarea> """
+# tmp  = """<span>SomePackOtherPack</span>"""
+# tmp1 = """<span>SomePack
+# OtherPack</span>"""
+# tmp2 = """<span id='GeneralOptions_proj_pkg'>SomePack</span>"""
+# tmp3 = """<textarea id='GeneralOptions_proj_pkg3'>SomePack</textarea>"""
+# tmp4 = """<textarea id='GeneralOptions_proj_pkg'>ЩерукPack</textarea>"""
+# tmp5 = """<textarea id='GeneralOptions_proj_pkg'>ЩерукPack\nSecondPack</textarea>"""
+
+#     if id == "GeneralOptions_proj_pkg" 
+#         newval = "SomePack\r\nOtherPack"
+#         @show newval
+#         # js(win, Blink.JSString("""document.getElementById("$id").textContent = '$newval';"""); callback=false)
+#         # 
+#         # js(win, Blink.JSString("""jQuery("#$id").parent().html("$innerhtml)";"""); callback=false)
+#         # js(win, Blink.JSString("""jQuery("#$id").parent().html("$tmp5");"""); callback=false)
+#         # js(win, Blink.JSString("""jQuery("#$id").val("new value");"""); callback=false)
+#         # js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
+#         js(win, Blink.JSString("""el = document.getElementById("$id"); el.parentNode.innerHTML  = "$tmp";"""); callback=false)
+#     else
+#         js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
+#     end
+    
+# end
+
+setelemval(win, id, newval::AbstractString) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
 setelemval(win, id, newval::Bool) = checkelem(win, id, newval::Bool) 
 setelemval(win, pgname, fldname, newval) = setelemval(win, "$(pgname)_$(fldname)", newval)
 
