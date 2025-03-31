@@ -5,7 +5,7 @@ function finalize_pkg(gen_options)
     add_docstr || add_imports || return nothing
     (;file_content, proj_main_file) = read_src_file(gen_options)
     add_docstr && (file_content = add_docstring(file_content, gen_options))
-    add_imports && (file_content = add_imports(file_content, proj_main_file, gen_options))
+    add_imports && (file_content = add_usinglines(file_content, gen_options))
     write_contents(proj_main_file, file_content)
 end
 
@@ -17,8 +17,13 @@ function write_contents(fl, file_content)
     end
 end
 
-function add_imports(file_content, proj_main_file, gen_options)
-    return file_content
+function add_usinglines(file_content, gen_options)
+    (;dependencies, proj_name, ) = gen_options
+    usinglines = "using " .* dependencies
+    pushfirst!(usinglines, "")
+    insertion_point = module_firstline(file_content, proj_name) + 1
+    new_content = insert(file_content, insertion_point, usinglines)
+    return new_content
 end
 
 function read_src_file(gen_options)
@@ -34,9 +39,12 @@ end
 
 function make_docstring(proj_name, docstring, docslink)
 
-    pre_header = "# should you ask why the last line of the docstring looks like that:\n" *
-        "# it will show the package path when help on the package is invoked like     help?> $(proj_name)\n" *
-        "# but will interpolate to an empty string on CI server, preventing appearing the path in the documentation built there"
+    pre_header = 
+        "# In case you want to know, why the last line of the docstring below looks like it is:\n" *
+        "# It will show the package (local) path when help on the package is invoked like     help?> $(proj_name)\n" *
+        "# but it will interpolate to an empty string on CI server, \n" *
+        "# preventing appearing the server local path in the documentation built there."
+        
     header = "    Package $(proj_name) v\$(pkgversion($(proj_name)))"
     footer = """\$(isnothing(get(ENV, "CI", nothing)) ? ("\\n" * "Package local path: " * pathof($(proj_name))) : "") """
 
@@ -73,7 +81,10 @@ end
 function module_firstline(file_content, proj_name)
     pattern = "module $proj_name"
     fl = findfirst(x -> startswith(x, pattern), file_content)
-    isnothing(fl) && error("pattern \"$pattern\" not found in the source file")
+    if isnothing(fl) 
+        @show file_content
+        error("pattern \"$pattern\" not found in the source file")
+    end
     return fl
 end
 

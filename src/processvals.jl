@@ -93,8 +93,8 @@ Takes a multiline string, check if packages all exist and returns a vector of pa
 """
 function check_packages(x)
     v0 = split_pkg_list(x)
-    unknown_pkgs = filter(x -> !is_known_pkg(x).found, v0)
-    v = setdiff(v0, unknown_pkgs)
+    unknown_pkgs = filter(x -> !is_known_pkg(x).found, v0) |> sort!
+    v = setdiff(v0, unknown_pkgs) |> sort!
     return (;known_pkgs = v, unknown_pkgs)
 end
 
