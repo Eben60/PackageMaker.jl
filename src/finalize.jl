@@ -4,7 +4,7 @@ function finalize_pkg(gen_options)
     add_docstr = !isempty(docstring)
     add_docstr || add_imports || return nothing
     (;file_content, proj_main_file) = read_src_file(gen_options)
-    add_docstr && (file_content = add_docstring(file_content, proj_main_file, gen_options))
+    add_docstr && (file_content = add_docstring(file_content, gen_options))
     add_imports && (file_content = add_imports(file_content, proj_main_file, gen_options))
     write_contents(proj_main_file, file_content)
 end
@@ -92,17 +92,12 @@ function get_docslink(gen_options)
     return docslink
 end
 
-function add_docstring(file_content, proj_main_file, gen_options)
+function add_docstring(file_content, gen_options)
     (;proj_name, docstring) = gen_options
-
     @assert !isempty(docstring)
-
     docslink = get_docslink(gen_options)
-
     full_docstring = make_docstring(proj_name, docstring, docslink)
-
     insertion_point = module_firstline(file_content, proj_name)
     new_content = insert(file_content, insertion_point, full_docstring)
-
     return new_content
 end
