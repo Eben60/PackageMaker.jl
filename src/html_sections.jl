@@ -80,32 +80,6 @@ cb = """
     return cb
 end
 
-function htmp_default_env_pkg()
-    installed = default_env_packages()
-    available = addable_default_packages() 
-    dp = vcat(installed, available)
-    checkboxes = join([default_env_checkbox(no, pkg_name; installed) for (no, pkg_name) in pairs(dp)])
-    htm = """
-<div id="default_env_div">
-<h2>What packages to add to / uninstall from your default environment?</h2>
-  <p class="comment">The packages installed into the default environment are always available. 
-  It is however recommended to keep them at minimum to keep out of 
-  <a href="javascript:sendurl('https://en.wikipedia.org/wiki/Dependency_hell')" >
-  "Dependency Hell"</a>.
-  Though we list some commonly used packages, don't see it as recommendation to check the box. 
-  Keep in mind that e.g. plotting packages come with a lot of dependencies which may later conflict 
-  with some packages in your projects. 
-  </p>
-  <p class="comment">Initially, packages already installed there are shown ckecked.</p>
-  <form name="default_packages" id="deflt_pkg" action="javascript:void(0)">
-$checkboxes
-  </form>
-</div>
-"""
-
-    return htm
-end
-
 html_proj_env_pkg() = 
 """
 <div id="project_env_div">
