@@ -1,17 +1,3 @@
-function parse_v_string(s)
-    s1 = replace(s, "\"" => "")
-    s1 = strip(s1)
-    v = tryparse(VersionNumber, s1)
-    isnothing(v) && error("$s doesn't look like a valid version string")
-    return v
-end
-
-function tidystring(s; remove_empty_lines=true)
-    vs = [strip(line) for line in readlines(IOBuffer(s))]
-    remove_empty_lines && filter!(x -> !isempty(x), vs)
-    return join(vs, "\n") |> String
-end
-
 # conv(::Symbol, s::AbstractString) 
 conv(::Type{Val{:file}}, s) = strip(s) 
 conv(::Type{Val{:dir}}, s) = strip(s)
@@ -39,6 +25,20 @@ function conv(::Type{Val{:ExcludedPlugins}}, v::Vector{<:AbstractString})
 end
 
 conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
+
+function parse_v_string(s)
+    s1 = replace(s, "\"" => "")
+    s1 = strip(s1)
+    v = tryparse(VersionNumber, s1)
+    isnothing(v) && error("$s doesn't look like a valid version string")
+    return v
+end
+
+function tidystring(s; remove_empty_lines=true)
+    vs = [strip(line) for line in readlines(IOBuffer(s))]
+    remove_empty_lines && filter!(x -> !isempty(x), vs)
+    return join(vs, "\n") |> String
+end
 
 function split_pkg_list(x)
     x = tidystring(x)
