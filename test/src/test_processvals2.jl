@@ -66,10 +66,23 @@ go = general_options(fv)
 
 @test go.templ_kwargs == (;interactive = false, user = "Eben60", authors = "Eben60 <not_a_mail@nowhere.org>", dir = "/Users/Shared", host = "github.com", julia = v"1.10.9")
 
+docstr = [
+    "# In case you want to know, why the last line of the docstring below looks like it is:", 
+    "# It will show the package (local) path when help on the package is invoked like     help?> TestPackage01", 
+    "# but it will interpolate to an empty string on CI server, ", 
+    "# preventing appearing the server local path in the documentation built there.", 
+    "", 
+    "\"\"\"", 
+    "    Package TestPackage01 v\$(pkgversion(TestPackage01))", 
+    "", "This is a TestPackage01 for PackageMaker testing.", 
+    "", "Docs under https://github.com/Eben60/PackageMakerTestPackage.jl", 
+    "", 
+    "\$(isnothing(get(ENV, \"CI\", nothing)) ? (\"\\n\" * \"Package local path: \" * pathof(TestPackage01)) : \"\") ", "\"\"\"",
+    "",
+]
 
-docstr = "# should you ask why the last line of the docstring looks like that:\n# it will show the package path when help on the package is invoked like     help?> TestPackage01\n# but will interpolate to an empty string on CI server, preventing appearing the path in the documentation built there\n\n\"\"\"\n    Package TestPackage01 v\$(pkgversion(TestPackage01))\n\nThis is a TestPackage01 for PackageMaker testing.\n\nDocs under https://github.com/Eben60/PackageMakerTestPackage.jl\n\n\$(isnothing(get(ENV, \"CI\", nothing)) ? (\"\\n\" * \"Package local path: \" * pathof(TestPackage01)) : \"\") \n\"\"\"\n"
-@test make_docstring(go.proj_name, go.docstring, "https://github.com/Eben60/PackageMakerTestPackage.jl") == docstr
-
+mdoctsr = make_docstring(go.proj_name, go.docstring, "https://github.com/Eben60/PackageMakerTestPackage.jl")
+@test mdoctsr == docstr
 
 pgins_vals["Documenter"].args["deploy"].returned_val = true
 documenter2 =  init_documenter(pgin_kwargs(pgins_vals["Documenter"]))

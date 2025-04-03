@@ -38,7 +38,7 @@ end
     @test "UUIDs" in stdlib_packages()
     @test is_in_registry("Plots")
     (;known_pkgs, unknown_pkgs) = check_packages(pkglist)
-    @test known_pkgs == ["Plots", "Makie", "UUIDs"]
+    @test known_pkgs ==["Makie", "Plots", "UUIDs"]
     @test unknown_pkgs == ["suRE_no_such_ackaje"]
 
     @test type2str("s") == "String"
