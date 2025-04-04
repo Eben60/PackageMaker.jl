@@ -19,12 +19,13 @@ end
 
     "Parsed returned value. Set it to missing to indicate the value is unchanged from default."
     returned_val = nothing
-    
-    const url::String = ""
-    const options = (; opt_list = String[], show_first = false, menulabel = "")
-    # const menulabel::String = ""
     changed::Bool = false
     enabled::Bool = true
+
+    # url = ""
+    # menuoptions = (; opt_list = String[], show_first = false, menulabel = "")
+    const options = (;)
+
 end
 
 makeout_argtype(x) = isnothing(x) ? String : typeof(x)
@@ -32,7 +33,7 @@ makeout_argtype(x) = isnothing(x) ? String : typeof(x)
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
     PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3])
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4])
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], options = (;url=x[4]))
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
     PluginArg(; type=x[1], name=x[2], default_val=x[3], meaning=x[4])
 
