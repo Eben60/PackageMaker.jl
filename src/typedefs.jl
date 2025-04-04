@@ -11,7 +11,7 @@ end
 @kwdef mutable struct PluginArg
     const type::Union{Type, Symbol} = Any
     const name::String
-    default_val:: Union{Bool, String, Vector{String}, VersionNumber, Nothing} = nothing
+    const default_val:: Union{Bool, String, Vector{String}, VersionNumber, Nothing} = nothing
     meaning::String
 
     "Raw value as returned from GUI, with a bit post-cleaning."
@@ -22,7 +22,7 @@ end
     
     const url::String = ""
     const options::@NamedTuple{opt_list::Vector{String}, show_first::Bool} = (; opt_list = String[], show_first = false)
-    const menulabel::String = "Show licenses"
+    const menulabel::String = ""
     changed::Bool = false
     enabled::Bool = true
 end
@@ -30,11 +30,11 @@ end
 makeout_argtype(x) = isnothing(x) ? String : typeof(x)
 
 PluginArg(x::Tuple{AbstractString, Any, AbstractString}) = 
-    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], menulabel="")
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3])
 PluginArg(x::Tuple{AbstractString, Any, AbstractString, AbstractString}) = 
-    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4], menulabel="")
+    PluginArg(; type=makeout_argtype(x[2]), name=x[1], default_val=x[2], meaning=x[3], url=x[4])
 PluginArg(x::Tuple{Union{Type, Symbol}, AbstractString, Any, AbstractString}) = 
-    PluginArg(; type=x[1], name=x[2], default_val=x[3], meaning=x[4], menulabel="")
+    PluginArg(; type=x[1], name=x[2], default_val=x[3], meaning=x[4])
 
 PluginArg(nt::NamedTuple) = PluginArg(; nt...)
 PluginArg(x::PluginArg) = update_struct(x; )
