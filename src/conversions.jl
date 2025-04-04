@@ -1,13 +1,13 @@
-# conv(::Symbol, s::AbstractString) 
-conv(::Type{Val{:file}}, s) = strip(s) 
-conv(::Type{Val{:dir}}, s) = strip(s)
-conv(::Type{Val{:menu}}, s) = strip(s) 
-conv(::Type{Val{:button}}, s) = strip(s) 
+"specialized input types, but otherwise just String"
+StrInp = Union{Type{Val{:file}}, Type{Val{:dir}}, Type{Val{:menu}}, Type{Val{:button}}, Type{Val{:text}}, } 
+
+conv(::StrInp, s) = s  
 
 conv(::Type{Vector{S}}, val) where S <: AbstractString = split(val, "\n")
 
 function conv(pa::PluginArg, val)
-    s = tidystring(val)
+    conv2array = (pa.type != :text)
+    s = tidystring(val; conv2array)
     s == "nothing" && return nothing
     pa.type isa Symbol && return conv(Val{pa.type}, s)
     pa.type <: Number && return parse(pa.type, s)
@@ -17,14 +17,14 @@ function conv(pa::PluginArg, val)
     error("unsupported type $(pa.type)")
 end
 
+conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
+
 function conv(::Type{Val{:ExcludedPlugins}}, v::Vector{<:AbstractString})
     ks = v .|> strip
     filter!(x -> !isempty(x), ks)
     ks = Symbol.(ks)
     return NamedTuple(k => false for k in ks)
 end
-
-conv(t::Type{Val{:ExcludedPlugins}}, s::AbstractString) = conv(t, split(s, "\n") )
 
 function parse_v_string(s)
     s1 = replace(s, "\"" => "")
@@ -34,9 +34,12 @@ function parse_v_string(s)
     return v
 end
 
-function tidystring(s; remove_empty_lines=true)
+function tidystring(s; conv2array=true)
+    re = r"(?<!\\)," # enables to escape comma if somebody need that
+    conv2array && (s = replace(s, re => "\n"))
+
     vs = [strip(line) for line in readlines(IOBuffer(s))]
-    remove_empty_lines && filter!(x -> !isempty(x), vs)
+    conv2array && filter!(x -> !isempty(x), vs)
     return join(vs, "\n") |> String
 end
 

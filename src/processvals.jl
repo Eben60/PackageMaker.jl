@@ -17,7 +17,7 @@ function get_pgin_vals!(pgin, fv; plugins=def_plugins)
                 # pa.nondefault = true
                 pa.returned_val = pa.returned_rawval = el.checked
             else
-                s = tidystring(el.value; remove_empty_lines=false)
+                s = tidystring(el.value; conv2array=false)
                 default_val = plugins[pgin.name].args[pa.name].default_val
                 is_all_nothing = (s == "nothing") && isnothing(default_val)
                 pa.returned_rawval = s
@@ -108,7 +108,7 @@ function general_options(fv; plugins=def_plugins)
     dir = gargs["project_dir"].returned_val
     host = gargs["host"].returned_val
     julia = gargs["julia_min_version"].returned_val # |> parse_v_string
-    docstring = tidystring(gargs["docstring"].returned_rawval; remove_empty_lines=false)
+    docstring = gargs["docstring"].returned_val
     ispk = gargs["is_package"].returned_val
     add_imports = gargs["add_imports"].returned_val
     return (;
