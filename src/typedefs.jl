@@ -21,8 +21,8 @@ end
     returned_val = nothing
     
     const url::String = ""
-    const options::@NamedTuple{opt_list::Vector{String}, show_first::Bool} = (; opt_list = String[], show_first = false)
-    const menulabel::String = ""
+    const options = (; opt_list = String[], show_first = false, menulabel = "")
+    # const menulabel::String = ""
     changed::Bool = false
     enabled::Bool = true
 end
