@@ -1,0 +1,15 @@
+
+[PackageMaker.SavedConfigurations.TestPackage01]
+Codecov = "{\"checked\":false}"
+CompatHelper = "{\"checked\":false}"
+Dependabot = "{\"checked\":false}"
+Documenter = "{\"deploy\":true,\"checked\":true}"
+GeneralOptions = "{\"is_package\":true,\"project_dir\":\"/Users/Shared\",\"julia_min_version\":\"1.10.9\",\"add_imports\":true,\"checked\":true,\"docstring\":\"This is a TestPackage01 for PackageMaker testing.\",\"proj_name\":\"TestPackage01\",\"proj_pkg\":\"TOML.jl\\nUnicode\"}"
+Git = "{\"ignore\":\"/LocalPreferences.toml\\n**/.DS_Store\",\"name\":\"Eben60a\",\"email\":\"Eben60a@mailto.org\",\"branch\":\"master\",\"checked\":true}"
+GitHubActions = "{\"windows\":true,\"extra_versions\":\"1.10\",\"checked\":true,\"destination\":\"CI_new.yml\"}"
+License = "{\"name\":\"ASL\",\"destination\":\"LICENSE.txt\",\"checked\":true}"
+ProjectFile = "{\"version\":\"1.2.3\",\"checked\":true}"
+Readme = "{\"file\":\"/Users/Shared/tmp/template01.md\",\"destination\":\"READMEplease.md\",\"inline_badges\":true,\"checked\":true}"
+SrcDir = "{\"file\":\"/Users/Shared/tmp/template01.jl\",\"checked\":true}"
+TagBot = "{\"checked\":false}"
+Tests = "{\"aqua\":true,\"checked\":true}"

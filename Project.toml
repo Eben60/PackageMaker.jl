@@ -1,7 +1,7 @@
 name = "PackageMaker"
 uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
 authors = ["Eben60"]
-version = "0.1.16"
+version = "0.1.17"
 
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
@@ -32,7 +32,7 @@ JSON3 = "1.14.1"
 LibGit2 = "<0.0.1, 1"
 NativeFileDialog = "0.2.1"
 Pkg = "1.10"
-PkgTemplates = "=0.7.53"
+PkgTemplates = "0.7.53 - 0.7.54"
 PkgVersion = "0.3.3"
 Preferences = "1.4.3"
 REPL = "<0.0.1, 1"

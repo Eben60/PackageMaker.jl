@@ -49,7 +49,7 @@ include("handleinput.jl")
 include("package_checking.jl")
 
 include("processvals.jl")
-include("make_docstrings.jl")
+include("finalize.jl")
 include("macro_unsafe.jl")
 using .MacroUnsafe
 export @unsafe

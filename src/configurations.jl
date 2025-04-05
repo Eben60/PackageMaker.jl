@@ -1,25 +1,29 @@
-checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked && !(pgin.name in ("GeneralOptions", "Save_Configuration")) ]
-
-function dict2od(d)
-    od = OrderedDict{String, Any}()
-    ks = keys(d) |> collect |> sort!
-    for k in ks
-        od[k] = d[k]
-    end
-    return od
+function handle_intermed_input(win, vals)
+    save_config(vals)
+    showhidepgin(win, "Save_Configuration", false)
+    check_saveconfig_done(win, false)
 end
 
-SavedConfigsType = OrderedDict{String, Dict{String, String}}
-
-function get_saved_configs() 
-    if @has_preference(SAVEDCONFIGS_KEY) 
-        return @load_preference(SAVEDCONFIGS_KEY) |> dict2od |> SavedConfigsType
-    else
-        return SavedConfigsType()
-    end
+function save_config(fv)
+    pgins = get_pgins_vals!(fv)
+    scpi = pgins["Save_Configuration"]
+    get_checked_pgins!(fv; pgins)
+    scpi.checked || return false
+    config_name = scpi["config_name"].returned_val
+    isempty(config_name) && return false
+    get_pgins_changed!(pgins)
+    ogcpg = pg2od(pgins)
+    write_config(config_name, ogcpg)
+    println("Configuration $(config_name) saved to preferences.")
+    return true
 end
 
-savedconfigs::SavedConfigsType = get_saved_configs()
+function get_pgins_changed!(plugins)
+    for (_, pgin) in plugins
+        get_pgin_changed!(pgin)
+    end
+    return plugins
+end
 
 function get_pgin_changed!(pgin)
     pgin.checked || return pgin
@@ -37,25 +41,58 @@ function get_pgin_changed!(pgin)
     return pgin
 end
 
-function get_pgins_changed!(plugins)
-    for (_, pgin) in plugins
-        get_pgin_changed!(pgin)
+function write_config(configname, config::AbstractDict)
+    if ! isempty(savedconfigs)
+        configdict = savedconfigs
+        configdict[configname] = odod2odjson(config)
+    else
+        configdict = Dict(configname => odod2odjson(config))
     end
-    return plugins
+    @set_preferences!(SAVEDCONFIGS_KEY => configdict)
 end
 
-function pg2od(pgin::PluginInfo)
-    pgin.name == "Save_Configuration" && return OrderedDict{String, Any}() # nothing saveable to config
-
-    od = OrderedDict{String, Any}([k => pa.returned_rawval for (k, pa) in pgin.args if pa.changed])
-    od["checked"] = (pgin.name == "GeneralOptions") ? true : pgin.checked
-    return od
+function odod2odjson(od)
+    od2 = OrderedDict{String, String}()
+    for (k, v) in od
+        od2[k] = v |> JSON3.write
+    end
+    return od2
 end
 
+function read_config(configname::AbstractString)
+    i = savedconfig_tag_no(configname)
+    isnothing(i) && return (; name=configname, config=(savedconfigs[configname] |> json2dict))
+    return read_config(i)
+end
 
-function pg2od(pgins::OrderedDict{String, PluginInfo}) 
-    od = OrderedDict([k => pg2od(pgin) for (k, pgin) in pgins if !isempty(pg2od(pgin))])
-    remove_inapplicable!(od)
+read_config(i::Int) = read_config(collect(keys(savedconfigs))[i])
+
+function savedconfig_tag_no(tag)
+    re = r"SavedConfigTag_(\d+)"
+    m = match(re, tag)
+    isnothing(m) && return nothing
+    return parse(Int, m[1])
+end
+
+function json2dict(x)
+    d0 = Dict{String, Any}()
+    for (k, v) in x
+        d0[k] = v |> json2dstr
+    end
+    return d0
+end
+
+dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
+
+json2dstr(x) = x |> JSON3.read |> Dict{Symbol, Any} |> dsym2dstr
+
+function remove_inapplicable!(od)
+    not_config_saved = [
+        "GeneralOptions" => "proj_name",
+        "GeneralOptions" => "docstring",
+        "GeneralOptions" => "proj_pkg",
+        ]
+    return remove_key!(od, not_config_saved)
 end
 
 function remove_key!(od, pi, arg) 
@@ -75,79 +112,41 @@ function remove_key!(od, ps::Vector{<:Pair})
     return od
 end
 
-function remove_inapplicable!(od)
-    not_config_saved = [
-        "GeneralOptions" => "proj_name",
-        "GeneralOptions" => "docstring",
-        "GeneralOptions" => "proj_pkg",
-        ]
-    return remove_key!(od, not_config_saved)
+function pg2od(pgin::PluginInfo)
+    pgin.name == "Save_Configuration" && return OrderedDict{String, Any}() # nothing saveable to config
+
+    od = OrderedDict{String, Any}([k => pa.returned_rawval for (k, pa) in pgin.args if pa.changed])
+    od["checked"] = (pgin.name == "GeneralOptions") ? true : pgin.checked
+    return od
 end
 
-function odod2odjson(od)
-    od2 = OrderedDict{String, String}()
-    for (k, v) in od
-        od2[k] = v |> JSON3.write
-    end
-    return od2
-end
-export odod2odjson
 
-function write_config(configname, config::AbstractDict)
-    if ! isempty(savedconfigs)
-        configdict = savedconfigs
-        configdict[configname] = odod2odjson(config)
+function pg2od(pgins::OrderedDict{String, PluginInfo}) 
+    od = OrderedDict([k => pg2od(pgin) for (k, pgin) in pgins if !isempty(pg2od(pgin))])
+    remove_inapplicable!(od)
+end
+
+SavedConfigsType = OrderedDict{String, Dict{String, String}}
+
+function get_saved_configs() 
+    if @has_preference(SAVEDCONFIGS_KEY) 
+        return @load_preference(SAVEDCONFIGS_KEY) |> dict2od |> SavedConfigsType
     else
-        configdict = Dict(configname => odod2odjson(config))
+        return SavedConfigsType()
     end
-    @set_preferences!(SAVEDCONFIGS_KEY => configdict)
 end
 
-function read_config(configname::AbstractString)
-    i = savedconfig_tag_no(configname)
-    isnothing(i) && return (; name=configname, config=(savedconfigs[configname] |> json2dict))
-    return read_config(i)
-end
+checked_names(pgins) = [pgin.name for (_, pgin) in pgins if pgin.checked && !(pgin.name in ("GeneralOptions", "Save_Configuration")) ]
 
-read_config(i::Int) = read_config(collect(keys(savedconfigs))[i])
-
-function savedconfig_tag_no(tag)
-    re = r"SavedConfigTag_(\d+)"
-    m = match(re, tag)
-    isnothing(m) && return nothing
-    return parse(Int, m[1])
-end
-
-dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
-
-json2dstr(x) = x |> JSON3.read |> Dict{Symbol, Any} |> dsym2dstr
-
-function json2dict(x)
-    d0 = Dict{String, Any}()
-    for (k, v) in x
-        d0[k] = v |> json2dstr
+function dict2od(d)
+    od = OrderedDict{String, Any}()
+    ks = keys(d) |> collect |> sort!
+    for k in ks
+        od[k] = d[k]
     end
-    return d0
+    return od
 end
+
+savedconfigs::SavedConfigsType = get_saved_configs()
 
 savedconfignames() = isempty(savedconfigs) ? String[] : keys(savedconfigs) |> collect |> sort!
-
-function save_config(fv)
-    pgins = get_pgins_vals!(fv)
-    scpi = pgins["Save_Configuration"]
-    get_checked_pgins!(fv; pgins)
-    scpi.checked || return false
-    config_name = scpi["config_name"].returned_val
-    isempty(config_name) && return false
-    get_pgins_changed!(pgins)
-    ogcpg = pg2od(pgins)
-    write_config(config_name, ogcpg)
-    println("Configuration $(config_name) saved to preferences.")
-    return true
-end
-
-function handle_intermed_input(win, vals)
-    save_config(vals)
-    showhidepgin(win, "Save_Configuration", false)
-    check_saveconfig_done(win, false)
-end

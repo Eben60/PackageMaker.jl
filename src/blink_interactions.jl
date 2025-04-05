@@ -1,8 +1,25 @@
-function initcontents(fpath=winpath)
-    contents = open(fpath, "r") do file
-        read(file)
+function initwin(wpath=make_html(); make_prj = false)
+    global processing_finished = false
+    global may_exit_julia = false
+    win = mainwin(wpath);
+
+    initvals = Dict{Symbol, HtmlElem}()
+    newvals = deepcopy(initvals)
+    intermvals = deepcopy(initvals)
+    finalvals = deepcopy(initvals)
+
+    changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj)
+    js(win, Blink.JSString("""sendfullstate(false, false)"""))
+    wait_until_finished()
+    return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
+end
+
+function wait_until_finished()
+    while ! processing_finished
+        sleep(0.1)
     end
-    return String(contents)
+    sleep(0.05)
+    return nothing
 end
 
 function mainwin(fpath=winpath)
@@ -26,30 +43,11 @@ See docstring of `@unsafe`, or `PackageMaker` documentation. """
     return win
 end
 
-# may not work if called during interaction
-getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
-
-setelemval(win, id, newval::AbstractString) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
-setelemval(win, id, newval::Bool) = checkelem(win, id, newval::Bool) 
-setelemval(win, pgname, fldname, newval) = setelemval(win, "$(pgname)_$(fldname)", newval)
-
-setelemtext(win, id, newval::AbstractString) = 
-    js(win, Blink.JSString("""document.getElementById("$id").textContent = "$newval";"""); callback=false)
-
-setelemclass(win, id, newval::AbstractString) = 
-    js(win, Blink.JSString("""document.getElementById("$id").className = "$newval";"""); callback=false)
-
-
-checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
-
-handleinit_input() = nothing # println("init_input finished")
-
-function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
-    close(win)
-    submit && make_prj && return create_proj(finalvals)
-    global processing_finished = true
-
-    return nothing
+function initcontents(fpath=winpath)
+    contents = open(fpath, "r") do file
+        read(file)
+    end
+    return String(contents)
 end
 
 function handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj = false)
@@ -80,29 +78,27 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_
     end
 end
 
-function wait_until_finished()
-    while ! processing_finished
-        sleep(0.1)
-    end
-    sleep(0.05)
+function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
+    close(win)
+    submit && make_prj && return create_proj(finalvals)
+    global processing_finished = true
+
     return nothing
 end
 
-function initwin(wpath=make_html(); make_prj = false)
-    global processing_finished = false
-    global may_exit_julia = false
-    win = mainwin(wpath);
+setelemval(win, id, newval::AbstractString) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.value = "$newval";"""); callback=false)
+setelemval(win, id, newval::Bool) = checkelem(win, id, newval::Bool) 
+setelemval(win, pgname, fldname, newval) = setelemval(win, "$(pgname)_$(fldname)", newval)
 
-    initvals = Dict{Symbol, HtmlElem}()
-    newvals = deepcopy(initvals)
-    intermvals = deepcopy(initvals)
-    finalvals = deepcopy(initvals)
+checkelem(win, id, newval::Bool) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.checked = $newval;"""); callback=false)
 
-    changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj)
-    js(win, Blink.JSString("""sendfullstate(false, false)"""))
-    wait_until_finished()
-    return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
-end
+setelemtext(win, id, newval::AbstractString) = 
+    js(win, Blink.JSString("""document.getElementById("$id").textContent = "$newval";"""); callback=false)
+
+setelemclass(win, id, newval::AbstractString) = 
+    js(win, Blink.JSString("""document.getElementById("$id").className = "$newval";"""); callback=false)
+
+handleinit_input() = nothing # println("init_input finished")
 
 function showhide(win, id, show_tag=true, duration=100) 
     jqselector = "#$(id)"
@@ -112,3 +108,7 @@ function showhide(win, id, show_tag=true, duration=100)
 end
 
 enable_html_elem(win, id, enable=true) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = $(! enable);"""); callback=false)
+
+
+# may not work if called during interaction / currently unused
+getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
