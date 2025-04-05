@@ -70,6 +70,12 @@ val3 = "abc/def.jhl"
 
 s1 = "  abc \n\r def \t \n\n hig\r"
 s2 = "abcdef"
+s3 = """
+ajd
+cde, fgh,dek, 
+
+xyz""";
+
 
 @testset "conv" begin
 
@@ -84,6 +90,8 @@ s2 = "abcdef"
     @test conv(pa3, val3) == "abc/def.jhl"
     @test tidystring(s1) == "abc\ndef\nhig"
     @test tidystring(s2) == "abcdef"
+
+    @test multiline2csv(s3) == "ajd, cde, fgh, dek, xyz"
     
 
 end # testset

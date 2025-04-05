@@ -6,7 +6,7 @@ conv(::StrInp, s) = s
 conv(::Type{Vector{S}}, val) where S <: AbstractString = split(val, "\n")
 
 function conv(pa::PluginArg, val)
-    conv2array = (pa.type != :text)
+    conv2array = (pa.type ∈ (Vector{String}, :ExcludedPlugins))
     s = tidystring(val; conv2array)
     s == "nothing" && return nothing
     pa.type isa Symbol && return conv(Val{pa.type}, s)
@@ -58,3 +58,6 @@ function type2str(x)
     re=r".*\.(.+)"
     return match(re, t)[1]
 end
+
+multiline2csv(s) = join(split(s |> tidystring, "\n"), ", ")
+

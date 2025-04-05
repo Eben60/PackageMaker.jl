@@ -74,15 +74,24 @@ function check_saveconfig_done(win, checked)
     return nothing
 end
 
-function setfields_saved(win, config)
+function setfields_saved(win, config; pgins=def_plugins)
     for (pgname, pgdict) in config
         for (fldname, val) in pgdict
-            setelemval(win, pgname, fldname, val)
+            if haskey(pgins, pgname) && haskey(pgins[pgname].args, fldname)
+                fldtype = pgins[pgname].args[fldname].type
+                if fldtype ∈ (Vector{String}, :ExcludedPlugins)
+                    val = val |> multiline2csv
+                end
+
+                setelemval(win, pgname, fldname, val)
+            end
         end
     end
-    is_package = config["GeneralOptions"]["is_package"]
-    enable_docstring(win, is_package)
-    setsubmitbutton(win, is_package)
+    if haskey(config, "GeneralOptions") && haskey(config["GeneralOptions"], "is_package")
+        is_package = config["GeneralOptions"]["is_package"]
+        enable_docstring(win, is_package)
+        setsubmitbutton(win, is_package)
+    end
 end
 
 function setsubmitbutton(win, is_package)
