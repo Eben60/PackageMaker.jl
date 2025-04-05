@@ -41,7 +41,7 @@ function plugins_od()
             ("host", "github.com", "URL to the code hosting service where the project will reside."),
             (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
             (:text, "docstring", [""], "$(package_info_descr)"),
-            (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on by using <code>Pkg</code>."),
+            (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on using <code>Pkg</code>."),
             (; type = Bool, name="add_imports", default_val = false, meaning = """Add these packages to the source code like <code>using Foo</code>""", enabled=false), 
             ], true),
         ("ProjectFile", "Creates a Project.toml", [

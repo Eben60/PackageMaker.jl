@@ -1,7 +1,7 @@
 module Processvals1
 
 using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
-    check_packages, type2str, parse_v_string, tidystring, initialize
+    check_packages, type2str, parse_v_string, tidystring, initialize, multiline2csv
 
 using Test
 
@@ -76,6 +76,20 @@ cde, fgh,dek,
 
 xyz""";
 
+s4 = """
+using P1, P2
+import P3,
+P4,
+P5
+P6""";
+
+s5 = """
+using P1, P2
+import P3,
+P4.jl, P4a, P4b.jl
+P5
+P6""";
+
 
 @testset "conv" begin
 
@@ -92,7 +106,9 @@ xyz""";
     @test tidystring(s2) == "abcdef"
 
     @test multiline2csv(s3) == "ajd, cde, fgh, dek, xyz"
-    
+
+    @test split_pkg_list(s4) == ["P1", "P2", "P3", "P4", "P5", "P6",] 
+    @test split_pkg_list(s5) == ["P1", "P2", "P3", "P4", "P4a", "P4b", "P5", "P6",] 
 
 end # testset
 
@@ -110,3 +126,5 @@ end # testset
 # end # testset
 
 end # module
+
+["P1", "P2", "P3", "P4", "P5", "P6",]

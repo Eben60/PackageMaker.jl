@@ -99,7 +99,7 @@ function tmpl_input_arrfield(pgin, arg, arr_footnote=true)
     arg_name = arg.name
     arg_val = arg.default_val
     id="$(pgin_name)_$(arg_name)"
-    label = """<label for="$id" class="comment">A vector of strings is expected. Put each string onto a newline.<br></label>"""
+    label = """<label for="$id" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>"""
     label_source = arr_footnote ? label : ""
 
     return """

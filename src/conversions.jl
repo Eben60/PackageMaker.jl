@@ -1,7 +1,7 @@
 "specialized input types, but otherwise just String"
 StrInp = Union{Type{Val{:file}}, Type{Val{:dir}}, Type{Val{:menu}}, Type{Val{:button}}, Type{Val{:text}}, } 
 
-conv(::StrInp, s) = s  
+conv(::StrInp, s) = s |> strip
 
 conv(::Type{Vector{S}}, val) where S <: AbstractString = split(val, "\n")
 
@@ -46,9 +46,10 @@ end
 function split_pkg_list(x)
     x = tidystring(x)
     isempty(x) && return String[]
-    v = split(x |> tidystring, "\n") 
+    v = split(x, "\n") 
     jl_re = r"(?i)\.jl$"
-    v = replace.(v, jl_re => "")
+    using_re = r"^(using)|(import)[ \t]+"
+    v = replace.(v, jl_re => "", using_re => "") .|> strip .|> String
     return v
 end
 
@@ -60,4 +61,3 @@ function type2str(x)
 end
 
 multiline2csv(s) = join(split(s |> tidystring, "\n"), ", ")
-
