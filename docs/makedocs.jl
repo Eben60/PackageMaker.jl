@@ -6,7 +6,7 @@ makedocs(
     authors = "Eben60",
     sitename = "PackageMaker.jl",
     pages = Any[
-        "General Info" => "index.md", 
+        "Documentation" => "index.md", 
         # "Changelog, License etc." => "finally.md", 
         # "Internal functions and Index" => "docstrings.md",
         ],

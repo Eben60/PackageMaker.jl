@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/Eben60/PackageMaker.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/Eben60/PackageMaker.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
 # PackageMaker
 
 *GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.*
@@ -50,11 +54,11 @@ Some [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) plugin argu
 1.6, 1.10, pre
 ```
 
-In multiline fields, commas can be escaped by double-backslasch: `comma\\,connected` will be parsed as `"comma,connected"`
+In multiline fields, commas can be escaped by double-backslash: `comma\\,connected` will be parsed as `"comma,connected"`
 
 #### Packages to be added to project
 
-For this multiline field everything said above about separators applies (except this field is not saved on saving a config). Additionaly keywords `using` and `import` as well as the suffix `.jl` will be ignored, making it easier to paste package lists copied from e.g. another package. Thus, the input below
+For this multiline field everything said above about separators applies (except this field is not saved on saving a config). Additionally keywords `using` and `import` as well as the suffix `.jl` will be ignored, making it easier to paste package lists copied from e.g. another package. Thus, the input below
 ```
 using P1, P2
 import P3
@@ -96,6 +100,40 @@ julia> @unsafe;
 julia> gogui()
 ``` 
 
+## Tangential
+
+### Julia workflow
+
+I have found these sources especially useful
+
+* [Julia Notes](https://m3g.github.io/JuliaNotes.jl/)
+* [Modern Julia Workflows](https://modernjuliaworkflows.org/)
+
+### Start with a project or a package?
+
+First, for anything exceeding a few-lines calculation, a bare script is not optimal in Julia. You may need multiple packages, and it is not a good thing to install them all in the same default environment. Furthermore, there are reasons to put everything into functions. As soon a you start putting your code into functions, you **should** use [`Revise.jl`](https://timholy.github.io/Revise.jl/). You will find these advices in literally every guide on `Julia`.
+
+Most manuals (including the both cited above) would explain you how to create an environment / project, before going on to creation of local packages. With `PackageMaker` you can actually create both projects and packages.
+
+However I see actually no reasons to making it a *project*. `PackageMaker` would make a *package* for you at zero additional cost, and a *package* offers you following benefits:
+
+- First and foremost: A function put into the package module will be under `Revise`
+    - it will be easily accessible from REPL, you can use it in any script
+    - any changes to the function will be immediately reflected in the REPL.
+- For testing a package there are well established workflows (tick the `Tests` plugin to create and populate the `/test` folder).
+- Package is a more-or-less self-contained unit, which can be
+    - used by your other scripts and packages
+    - shared
+    - published as a registered package.
+
+### Using a package? - Star it 🙂
+
+`PackageMaker` allows you to add dependencies at package creation. If you know you need this or that dependency even before you wrote the first code line, then you probably already know this package does it`s job. Which IMO is a reason enough to give it a star.
+
+Stars on GitHub is often the only feedback the developer gets, esp. if his package "just does the job". And feedback is often the only reward for an open source developer.
+
+Therefore: If you typed a name of some package into the "Packages to add to your project" field - think about going to the package's source page to give it a star. 
+
 ## Changelog
 
 ### Release 1.0.0
@@ -128,7 +166,7 @@ Star on [GitHub](https://github.com/Eben60/PackageMaker.jl), open an issue, cont
 
 * [`PkgSkeleton`](https://github.com/tpapp/PkgSkeleton.jl) is a rather minimalistic package for creating new packages and updating existing ones, following common practices and workflow recommendations.
 
-* [`BestieTemplate`](https://github.com/JuliaBesties/BestieTemplate.jl) uses [`Copier`](https://copier.readthedocs.io/en/stable/) library over `PythonCall` and can be used to create as well as update packages.
+* [`BestieTemplate`](https://github.com/JuliaBesties/BestieTemplate.jl) uses [`Copier`](https://copier.readthedocs.io/en/stable/) library over `PythonCall` and can be used to both create and update packages.
 
 * [`Cookiecutter Template`](https://github.com/goerz/cookiecutter-juliapackage) - still another Python based solution.
 
