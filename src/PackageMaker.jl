@@ -6,7 +6,7 @@ This package allows you to create either a new package or a new project.
     
 Type [gogui()](@ref) to start the GUI and create a new package or project.
 
-Package site under https://github.com/Eben60/PackageMaker.jl
+Documentation under https://eben60.github.io/PackageMaker.jl/
 
 $(isnothing(get(ENV, "CI", nothing)) ? ("\n" * "Package local path: " * pathof(PackageMaker)) : "") 
 """
@@ -55,7 +55,7 @@ using .MacroUnsafe
 export @unsafe
 
 export gogui
-VERSION >= v"1.11.0-DEV.469" && eval(Meta.parse("public updatecheck_settings"))
+VERSION >= v"1.11.0" && eval(Meta.parse("public updatecheck_settings"))
 
 function __init__()
     if get(ENV, "CI", nothing) != "true"
@@ -73,5 +73,3 @@ function __init__()
 end
 
 end # module PackageMaker
-
-# TODO refactor: move caller functions to the top, and callees to the bottom

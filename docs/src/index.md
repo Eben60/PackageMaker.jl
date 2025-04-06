@@ -1,15 +1,13 @@
 # PackageMaker
 
-GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.
+*GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.*
 
 This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which subset hopefully covers >90% of its use cases). It also adds a couple of features of its own, e.g. ability to create Julia projects, or adding dependencies to project or packages being created. Being a GUI app, it should be mostly self-explanatory, and external links for more information are provided from the GUI, too.
-
 
 
 ## Installation
 
 It is recommended to install this package into a separate shared environment, e.g. one named `@PackageMaker`. It is not advisable to install it into the default environment.
-
 
 ```julia
 julia> ]
@@ -28,6 +26,7 @@ julia> @usingany PackageMaker
 
 Before you start, make sure that you set up global `user.name`, `user.email`, as well as 
 (in case you are to use GitHub-bound plugins) `github.user` in `git`.
+
 
 ## Usage
 
@@ -77,13 +76,14 @@ This logics however (currently) differs in respect to the selection of "activate
 
 ### Checking for updates
 
-On the startup of the package a check is performed whether a new version of it became available. This feature is still experimental, and appears not always to work properly (possibly, if `PackageMaker` was imported through `@usingany PackageMaker` macro of [`ShareAdd.jl`](https://github.com/Eben60/ShareAdd.jl)). 
+On the startup of the package a check is performed whether a new version of it became available. This feature is still experimental, and appears not always to work properly. 
 
 You might find this function too intrusive. The public function `PackageMaker.updatecheck_settings` provides an interface to disable this feature or to change other  defaults. For details, get the function's help:
 
 ```julia-repl
 help?> PackageMaker.updatecheck_settings
 ``` 
+
 
 ## Current issues
 
@@ -95,3 +95,46 @@ sandboxing. To be on the safe side, make sure to terminate `Julia` after creatin
 julia> @unsafe;
 julia> gogui()
 ``` 
+
+## Changelog
+
+### Release 1.0.0
+
+_2025-04-07_ 
+
+#### Summary
+
+- Package documentation extended and published using `Documenter`. 
+- (No breaking changes)
+
+### Releases 0.1.1 .. 0.1.17
+
+Work in progress 😓
+
+### Initial release  0.1.0
+
+_2025-01-05_
+
+## Likes & dislikes?
+
+Star on [GitHub](https://github.com/Eben60/PackageMaker.jl), open an issue, contact [me](https://discourse.julialang.org/u/eben60/summary) on Julia Discourse.
+
+
+## Related packages
+
+*  [`PkgTemplates`](https://github.com/JuliaCI/PkgTemplates.jl), for which this package is a front end.
+
+* `Julia`'s own [`Pkg`](https://pkgdocs.julialang.org) `generate` is sufficient to generate you the bare minimum files for a new package.
+
+* [`PkgSkeleton`](https://github.com/tpapp/PkgSkeleton.jl) is a rather minimalistic package for creating new packages and updating existing ones, following common practices and workflow recommendations.
+
+* [`BestieTemplate`](https://github.com/JuliaBesties/BestieTemplate.jl) uses [`Copier`](https://copier.readthedocs.io/en/stable/) library over `PythonCall` and can be used to create as well as update packages.
+
+* [`Cookiecutter Template`](https://github.com/goerz/cookiecutter-juliapackage) - still another Python based solution.
+
+
+## Copyright and License
+
+© 2025 Eben60
+
+MIT License (see separate file `LICENSE`)
