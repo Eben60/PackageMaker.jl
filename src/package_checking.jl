@@ -81,12 +81,12 @@ function getprefs()
     return prefs
 end
 
-function pester_user_about_updates(pkg=@__MODULE__; reason=false)
+function pester_user_about_updates(pkg=@__MODULE__; reason=false, precompile=false)
     key = UPDATE_CHECK_PREF_KEY
     prefs = getprefs()
 
     if ! prefs["enabled"]
-        reason && println("disabled")
+        # reason && println("disabled")
         return nothing
     end
 
@@ -95,7 +95,7 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false)
     haskey(prefs, "check_frequency") && (prefs["next_check"] = prefs["check_frequency"]) # old keys -> new
 
     if Dates.days(today() - prev_check) < prefs["next_check"] 
-        reason && println("was recently checked")
+        # reason && println("was recently checked")
         return nothing
     end
 
@@ -105,8 +105,8 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false)
 
     (;not_latest, current_v, latest_v) = upgradable(pkg)
     if prefs["skip"] && latest_v == prev_version 
-        @set_preferences!(key => prefs)
-        reason && println("Setting last_visit to today and skipping this version")
+        precompile || @set_preferences!(key => prefs)
+        # reason && println("Setting last_visit to today and skipping this version")
         return nothing
     end
 
@@ -117,8 +117,8 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false)
         update_pkg = update_env = false
     end
 
-    @set_preferences!(key => prefs)
-    perform_update(pkg, update_pkg, update_env)
+    precompile || @set_preferences!(key => prefs)
+    precompile || perform_update(pkg, update_pkg, update_env)
 end
 
 function perform_update(pkg, update_pkg, update_env)

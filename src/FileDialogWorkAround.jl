@@ -22,7 +22,6 @@ function macos_version()
 end
 
 const BUGGY_MACOS = macos_version() >= v"15"
-export BUGGY_MACOS
 
 function pick_file(path=""; filterlist="") 
     BUGGY_MACOS || return NativeFileDialog.pick_file(path; filterlist) |> posixpathstring
@@ -111,7 +110,6 @@ function pick_workaround(path, picktype; filterlist="")
 end
 
 function parse_multifiles(p)
-    # p = "alias MacSysdiskBen:Users:elk:Downloads:2023:tmp:Abrechnung_,31.pdf, alias MacSysdiskBen:Users:elk:Downloads:2023:tmp:Abrechnung_2,574767229.pdf, alias MacSysdiskBen:Users:elk:Downloads:2023:tmp:Abrechnung_214712029800,73.pdf"
     p1 = replace(p, ", alias " => "\nalias ")
     als = split(p1, "\n")
     for (i, al) in pairs(als)
