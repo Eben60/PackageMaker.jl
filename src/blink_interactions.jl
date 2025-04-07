@@ -1,5 +1,6 @@
 function initwin(wpath=make_html(); make_prj = false)
-    global processing_finished = false
+    # global processing_finished = false
+    empty!(finished_ch)
     global may_exit_julia = false
     win = mainwin(wpath);
 
@@ -15,9 +16,10 @@ function initwin(wpath=make_html(); make_prj = false)
 end
 
 function wait_until_finished()
-    while ! processing_finished
-        sleep(0.1)
-    end
+    # while ! processing_finished
+    #     sleep(0.1)
+    # end
+    take!(finished_ch)
     sleep(0.05)
     return nothing
 end
@@ -81,7 +83,8 @@ end
 function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
     close(win)
     submit && make_prj && return create_proj(finalvals)
-    global processing_finished = true
+    # global processing_finished = true
+    put!(finished_ch, true)
 
     return nothing
 end

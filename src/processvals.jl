@@ -123,7 +123,7 @@ function general_options(fv; plugins=def_plugins)
 end
 
 function create_proj(fv; plugins=def_plugins)
-    global processing_finished = false
+    # global processing_finished = false
     global may_exit_julia
     get_pgins_vals!(fv; plugins)
     pgins=initialized_ptpgins(fv)
@@ -141,7 +141,7 @@ function create_proj(fv; plugins=def_plugins)
         may_exit_julia = true
     end
     ispk && finalize_pkg(gen_options) # add_docstring(gen_options)
-    processing_finished = true
+    # processing_finished = true
     return t
 end
 
