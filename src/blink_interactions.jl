@@ -1,6 +1,4 @@
 function initwin(wpath=make_html(); make_prj = false)
-    # global processing_finished = false
-    empty!(finished_ch)
     global may_exit_julia = false
     win = mainwin(wpath);
 
@@ -11,17 +9,14 @@ function initwin(wpath=make_html(); make_prj = false)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj)
     js(win, Blink.JSString("""sendfullstate(false, false)"""))
-    wait_until_finished()
-    return (;win, initvals, newvals, finalvals, changeeventhandle, wpath)
+    cancelled = wait_until_finished()
+    return (;win, initvals, newvals, finalvals, changeeventhandle, wpath, cancelled)
 end
 
 function wait_until_finished()
-    # while ! processing_finished
-    #     sleep(0.1)
-    # end
-    take!(finished_ch)
+    cancelled = ! take!(finished_ch) # 
     sleep(0.05)
-    return nothing
+    return cancelled
 end
 
 function mainwin(fpath=winpath)
@@ -83,8 +78,7 @@ end
 function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
     close(win)
     submit && make_prj && return create_proj(finalvals)
-    # global processing_finished = true
-    put!(finished_ch, true)
+    put!(finished_ch, submit)
 
     return nothing
 end

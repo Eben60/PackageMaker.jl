@@ -22,10 +22,9 @@ include("FileDialogWorkAround.jl")
 using .FileDialogWorkAround
 using .FileDialogWorkAround: posixpathstring
 
-# processing_finished::Bool = false
 may_exit_julia::Bool = false
 debug_update_checking::Bool = false
-finished_ch::Channel{Bool} = Channel{Bool}(1)
+const finished_ch = Channel{Bool}(1)
 
 const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 const SAVEDCONFIGS_KEY = "SavedConfigurations"
