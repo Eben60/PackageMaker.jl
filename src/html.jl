@@ -1,6 +1,3 @@
-html_dir() = mktempdir(; cleanup=false)
-tmp_html() = joinpath(html_dir(), "package_maker.html") |> normpath
-
 checked(b) = b ? "checked" : ""
 
 esc_qm(x) = x
@@ -17,7 +14,7 @@ function insert_url(s, url)
     return m[1] * a * m[2] * m[3]
 end
 
-make_html(pgins) = replace(
+make_html(pgins=def_plugins) = replace(
     html_head() * 
     html_use_purpose() *
     html_plugins(pgins) *
@@ -27,9 +24,6 @@ make_html(pgins) = replace(
     r" +\n" => "\n")
     
 function make_html(pgins, file) # plugins - see file "Plugins-and-default-arguments.jl"
-    # @show file
-    # file = abspath(joinpath("html", file))
-    # @show file
     html = make_html(pgins)
     open(file, "w") do f
         write(f, html)
@@ -38,7 +32,7 @@ function make_html(pgins, file) # plugins - see file "Plugins-and-default-argume
 end
 
 "if provided a file name without suffix, will add .html and save generated file into default directory"
-function make_html(file::AbstractString=tmp_html())
+function make_html(file::AbstractString)
     defaultpath = "html_tests"
     if endswith(file, ".html")
         f = file

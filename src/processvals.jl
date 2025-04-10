@@ -172,13 +172,6 @@ function depackagize(proj_name, dir)
     return nothing
 end
 
-function cleanup(wpath) 
-    isfile(wpath) || return nothing # whatever the reason, it's a temporary dir, nothing bad if not deleted
-    d = dirname(wpath)
-    rm(d; force = true, recursive = true)
-    return nothing 
-end
-
 function initialize()
     global savedconfigs = get_saved_configs()
     global val_form = ValidateForm()
@@ -191,8 +184,7 @@ end
 function _gogui(exitjulia=false; make_prj = true)
     global may_exit_julia
     initialize()
-    (;finalvals, wpath, cancelled) = initwin(; make_prj)
-    cleanup(wpath)
+    (;finalvals, cancelled) = initwin(; make_prj)
     if exitjulia && may_exit_julia
         println("Project created, exiting julia")
         exit()

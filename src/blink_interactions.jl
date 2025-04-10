@@ -1,6 +1,6 @@
-function initwin(wpath=make_html(); make_prj = false)
+function initwin(; make_prj = false)
     global may_exit_julia = false
-    win = mainwin(wpath);
+    win = mainwin();
 
     initvals = Dict{Symbol, HtmlElem}()
     newvals = deepcopy(initvals)
@@ -10,7 +10,7 @@ function initwin(wpath=make_html(); make_prj = false)
     changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj)
     js(win, Blink.JSString("""sendfullstate(false, false)"""))
     cancelled = wait_until_finished()
-    return (;win, initvals, newvals, finalvals, changeeventhandle, wpath, cancelled)
+    return (;win, initvals, newvals, finalvals, changeeventhandle, cancelled)
 end
 
 function wait_until_finished()
@@ -19,7 +19,7 @@ function wait_until_finished()
     return cancelled
 end
 
-function mainwin(fpath=winpath)
+function mainwin(fpath=nothing)
     info_unsafe = """There is a bug on Ubuntu 24, which may have caused this error. 
 You may want to run `PackageMaker` from VSCode, 
 or run the macro `@unsafe` before calling `gogui()`.
@@ -35,12 +35,16 @@ See docstring of `@unsafe`, or `PackageMaker` documentation. """
             rethrow(e)
         end
     end
-    wincontent = initcontents(fpath)
+    if !isnothing(fpath) 
+        wincontent = initcontents(fpath)
+    else
+        wincontent = make_html()
+    end
     content!(win, "html", wincontent; async=false)
     return win
 end
 
-function initcontents(fpath=winpath)
+function initcontents(fpath)
     contents = open(fpath, "r") do file
         read(file)
     end
