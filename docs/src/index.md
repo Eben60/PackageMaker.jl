@@ -147,6 +147,15 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.0.1
+
+_2025-04-11_ 
+
+#### Summary
+
+- Improved package loading time through precompile.
+- Some internal refactoring.
+
 ### Release 1.0.0
 
 _2025-04-07_ 
