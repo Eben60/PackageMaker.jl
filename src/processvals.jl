@@ -140,6 +140,7 @@ function create_proj(fv; plugins=def_plugins)
         may_exit_julia = true
     end
     ispk && finalize_pkg(gen_options) # add_docstring(gen_options)
+    put!(finished_ch, true)
     return t
 end
 
@@ -172,11 +173,22 @@ function depackagize(proj_name, dir)
     return nothing
 end
 
+function empty_channel(c::Channel)
+    @static if VERSION < v"1.11"
+        while isready(c)
+            take!(c)
+        end
+        return c
+    else
+        return empty!(c)
+    end
+end
+
 function initialize()
     global savedconfigs = get_saved_configs()
     global val_form = ValidateForm()
     global def_plugins_original = plugins_od()
-    empty!(finished_ch)
+    empty_channel(finished_ch)
     check_default_pktplugins(def_plugins_original)
     global def_plugins = deepcopy(def_plugins_original)
 end

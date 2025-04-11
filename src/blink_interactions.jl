@@ -83,7 +83,6 @@ function handlefinalinput(win, finalvals, submit::Bool; make_prj = false)
     close(win)
     submit && make_prj && return create_proj(finalvals)
     put!(finished_ch, submit)
-
     return nothing
 end
 
