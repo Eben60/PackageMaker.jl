@@ -57,14 +57,12 @@ export @unsafe
 export gogui
 VERSION >= v"1.11.0" && eval(Meta.parse("public updatecheck_settings"))
 
-if get(ENV, "CI", nothing) != "true"
-    using PrecompileTools: @compile_workload
-    try
-    include("precompile.jl")
-    catch
-        @warn "precompile failed"
-    end
-end
+
+using PrecompileTools: @compile_workload
+
+include("precompile.jl")
+
+
 
 function __init__()
     if get(ENV, "CI", nothing) != "true"
@@ -76,9 +74,10 @@ function __init__()
             pester_user_about_updates()
         catch e
             @warn "failed to check for $(@__MODULE__) updates"
-            debug_update_checking && rethrow(e)
+            debug_update_checking && sprint(showerror, e, catch_backtrace()) |> println
         end
     end
+    return nothing
 end
 
 end # module PackageMaker
