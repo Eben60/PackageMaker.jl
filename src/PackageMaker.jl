@@ -24,7 +24,7 @@ using .FileDialogWorkAround: posixpathstring
 
 may_exit_julia::Bool = false
 debug_update_checking::Bool = false
-const finished_ch = Channel{Bool}(1)
+const gui_returned = Channel(1)
 
 const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 const SAVEDCONFIGS_KEY = "SavedConfigurations"

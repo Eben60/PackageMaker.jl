@@ -140,7 +140,6 @@ function create_proj(fv; plugins=def_plugins)
         may_exit_julia = true
     end
     ispk && finalize_pkg(gen_options) # add_docstring(gen_options)
-    put!(finished_ch, true)
     return t
 end
 
@@ -188,7 +187,7 @@ function initialize()
     global savedconfigs = get_saved_configs()
     global val_form = ValidateForm()
     global def_plugins_original = plugins_od()
-    empty_channel(finished_ch)
+    empty_channel(gui_returned)
     check_default_pktplugins(def_plugins_original)
     global def_plugins = deepcopy(def_plugins_original)
 end
@@ -196,7 +195,11 @@ end
 function _gogui(exitjulia=false; make_prj = true)
     global may_exit_julia
     initialize()
-    (;finalvals, cancelled) = initwin(; make_prj)
+    initwin() # returns immediately, the gui is running in a separate thread
+    (;finalvals, cancelled) = take!(gui_returned) # waiting here
+
+    !cancelled && make_prj && create_proj(finalvals)
+
     if exitjulia && may_exit_julia
         println("Project created, exiting julia")
         exit()

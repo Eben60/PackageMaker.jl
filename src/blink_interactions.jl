@@ -1,4 +1,4 @@
-function initwin(; make_prj = false)
+function initwin()
     global may_exit_julia = false
     win = mainwin();
 
@@ -7,17 +7,11 @@ function initwin(; make_prj = false)
     intermvals = deepcopy(initvals)
     finalvals = deepcopy(initvals)
 
-    changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj)
+    changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals)
     js(win, Blink.JSString("""sendfullstate(false, false)"""))
-    cancelled = wait_until_finished()
-    return (;win, initvals, newvals, finalvals, changeeventhandle, cancelled)
+    return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
 
-function wait_until_finished()
-    cancelled = ! take!(finished_ch) # 
-    sleep(0.05)
-    return cancelled
-end
 
 function mainwin(fpath=nothing)
     info_unsafe = """There is a bug on Ubuntu 24, which may have caused this error. 
@@ -51,7 +45,7 @@ function initcontents(fpath)
     return String(contents)
 end
 
-function handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_prj = false)
+function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
     handle(win, "change") do arg
         if arg["reason"] == "external_link"
             openurl(arg["url"])
@@ -73,16 +67,17 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals; make_
             arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
             # arg["reason"] == "init_inputfinished" && handleinit_input()
             arg["reason"] == "intermediate_inputfinished" && handle_intermed_input(win, intermvals)
-            arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true; make_prj)
-            arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false; make_prj)
+            arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true)
+            arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false)
         end
     end
 end
 
-function handlefinalinput(win, finalvals, submit::Bool; make_prj = false) 
+function handlefinalinput(win, finalvals, submit::Bool) 
     close(win)
-    submit && make_prj && return create_proj(finalvals)
-    put!(finished_ch, submit)
+    cancelled = !submit
+    cancelled && (finalvals = nothing)
+    put!(gui_returned, (;cancelled, finalvals))
     return nothing
 end
 
