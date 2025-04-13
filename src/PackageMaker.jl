@@ -16,6 +16,7 @@ using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
 using Preferences, JSON3
 using REPL.TerminalMenus, Dates, ShareAdd, PkgVersion
 using DataStructures
+using ShareAdd: make_current_mnf
 # using StartupCustomizer # "1.0.2"
 # using NativeFileDialog
 include("FileDialogWorkAround.jl")

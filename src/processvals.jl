@@ -111,14 +111,17 @@ function general_options(fv; plugins=def_plugins)
     docstring = gargs["docstring"].returned_val
     ispk = gargs["is_package"].returned_val
     add_imports = gargs["add_imports"].returned_val
+    versioned_man = gargs["versioned_man"].returned_val
+
     return (;
         ispk,
         proj_name, 
-        templ_kwargs = (; interactive=false, user, authors, dir, host,julia), 
+        templ_kwargs = (; interactive=false, user, authors, dir, host, julia), 
         dependencies=known_pkgs,
         unknown_pkgs,
         docstring,
         add_imports,
+        versioned_man,
         )
 end
 

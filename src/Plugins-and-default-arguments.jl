@@ -38,6 +38,7 @@ function plugins_od()
             ("user_name", "$(githubuser())", "User name. Required for many plugins."),
             ("authors", "$(username()) <$(usermail())>", "Authors. Will be an entry in <code>Project.toml</code>. "),
             (:dir, "project_dir", "", "Directory to place project in. Required input."),
+            ("versioned_man", true, "Use <a>version-named manifests</a>.", "https://pkgdocs.julialang.org/v1/toml-files/#Different-Manifests-for-Different-Julia-versions"),
             ("host", "github.com", "URL to the code hosting service where the project will reside."),
             (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
             (:text, "docstring", [""], "$(package_info_descr)"),

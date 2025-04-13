@@ -1,5 +1,8 @@
 function finalize_pkg(gen_options)
-    (;dependencies, docstring, add_imports,) = gen_options
+    (;proj_name, dependencies, docstring, add_imports, templ_kwargs, versioned_man, ) = gen_options
+    (;dir, ) = templ_kwargs
+    proj_dir = joinpath(dir, proj_name)
+    versioned_man && make_vers_mnfs(proj_dir)
     add_imports &= !isempty(dependencies)
     add_docstr = !isempty(docstring)
     add_docstr || add_imports || return nothing
@@ -7,6 +10,10 @@ function finalize_pkg(gen_options)
     add_docstr && (file_content = add_docstring(file_content, gen_options))
     add_imports && (file_content = add_usinglines(file_content, gen_options))
     write_contents(proj_main_file, file_content)
+end
+
+function make_vers_mnfs(dir)
+    return make_current_mnf(dir) # TODO also for test and docs
 end
 
 function read_src_file(gen_options)
