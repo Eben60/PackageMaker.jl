@@ -1,3 +1,5 @@
+using PrecompileTools: @compile_workload
+
 @compile_workload begin
 
     key = UPDATE_CHECK_PREF_KEY

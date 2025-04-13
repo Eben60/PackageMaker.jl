@@ -57,12 +57,7 @@ export @unsafe
 export gogui
 VERSION >= v"1.11.0" && eval(Meta.parse("public updatecheck_settings"))
 
-
-using PrecompileTools: @compile_workload
-
 include("precompile.jl")
-
-
 
 function __init__()
     if get(ENV, "CI", nothing) != "true"
