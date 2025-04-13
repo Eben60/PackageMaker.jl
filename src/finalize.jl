@@ -13,9 +13,18 @@ function finalize_pkg(gen_options)
     jl_suffix && add_jl_suffix(proj_dir)
 end
 
-function make_vers_mnfs(dir)
-    return make_current_mnf(dir) # TODO also for test and docs
+function make_vers_mnfs(proj_dir)
+    testpath = joinpath(proj_dir, "test")
+    docspath = joinpath(proj_dir, "docs")
+
+    for d in (proj_dir, testpath, docspath)
+        isenv(d) && make_current_mnf(d)
+    end
+
+    return nothing
 end
+
+isenv(dir) = isdir(dir) && isfile(joinpath(dir, "Project.toml"))
 
 function add_jl_suffix(proj_dir)
     if endswith(proj_dir, "/")
