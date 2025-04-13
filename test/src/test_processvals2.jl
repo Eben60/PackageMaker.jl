@@ -17,6 +17,7 @@ pgins = get_checked_pgins!(fv)
 @test pgins["Codecov"] isa PluginInfo
 
 pgins_vals = get_pgins_vals!(fv)
+@test ! pgins_vals["GeneralOptions"].args["jl_suffix"].returned_val
 @test pgins_vals["GitHubActions"].args["destination"].returned_val == "CI_new.yml"
 @test pgins_vals["License"].args["destination"].returned_val == "LICENSE.txt"
 @test pgins_vals["License"].args["name"].returned_val == "ASL"
@@ -49,13 +50,16 @@ ipg = initialized_ptpgins(fv) .|> typeof
     Tests,])
 
 go = general_options(fv)
-@test go == (ispk = true, 
-    proj_name = "TestPackage01", 
-    templ_kwargs = (interactive = false, user = "Eben60", authors = "Eben60 <not_a_mail@nowhere.org>", dir = "/Users/Shared", host = "github.com", julia = v"1.10.9"), 
-    dependencies = ["TOML", "Unicode"], 
-    unknown_pkgs = String[], 
-    docstring = "This is a TestPackage01 for PackageMaker testing.", 
-    add_imports = true) 
+@test go == (ispk = true,
+    proj_name = "TestPackage01",
+    jl_suffix = false,
+    templ_kwargs = (interactive = false, user = "Eben60", authors = "Eben60 <not_a_mail@nowhere.org>", dir = "/Users/Shared", host = "github.com", julia = v"1.10.9"),
+    dependencies = ["TOML", "Unicode"],
+    unknown_pkgs = String[],
+    docstring = "This is a TestPackage01 for PackageMaker testing.",
+    add_imports = true,
+    versioned_man = true,
+    ) 
 
 @test go.ispk
 @test go.proj_name == "TestPackage01"
