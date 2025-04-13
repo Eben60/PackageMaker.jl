@@ -112,10 +112,12 @@ function general_options(fv; plugins=def_plugins)
     ispk = gargs["is_package"].returned_val
     add_imports = gargs["add_imports"].returned_val
     versioned_man = gargs["versioned_man"].returned_val
+    jl_suffix = gargs["jl_suffix"].returned_val
 
     return (;
         ispk,
         proj_name, 
+        jl_suffix,
         templ_kwargs = (; interactive=false, user, authors, dir, host, julia), 
         dependencies=known_pkgs,
         unknown_pkgs,

@@ -1,7 +1,7 @@
 function finalize_pkg(gen_options)
-    (;proj_name, dependencies, docstring, add_imports, templ_kwargs, versioned_man, ) = gen_options
+    (;proj_name, dependencies, docstring, add_imports, templ_kwargs, versioned_man, jl_suffix, ) = gen_options
     (;dir, ) = templ_kwargs
-    proj_dir = joinpath(dir, proj_name)
+    proj_dir = joinpath(dir, proj_name) |> normpath
     versioned_man && make_vers_mnfs(proj_dir)
     add_imports &= !isempty(dependencies)
     add_docstr = !isempty(docstring)
@@ -10,10 +10,22 @@ function finalize_pkg(gen_options)
     add_docstr && (file_content = add_docstring(file_content, gen_options))
     add_imports && (file_content = add_usinglines(file_content, gen_options))
     write_contents(proj_main_file, file_content)
+    jl_suffix && add_jl_suffix(proj_dir)
 end
 
 function make_vers_mnfs(dir)
     return make_current_mnf(dir) # TODO also for test and docs
+end
+
+function add_jl_suffix(proj_dir)
+    if endswith(proj_dir, "/")
+        proj_dir = proj_dir[begin:end-1]
+    end
+    isdir(proj_dir) || error("$proj_dir is not a directory")
+
+    newpath = proj_dir * ".jl"
+    mv(proj_dir, newpath)
+    return nothing
 end
 
 function read_src_file(gen_options)
