@@ -1,4 +1,4 @@
-module TestTypedefs
+# module TestTypedefs
 
 using Test
 using PackageMaker
@@ -104,4 +104,4 @@ end
     end
 end
 
-end # module
+# end # module
