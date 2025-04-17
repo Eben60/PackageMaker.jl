@@ -12,4 +12,11 @@ using PrecompileTools: @compile_workload
         debug_update_checking && sprint(showerror, e, catch_backtrace()) |> println
     end
 
+    wincontent = make_html()
+    # w = mainwin(; );
+    # wait(w)
+    # # close(w)
+
+
+
 end

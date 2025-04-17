@@ -126,5 +126,3 @@ end # testset
 # end # testset
 
 end # module
-
-["P1", "P2", "P3", "P4", "P5", "P6",]
