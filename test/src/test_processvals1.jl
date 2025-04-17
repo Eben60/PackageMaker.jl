@@ -1,4 +1,4 @@
-module Processvals1
+# module Processvals1
 
 using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
     check_packages, type2str, parse_v_string, tidystring, initialize, multiline2csv
@@ -125,6 +125,4 @@ end # testset
 #     # @test kwval(PluginArg(("claim", "game", "Your real claim."))) == "game"
 # end # testset
 
-end # module
-
-["P1", "P2", "P3", "P4", "P5", "P6",]
+# end # module

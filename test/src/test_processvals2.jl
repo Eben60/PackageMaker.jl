@@ -1,4 +1,4 @@
-module Processvals2
+# module Processvals2
 
 using PackageMaker: PluginInfo
 using PackageMaker: get_checked_pgins!, get_pgins_vals!, pgin_kwargs, init_documenter, initialized_ptpgins, general_options, make_docstring
@@ -100,4 +100,4 @@ documenter1 =  init_documenter(nt)
 end # testset
 
 nothing
-end # module
+# end # module

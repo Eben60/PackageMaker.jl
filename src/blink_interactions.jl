@@ -13,14 +13,14 @@ function initwin()
 end
 
 
-function mainwin(fpath=nothing)
+function mainwin(fpath=nothing; test=false)
     info_unsafe = """There is a bug on Ubuntu 24, which may have caused this error. 
 You may want to run `PackageMaker` from VSCode, 
 or run the macro `@unsafe` before calling `gogui()`.
 See docstring of `@unsafe`, or `PackageMaker` documentation. """
 
     try
-        global win = Window();
+        global win = Window(Blink.Dict(:show => !test, ); async=false);
     catch e
         if e isa Base.IOError
             @info info_unsafe
