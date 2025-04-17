@@ -5,7 +5,7 @@ using SafeTestsets
 Aqua.test_all(PackageMaker)
 
 @safetestset "Dropdown menus" include("src/test_dropdown_menus.jl")
-@safetestset "Process values 2" include("src/test_processvals1.jl")
+@safetestset "Process values 1" include("src/test_processvals1.jl")
 @safetestset "Process values 2" include("src/test_processvals2.jl")
 @safetestset "Typedefinitions" include("src/test_typedefs.jl")
 
