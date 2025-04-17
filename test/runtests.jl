@@ -8,7 +8,7 @@ include("src/test_processvals1.jl")
 include("src/test_processvals2.jl")
 include("src/test_typedefs.jl")
 
-if !Sys.islinux(:ubuntu) # for some reason, errors on CI server on Ubuntu, but is OK on Windows. OK on local Mac.
+if ! Sys.islinux() # for some reason, errors on CI server on Ubuntu, but is OK on Windows. OK on local Mac.
     include("src/test_window.jl")
 end
 
