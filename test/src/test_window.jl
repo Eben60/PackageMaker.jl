@@ -4,9 +4,8 @@ using Test
 using PackageMaker
 using PackageMaker: mainwin
 
+w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
 @testset "size Tests" begin
-    w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
-    wait(w)
     @test active(w)
     @test size(w) == [150,100]
 
@@ -15,8 +14,9 @@ using PackageMaker: mainwin
     close(w)
     @test ! active(w)
 end
+
+w = mainwin(; test=true);
 @testset "Window with full contents" begin
-    w = mainwin(; test=true);
     el = shell() # reference to the Electron process
     @test active(w)
     close(w)
