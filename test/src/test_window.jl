@@ -17,10 +17,15 @@ using PackageMaker: mainwin
 end
 @testset "Window with full contents" begin
     w = mainwin(; test=true);
-    wait(w)
+    el = shell() # reference to the Electron process
     @test active(w)
     close(w)
     @test ! active(w)
+    close(w)
+    try
+        close(el)
+    catch
+    end
 end
 
 end
