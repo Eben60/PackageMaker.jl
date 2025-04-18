@@ -4,7 +4,7 @@ using Test
 using PackageMaker
 using PackageMaker: mainwin, @unsafe
 
-Sys.islinux() && @unsafe
+# Sys.islinux() && @unsafe # doesn't help
 
 @testset "size Tests" begin
     w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
