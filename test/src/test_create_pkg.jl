@@ -1,11 +1,11 @@
 using PackageMaker
-using PackageMaker: create_proj, get_pgins_vals!, general_options, def_plugins
+using PackageMaker: create_proj, get_pgins_vals!, general_options, def_plugins, initialize
 
 using Test, TOML
 
 include("TestData_CreatePackage.jl")
 fv = TestData_CreatePackage.fv;
-
+initialize()
 get_pgins_vals!(fv; plugins=def_plugins)
 
 gen_options = general_options(fv; plugins=def_plugins)

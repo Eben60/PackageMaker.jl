@@ -2,7 +2,9 @@
 using Blink
 using Test
 using PackageMaker
-using PackageMaker: mainwin
+using PackageMaker: mainwin, @unsafe
+
+Sys.islinux() && @unsafe
 
 @testset "size Tests" begin
     w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
