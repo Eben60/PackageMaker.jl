@@ -191,11 +191,3 @@ function pgin_and_field(inp_id)
     isnothing(m) && return (; pgin=nothing, field=nothing)
     return (; pgin=m[1], field=m[2])
 end
-
-
-
-
-
-
-
-
