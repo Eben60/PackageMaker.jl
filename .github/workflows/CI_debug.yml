@@ -1,4 +1,4 @@
-name: CI_debug
+name: CIUbuntu
 on:
   push:
     branches:
