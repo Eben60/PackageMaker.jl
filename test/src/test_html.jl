@@ -48,8 +48,8 @@ make_html(html_test_file)
     end_test = match(re_end, html_test)
     @test !isnothing(end_stand) && !isnothing(end_test) && end_stand.captures[1] == end_test.captures[1]
 
-    write("tmp_processed.html", html_test)
-    write("tmp_standard.html", html_standard)
+    # write("tmp_processed.html", html_test)
+    # write("tmp_standard.html", html_standard)
     
     #@show html_test_file
 
