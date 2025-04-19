@@ -1,10 +1,5 @@
-name: CI
+name: CIcodecov
 on:
-  push:
-    branches:
-      - main
-    tags: ['*']
-  pull_request:
   workflow_dispatch:
 concurrency:
   # Skip intermediate builds: always.
@@ -23,10 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 'lts'
           - '1' # automatically expands to the latest stable 1.x release of Julia
         os:
-          - ubuntu-latest
           - windows-latest
         arch:
           - x64
@@ -40,3 +33,10 @@ jobs:
       # - run: git config --global user.name "eben60"
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
+      - uses: julia-actions/julia-processcoverage@v1
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: Eben60/PackageMaker.jl
