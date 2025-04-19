@@ -3,7 +3,7 @@ using SafeTestsets
 
 @safetestset "Aqua" include("src/test_aqua.jl")
 @safetestset "Dropdown menus" include("src/test_dropdown_menus.jl")
-if Sys.iswindows() 
+if ! Sys.isunix() 
     @safetestset "HTML generation" include("src/test_html.jl")
 end
 @safetestset "Process values 1" include("src/test_processvals1.jl")
