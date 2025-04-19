@@ -1,4 +1,4 @@
-module TestDropdownMenus
+# module TestDropdownMenus
 
 using Test
 using PackageMaker: make_dd_label, make_dd_menu
@@ -23,4 +23,4 @@ mn = "    <div class=\"menu_container\" id=\"parent_fieldname_menu\">\n    <inpu
     @test make_dd_menu(parentname, pa) == mn
 
 end # testset
-end # module
+# end # module

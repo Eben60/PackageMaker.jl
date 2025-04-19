@@ -1,5 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://eben60.github.io/PackageMaker.jl/) 
 [![Build Status](https://github.com/Eben60/PackageMaker.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/Eben60/PackageMaker.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/Eben60/PackageMaker.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/Eben60/PackageMaker.jl)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 # PackageMaker
@@ -100,7 +102,7 @@ julia> @unsafe;
 julia> gogui()
 ``` 
 
-## Tangential
+## Tangential Notes
 
 ### Julia workflow
 
@@ -128,7 +130,6 @@ However I see actually no reasons to making it a *project*. `PackageMaker` would
     - shared
     - published as a registered package.
 
-
 ### Register a package: `v1.0.0` or `v0.1.0`?
 
 The underlying [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) package, sets the default value for the version of the package being created to `v1.0.0-DEV` (which was [changed](https://github.com/JuliaCI/PkgTemplates.jl/issues/387) from `v0.1.0` a while ago). There has also been some discussions that it is desirable to register new packages with `1.` versions from the beginning.
@@ -147,21 +148,24 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.1.1
+
+_2025-04-20_ 
+
+- Fixed a bug which prevented in some cases adding `.jl` suffix to project folder if this option was selected.
+- Extended test suite.
+- Added [codecov.io](https://codecov.io/) coverage to CI.
+
 ### Release 1.1.0
 
 _2025-04-13_ 
 
-#### Summary
-
 - Added option for versioned [manifests](https://pkgdocs.julialang.org/v1/toml-files/#Different-Manifests-for-Different-Julia-versions).
 - Added option for `.jl` suffix for project folder.
-
 
 ### Release 1.0.1
 
 _2025-04-11_ 
-
-#### Summary
 
 - Improved package loading time through precompile.
 - Some internal refactoring.
@@ -169,8 +173,6 @@ _2025-04-11_
 ### Release 1.0.0
 
 _2025-04-07_ 
-
-#### Summary
 
 - Package documentation extended and published using `Documenter`. 
 - (No breaking changes)

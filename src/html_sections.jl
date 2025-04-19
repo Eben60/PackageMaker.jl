@@ -46,53 +46,6 @@ html_use_purpose() =
 
 """
 
-general_inputs() = pgin_inputs(def_plugins["GeneralOptions"],  "gen_opt", false)
-
-
-function html_general_options()
-    i = 1
-    function onetwo() 
-        i += 1
-        return (i%2+1)
-    end
-
-    h =    
-"""
-<div id="general_options_div">
-<h2>General options</h2>
-<form class="general_options_form" name="general_options_form" id="general_options_form" action="javascript:void(0)">
-$(general_inputs())
-</form>   
-</div>
-
-"""
-    return h
-end
-
-function default_env_checkbox(no, pkg_name; 
-    installed = default_env_packages())
-    checked = pkg_name in installed ? "checked" : ""
-
-cb = """
-    <input id="defpkg$no" value="$pkg_name" $checked onchange="oncng(this)"
-    type="checkbox"> <label for="defpkg$no">$pkg_name</label><br>
-"""
-    return cb
-end
-
-html_proj_env_pkg() = 
-"""
-<div id="project_env_div">
-<h2>What packages to add to your project?</h2>
-<p class="comment">you can of course always add packages later on by using <code>Pkg</code></p>
-  <form name="project_packages" id="proj_pkg" action="javascript:void(0)">
-    <textarea id="project_packages_input" name="project_packages_input" rows="6" cols="40" onchange="oncng(this)" ></textarea> <br>
-    <label for="project_packages_input">Put each package name onto a newline. Suffix <code>.jl</code> is accepted, but not required. </label>
-  </form>
-</div>
-
-"""
-
 html_submit() = 
 """
 <div id="submit_div">

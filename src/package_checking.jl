@@ -29,16 +29,15 @@ function is_known_pkg(pkg_name)
     return (;found=false, registry=nothing)
 end
 
-# currently not used; suggested by AI, probably not working as intended
-function get_importing_module(m::Module)
-    parent = parentmodule(m)
-    if parent === @__MODULE__
-        return "Module was not imported from another module"
-    else
-        return parent
-    end
-end
-
+# # currently not used; suggested by AI, probably not working as intended
+# function get_importing_module(m::Module)
+#     parent = parentmodule(m)
+#     if parent === @__MODULE__
+#         return "Module was not imported from another module"
+#     else
+#         return parent
+#     end
+# end
 
 function latest_version(pkg_name)
     pkg_name = pkg_name |> string
