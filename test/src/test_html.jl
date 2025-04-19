@@ -23,24 +23,20 @@ make_html(html_test_file)
     start_stand = match(re_start, html_standard)
     start_test = match(re_start, html_test)
     @test !isnothing(start_stand) && !isnothing(start_test) && start_stand.captures[1] == start_test.captures[1]
-    
-    
-    # middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_Save_Configuration">"""
-    # middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_License">"""
-    # middle_sec = """<div class="plugin_form_div" id="plugin_form_div_Readme">(.*)<div class="plugin_form_div" id="plugin_form_div_License">""" #line 298-324 OK
-    # middle_sec = """<div class="plugin_form_div" id="plugin_form_div_Readme">(.*)<label for="Use_Save_Configuration">Save Configuration  </label>""" #line 298-646 OK
-    # middle_sec = """<div class="plugin_form_div" id="plugin_form_div_ProjectFile">(.*)<label for="Use_Save_Configuration">Save Configuration  </label>""" #line 230-646 OK
-    # middle_sec = """<h2>Options and Plugins</h2>(.*)<label for="Use_Save_Configuration">Save Configuration  </label>""" #line 150-646 :(
-    # middle_sec = """<span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_julia_min_version">(.*)<label for="Use_Save_Configuration">Save Configuration  </label>""" #line 203-646 OK
-    # middle_sec = """<span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_user_name">(.*)<label for="Use_Save_Configuration">Save Configuration  </label>""" #line 172-646 :(
-    middle_sec = """id="argmeaning_GeneralOptions_authors">(.*)<label for="Use_Save_Configuration">Save Configuration  </label>""" #line 177-646 
+
+    ms1 = """<h2>Options and Plugins</h2>""" #
+    ms2 = """name="user_name" value=".*?\""""
+    ms3 = """name="authors" value=".*?\""""
+    ms4 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
+
+    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3(.*?)$ms4"
     re_middle = Regex(middle_sec, "s")
 
     middle_stand = match(re_middle, html_standard)
     middle_test = match(re_middle, html_test)
-    @test !isnothing(middle_stand) 
-    @test !isnothing(middle_test) 
-    @test !isnothing(middle_stand) && !isnothing(middle_test) && middle_stand.captures[1] == middle_test.captures[1]
+    # @test !isnothing(middle_stand) 
+    # @test !isnothing(middle_test) 
+    @test !isnothing(middle_stand) && !isnothing(middle_test) && middle_stand.captures == middle_test.captures
 
     end_sec = """<span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">(.*)"""
     re_end = Regex(end_sec, "s")
