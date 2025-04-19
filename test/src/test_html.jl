@@ -24,7 +24,9 @@ make_html(html_test_file)
     start_test = match(re_start, html_test)
     @test !isnothing(start_stand) && !isnothing(start_test) && start_stand.captures[1] == start_test.captures[1]
     
-    middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_Save_Configuration">"""
+    
+    # middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_Save_Configuration">"""
+    middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_License">"""
     re_middle = Regex(middle_sec, "s")
 
     middle_stand = match(re_middle, html_standard)
