@@ -46,7 +46,7 @@ make_html(html_test_file)
 
     end_stand = match(re_end, html_standard)
     end_test = match(re_end, html_test)
-    @test !isnothing(end_stand) && !isnothing(end_test) && end_stand.captures[1] == end_test.captures[1]
+    @test !isnothing(end_stand) && !isnothing(end_test) && end_stand.captures == end_test.captures
 
     # write("tmp_processed.html", html_test)
     # write("tmp_standard.html", html_standard)
