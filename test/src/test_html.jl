@@ -31,13 +31,13 @@ make_html(html_test_file)
     ms3 = """name="authors" value=".*?\""""
     ms4 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
 
-    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3(.*?)$ms4"
+    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3"#(.*?)$ms4"
     re_middle = Regex(middle_sec, "s")
 
     middle_stand = match(re_middle, html_standard)
     middle_test = match(re_middle, html_test)
-    # @test !isnothing(middle_stand) 
-    # @test !isnothing(middle_test) 
+    @test !isnothing(middle_stand) 
+    @test !isnothing(middle_test) 
     @test !isnothing(middle_stand) && !isnothing(middle_test) && middle_stand.captures == middle_test.captures
 
     end_sec = """<span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">(.*)"""
@@ -47,8 +47,8 @@ make_html(html_test_file)
     end_test = match(re_end, html_test)
     @test !isnothing(end_stand) && !isnothing(end_test) && end_stand.captures[1] == end_test.captures[1]
 
-    # write("tmp_processed.html", html_test)
-    # write("tmp_standard.html", html_standard)
+    write("tmp_processed.html", html_test)
+    write("tmp_standard.html", html_standard)
     
     #@show html_test_file
 
