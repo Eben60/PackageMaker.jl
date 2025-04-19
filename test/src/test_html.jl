@@ -47,8 +47,6 @@ make_html(html_test_file)
 
     # write("tmp_processed.html", html_test)
     # write("tmp_standard.html", html_standard)
-
-    # @test (html_standard == html_test) == true
     
     #@show html_test_file
 
