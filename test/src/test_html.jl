@@ -29,9 +29,10 @@ make_html(html_test_file)
     ms1 = """<h2>Options and Plugins</h2>""" #
     ms2 = """name="user_name" value=".*?\""""
     ms3 = """name="authors" value=".*?\""""
-    ms4 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
+    ms4 = """id="Git_branch" name="branch" value=".*?\""""
+    ms5 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
 
-    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3"#(.*?)$ms4"
+    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3(.*?)$ms4(.*?)$ms5"
     re_middle = Regex(middle_sec, "s")
 
     middle_stand = match(re_middle, html_standard)
