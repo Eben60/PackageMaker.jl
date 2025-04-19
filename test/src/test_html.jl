@@ -26,7 +26,8 @@ make_html(html_test_file)
     
     
     # middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_Save_Configuration">"""
-    middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_License">"""
+    # middle_sec = """<div  id="tmpl_section_div">(.*)<div class="plugin_form_div" id="plugin_form_div_License">"""
+    middle_sec = """<div class="plugin_form_div" id="plugin_form_div_Readme">(.*)<div class="plugin_form_div" id="plugin_form_div_License">"""
     re_middle = Regex(middle_sec, "s")
 
     middle_stand = match(re_middle, html_standard)
