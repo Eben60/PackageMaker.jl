@@ -15,7 +15,9 @@ make_html(html_test_file)
     @test isfile(html_standard_file)
     @test isfile(html_test_file)
     html_standard = read(html_standard_file, String)
+    html_standard = replace(html_standard, "\r\n" => "\n")
     html_test = read(html_test_file, String)
+    html_test = replace(html_test, "\r\n" => "\n")
 
     start_sec = """(.*)Depending on your choice, a different set of options will be selected, which you however can override manually.</p>"""
     re_start = Regex(start_sec, "s")
