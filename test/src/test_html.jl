@@ -31,6 +31,8 @@ make_html(html_test_file)
 
     middle_stand = match(re_middle, html_standard)
     middle_test = match(re_middle, html_test)
+    @test !isnothing(middle_stand) 
+    @test !isnothing(middle_test) 
     @test !isnothing(middle_stand) && !isnothing(middle_test) && middle_stand.captures[1] == middle_test.captures[1]
 
     end_sec = """<span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">(.*)"""
