@@ -1,6 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://eben60.github.io/PackageMaker.jl/) 
 [![Build Status](https://github.com/Eben60/PackageMaker.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/Eben60/PackageMaker.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/Eben60/PackageMaker.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/Eben60/PackageMaker.jl)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 # PackageMaker
