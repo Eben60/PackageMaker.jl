@@ -1,6 +1,7 @@
 name: CIcodecov
 on:
-  tags: ['*']
+  push:
+    tags: ['*']
   workflow_dispatch:
 concurrency:
   # Skip intermediate builds: always.
