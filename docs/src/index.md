@@ -150,7 +150,7 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ### Release 1.1.1
 
-_2025-04-xx_ 
+_2025-04-20_ 
 
 - Fixed a bug which prevented in some cases adding `.jl` suffix to project folder if this option was selected.
 - Extended test suite.
