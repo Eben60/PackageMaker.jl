@@ -3,7 +3,7 @@ using PackageMaker
 using PackageMaker: make_html, html_configs, initialize
 
 initialize()
-temp_dir = mktempdir(; cleanup=false)
+temp_dir = mktempdir()
 html_test_file = joinpath(temp_dir, "test.html")
 isfile(html_test_file) && rm(html_test_file)
 this_file_dir = dirname(@__FILE__)

@@ -148,21 +148,24 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.1.1
+
+_2025-04-xx_ 
+
+- Fixed a bug which prevented in some cases adding `.jl` suffix to project folder if this option was selected.
+- Extended test suite.
+- Added [codecov.io](https://codecov.io/) coverage to CI.
+
 ### Release 1.1.0
 
 _2025-04-13_ 
 
-#### Summary
-
 - Added option for versioned [manifests](https://pkgdocs.julialang.org/v1/toml-files/#Different-Manifests-for-Different-Julia-versions).
 - Added option for `.jl` suffix for project folder.
-
 
 ### Release 1.0.1
 
 _2025-04-11_ 
-
-#### Summary
 
 - Improved package loading time through precompile.
 - Some internal refactoring.
@@ -170,8 +173,6 @@ _2025-04-11_
 ### Release 1.0.0
 
 _2025-04-07_ 
-
-#### Summary
 
 - Package documentation extended and published using `Documenter`. 
 - (No breaking changes)

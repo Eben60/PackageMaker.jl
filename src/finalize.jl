@@ -1,8 +1,14 @@
-function finalize_pkg(gen_options)
-    (;proj_name, dependencies, docstring, add_imports, templ_kwargs, versioned_man, jl_suffix, ) = gen_options
+function finalize_prj(gen_options)
+    (; ispk, proj_name, templ_kwargs, versioned_man, jl_suffix, ) = gen_options
     (;dir, ) = templ_kwargs
     proj_dir = joinpath(dir, proj_name) |> normpath
     versioned_man && make_vers_mnfs(proj_dir)
+    ispk && finalize_pkg(gen_options)
+    jl_suffix && add_jl_suffix(proj_dir)
+end
+
+function finalize_pkg(gen_options)
+    (;dependencies, docstring, add_imports, ) = gen_options
     add_imports &= !isempty(dependencies)
     add_docstr = !isempty(docstring)
     add_docstr || add_imports || return nothing
@@ -10,8 +16,8 @@ function finalize_pkg(gen_options)
     add_docstr && (file_content = add_docstring(file_content, gen_options))
     add_imports && (file_content = add_usinglines(file_content, gen_options))
     write_contents(proj_main_file, file_content)
-    jl_suffix && add_jl_suffix(proj_dir)
 end
+
 
 function make_vers_mnfs(proj_dir)
     testpath = joinpath(proj_dir, "test")
@@ -31,7 +37,6 @@ function add_jl_suffix(proj_dir)
         proj_dir = proj_dir[begin:end-1]
     end
     isdir(proj_dir) || error("$proj_dir is not a directory")
-
     newpath = proj_dir * ".jl"
     mv(proj_dir, newpath)
     return nothing
@@ -81,8 +86,7 @@ end
 function module_firstline(file_content, proj_name)
     pattern = "module $proj_name"
     fl = findfirst(x -> startswith(x, pattern), file_content)
-    if isnothing(fl) 
-        @show file_content
+    if isnothing(fl)
         error("pattern \"$pattern\" not found in the source file")
     end
     return fl

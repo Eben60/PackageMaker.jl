@@ -144,7 +144,7 @@ function create_proj(fv; plugins=def_plugins)
     else 
         may_exit_julia = true
     end
-    ispk && finalize_pkg(gen_options) # add_docstring(gen_options)
+    finalize_prj(gen_options)
     return t
 end
 
