@@ -1,15 +1,15 @@
 packagename :: String = "MyPackage"
 
-function get_module_directory(module_name)
-    for (pkg, mod) in Base.loaded_modules
-        if pkg.name == String(module_name)
-            return  pathof(mod) |> dirname |> dirname
-        end
-    end
-    return nothing
-end
+# function get_module_directory(module_name)
+#     for (pkg, mod) in Base.loaded_modules
+#         if pkg.name == String(module_name)
+#             return  pathof(mod) |> dirname |> dirname
+#         end
+#     end
+#     return nothing
+# end
 
-const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
+# const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
 const default_branch = LibGit2.getconfig("init.defaultBranch", "main")
 
 function get_licences()

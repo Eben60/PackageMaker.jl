@@ -1,24 +1,25 @@
 # # https://stackoverflow.com/questions/67895677/electron-problem-to-import-my-own-js-file
 
 # in Electron window, no effect anyway, but could be useful
-function checkonload(debug)
-    debug || return ""
+# function checkonload(debug)
+#     debug || return ""
 
-return """
-<script type="text/javascript">
-window.onload = function()
-  {
-      if (window.jQuery)
-      {
-          alert('jQuery is loaded');
-      }
-      else
-      {
-          alert('jQuery is not loaded');
-      }
-  };
-</script>"""
-end
+# return """
+# <script type="text/javascript">
+# window.onload = function()
+#   {
+#       if (window.jQuery)
+#       {
+#           alert('jQuery is loaded');
+#       }
+#       else
+#       {
+#           alert('jQuery is not loaded');
+#       }
+#   };
+# </script>"""
+# end
+checkonload(debug) = ""
 
 debug::Bool = false
 
