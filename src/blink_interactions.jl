@@ -105,5 +105,5 @@ end
 enable_html_elem(win, id, enable=true) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = $(! enable);"""); callback=false)
 
 
-# may not work if called during interaction / currently unused
-getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
+# # may not work if called during interaction / currently unused
+# getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
