@@ -5,11 +5,11 @@ using PackageMaker: make_html, html_configs, initialize
 initialize()
 temp_dir = mktempdir()
 html_test_file = joinpath(temp_dir, "test.html")
+# html_test_file = joinpath(@__DIR__, "test2compare.html")
 isfile(html_test_file) && rm(html_test_file)
 this_file_dir = dirname(@__FILE__)
-html_standard_file = joinpath(this_file_dir, "mainwin_v1_1_1.html")
+html_standard_file = joinpath(this_file_dir, "mainwin_v1_2_0.html")
 make_html(html_test_file)
-
 
 @testset "HTML generation" begin
     @test isfile(html_standard_file)
@@ -29,16 +29,17 @@ make_html(html_test_file)
     ms1 = """<h2>Options and Plugins</h2>""" #
     ms2 = """name="user_name" value=".*?\""""
     ms3 = """name="authors" value=".*?\""""
-    ms4 = """id="Git_branch" name="branch" value=".*?\""""
-    ms5 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
+    ms4 = """name="makerepo"  onchange="oncng\\(this\\)" type="checkbox".*?>"""
+    ms5 = """id="Git_branch" name="branch" value=".*?\""""
+    ms6 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
 
-    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3(.*?)$ms4(.*?)$ms5"
+    middle_sec = "$ms1(.*?)$ms2(.*?)$ms3(.*?)$ms4"#(.*?)$ms5(.*?)$ms6"
     re_middle = Regex(middle_sec, "s")
 
     middle_stand = match(re_middle, html_standard)
     middle_test = match(re_middle, html_test)
     @test !isnothing(middle_stand) 
-    @test !isnothing(middle_test) 
+    @test !isnothing(middle_test)
     @test !isnothing(middle_stand) && !isnothing(middle_test) && middle_stand.captures == middle_test.captures
 
     end_sec = """<span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">(.*)"""
@@ -54,3 +55,4 @@ make_html(html_test_file)
     #@show html_test_file
 
 end
+;

@@ -3,7 +3,7 @@ module TestData_CreatePackage
 using PackageMaker
 using PackageMaker: HtmlElem
 
-temp_dir = mktempdir(; cleanup=false)
+temp_dir = mktempdir()
 
 
 fv = Dict{Symbol, HtmlElem}(
@@ -16,16 +16,18 @@ fv = Dict{Symbol, HtmlElem}(
     :Documenter_index_md => PackageMaker.HtmlElem(:Documenter_index_md, :input, String[], :text, :Documenter_form, "<DEFAULT_FILE>", false),
     :Documenter_make_jl => PackageMaker.HtmlElem(:Documenter_make_jl, :input, String[], :text, :Documenter_form, "<DEFAULT_FILE>", false),
     :GeneralOptions_add_imports => PackageMaker.HtmlElem(:GeneralOptions_add_imports, :input, String[], :checkbox, :GeneralOptions_form, "on", true),
-    :GeneralOptions_authors => PackageMaker.HtmlElem(:GeneralOptions_authors, :input, String[], :text, :GeneralOptions_form, "Eben60 <not_a_mail@nowhere.org>", false),
+    :GeneralOptions_authors => PackageMaker.HtmlElem(:GeneralOptions_authors, :input, String[], :text, :GeneralOptions_form, "Eben007 <E007@nowhere.org>", false),
     :GeneralOptions_docstring => PackageMaker.HtmlElem(:GeneralOptions_docstring, :textarea, String[], :textarea, :GeneralOptions_form, "", nothing),
     :GeneralOptions_host => PackageMaker.HtmlElem(:GeneralOptions_host, :input, String[], :text, :GeneralOptions_form, "github.com", false),
     :GeneralOptions_is_package => PackageMaker.HtmlElem(:GeneralOptions_is_package, :input, String[], :checkbox, :GeneralOptions_form, "on", false),
     :GeneralOptions_jl_suffix => PackageMaker.HtmlElem(:GeneralOptions_jl_suffix, :input, String[], :checkbox, :GeneralOptions_form, "on", true),
     :GeneralOptions_julia_min_version => PackageMaker.HtmlElem(:GeneralOptions_julia_min_version, :input, String[], :text, :GeneralOptions_form, "1.6.0", false),
+    :GeneralOptions_makerepo => HtmlElem(:GeneralOptions_makerepo, :input, String[], :checkbox, :GeneralOptions_form, "on", false),
     :GeneralOptions_proj_name => PackageMaker.HtmlElem(:GeneralOptions_proj_name, :input, String[], :text, :GeneralOptions_form, "LokalTestProjNotPkg919459", false),
     :GeneralOptions_proj_pkg => PackageMaker.HtmlElem(:GeneralOptions_proj_pkg, :textarea, String[], :textarea, :GeneralOptions_form, "Dates", nothing),
     :GeneralOptions_project_dir => PackageMaker.HtmlElem(:GeneralOptions_project_dir, :input, String[], :text, :GeneralOptions_form, temp_dir, false),
-    :GeneralOptions_user_name => PackageMaker.HtmlElem(:GeneralOptions_user_name, :input, String[], :text, :GeneralOptions_form, "Eben60", false),
+    :GeneralOptions_repopublic => HtmlElem(:GeneralOptions_repopublic, :input, String[], :checkbox, :GeneralOptions_form, "on", false),
+    :GeneralOptions_user_name => PackageMaker.HtmlElem(:GeneralOptions_user_name, :input, String[], :text, :GeneralOptions_form, "Eben007", false),
     :GeneralOptions_versioned_man => PackageMaker.HtmlElem(:GeneralOptions_versioned_man, :input, String[], :checkbox, :GeneralOptions_form, "on", true),
     :Git_branch => PackageMaker.HtmlElem(:Git_branch, :input, String[], :text, :Git_form, "main", false),
     :Git_email => PackageMaker.HtmlElem(:Git_email, :input, String[], :text, :Git_form, "nomail@nowhere.org", false),
@@ -62,7 +64,7 @@ fv = Dict{Symbol, HtmlElem}(
     :LocalPackage_Choice => PackageMaker.HtmlElem(:LocalPackage_Choice, :input, String[], :radio, :use_purpose_form, "LocalPackage", false),
     :Project_Choice => PackageMaker.HtmlElem(:Project_Choice, :input, String[], :radio, :use_purpose_form, "Project", true),
     :ProjectFile_version => PackageMaker.HtmlElem(:ProjectFile_version, :input, String[], :text, :ProjectFile_form, "0.1.2", false),
-    :Readme_destination => PackageMaker.HtmlElem(:Readme_destination, :input, String[], :text, :Readme_form, "README.md", false),
+    :Readme_destination => PackageMaker.HtmlElem(:Readme_destination, :input, String[], :text, :Readme_form, "README.txt", false),
     :Readme_file => PackageMaker.HtmlElem(:Readme_file, :input, String[], :text, :Readme_form, "<DEFAULT_FILE>", false),
     :Readme_inline_badges => PackageMaker.HtmlElem(:Readme_inline_badges, :input, String[], :checkbox, :Readme_form, "on", false),
     :RegisteredPackage_Choice => PackageMaker.HtmlElem(:RegisteredPackage_Choice, :input, String[], :radio, :use_purpose_form, "RegisteredPackage", false),

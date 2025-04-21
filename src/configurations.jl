@@ -1,4 +1,4 @@
-function handle_intermed_input(win, vals)
+function handle_saveconfig(win, vals)
     save_config(vals)
     showhidepgin(win, "Save_Configuration", false)
     check_saveconfig_done(win, false)

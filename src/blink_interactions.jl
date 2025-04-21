@@ -50,7 +50,7 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
         if arg["reason"] == "external_link"
             openurl(arg["url"])
         else
-            if arg["reason"] in ["newinput", "init_input", "finalinput", "intermediate_input"]
+            if arg["reason"] in ["newinput", "init_input", "finalinput", "intermediate_input", "retrieve1value"]
                 id = Symbol(arg["elid"])
                 eltype = Symbol(arg["eltype"])
                 elclass = arg["elclass"] |> split .|> String
@@ -63,21 +63,34 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
                 arg["reason"] == "intermediate_input" && push!(intermvals, id => el)
                 arg["reason"] == "init_input" && push!(initvals, id => el)
                 arg["reason"] == "finalinput" && push!(finalvals, id => el)
+                arg["reason"] == "retrieve1value" && put_newval(el)
             end
             arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
             # arg["reason"] == "init_inputfinished" && handleinit_input()
-            arg["reason"] == "intermediate_inputfinished" && handle_intermed_input(win, intermvals)
+            arg["reason"] == "intermediate_inputfinished" && handle_saveconfig(win, intermvals)
             arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true)
             arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false)
         end
     end
 end
 
+function put_newval(el)
+    empty_channel!(VAL_RETURNED)
+    put!(VAL_RETURNED, el)
+end
+
+function getelemval(win, id) # actually not used except in tests, but nice to have
+    js(win, Blink.JSString("""send1el("$id")"""); callback=false)
+    el = take!(VAL_RETURNED)
+    el.inputtype == :checkbox && return el.checked
+    return el.value
+end
+
 function handlefinalinput(win, finalvals, submit::Bool) 
     close(win)
     cancelled = !submit
     cancelled && (finalvals = nothing)
-    put!(gui_returned, (;cancelled, finalvals))
+    put!(GUI_RETURNED, (;cancelled, finalvals))
     return nothing
 end
 
@@ -105,5 +118,5 @@ end
 enable_html_elem(win, id, enable=true) = js(win, Blink.JSString("""el = document.getElementById("$id"); el.disabled = $(! enable);"""); callback=false)
 
 
-# may not work if called during interaction / currently unused
-getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))
+# # may not work if called during interaction / currently unused
+# getelemval(win, id) = js(win, Blink.JSString("""document.getElementById("$id").value"""))

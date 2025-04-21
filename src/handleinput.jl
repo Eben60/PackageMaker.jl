@@ -1,12 +1,14 @@
 function handleinput(win, el::HtmlElem, prevvals)
     # (; newvals, initvals) = prevvals
     el.parentformid == :use_purpose_form && return handle_purpose(win, el)
-    el.id == :GeneralOptions_is_package && return (enable_docstring(win, el.checked); setsubmitbutton(win, el.checked))
+    el.id == :GeneralOptions_is_package && return (enable_for_package(win, el.checked); setsubmitbutton(win, el.checked))
     "FolderDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=true)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
     el.id == :GeneralOptions_proj_name && return check_projname(win, el.value)
     el.id == :GeneralOptions_project_dir && return check_projdir(win, el.value)
     el.id == :Use_Save_Configuration && return check_saveconfig_done(win, el.checked)
+    el.id == :GeneralOptions_makerepo && return enable_repo_options(win, el.checked)
+    el.id == :Tests_aqua && return enable_html_elem(win, "Tests_aqua_kwargs", el.checked) 
     return nothing
 end
 
@@ -15,7 +17,7 @@ function handle_purpose(win, el)
     startswith(val, "SavedConfigTag_") && return handle_savedconfig(win, val)
     is_package = (val  != "Project")
     checkelem(win, "GeneralOptions_is_package", is_package)
-    enable_docstring(win, is_package)
+    enable_for_package(win, is_package)
     setsubmitbutton(win, is_package)
 
     haskey(pgins_sets, val) || return nothing
@@ -26,10 +28,20 @@ function handle_purpose(win, el)
     return nothing
 end
 
+function enable_for_package(win, is_package)
+    enable_docstring(win, is_package)
+    enable_add_using(win, is_package)
+    return nothing  
+end
+
 function enable_docstring(win, is_package)
     is_package || setelemval(win, "GeneralOptions_docstring", "")
     enable_html_elem(win, "GeneralOptions_docstring", is_package)
 end
+
+enable_add_using(win, is_package) = enable_html_elem(win, "GeneralOptions_add_imports", is_package)
+
+enable_repo_options(win, makerepo) = enable_html_elem(win, "GeneralOptions_repopublic", makerepo) 
 
 function set_file_from_dialog(win, el, prevvals; selectdir)
     (; newvals, initvals) = prevvals
@@ -89,7 +101,7 @@ function setfields_saved(win, config; pgins=def_plugins)
     end
     if haskey(config, "GeneralOptions") && haskey(config["GeneralOptions"], "is_package")
         is_package = config["GeneralOptions"]["is_package"]
-        enable_docstring(win, is_package)
+        enable_for_package(win, is_package)
         setsubmitbutton(win, is_package)
     end
 end
@@ -185,9 +197,9 @@ function openurl(url)
     return nothing
 end
 
-function pgin_and_field(inp_id)
-    re = r"(.+)_(.+)"
-    m = match(re, string(inp_id))
-    isnothing(m) && return (; pgin=nothing, field=nothing)
-    return (; pgin=m[1], field=m[2])
-end
+# function pgin_and_field(inp_id)
+#     re = r"(.+)_(.+)"
+#     m = match(re, string(inp_id))
+#     isnothing(m) && return (; pgin=nothing, field=nothing)
+#     return (; pgin=m[1], field=m[2])
+# end

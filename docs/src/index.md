@@ -8,7 +8,7 @@
 
 *GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.*
 
-This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which subset hopefully covers >90% of its use cases). It also adds a couple of features of its own, e.g. ability to create Julia projects, or adding dependencies to project or packages being created. Being a GUI app, it should be mostly self-explanatory, and external links for more information are provided from the GUI, too.
+This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which subset hopefully covers >90% of its use cases). It also adds a couple of features of its own, e.g. ability to create Julia projects, to create repositories on the GitHub, or to add dependencies to a project or package being created. Being a GUI app, it should be mostly self-explanatory, and external links for more information are provided from the GUI, too.
 
 
 ## Installation
@@ -58,7 +58,7 @@ Some [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) plugin argu
 
 In multiline fields, commas can be escaped by double-backslash: `comma\\,connected` will be parsed as `"comma,connected"`
 
-#### Packages to be added to project
+### Packages to be added to project
 
 For this multiline field everything said above about separators applies (except this field is not saved on saving a config). Additionally keywords `using` and `import` as well as the suffix `.jl` will be ignored, making it easier to paste package lists copied from e.g. another package. Thus, the input below
 ```
@@ -69,6 +69,18 @@ P6,
 P7
 ```
 will be successfully parsed as a list `"P1"` .. `"P7"`
+
+### Creating remote repository on GitHub
+
+_This feature will be available in the v1.2.0, to be released soon_ 
+
+This feature is only available if [GitHub CLI](https://cli.github.com/manual/) is installed ([installation instructions](https://github.com/cli/cli#installation)) and configured on your computer. There are many ways to install it: If you already have one of the supported package managers, you may use it, otherwise you could try `Webi`.
+
+After installation, you will need to authentificate `gh` to your GitHub account, e.g. by running `gh auth login` and following instructions.
+
+Now you will be able to check `Create GitHub repo` checkbox (do not forget checking `Git` plugin as well), and on creating a project, also a remote empty repo of the same name will be created.
+
+If you are using VSCode, you may open the just created package or project in a new window, switch to it's environment, commit the changes, and click onto "Publich Branch" button - all contents will be now pushed to your newly created GitHub repo.
 
 ### Saving configurations
 
@@ -147,6 +159,14 @@ Stars on GitHub is often the only feedback the developer gets, esp. if his packa
 Therefore: If you typed a name of some package into the "Packages to add to your project" field - think about going to the package's source page to give it a star. 
 
 ## Changelog
+
+### Release 1.2.0
+
+_to be released soon_ 
+
+- Added option to create GitHub repository.
+- Disabling some inputs depending on context.
+- Internal refactoring WIP.
 
 ### Release 1.1.1
 

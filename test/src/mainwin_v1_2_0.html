@@ -115,6 +115,10 @@ div.plugin_form_div#plugin_form_div_Save_Configuration, #Save_Configuration_form
   font-weight: bold;
 }
 
+div.hidden {
+  display: none;
+}
+
 </style>
 
     <title>PackageMaker: Initialize Julia Project/Package</title>
@@ -156,53 +160,53 @@ div.plugin_form_div#plugin_form_div_Save_Configuration, #Save_Configuration_form
     <label for="Use_GeneralOptions">GeneralOptions  </label>
     <div class="Plugin_Purpose">General Options.</div>
     <div class="Plugin_Inputs" id="GeneralOptions_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="GeneralOptions_is_package" name="is_package" checked onchange="oncng(this)" type="checkbox">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="GeneralOptions_is_package" name="is_package" checked onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_is_package">Create a package (vs. a project).</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="GeneralOptions_proj_name" name="proj_name" value="" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="GeneralOptions_proj_name" name="proj_name" value="" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_proj_name">Project/Package name. Required input.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="GeneralOptions_user_name" name="user_name" value="Eben60" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="GeneralOptions_user_name" name="user_name" value="Eben60" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_user_name">User name. Required for many plugins.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="GeneralOptions_authors" name="authors" value="Eben60 &lt;not_a_mail@nowhere.org&gt;" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="GeneralOptions_authors" name="authors" value="Eben60 &lt;not_a_mail@nowhere.org&gt;" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_authors">Authors. Will be an entry in <code>Project.toml</code>. </span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="GeneralOptions_project_dir" name="project_dir" value="" onchange="oncng(this)" type="text">
-<button id="GeneralOptions_project_dir_button" onclick="oncng(this)" type="button" class="FolderDialogButton">Select</button><br>
+<button id="GeneralOptions_project_dir_button" onclick="oncng(this)" type="button" class="FolderDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_project_dir">Directory to place project in. Required input.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="GeneralOptions_jl_suffix" name="jl_suffix"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="GeneralOptions_jl_suffix" name="jl_suffix"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_jl_suffix">Add <code>.jl</code> suffix to the name of the project folder</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="GeneralOptions_versioned_man" name="versioned_man" checked onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="GeneralOptions_versioned_man" name="versioned_man" checked onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_versioned_man">Use <a href="javascript:sendurl('https://pkgdocs.julialang.org/v1/toml-files/#Different-Manifests-for-Different-Julia-versions')" >version-named manifests</a>.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="GeneralOptions_host" name="host" value="github.com" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="GeneralOptions_host" name="host" value="github.com" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_host">URL to the code hosting service where the project will reside.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="GeneralOptions_julia_min_version" name="julia_min_version" value="1.10.0" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="GeneralOptions_julia_min_version" name="julia_min_version" value="1.10.0" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_julia_min_version">Minimum allowed Julia version for this package.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
     <textarea id="GeneralOptions_docstring" name="docstring" rows="3" cols="70" onchange="oncng(this)" ></textarea> <br>
 <label for="GeneralOptions_docstring" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>
 
@@ -212,16 +216,26 @@ This will be put into the package docstring. If you plan to publish it on
 which will also be then shown on <a href="javascript:sendurl('https://juliahub.com/')" >juliahub.com</a> after the package registration.
 <br><span class="comment"> <sup>*</sup>Projects have no docstrings</span></span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
     <textarea id="GeneralOptions_proj_pkg" name="proj_pkg" rows="3" cols="70" onchange="oncng(this)" ></textarea> <br>
 <label for="GeneralOptions_proj_pkg" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_proj_pkg">Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on using <code>Pkg</code>.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="GeneralOptions_add_imports" name="add_imports"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="GeneralOptions_add_imports" name="add_imports"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_add_imports">Add these packages to the source code like <code>using Foo</code></span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="GeneralOptions_makerepo" name="makerepo"  onchange="oncng(this)" type="checkbox" >
+
+    <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_makerepo">Create GitHub repo. <br><span class="comment">To use this feature, install and configure <a href="javascript:sendurl('https://eben60.github.io/PackageMaker.jl/#Creating-remote-repository-on-GitHub')" >GitHub CLI tools</a></span></span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="GeneralOptions_repopublic" name="repopublic" checked onchange="oncng(this)" type="checkbox"  disabled >
+
+    <span class="plugin_arg_meaning" id="argmeaning_GeneralOptions_repopublic">Created GitHub repo will be public</span><br>
     </div>
 </div>
 </form>
@@ -233,8 +247,8 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <label for="Use_ProjectFile">ProjectFile plugin </label>
     <div class="Plugin_Purpose">Creates a Project.toml.</div>
     <div class="Plugin_Inputs" id="ProjectFile_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="ProjectFile_version" name="version" value="0.0.1" onchange="oncng(this)" type="text"><br>
+    <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="ProjectFile_version" name="version" value="0.0.1" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_ProjectFile_version">The initial version of created package (ignored for projects).</span><br>
     </div>
@@ -248,9 +262,9 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <label for="Use_SrcDir">SrcDir plugin </label>
     <div class="Plugin_Purpose">Creates a module entrypoint.</div>
     <div class="Plugin_Inputs" id="SrcDir_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="SrcDir_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="SrcDir_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="SrcDir_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_SrcDir_file">Template file for src/MyPackage.jl</span><br>
     </div>
@@ -264,32 +278,83 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <label for="Use_Tests">Tests plugin </label>
     <div class="Plugin_Purpose">Sets up testing for packages.</div>
     <div class="Plugin_Inputs" id="Tests_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="Tests_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="Tests_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="Tests_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_file">Template file for runtests.jl</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="Tests_project" name="project" checked onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="Tests_project" name="project" checked onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_project">Create a new project for tests (test/Project.toml).</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="Tests_aqua" name="aqua"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="Tests_aqua" name="aqua"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_aqua">Add quality tests with <a href="javascript:sendurl('https://juliatesting.github.io/Aqua.jl')" >Aqua.jl</a>.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <textarea id="Tests_aqua_kwargs" name="aqua_kwargs" rows="3" cols="70" onchange="oncng(this)" >ambiguities</textarea> <br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <textarea id="Tests_aqua_kwargs" name="aqua_kwargs" rows="3" cols="70" onchange="oncng(this)"  disabled >ambiguities</textarea> <br>
 <label for="Tests_aqua_kwargs" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_aqua_kwargs">List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="Tests_jet" name="jet"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="Tests_jet" name="jet"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_Tests_jet">Add a linting test with <a href="javascript:sendurl('https://aviatesk.github.io/JET.jl')" >JET.jl</a> (works best on type-stable code).</span><br>
+    </div>
+</div>
+</form>
+</div>
+
+<div class="plugin_form_div" id="plugin_form_div_Git">
+<form class="plugin_form" name="Git_form" id="Git_form" action="javascript:void(0)">
+    <input id="Use_Git" value="Use_Git" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
+    <label for="Use_Git">Git plugin </label>
+    <div class="Plugin_Purpose">Creates a Git repository and a .gitignore file.</div>
+    <div class="Plugin_Inputs" id="Git_inputs" style="display:block" >
+    <div class="pgin_inp_margins pgin_inp_col2 ">
+    <textarea id="Git_ignore" name="ignore" rows="3" cols="70" onchange="oncng(this)" ></textarea> <br>
+<label for="Git_ignore" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_ignore">Patterns to add to the .gitignore</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="Git_name" name="name" value="nothing" onchange="oncng(this)" type="text" ><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_name">Your real name, if you have not set user.name with Git.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="Git_email" name="email" value="nothing" onchange="oncng(this)" type="text" ><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_email">Your email address, if you have not set user.email with Git.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="Git_branch" name="branch" value="main" onchange="oncng(this)" type="text" ><br>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_branch">The desired name of the repository's default branch.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="Git_ssh" name="ssh"  onchange="oncng(this)" type="checkbox" >
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_ssh">Use SSH for the remote. If left unset, HTTPS is used.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="Git_jl" name="jl" checked onchange="oncng(this)" type="checkbox" >
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_jl">Add a .jl suffix to the remote URL.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="Git_manifest" name="manifest"  onchange="oncng(this)" type="checkbox" >
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_manifest">Commit Manifest.toml.</span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="Git_gpgsign" name="gpgsign"  onchange="oncng(this)" type="checkbox" >
+
+    <span class="plugin_arg_meaning" id="argmeaning_Git_gpgsign">Sign commits with your GPG key.<br><span class="comment">This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.</span></span><br>
     </div>
 </div>
 </form>
@@ -301,19 +366,19 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <label for="Use_Readme">Readme plugin </label>
     <div class="Plugin_Purpose">Creates a README file that contains badges for other included plugins.</div>
     <div class="Plugin_Inputs" id="Readme_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="Readme_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="Readme_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="Readme_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Readme_file">Template file for the README.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="Readme_destination" name="destination" value="README.md" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="Readme_destination" name="destination" value="README.md" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Readme_destination">File destination, relative to the repository root.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="Readme_inline_badges" name="inline_badges"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="Readme_inline_badges" name="inline_badges"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_Readme_inline_badges">Put the badges on the same line as the package name.</span><br>
     </div>
@@ -327,7 +392,7 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <label for="Use_License">License plugin </label>
     <div class="Plugin_Purpose">Creates a license file.</div>
     <div class="Plugin_Inputs" id="License_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
         <div class="menu_container" id="License_name_menu">
     <input size="30" id="License_name" name="name" class="menu_target" value="MIT" onchange="oncng(this)" type="text">
     <span class="activate_menu" id="License_activate_menu" >Show licenses</span>  <br>
@@ -349,67 +414,16 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
 
     <span class="plugin_arg_meaning" id="argmeaning_License_name">Name of a <a href="javascript:sendurl('https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses')" >license supported</a> by PkgTemplates.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
     <input size="65" id="License_path" name="path" value="nothing" onchange="oncng(this)" type="text">
-<button id="License_path_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="License_path_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_License_path">Path to a custom license file. This keyword takes priority over name.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="License_destination" name="destination" value="LICENSE" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="License_destination" name="destination" value="LICENSE" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_License_destination">File destination, relative to the repository root. For example, &quot;LICENSE.md&quot; might be desired.</span><br>
-    </div>
-</div>
-</form>
-</div>
-
-<div class="plugin_form_div" id="plugin_form_div_Git">
-<form class="plugin_form" name="Git_form" id="Git_form" action="javascript:void(0)">
-    <input id="Use_Git" value="Use_Git" checked onchange="oncng(this)" type="checkbox" class="TogglePlugin">
-    <label for="Use_Git">Git plugin </label>
-    <div class="Plugin_Purpose">Creates a Git repository and a .gitignore file.</div>
-    <div class="Plugin_Inputs" id="Git_inputs" style="display:block" >
-    <div class="pgin_inp_margins pgin_inp_col2">
-    <textarea id="Git_ignore" name="ignore" rows="3" cols="70" onchange="oncng(this)" ></textarea> <br>
-<label for="Git_ignore" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_ignore">Patterns to add to the .gitignore</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="Git_name" name="name" value="nothing" onchange="oncng(this)" type="text"><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_name">Your real name, if you have not set user.name with Git.</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="Git_email" name="email" value="nothing" onchange="oncng(this)" type="text"><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_email">Your email address, if you have not set user.email with Git.</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="Git_branch" name="branch" value="main" onchange="oncng(this)" type="text"><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_branch">The desired name of the repository's default branch.</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="Git_ssh" name="ssh"  onchange="oncng(this)" type="checkbox">
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_ssh">Use SSH for the remote. If left unset, HTTPS is used.</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="Git_jl" name="jl" checked onchange="oncng(this)" type="checkbox">
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_jl">Add a .jl suffix to the remote URL.</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="Git_manifest" name="manifest"  onchange="oncng(this)" type="checkbox">
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_manifest">Commit Manifest.toml.</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="Git_gpgsign" name="gpgsign"  onchange="oncng(this)" type="checkbox">
-
-    <span class="plugin_arg_meaning" id="argmeaning_Git_gpgsign">Sign commits with your GPG key.<br><span class="comment">This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.</span></span><br>
     </div>
 </div>
 </form>
@@ -421,48 +435,48 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <label for="Use_GitHubActions">GitHubActions plugin </label>
     <div class="Plugin_Purpose">Integrates your packages with <a href="javascript:sendurl('https://github.com/features/actions')" >GitHub Actions</a>..</div>
     <div class="Plugin_Inputs" id="GitHubActions_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="GitHubActions_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="GitHubActions_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="GitHubActions_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_file">Template file for the workflow file</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="GitHubActions_destination" name="destination" value="CI.yml" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="GitHubActions_destination" name="destination" value="CI.yml" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_destination">Destination of the workflow file, relative to .github/workflows</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="GitHubActions_linux" name="linux" checked onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="GitHubActions_linux" name="linux" checked onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_linux">Run builds on Linux.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="GitHubActions_osx" name="osx"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="GitHubActions_osx" name="osx"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_osx">Run builds on OSX (MacOS).</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="GitHubActions_windows" name="windows"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="GitHubActions_windows" name="windows"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_windows">Run builds on Windows.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="GitHubActions_x64" name="x64" checked onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="GitHubActions_x64" name="x64" checked onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_x64">Run builds on 64-bit architecture.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="GitHubActions_x86" name="x86"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="GitHubActions_x86" name="x86"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_x86">Run builds on 32-bit architecture.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="GitHubActions_coverage" name="coverage"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="GitHubActions_coverage" name="coverage"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_GitHubActions_coverage">Publish code coverage. If activating this option, activate also Codecov plugin. <br><span class="comment">If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual.</span></span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
     <textarea id="GitHubActions_extra_versions" name="extra_versions" rows="3" cols="70" onchange="oncng(this)" >1.10
 pre</textarea> <br>
 <label for="GitHubActions_extra_versions" class="comment">A vector of strings is expected, separated by newlines, commas, or combinations thereof.<br></label>
@@ -479,19 +493,19 @@ pre</textarea> <br>
     <label for="Use_CompatHelper">CompatHelper plugin </label>
     <div class="Plugin_Purpose">Integrates your packages with <a href="javascript:sendurl('https://juliaregistries.github.io/CompatHelper.jl')" >CompatHelper</a> via GitHub Actions.</div>
     <div class="Plugin_Inputs" id="CompatHelper_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="CompatHelper_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="CompatHelper_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="CompatHelper_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_file">Template file for the workflow file</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="CompatHelper_destination" name="destination" value="CompatHelper.yml" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="CompatHelper_destination" name="destination" value="CompatHelper.yml" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_destination">Destination of the workflow file, relative to .github/workflows</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="CompatHelper_cron" name="cron" value="0 0 * * *" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="CompatHelper_cron" name="cron" value="0 0 * * *" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_cron">Cron expression for the schedule interval</span><br>
     </div>
@@ -505,75 +519,75 @@ pre</textarea> <br>
     <label for="Use_TagBot">TagBot plugin </label>
     <div class="Plugin_Purpose">Adds GitHub release support via <a href="javascript:sendurl('https://github.com/marketplace/actions/julia-tagbot')" >TagBot</a>.</div>
     <div class="Plugin_Inputs" id="TagBot_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="TagBot_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="TagBot_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="TagBot_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_file">Template file for the workflow file.</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="TagBot_destination" name="destination" value="TagBot.yml" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="TagBot_destination" name="destination" value="TagBot.yml" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_destination">Destination of the workflow file, relative to .github/workflows</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="TagBot_trigger" name="trigger" value="JuliaTagBot" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="TagBot_trigger" name="trigger" value="JuliaTagBot" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_trigger">Username of the trigger user for custom registries</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="TagBot_token" name="token" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="TagBot_token" name="token" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_token">Name of the token secret to use</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="TagBot_ssh" name="ssh" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="TagBot_ssh" name="ssh" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_ssh">Name of the SSH private key secret to use</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="TagBot_ssh_password" name="ssh_password" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="TagBot_ssh_password" name="ssh_password" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_ssh_password">Name of the SSH key password secret to use</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="TagBot_changelog" name="changelog" value="nothing" onchange="oncng(this)" type="text">
-<button id="TagBot_changelog_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="TagBot_changelog_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_changelog">Custom changelog template</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="TagBot_changelog_ignore" name="changelog_ignore" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="TagBot_changelog_ignore" name="changelog_ignore" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_changelog_ignore">Issue/pull request labels to ignore in the changelog</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="TagBot_gpg" name="gpg" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="TagBot_gpg" name="gpg" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_gpg">Name of the GPG private key secret to use</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="TagBot_gpg_password" name="gpg_password" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="TagBot_gpg_password" name="gpg_password" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_gpg_password">Name of the GPG private key password secret to use</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input size="70" id="TagBot_registry" name="registry" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input size="70" id="TagBot_registry" name="registry" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_registry">Custom registry, in the format owner/repo</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input id="TagBot_branches" name="branches"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input id="TagBot_branches" name="branches"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_branches">Enable the branches option</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="TagBot_dispatch" name="dispatch"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="TagBot_dispatch" name="dispatch"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_dispatch">Enable the dispatch option</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
-    <input size="70" id="TagBot_dispatch_delay" name="dispatch_delay" value="nothing" onchange="oncng(this)" type="text"><br>
+     <div class="pgin_inp_margins pgin_inp_col1 ">
+    <input size="70" id="TagBot_dispatch_delay" name="dispatch_delay" value="nothing" onchange="oncng(this)" type="text" ><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_TagBot_dispatch_delay">Number of minutes to delay for dispatch events</span><br>
     </div>
@@ -587,9 +601,9 @@ pre</textarea> <br>
     <label for="Use_Dependabot">Dependabot plugin </label>
     <div class="Plugin_Purpose">Setups <a href="javascript:sendurl('https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically')" >Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies.</div>
     <div class="Plugin_Inputs" id="Dependabot_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="Dependabot_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="Dependabot_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="Dependabot_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Dependabot_file">Template file</span><br>
     </div>
@@ -603,20 +617,20 @@ pre</textarea> <br>
     <label for="Use_Documenter">Documenter plugin </label>
     <div class="Plugin_Purpose">Sets up documentation generation via <a href="javascript:sendurl('https://documenter.juliadocs.org')" >Documenter.jl</a>. Only subset of options currently supported.</div>
     <div class="Plugin_Inputs" id="Documenter_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="Documenter_make_jl" name="make_jl" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="Documenter_make_jl_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="Documenter_make_jl_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Documenter_make_jl">Template file for make.jl</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
     <input size="65" id="Documenter_index_md" name="index_md" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="Documenter_index_md_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="Documenter_index_md_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Documenter_index_md">Template file for index.md</span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col2">
-    <input id="Documenter_deploy" name="deploy"  onchange="oncng(this)" type="checkbox">
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <input id="Documenter_deploy" name="deploy"  onchange="oncng(this)" type="checkbox" >
 
     <span class="plugin_arg_meaning" id="argmeaning_Documenter_deploy">Deploy documentation using GitHubActions. <br><span class="comment">Make sure GitHubActions pluging is activated.</span></span><br>
     </div>
@@ -630,9 +644,9 @@ pre</textarea> <br>
     <label for="Use_Codecov">Codecov plugin </label>
     <div class="Plugin_Purpose">Sets up code coverage submission from CI to <a href="javascript:sendurl('https://about.codecov.io')" >Codecov</a>..</div>
     <div class="Plugin_Inputs" id="Codecov_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="Codecov_file" name="file" value="nothing" onchange="oncng(this)" type="text">
-<button id="Codecov_file_button" onclick="oncng(this)" type="button" class="FileDialogButton">Select</button><br>
+<button id="Codecov_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Codecov_file">Template file for .codecov.yml, or nothing to create no file (in the last case, check the corresponding option at GitHubActions plugin).</span><br>
     </div>
@@ -646,7 +660,7 @@ pre</textarea> <br>
     <label for="Use_Save_Configuration">Save Configuration  </label>
     <div class="Plugin_Purpose">You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies.</div>
     <div class="Plugin_Inputs" id="Save_Configuration_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2">
+    <div class="pgin_inp_margins pgin_inp_col2 ">
         <div class="menu_container" id="Save_Configuration_config_name_menu">
     <input size="30" id="Save_Configuration_config_name" name="config_name" class="menu_target" value="" onchange="oncng(this)" type="text">
     <span class="activate_menu" id="Save_Configuration_activate_menu" style="display:none" >Show saved configurations</span>  <br>
@@ -657,7 +671,7 @@ pre</textarea> <br>
 
     <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code></span><br>
     </div>
-     <div class="pgin_inp_margins pgin_inp_col1">
+     <div class="pgin_inp_margins pgin_inp_col1 ">
     <button id="Save_Configuration_SaveConfigButton" name="SaveConfigButton" value="Save Configuration" onclick="oncng(this)" type="button" >Save Configuration</button>
 
     <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_SaveConfigButton"></span><br>
@@ -705,9 +719,14 @@ function select_license(el) {
 
 
 function sendurl(url) {
-  var reason = "external_link"
+  var reason = "external_link";
   Blink.msg("change", {reason: reason, url: url});
 };
+
+function send1el(id) {
+  var el = document.getElementById(id);
+  sendel(el, "retrieve1value");
+  }
 
 function sendel(el, reason) {
     var elid = el.id;

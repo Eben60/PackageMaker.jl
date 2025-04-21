@@ -1,22 +1,22 @@
 packagename :: String = "MyPackage"
 
-function get_module_directory(module_name)
-    for (pkg, mod) in Base.loaded_modules
-        if pkg.name == String(module_name)
-            return  pathof(mod) |> dirname |> dirname
-        end
-    end
-    return nothing
-end
+# function get_module_directory(module_name)
+#     for (pkg, mod) in Base.loaded_modules
+#         if pkg.name == String(module_name)
+#             return  pathof(mod) |> dirname |> dirname
+#         end
+#     end
+#     return nothing
+# end
 
-const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
+# const templ_dir = joinpath(get_module_directory("PkgTemplates"), "templates") |> posixpathstring
 const default_branch = LibGit2.getconfig("init.defaultBranch", "main")
 
 function get_licences()
     pkgpath = abspath(dirname(pathof(PkgTemplates)))
 
     lic_dir = joinpath(pathof(PkgTemplates), "..", "..", "templates", "licenses") |> normpath #, "licenses")
-    @assert isdir(lic_dir)
+    isdir(lic_dir) || error("Licenses directory $lic_dir not found.")
     licences = readdir(lic_dir)
     deleteat!(licences, findfirst(==("MIT"), licences))
     pushfirst!(licences, "MIT")
@@ -44,7 +44,11 @@ function plugins_od()
             (VersionNumber, "julia_min_version", v"1.10", "Minimum allowed Julia version for this package."),
             (:text, "docstring", [""], "$(package_info_descr)"),
             (Vector{String}, "proj_pkg", [""], "Packages to add to your project. Suffix <code>.jl</code> is accepted, but not required. You can of course always add packages later on using <code>Pkg</code>."),
-            (; type = Bool, name="add_imports", default_val = false, meaning = """Add these packages to the source code like <code>using Foo</code>""", enabled=false), 
+            (; type = Bool, name="add_imports", default_val = false, meaning = "Add these packages to the source code like <code>using Foo</code>"), 
+            (; type=Bool, name="makerepo", default_val=false, 
+                meaning="""Create GitHub repo. <br><span class="comment">To use this feature, install and configure <a>GitHub CLI tools</a></span>""", 
+                options=(; enabled=gh_installed(), url = "https://eben60.github.io/PackageMaker.jl/#Creating-remote-repository-on-GitHub") ), 
+            (; type=Bool, name="repopublic", default_val = true, meaning="Created GitHub repo will be public", options=(; enabled=false, hidden=false) ),  
             ], true),
         ("ProjectFile", "Creates a Project.toml", [
             (VersionNumber, "version", v"0.0.1", "The initial version of created package (ignored for projects)."),
@@ -56,8 +60,20 @@ function plugins_od()
             (:file, "file", "<DEFAULT_FILE>", "Template file for runtests.jl"),
             ("project", true, "Create a new project for tests (test/Project.toml)."),
             ("aqua", false, "Add quality tests with <a>Aqua.jl</a>.", "https://juliatesting.github.io/Aqua.jl"),
-            (:ExcludedPlugins, "aqua_kwargs",  ["ambiguities"], "List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually."), 
+            (type=:ExcludedPlugins, name="aqua_kwargs",  default_val=["ambiguities"], 
+                meaning="List of Aqua tests to skip. For full power of Aqua testing, edit your runtests.jl file manually.", 
+                options=(; enabled=false, hidden=false)), 
             ("jet", false, "Add a linting test with <a>JET.jl</a> (works best on type-stable code).", "https://aviatesk.github.io/JET.jl"),
+            ]),
+        ("Git", "Creates a Git repository and a .gitignore file", [
+            (Vector{String}, "ignore",  [""], "Patterns to add to the .gitignore"), 
+            ("name", nothing, "Your real name, if you have not set user.name with Git."), 
+            ("email", nothing, "Your email address, if you have not set user.email with Git."), 
+            ("branch", "$(default_branch)", "The desired name of the repository's default branch."), 
+            ("ssh", false, "Use SSH for the remote. If left unset, HTTPS is used."), 
+            ("jl", true, "Add a .jl suffix to the remote URL."), 
+            ("manifest", false, "Commit Manifest.toml."), 
+            ("gpgsign", false, """Sign commits with your GPG key.<br><span class="comment">This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.</span>"""),
             ]),
         ("Readme", "Creates a README file that contains badges for other included plugins", [
             (:file, "file", "<DEFAULT_FILE>", "Template file for the README."), 
@@ -72,16 +88,6 @@ function plugins_od()
                 ), 
             (:file, "path", nothing, "Path to a custom license file. This keyword takes priority over name."), 
             ("destination", "LICENSE", "File destination, relative to the repository root. For example, \"LICENSE.md\" might be desired."),
-            ]),
-        ("Git", "Creates a Git repository and a .gitignore file", [
-            (Vector{String}, "ignore",  [""], "Patterns to add to the .gitignore"), 
-            ("name", nothing, "Your real name, if you have not set user.name with Git."), 
-            ("email", nothing, "Your email address, if you have not set user.email with Git."), 
-            ("branch", "$(default_branch)", "The desired name of the repository's default branch."), 
-            ("ssh", false, "Use SSH for the remote. If left unset, HTTPS is used."), 
-            ("jl", true, "Add a .jl suffix to the remote URL."), 
-            ("manifest", false, "Commit Manifest.toml."), 
-            ("gpgsign", false, """Sign commits with your GPG key.<br><span class="comment">This option requires that the Git CLI is installed, and for you to have a GPG key associated with your committer identity.</span>"""),
             ]),
         ("GitHubActions", "Integrates your packages with <a>GitHub Actions</a>.", [
             (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
