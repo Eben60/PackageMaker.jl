@@ -92,6 +92,10 @@ div.plugin_form_div#plugin_form_div_Save_Configuration, #Save_Configuration_form
   font-weight: bold;
 }
 
+div.hidden {
+  display: none;
+}
+
 </style>
 """
 

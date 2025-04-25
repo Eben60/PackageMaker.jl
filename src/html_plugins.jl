@@ -32,14 +32,18 @@ function tmpl_inp(pgin, arg, arg_meaning, color_no, css, arr_footnote=true)
     pgin_name = pgin.name
     arg_type = arg.type
     arg_name = arg.name
+
     # <div class="$(css)_margins $(css)_col$(color_no)" id="div_$(pgin_name)_$(arg_name)"> # currently unnecessary
     return """
-    <div class="$(css)_margins $(css)_col$(color_no)">
+    <div class="$(css)_margins $(css)_col$(color_no) $(hidden(arg))">
     $(tmpl_input_field(pgin, arg, arg_type, arr_footnote))
     <span class="plugin_arg_meaning" id="argmeaning_$(pgin_name)_$(arg_name)">$(arg_meaning)</span><br>
     </div>
 """
 end
+
+enabled(arg) = get(arg.options, :enabled, true) ? "" : " disabled "
+hidden(arg) = get(arg.options, :hidden, false) ? " hidden " : ""
 
 function tmpl_path_input_field(pgin, arg, folderdialog=false)
     button_class = folderdialog ? "FolderDialogButton" : "FileDialogButton"
@@ -48,7 +52,7 @@ function tmpl_path_input_field(pgin, arg, folderdialog=false)
     arg_val = esc_qm(arg.default_val)
     return """
 <input size="65" id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onchange="oncng(this)" type="text">
-<button id="$(pgin_name)_$(arg_name)_button" onclick="oncng(this)" type="button" class="$button_class">Select</button><br>
+<button id="$(pgin_name)_$(arg_name)_button" onclick="oncng(this)" type="button" class="$button_class" $(enabled(arg))>Select</button><br>
 """
 end
 
@@ -57,7 +61,7 @@ function tmpl_input_field(pgin, arg)
     arg_name = arg.name
     arg_val = esc_qm(arg.default_val)
     return """
-<input size="70" id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onchange="oncng(this)" type="text"><br>
+<input size="70" id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onchange="oncng(this)" type="text" $(enabled(arg))><br>
 """
 end
 
@@ -66,7 +70,7 @@ function tmpl_button(pgin, arg)
     arg_name = arg.name
     arg_val = esc_qm(arg.default_val)
     return """
-<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onclick="oncng(this)" type="button" >$(arg_val)</button>
+<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onclick="oncng(this)" type="button" $(enabled(arg))>$(arg_val)</button>
 """
 end
 
@@ -86,7 +90,7 @@ function tmpl_input_field(pgin, arg,  ::Type{Bool}, arr_footnote=true)
     arg_name = arg.name
     arg_val = esc_qm(arg.default_val)
     return """
-<input id="$(pgin_name)_$(arg_name)" name="$(arg_name)" $(checked(arg_val)) onchange="oncng(this)" type="checkbox">
+<input id="$(pgin_name)_$(arg_name)" name="$(arg_name)" $(checked(arg_val)) onchange="oncng(this)" type="checkbox" $(enabled(arg))>
 """
 end
 
@@ -103,7 +107,7 @@ function tmpl_input_arrfield(pgin, arg, arr_footnote=true)
     label_source = arr_footnote ? label : ""
 
     return """
-<textarea id="$id" name="$(arg_name)" rows="3" cols="70" onchange="oncng(this)" >$(vec2string(arg_val))</textarea> <br>
+<textarea id="$id" name="$(arg_name)" rows="3" cols="70" onchange="oncng(this)" $(enabled(arg))>$(vec2string(arg_val))</textarea> <br>
 $(label_source)
 """
 end

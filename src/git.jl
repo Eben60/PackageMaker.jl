@@ -69,3 +69,10 @@ function Base.showerror(io::IO, e::GitOptionNotFound)
     git config --global $(e.option) "…"
     """)
 end
+
+"Checks if GitHub CLI is installed and authenticated"
+function gh_installed() 
+    isnothing(Sys.which("gh")) && return false
+    result = readlines(`gh auth status`)
+    return any(x -> occursin("Active account: true", x), result)
+end
