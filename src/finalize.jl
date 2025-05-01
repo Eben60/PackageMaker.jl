@@ -1,10 +1,14 @@
 function finalize_prj(gen_options)
-    (; ispk, proj_name, templ_kwargs, versioned_man, jl_suffix, ) = gen_options
+    (; ispk, proj_name, templ_kwargs, versioned_man, jl_suffix, makerepo, repopublic) = gen_options
     (;dir, ) = templ_kwargs
     proj_dir = joinpath(dir, proj_name) |> normpath
     versioned_man && make_vers_mnfs(proj_dir)
     ispk && finalize_pkg(gen_options)
-    jl_suffix && add_jl_suffix(proj_dir)
+    if jl_suffix 
+        proj_dir = add_jl_suffix(proj_dir)
+        proj_name *= ".jl"
+    end
+    makerepo && create_gh_repo(proj_name, repopublic)
 end
 
 function finalize_pkg(gen_options)
@@ -39,7 +43,7 @@ function add_jl_suffix(proj_dir)
     isdir(proj_dir) || error("$proj_dir is not a directory")
     newpath = proj_dir * ".jl"
     mv(proj_dir, newpath)
-    return nothing
+    return newpath
 end
 
 function read_src_file(gen_options)
@@ -144,4 +148,23 @@ $(footer)
     docstringlines = split(fulldocstring, "\n")
 
 return docstringlines
+end
+
+function create_gh_repo(proj_name, public::Bool)
+    global may_exit_julia
+    stderr_buffer = IOBuffer()
+    visibility = public ? "public" : "private"
+    cmd = Cmd(`gh repo create $proj_name --$visibility`)
+
+    rslt = run(pipeline(cmd; stderr=stderr_buffer); wait=false)
+    wait(rslt)
+    rslt.exitcode == 0 && return nothing # everything OK, nothing to speak about
+
+    may_exit_julia = false # do not exit so as to be able to show warning
+    seek(stderr_buffer, 0)
+    errinfo = readchomp(stderr_buffer)
+
+    warntext = "On attempt to create remote repo, following error message was returned: \n$errinfo"
+    @warn warntext
+    return nothing
 end

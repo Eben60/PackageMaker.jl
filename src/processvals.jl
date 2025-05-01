@@ -113,6 +113,8 @@ function general_options(fv; plugins=def_plugins)
     add_imports = gargs["add_imports"].returned_val
     versioned_man = gargs["versioned_man"].returned_val
     jl_suffix = gargs["jl_suffix"].returned_val
+    makerepo = gargs["makerepo"].returned_val
+    repopublic = gargs["repopublic"].returned_val
 
     return (;
         ispk,
@@ -124,6 +126,8 @@ function general_options(fv; plugins=def_plugins)
         docstring,
         add_imports,
         versioned_man,
+        makerepo,
+        repopublic,
         )
 end
 
