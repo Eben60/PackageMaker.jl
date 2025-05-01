@@ -47,7 +47,7 @@ function plugins_od()
             (; type = Bool, name="add_imports", default_val = false, meaning = "Add these packages to the source code like <code>using Foo</code>"), 
             (; type=Bool, name="makerepo", default_val=false, 
                 meaning="""Create GitHub repo. <br><span class="comment">To use this feature, install and configure <a>GitHub CLI tools</a></span>""", 
-                options=(; enabled=gh_installed(), url = "https://github.com/cli/cli#installation") ), 
+                options=(; enabled=gh_installed(), url = "https://eben60.github.io/PackageMaker.jl/#Creating-remote-repository-on-GitHub") ), 
             (; type=Bool, name="repopublic", default_val = true, meaning="Created GitHub repo will be public", options=(; enabled=false, hidden=false) ),  
             ], true),
         ("ProjectFile", "Creates a Project.toml", [
