@@ -181,7 +181,7 @@ function depackagize(proj_name, dir)
     return nothing
 end
 
-function empty_channel(c::Channel)
+function empty_channel!(c::Channel)
     @static if VERSION < v"1.11"
         while isready(c)
             take!(c)
@@ -196,7 +196,7 @@ function initialize()
     global savedconfigs = get_saved_configs()
     global val_form = ValidateForm()
     global def_plugins_original = plugins_od()
-    empty_channel(gui_returned)
+    empty_channel!(GUI_RETURNED)
     check_default_pktplugins(def_plugins_original)
     global def_plugins = deepcopy(def_plugins_original)
 end
@@ -204,8 +204,17 @@ end
 function _gogui(exitjulia=false; make_prj = true)
     global may_exit_julia
     initialize()
-    initwin() # returns immediately, the gui is running in a separate thread
-    (;finalvals, cancelled) = take!(gui_returned) # waiting here
+    (;win, ) = initwin() # returns immediately, the gui is running in a separate thread
+
+    # sleep(2)
+    # usr = getelemval(win, "GeneralOptions_user_name")
+    # @show usr
+
+    # sleep(5)
+    # usr = getelemval(win, "GeneralOptions_jl_suffix")
+    # @show usr
+    
+    (;finalvals, cancelled) = take!(GUI_RETURNED) # waiting here
 
     !cancelled && make_prj && create_proj(finalvals)
 

@@ -46,9 +46,14 @@ function oncng(el) {
 $(make_dd_js_sel_lic())
 
 function sendurl(url) {
-  var reason = "external_link"
+  var reason = "external_link";
   Blink.msg("change", {reason: reason, url: url});
 };
+
+function send1el(id) {
+  var el = document.getElementById(id);
+  sendel(el, "retrieve1value");
+  }
 
 function sendel(el, reason) {
     var elid = el.id;
