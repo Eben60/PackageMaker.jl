@@ -7,7 +7,7 @@ temp_dir = mktempdir()
 html_test_file = joinpath(temp_dir, "test.html")
 isfile(html_test_file) && rm(html_test_file)
 this_file_dir = dirname(@__FILE__)
-html_standard_file = joinpath(this_file_dir, "mainwin_v1_1_1.html")
+html_standard_file = joinpath(this_file_dir, "mainwin_v1_2_0.html")
 make_html(html_test_file)
 
 

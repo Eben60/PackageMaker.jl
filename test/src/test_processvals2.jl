@@ -59,6 +59,8 @@ go = general_options(fv)
     docstring = "This is a TestPackage01 for PackageMaker testing.",
     add_imports = true,
     versioned_man = true,
+    makerepo = true,
+    repopublic = false,
     ) 
 
 @test go.ispk

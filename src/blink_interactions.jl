@@ -63,7 +63,7 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
                 arg["reason"] == "intermediate_input" && push!(intermvals, id => el)
                 arg["reason"] == "init_input" && push!(initvals, id => el)
                 arg["reason"] == "finalinput" && push!(finalvals, id => el)
-                arg["reason"] == "retrieve1value" && sendvalue(el)
+                arg["reason"] == "retrieve1value" && put_newval(el)
             end
             arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
             # arg["reason"] == "init_inputfinished" && handleinit_input()
@@ -74,12 +74,12 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
     end
 end
 
-function sendvalue(el)
+function put_newval(el)
     empty_channel!(VAL_RETURNED)
     put!(VAL_RETURNED, el)
 end
 
-function getelemval(win, id)
+function getelemval(win, id) # actually not used except in tests, but nice to have
     js(win, Blink.JSString("""send1el("$id")"""); callback=false)
     el = take!(VAL_RETURNED)
     el.inputtype == :checkbox && return el.checked

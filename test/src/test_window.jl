@@ -19,7 +19,7 @@ initialize()
     close(w)
     @test ! active(w)
 end
-
+println("size Tersts finished")
 
 @testset "Window with full contents" begin
     (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; debug=true);
@@ -27,7 +27,7 @@ end
     ks = filter(x->!startswith(string(x), "SavedConfigTag"), ks)
     ks = filter(x->!startswith(string(x), "Save_Configuration"), ks)  
     # @show length(ks)
-    @test length(ks) == 93
+    @test length(ks) == 95
     # @show ks
 
     @test initvals[:GeneralOptions_julia_min_version].value == "1.10.0"

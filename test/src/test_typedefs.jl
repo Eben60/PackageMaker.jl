@@ -18,13 +18,13 @@ p1 = PluginArg(;
     returned_rawval = nothing,
     returned_val = nothing ,
     changed = false,
-    enabled = true,
+    # enabled = true,
     options = (; ),
 )
 
-p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, false, true, (; ))
-p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, false, true, (; ))
-p4 = PluginArg(String, "aim", nothing, "Your real aim.", nothing, nothing, false, true, (; ))
+p2 = PluginArg(Vector{String}, "ignore", String[], "Patterns to add ", nothing, nothing, false, (; ))
+p3 = PluginArg(String, "name", "nothing", "Your real name", nothing, nothing, false,  (; ))
+p4 = PluginArg(String, "aim", nothing, "Your real aim.", nothing, nothing, false, (; ))
 nt5 = (;
     type = String,
     name = "project",
@@ -47,8 +47,8 @@ nt6 = (;
     changed = true,
 )
 
-p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, false, true, (; url = "https://abc.de/efg.html", menuoptions = (; opt_list = ["option 1", "option2"], show_first = false, menulabel = "This is menu",)))
-p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, false, true, (; url = "https://abc.de/efg.html", menuoptions = (; opt_list = ["option 1", "option2"], show_first = false, menulabel = "This is menu",)))
+p5 = PluginArg(String, "project", "false", "Whether or not?", "a value", nothing, false, (; url = "https://abc.de/efg.html", menuoptions = (; opt_list = ["option 1", "option2"], show_first = false, menulabel = "This is menu",)))
+p5c = PluginArg(String, "claim", "false", "Whether or not?", "a value", nothing, false, (; url = "https://abc.de/efg.html", menuoptions = (; opt_list = ["option 1", "option2"], show_first = false, menulabel = "This is menu",)))
 p6 = PluginArg(; nt6...)
 
 pi1 = PluginInfo(("AName", "A purpose", [p1, p2, p3, p4]))
@@ -79,6 +79,8 @@ end
 
         @test compare_pa(PluginArg(nt5), p5)
         @test p6.changed
+        p6updated = update_struct(p6; changed=false)
+        @show p6updated
         @test compare_pa(update_struct(p6; changed=false), p5c)
 
     end
