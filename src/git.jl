@@ -73,6 +73,14 @@ end
 "Checks if GitHub CLI is installed and authenticated"
 function gh_installed() 
     isnothing(Sys.which("gh")) && return false
-    result = readlines(`gh auth status`)
+
+    stdout_buffer = IOBuffer()
+    cmd = Cmd(`gh auth status`)
+    rslt = run(pipeline(cmd; stdout=stdout_buffer); wait=false)
+    wait(rslt)
+    rslt.exitcode != 0 && return false 
+
+    seek(stdout_buffer, 0)
+    result = readlines(stdout_buffer)
     return any(x -> occursin("Active account: true", x), result)
 end
