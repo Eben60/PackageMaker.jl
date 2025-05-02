@@ -19,7 +19,6 @@ initialize()
     close(w)
     @test ! active(w)
 end
-println("size Tersts finished")
 
 @testset "Window with full contents" begin
     (;win, initvals, newvals, finalvals, changeeventhandle) = initwin(; debug=true);
