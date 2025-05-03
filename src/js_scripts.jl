@@ -37,7 +37,7 @@ $(jq)
 <script>
 function oncng(el) {
   if (el.id == "Save_Configuration_SaveConfigButton") {
-    sendfullstate(false, true);
+    subm(false, true);
   } else {
     sendel(el, "newinput");
   }
@@ -64,8 +64,8 @@ function sendel(el, reason) {
     var inputtype = el.type;
     if ("checked" in el) {elchecked = el.checked};
     var parentformid = parentForm_Id(el);
+    // alert(el.id + " " + reason);
     Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
-    // alert(el.id + " " + reason)
 };
 
 function parentForm_Id(el) {
@@ -83,29 +83,14 @@ function parentForm_Id(el) {
   };
 };
 
-function sendfullstate(isfinalstate, submit){
-    // alert("sending full state")
-    var reasoneach;
-    var reasonfinl;
-    if (isfinalstate) {
-        //alert("finishing")
-        reasoneach ="finalinput"
-        if (submit) {reasonfinl ="finalinputfinished"}
-        else {reasonfinl ="finalinputcancelled"}
-    } else if ((!isfinalstate) && submit) {
-        reasoneach ="intermediate_input";
-        reasonfinl ="intermediate_inputfinished"}
-      else {
-        reasoneach ="init_input";
-        reasonfinl ="init_inputfinished"            
-   }
-
-    inps = document.querySelectorAll("input, textarea");
-    for (el of inps) {
-        sendel(el, reasoneach) ;
+function subm(reason, reasoneach){ // pass false as reasoneach if complete state is not to be sent (e.g. on cancel)
+  if (reasoneach) {
+  var inps = document.querySelectorAll("input, textarea");
+  for (el of inps) {
+    sendel(el, reasoneach) ;
   };
-  Blink.msg("change", {reason: reasonfinl});
-
+  }
+  Blink.msg("change", {reason: reason});
   return null;
 };
 

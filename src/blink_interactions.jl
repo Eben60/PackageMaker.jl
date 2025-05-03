@@ -8,7 +8,7 @@ function initwin(; debug=false)
     finalvals = deepcopy(initvals)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals)
-    js(win, Blink.JSString("""sendfullstate(false, false)"""))
+    js(win, Blink.JSString("""subm("init_inputfinished", "init_input")"""))
     return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
 
@@ -50,7 +50,8 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
         if arg["reason"] == "external_link"
             openurl(arg["url"])
         else
-            if arg["reason"] in ["newinput", "init_input", "finalinput", "intermediate_input", "retrieve1value"]
+            if arg["reason"] in ["newinput", "init_input", "finalinput", "saveprefs", "retrieve1value"]
+                haskey(arg, "elid") || @show arg
                 id = Symbol(arg["elid"])
                 eltype = Symbol(arg["eltype"])
                 elclass = arg["elclass"] |> split .|> String
@@ -60,14 +61,14 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
                 v = arg["elval"]
                 el = HtmlElem(id, eltype, elclass, inputtype, parentformid, v, checked)
                 arg["reason"] == "newinput" && push!(newvals, id => el)
-                arg["reason"] == "intermediate_input" && push!(intermvals, id => el)
+                arg["reason"] == "saveprefs" && push!(intermvals, id => el)
                 arg["reason"] == "init_input" && push!(initvals, id => el)
                 arg["reason"] == "finalinput" && push!(finalvals, id => el)
                 arg["reason"] == "retrieve1value" && put_newval(el)
             end
             arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
             # arg["reason"] == "init_inputfinished" && handleinit_input()
-            arg["reason"] == "intermediate_inputfinished" && handle_saveconfig(win, intermvals)
+            arg["reason"] == "saveprefs_finished" && handle_saveconfig(win, intermvals)
             arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true)
             arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false)
         end

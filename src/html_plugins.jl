@@ -69,8 +69,13 @@ function tmpl_button(pgin, arg)
     pgin_name = pgin.name
     arg_name = arg.name
     arg_val = esc_qm(arg.default_val)
+
+    (; reason, reasoneach) = arg.options.button_args
+    reason = "'$reason'"
+    reasoneach != false && (reasoneach = "'$reasoneach'")
+
     return """
-<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onclick="oncng(this)" type="button" $(enabled(arg))>$(arg_val)</button>
+<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onclick="subm($(reason), $(reasoneach))" type="button" $(enabled(arg))>$(arg_val)</button>
 """
 end
 

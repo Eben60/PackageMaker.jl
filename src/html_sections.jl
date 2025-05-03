@@ -54,11 +54,11 @@ html_submit() =
 <span class="checkfield_NOK" id="checkfield_ProjName">🞫</span>&nbsp;Project name OK <br>
 <span class="checkfield_NOK" id="checkfield_ProjDir">🞫</span>&nbsp;Project directory OK <br>
 <span class="checkfield_OK" id="checkfield_SaveConfig">✓</span>&nbsp;"Save Configuration" checkbox unselected (if desired, save config prior to creating project)<br><br>
-<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button>
+<button type="submit" id="subm0" value="Cancel_0" onclick="subm('finalinputcancelled', false)">Cancel</button>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 <button type="submit" id="subm2" value="Reload_3" onclick="reload_window()" >Reset form</button>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)" disabled>Create package</button>
+<button type="submit" id="subm1" value="Submit_1" onclick="subm('finalinputfinished', 'finalinput')" disabled>Create package</button>
 </form>
 </div>
 """
