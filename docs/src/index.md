@@ -72,13 +72,11 @@ will be successfully parsed as a list `"P1"` .. `"P7"`
 
 ### Creating remote repository on GitHub
 
-_This feature will be available in the v1.2.0, to be released soon_ 
+This feature is only available if [GitHub CLI](https://cli.github.com/manual/) is installed ([installation instructions](https://github.com/cli/cli#installation)) and configured on your computer. There are many ways to install it: If you already have one of the supported package managers, you may use it, for Windows and Mac there are native installers, and on unixes you could also try `Webi`.
 
-This feature is only available if [GitHub CLI](https://cli.github.com/manual/) is installed ([installation instructions](https://github.com/cli/cli#installation)) and configured on your computer. There are many ways to install it: If you already have one of the supported package managers, you may use it, otherwise you could try `Webi`.
+After the `gh` installation, you will need to authentificate it to your GitHub account, e.g. by running `gh auth login` and following the instructions.
 
-After installation, you will need to authentificate `gh` to your GitHub account, e.g. by running `gh auth login` and following instructions.
-
-Now you will be able to check `Create GitHub repo` checkbox (do not forget checking `Git` plugin as well), and on creating a project, also a remote empty repo of the same name will be created.
+Now you will be able to tick the `Create GitHub repo` checkbox (do not forget checking `Git` plugin as well), and on creating a project, also a remote empty repo of the same name will be created.
 
 If you are using VSCode, you may open the just created package or project in a new window, switch to it's environment, commit the changes, and click onto "Publich Branch" button - all contents will be now pushed to your newly created GitHub repo.
 
@@ -162,10 +160,11 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ### Release 1.2.0
 
-_to be released soon_ 
+_2025-05-03_ 
 
 - Added option to create GitHub repository.
 - Disabling some inputs depending on context.
+- Added more tests.
 - Internal refactoring WIP.
 
 ### Release 1.1.1

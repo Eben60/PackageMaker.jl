@@ -17,9 +17,17 @@ function finalize_pkg(gen_options)
     add_docstr = !isempty(docstring)
     add_docstr || add_imports || return nothing
     (;file_content, proj_main_file) = read_src_file(gen_options)
-    add_docstr && (file_content = add_docstring(file_content, gen_options))
-    add_imports && (file_content = add_usinglines(file_content, gen_options))
-    write_contents(proj_main_file, file_content)
+    if add_docstr
+        new_content = add_docstring(file_content, gen_options)
+        if !isnothing(new_content)
+            file_content = new_content
+            add_imports && (file_content = add_usinglines(file_content, gen_options))
+            write_contents(proj_main_file, file_content)
+            return true
+        end
+    end
+    global may_exit_julia = false
+    return false
 end
 
 
@@ -79,10 +87,17 @@ insert(a1, i, a2) = [a1[begin:i-1]; a2; a1[i:end]]
 
 function add_docstring(file_content, gen_options)
     (;proj_name, docstring) = gen_options
-    @assert !isempty(docstring)
+    if isempty(docstring)
+        @warn "The package docstring is empty."
+        return nothing
+    end
+
     docslink = get_docslink(gen_options)
     full_docstring = make_docstring(proj_name, docstring, docslink)
     insertion_point = module_firstline(file_content, proj_name)
+
+    isnothing(insertion_point) && return nothing
+
     new_content = insert(file_content, insertion_point, full_docstring)
     return new_content
 end
@@ -91,7 +106,8 @@ function module_firstline(file_content, proj_name)
     pattern = "module $proj_name"
     fl = findfirst(x -> startswith(x, pattern), file_content)
     if isnothing(fl)
-        error("pattern \"$pattern\" not found in the source file")
+        @warn "Pattern \"$pattern\" not found in the source file. Cannot add package docstring."
+        return nothing
     end
     return fl
 end

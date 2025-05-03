@@ -80,7 +80,6 @@ end
         @test compare_pa(PluginArg(nt5), p5)
         @test p6.changed
         p6updated = update_struct(p6; changed=false)
-        @show p6updated
         @test compare_pa(update_struct(p6; changed=false), p5c)
 
     end
