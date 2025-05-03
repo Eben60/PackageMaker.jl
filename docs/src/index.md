@@ -72,6 +72,8 @@ will be successfully parsed as a list `"P1"` .. `"P7"`
 
 ### Creating remote repository on GitHub
 
+_This feature will be available in the v1.2.0, to be released soon_ 
+
 This feature is only available if [GitHub CLI](https://cli.github.com/manual/) is installed ([installation instructions](https://github.com/cli/cli#installation)) and configured on your computer. There are many ways to install it: If you already have one of the supported package managers, you may use it, otherwise you could try `Webi`.
 
 After installation, you will need to authentificate `gh` to your GitHub account, e.g. by running `gh auth login` and following instructions.

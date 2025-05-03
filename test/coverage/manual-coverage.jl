@@ -1,4 +1,4 @@
-using Pkg, Coverage
+@usingany Pkg, Coverage
 Pkg.test("PackageMaker"; coverage=true)
 
 srcfolder = normpath(@__DIR__, "../../src")
