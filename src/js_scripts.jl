@@ -64,8 +64,8 @@ function sendel(el, reason) {
     var inputtype = el.type;
     if ("checked" in el) {elchecked = el.checked};
     var parentformid = parentForm_Id(el);
+    // alert(el.id + " " + reason);
     Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
-    // alert(el.id + " " + reason)
 };
 
 function parentForm_Id(el) {
@@ -83,30 +83,33 @@ function parentForm_Id(el) {
   };
 };
 
-function sendfullstate(isfinalstate, submit){
+function sendfullstate(reason){
     // alert("sending full state")
     var reasoneach;
-    var reasonfinl;
-    if (isfinalstate) {
-        //alert("finishing")
-        reasoneach ="finalinput"
-        if (submit) {reasonfinl ="finalinputfinished"}
-        else {reasonfinl ="finalinputcancelled"}
-    } else if ((!isfinalstate) && submit) {
-        reasoneach ="intermediate_input";
-        reasonfinl ="intermediate_inputfinished"}
-      else {
-        reasoneach ="init_input";
-        reasonfinl ="init_inputfinished"            
-   }
+    // alert(reason)
+    switch (reason) {
+      case "finalinputfinished":
+      case "finalinputcancelled":
+        reasoneach = "finalinput";
+        break;
+      case "intermediate_inputfinished":
+        reasoneach = "intermediate_input";
+        break;
+      case "init_inputfinished":
+        reasoneach = "init_input";
+        break;
+      default:
+        reasoneach = "no_reason";
+    }
 
     inps = document.querySelectorAll("input, textarea");
-    for (el of inps) {
-        sendel(el, reasoneach) ;
-  };
-  Blink.msg("change", {reason: reasonfinl});
 
-  return null;
+    for (el of inps) {
+      sendel(el, reasoneach) ;
+    };
+    Blink.msg("change", {reason: reason});
+
+    return null;
 };
 
 function reload_window() {

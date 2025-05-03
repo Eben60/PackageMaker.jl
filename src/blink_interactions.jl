@@ -8,7 +8,7 @@ function initwin(; debug=false)
     finalvals = deepcopy(initvals)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals)
-    js(win, Blink.JSString("""sendfullstate(false, false)"""))
+    js(win, Blink.JSString("""sendfullstate("init_inputfinished")"""))
     return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
 
@@ -51,6 +51,7 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
             openurl(arg["url"])
         else
             if arg["reason"] in ["newinput", "init_input", "finalinput", "intermediate_input", "retrieve1value"]
+                haskey(arg, "elid") || @show arg
                 id = Symbol(arg["elid"])
                 eltype = Symbol(arg["eltype"])
                 elclass = arg["elclass"] |> split .|> String
