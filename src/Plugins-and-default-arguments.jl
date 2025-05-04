@@ -135,14 +135,15 @@ function plugins_od()
         # ("Coveralls", "Sets up code coverage submission from CI to <a>Coveralls</a>.", [
         #     (:file, "file", nothing, "Template file for .coveralls.yml, or nothing to create no file."), 
         #     ], "https://coveralls.io"),
-        ("Save_Configuration", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
+        ("Save_Configuration", "Manage Configurations", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
             (; type = :menu, name="config_name", default_val = "",  
-                meaning = "Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
+                meaning = "Configuration name. You can select an existing config to update, rename or delete it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
                 options = (; menuoptions = (; opt_list = savedconfignames(), show_first = false, menulabel = "Show saved configurations")),
                 ),
-                (; type = :button, name = "SaveConfigButton", meaning = "", default_val = "Save Configuration", options = (; button_args = (; reason="saveprefs_finished", reasoneach="saveprefs"))), 
+                (; type = :button, name = "SaveConfigButton", meaning = "", default_val = "Save Configuration", options = (; button_args = (; reason="saveprefs_finished", reasoneach="intermed_input"))), 
+                (; type = :button, name = "DeleteConfigButton", meaning = "", default_val = "Delete Configuration", options = (; button_args = (; reason="deleteprefs_finished", reasoneach="intermed_input"))), 
     
-             ], true),
+             ], false, "", true),
         ]);
     
     # non-default templates of PkgTemplates, supported by PackageMaker, as well as pseudo-plugins

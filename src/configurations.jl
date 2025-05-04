@@ -4,6 +4,13 @@ function handle_saveconfig(win, vals)
     check_saveconfig_done(win, false)
 end
 
+function handle_deleteconfig(win, intermvals)
+    config_name = intermvals[:Save_Configuration_config_name].value |> strip
+    delete_config(config_name)
+    @info "Configuration $(config_name) deleted from preferences."
+    showhidepgin(win, "Save_Configuration", false)
+end
+
 function save_config(fv)
     pgins = get_pgins_vals!(fv)
     scpi = pgins["Save_Configuration"]
@@ -14,7 +21,7 @@ function save_config(fv)
     get_pgins_changed!(pgins)
     ogcpg = pg2od(pgins)
     write_config(config_name, ogcpg)
-    println("Configuration $(config_name) saved to preferences.")
+    @info "Configuration $(config_name) saved to preferences."
     return true
 end
 
@@ -39,6 +46,15 @@ function get_pgin_changed!(pgin)
         pgin.args["is_package"].changed = true
     end
     return pgin
+end
+
+function delete_config(configname)
+    if ! haskey(savedconfigs, configname)
+        @warn "Config $configname not found."
+        return nothing
+    end
+    delete!(savedconfigs, configname)
+    @set_preferences!(SAVEDCONFIGS_KEY => savedconfigs)
 end
 
 function write_config(configname, config::AbstractDict)
