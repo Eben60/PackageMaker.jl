@@ -13,5 +13,5 @@ using SafeTestsets
 @safetestset "Create project 2" include("src/test_create_pkg02.jl")
 
 if  ! Sys.islinux() # for some reason, errors on Ubuntu both on CI server and on local computer, but is OK on Windows. OK on local Mac.
-    @safetestset "Blink window" include("src/test_window.jl")
+    @safetestset "Blink window" include("src/test_window.jl") # broken
 end

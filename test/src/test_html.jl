@@ -8,7 +8,7 @@ html_test_file = joinpath(temp_dir, "test.html")
 # html_test_file = joinpath(@__DIR__, "test2compare.html")
 isfile(html_test_file) && rm(html_test_file)
 this_file_dir = dirname(@__FILE__)
-html_standard_file = joinpath(this_file_dir, "mainwin_v1_2_0.html")
+html_standard_file = joinpath(this_file_dir, "mainwin_v1_3_0.html")
 make_html(html_test_file)
 
 @testset "HTML generation" begin
@@ -31,7 +31,9 @@ make_html(html_test_file)
     ms3 = """name="authors" value=".*?\""""
     ms4 = """name="makerepo"  onchange="oncng\\(this\\)" type="checkbox".*?>"""
     ms5 = """id="Git_branch" name="branch" value=".*?\""""
-    ms6 = """<label for="Use_Save_Configuration">Save Configuration  </label>"""
+    ms6 = """<label for="Use_Save_Configuration">Manage Configurations </label>"""
+
+    
 
     middle_sec = "$ms1(.*?)$ms2(.*?)$ms3(.*?)$ms4"#(.*?)$ms5(.*?)$ms6"
     re_middle = Regex(middle_sec, "s")

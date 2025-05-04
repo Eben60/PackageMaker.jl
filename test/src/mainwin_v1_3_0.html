@@ -657,7 +657,7 @@ pre</textarea> <br>
 <div class="plugin_form_div" id="plugin_form_div_Save_Configuration">
 <form class="plugin_form" name="Save_Configuration_form" id="Save_Configuration_form" action="javascript:void(0)">
     <input id="Use_Save_Configuration" value="Use_Save_Configuration"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
-    <label for="Use_Save_Configuration">Save Configuration  </label>
+    <label for="Use_Save_Configuration">Manage Configurations </label>
     <div class="Plugin_Purpose">You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies.</div>
     <div class="Plugin_Inputs" id="Save_Configuration_inputs" style="display:none" >
     <div class="pgin_inp_margins pgin_inp_col2 ">
@@ -669,12 +669,17 @@ pre</textarea> <br>
     </div>
   </div>
 
-    <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code></span><br>
+    <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">Configuration name. You can select an existing config to update, rename or delete it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code></span><br>
     </div>
      <div class="pgin_inp_margins pgin_inp_col1 ">
-    <button id="Save_Configuration_SaveConfigButton" name="SaveConfigButton" value="Save Configuration" onclick="oncng(this)" type="button" >Save Configuration</button>
+    <button id="Save_Configuration_SaveConfigButton" name="SaveConfigButton" value="Save Configuration" onclick="subm('saveprefs_finished', 'intermed_input')" type="button" >Save Configuration</button>
 
     <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_SaveConfigButton"></span><br>
+    </div>
+     <div class="pgin_inp_margins pgin_inp_col2 ">
+    <button id="Save_Configuration_DeleteConfigButton" name="DeleteConfigButton" value="Delete Configuration" onclick="subm('deleteprefs_finished', 'intermed_input')" type="button" >Delete Configuration</button>
+
+    <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_DeleteConfigButton"></span><br>
     </div>
 </div>
 </form>
@@ -686,11 +691,11 @@ pre</textarea> <br>
 <span class="checkfield_NOK" id="checkfield_ProjName">🞫</span>&nbsp;Project name OK <br>
 <span class="checkfield_NOK" id="checkfield_ProjDir">🞫</span>&nbsp;Project directory OK <br>
 <span class="checkfield_OK" id="checkfield_SaveConfig">✓</span>&nbsp;"Save Configuration" checkbox unselected (if desired, save config prior to creating project)<br><br>
-<button type="submit" id="subm0" value="Cancel_0" onclick="sendfullstate(true, false)">Cancel</button>
+<button type="submit" id="subm0" value="Cancel_0" onclick="subm('finalinputcancelled', false)">Cancel</button>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 <button type="submit" id="subm2" value="Reload_3" onclick="reload_window()" >Reset form</button>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<button type="submit" id="subm1" value="Submit_1" onclick="sendfullstate(true, true)" disabled>Create package</button>
+<button type="submit" id="subm1" value="Submit_1" onclick="subm('finalinputfinished', 'finalinput')" disabled>Create package</button>
 </form>
 </div>
 <script>
@@ -701,7 +706,7 @@ pre</textarea> <br>
 <script>
 function oncng(el) {
   if (el.id == "Save_Configuration_SaveConfigButton") {
-    sendfullstate(false, true);
+    subm(false, true);
   } else {
     sendel(el, "newinput");
   }
@@ -737,8 +742,8 @@ function sendel(el, reason) {
     var inputtype = el.type;
     if ("checked" in el) {elchecked = el.checked};
     var parentformid = parentForm_Id(el);
+    // alert(el.id + " " + reason);
     Blink.msg("change", {reason: reason, elid: elid, elval: elval, elchecked: elchecked, elclass: elclass, parentformid: parentformid, eltype: eltype, inputtype: inputtype});
-    // alert(el.id + " " + reason)
 };
 
 function parentForm_Id(el) {
@@ -756,29 +761,15 @@ function parentForm_Id(el) {
   };
 };
 
-function sendfullstate(isfinalstate, submit){
-    // alert("sending full state")
-    var reasoneach;
-    var reasonfinl;
-    if (isfinalstate) {
-        //alert("finishing")
-        reasoneach ="finalinput"
-        if (submit) {reasonfinl ="finalinputfinished"}
-        else {reasonfinl ="finalinputcancelled"}
-    } else if ((!isfinalstate) && submit) {
-        reasoneach ="intermediate_input";
-        reasonfinl ="intermediate_inputfinished"}
-      else {
-        reasoneach ="init_input";
-        reasonfinl ="init_inputfinished"
-   }
-
-    inps = document.querySelectorAll("input, textarea");
-    for (el of inps) {
-        sendel(el, reasoneach) ;
+function subm(reason, reasoneach){ // pass false as reasoneach if complete state is not to be sent (e.g. on cancel)
+  // alert(reason + " " + reasoneach)
+  if (reasoneach) {
+  var inps = document.querySelectorAll("input, textarea");
+  for (el of inps) {
+    sendel(el, reasoneach) ;
   };
-  Blink.msg("change", {reason: reasonfinl});
-
+  }
+  Blink.msg("change", {reason: reason});
   return null;
 };
 

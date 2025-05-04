@@ -49,7 +49,7 @@ fv = TestData_CreatePackage.fv;
     @test getelemval(win, "GeneralOptions_authors") == "Eben007 <E007@nowhere.org>"
     @test ! getelemval(win, "Use_Readme")
 
-    js(win, Blink.JSString("""sendfullstate(true, true)"""); callback=false)
+    js(win, Blink.JSString("""subm('finalinputfinished', 'finalinput')"""); callback=false)
     (;finalvals, cancelled) = take!(GUI_RETURNED)
 
     @test !cancelled
