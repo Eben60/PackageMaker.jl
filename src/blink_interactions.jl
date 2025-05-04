@@ -50,7 +50,7 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
         if arg["reason"] == "external_link"
             openurl(arg["url"])
         else
-            if arg["reason"] in ["newinput", "init_input", "finalinput", "saveprefs", "retrieve1value"]
+            if arg["reason"] in ["newinput", "init_input", "finalinput", "intermed_input", "retrieve1value"]
                 haskey(arg, "elid") || @show arg
                 id = Symbol(arg["elid"])
                 eltype = Symbol(arg["eltype"])
@@ -61,7 +61,7 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
                 v = arg["elval"]
                 el = HtmlElem(id, eltype, elclass, inputtype, parentformid, v, checked)
                 arg["reason"] == "newinput" && push!(newvals, id => el)
-                arg["reason"] == "saveprefs" && push!(intermvals, id => el)
+                arg["reason"] == "intermed_input" && push!(intermvals, id => el)
                 arg["reason"] == "init_input" && push!(initvals, id => el)
                 arg["reason"] == "finalinput" && push!(finalvals, id => el)
                 arg["reason"] == "retrieve1value" && put_newval(el)
@@ -69,6 +69,7 @@ function handlechangeevents(win, newvals, initvals, intermvals, finalvals)
             arg["reason"] == "newinput" && handleinput(win, el, (; newvals, initvals))
             # arg["reason"] == "init_inputfinished" && handleinit_input()
             arg["reason"] == "saveprefs_finished" && handle_saveconfig(win, intermvals)
+            arg["reason"] == "deleteprefs_finished" && handle_deleteconfig(win, intermvals)
             arg["reason"] == "finalinputfinished" && handlefinalinput(win, finalvals, true)
             arg["reason"] == "finalinputcancelled" && handlefinalinput(win, finalvals, false)
         end

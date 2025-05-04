@@ -11,17 +11,15 @@ tmpl_section_end() =
 </div>
 """
 
-
 # create one for per plugin
 function tmpl_beg(pgin, purpose, show=true)
     pgin_name = pgin.name
-    shown_name = replace(pgin_name, "_" => " ")
-    plugin_word = pgin.is_general_info ? "" : "plugin"
+    shown_name = pgin.shown_name
 """
 <div class="plugin_form_div" id="plugin_form_div_$(pgin_name)">
 <form class="plugin_form" name="$(pgin_name)_form" id="$(pgin_name)_form" action="javascript:void(0)">
     <input id="Use_$(pgin_name)" value="Use_$(pgin_name)" $(checked(show)) onchange="oncng(this)" type="checkbox" class="TogglePlugin">
-    <label for="Use_$(pgin_name)">$(shown_name) $(plugin_word) </label>
+    <label for="Use_$(pgin_name)">$(shown_name) </label>
     <div class="Plugin_Purpose">$(purpose).</div>
     <div class="Plugin_Inputs" id="$(pgin_name)_inputs" style=$(disp_style(show)) >
 """

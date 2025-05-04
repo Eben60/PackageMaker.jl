@@ -84,6 +84,7 @@ function parentForm_Id(el) {
 };
 
 function subm(reason, reasoneach){ // pass false as reasoneach if complete state is not to be sent (e.g. on cancel)
+  // alert(reason + " " + reasoneach)
   if (reasoneach) {
   var inps = document.querySelectorAll("input, textarea");
   for (el of inps) {
