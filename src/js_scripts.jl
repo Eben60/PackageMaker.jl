@@ -83,33 +83,15 @@ function parentForm_Id(el) {
   };
 };
 
-function subm(reason, reasoneach){
-    // alert(reason)
-    // switch (reason) {
-    //   case "finalinputfinished":
-    //   case "finalinputcancelled":
-    //     reasoneach = "finalinput";
-    //     break;
-    //   case "intermediate_inputfinished":
-    //     reasoneach = "intermediate_input";
-    //     break;
-    //   case "init_inputfinished":
-    //     reasoneach = "init_input";
-    //     break;
-    //   default:
-    //     reasoneach = "no_reason";
-    // }
-
-      if (reasoneach) {
-      var inps = document.querySelectorAll("input, textarea");
-      for (el of inps) {
-        sendel(el, reasoneach) ;
-      };
-      }
-
-    Blink.msg("change", {reason: reason});
-
-    return null;
+function subm(reason, reasoneach){ // pass false as reasoneach if complete state is not to be sent (e.g. on cancel)
+  if (reasoneach) {
+  var inps = document.querySelectorAll("input, textarea");
+  for (el of inps) {
+    sendel(el, reasoneach) ;
+  };
+  }
+  Blink.msg("change", {reason: reason});
+  return null;
 };
 
 function reload_window() {

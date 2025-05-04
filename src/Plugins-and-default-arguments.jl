@@ -140,7 +140,7 @@ function plugins_od()
                 meaning = "Configuration name. You can select an existing config to update it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
                 options = (; menuoptions = (; opt_list = savedconfignames(), show_first = false, menulabel = "Show saved configurations")),
                 ),
-                (:button, "SaveConfigButton", "Save Configuration", ""), 
+                (; type = :button, name = "SaveConfigButton", meaning = "", default_val = "Save Configuration", options = (; button_args = (; reason="saveprefs_finished", reasoneach="saveprefs"))), 
     
              ], true),
         ]);

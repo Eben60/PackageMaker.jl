@@ -20,16 +20,15 @@ end
     "Parsed returned value. Set it to missing to indicate the value is unchanged from default."
     returned_val = nothing
     changed::Bool = false
-    # enabled::Bool = true
-
-    # url = ""
-    # menuoptions = (; opt_list = String[], show_first = false, menulabel = "")
+    "options field may contain some field-specific data"
     const options = (;)
 
 end
 
 # options = (;url = "https://github.com/JuliaCI/PkgTemplates.jl/tree/master/templates/licenses", enabled = false, hidden = true, 
 #                             menuoptions = (; opt_list = get_licences(), show_first = true, menulabel = "Show licenses"))
+# options = (; menuoptions = (; opt_list = String[], show_first = false, menulabel = ""))
+# options = (; button_args = (; reason="saveprefs_finished", reasoneach="saveprefs"))
 
 
 makeout_argtype(x) = isnothing(x) ? String : typeof(x)
