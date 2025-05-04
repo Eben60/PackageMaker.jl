@@ -3,8 +3,9 @@
 using Blink
 using Test
 using PackageMaker
-using PackageMaker: mainwin, initwin, initialize, getelemval, setelemval, GUI_RETURNED #, @unsafe
+using PackageMaker: mainwin, initwin, initialize, getelemval, setelemval, read_config, handle_savedconfig, GUI_RETURNED #, @unsafe
 
+TEST_SETTING = getproperty(parentmodule(@__MODULE__), :TEST_SETTING)
 @testset "size Tests" begin
     w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
     @test active(w)
@@ -44,12 +45,19 @@ fv = TestData_CreatePackage.fv;
         end
         setelemval(win, v.id, val)
     end
+    sleep(0.05)
 
     @test getelemval(win, "Readme_destination") == "README.txt"
     @test getelemval(win, "GeneralOptions_authors") == "Eben007 <E007@nowhere.org>"
     @test ! getelemval(win, "Use_Readme")
 
-    js(win, Blink.JSString("""sendfullstate(true, true)"""); callback=false)
+    setelemval(win, "Save_Configuration_config_name", TEST_SETTING)
+    sleep(0.05)
+
+    @test getelemval(win, "Save_Configuration_config_name") == TEST_SETTING
+    js(win, Blink.JSString("""subm('saveprefs_finished', 'intermed_input')"""); callback=false)
+
+    js(win, Blink.JSString("""subm('finalinputfinished', 'finalinput')"""); callback=false)
     (;finalvals, cancelled) = take!(GUI_RETURNED)
 
     @test !cancelled
@@ -57,9 +65,27 @@ fv = TestData_CreatePackage.fv;
     @test finalvals[:GeneralOptions_authors].value == "Eben007 <E007@nowhere.org>"
 
     @test ! active(win)
-    try
-        close(el)
-    catch
-    end
+
+    initialize()
+    @test read_config(TEST_SETTING).name == TEST_SETTING
+    (;win, initvals, newvals, changeeventhandle) = initwin(; debug=true);
+    sleep(0.05)
+    handle_savedconfig(win, TEST_SETTING)
+    setelemval(win, "Save_Configuration_config_name", TEST_SETTING)
+    sleep(0.05)
+
+    js(win, Blink.JSString("""subm('deleteprefs_finished', 'intermed_input')"""); callback=false)
+    @test getelemval(win, "GeneralOptions_authors") == "Eben007 <E007@nowhere.org>"
+    @test ! getelemval(win, "Use_Readme")
+
+    js(win, Blink.JSString("""subm('finalinputfinished', 'finalinput')"""); callback=false)
+    (;finalvals, cancelled) = take!(GUI_RETURNED)
+
+    @test !cancelled
+    # @test finalvals[:Readme_destination].value == "README.txt"
+    @test finalvals[:GeneralOptions_authors].value == "Eben007 <E007@nowhere.org>"
+
+    initialize()
+    @test_throws KeyError read_config(TEST_SETTING)
 end
 ;

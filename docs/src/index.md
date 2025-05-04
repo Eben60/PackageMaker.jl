@@ -82,13 +82,13 @@ If you are using VSCode, you may open the just created package or project in a n
 
 ### Saving configurations
 
-It is possible to save a configuration for a later reuse. The configurations are saved with the help of [Preferences.jl](https://github.com/JuliaPackaging/Preferences.jl), which by default would save them into `LocalPreferences.toml` file next to the currently-active project. You can manually edit the file to e.g. delete some config.
+It is possible to save a configuration for a later reuse. The configurations are saved with the help of [Preferences.jl](https://github.com/JuliaPackaging/Preferences.jl), which by default would save them into `LocalPreferences.toml` file next to the currently-active project. You can manually edit the file.
 
 Not saved are: Project/Package name, package info (docstring), and packages to be added to project/package, as these are specific to each project.
 
 A configuration is saved and applied according to the following logic: Only those parameters which were changed respective to the default values are saved/applied. That means, you can independently save several configs, dealing with different aspects, then sequentially apply them. E.g. you can save in a config `"Lab user data"` only the user name/email specific to some context, and in a config `"Public documentation"` the `Documenter` plugin settings. Then you can apply them one after another, and you will have both.
 
-This logics however (currently) differs in respect to the selection of "activated" state of all plugins. Each config saves selection state of **all** plugins, and applies all of them. In the example above, the plugins will be selected/unselected according to the state saved in the `"Public documentation"` config, if it was applied last.
+This logics however differs in respect to the selection of "activated" state of all plugins. Each config saves selection state of **all** plugins, and applies all of them. In the example above, the plugins will be selected/unselected according to the state saved in the `"Public documentation"` config, if it was applied last.
 
 ### Checking for updates
 
@@ -157,6 +157,13 @@ Stars on GitHub is often the only feedback the developer gets, esp. if his packa
 Therefore: If you typed a name of some package into the "Packages to add to your project" field - think about going to the package's source page to give it a star. 
 
 ## Changelog
+
+### Release 1.3.0
+
+_2025-05-06_ 
+
+- Added option to delete saved configurations.
+- Added more tests.
 
 ### Release 1.2.0
 

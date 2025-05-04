@@ -33,6 +33,7 @@ end
 
 "if provided a file name without suffix, will add .html and save generated file into default directory"
 function make_html(file::AbstractString)
+    initialize()
     defaultpath = "html_tests"
     if endswith(file, ".html")
         f = file
