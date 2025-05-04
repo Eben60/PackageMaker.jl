@@ -70,7 +70,7 @@ function tmpl_button(pgin, arg)
     arg_name = arg.name
     arg_val = esc_qm(arg.default_val)
     return """
-<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onclick="sendfullstate("intermediate_inputfinished")" type="button" $(enabled(arg))>$(arg_val)</button>
+<button id="$(pgin_name)_$(arg_name)" name="$(arg_name)" value="$(arg_val)" onclick="subm('intermediate_inputfinished', 'intermediate_input')" type="button" $(enabled(arg))>$(arg_val)</button>
 """
 end
 

@@ -37,7 +37,7 @@ $(jq)
 <script>
 function oncng(el) {
   if (el.id == "Save_Configuration_SaveConfigButton") {
-    sendfullstate(false, true);
+    subm(false, true);
   } else {
     sendel(el, "newinput");
   }
@@ -83,30 +83,30 @@ function parentForm_Id(el) {
   };
 };
 
-function sendfullstate(reason){
-    // alert("sending full state")
-    var reasoneach;
+function subm(reason, reasoneach){
     // alert(reason)
-    switch (reason) {
-      case "finalinputfinished":
-      case "finalinputcancelled":
-        reasoneach = "finalinput";
-        break;
-      case "intermediate_inputfinished":
-        reasoneach = "intermediate_input";
-        break;
-      case "init_inputfinished":
-        reasoneach = "init_input";
-        break;
-      default:
-        reasoneach = "no_reason";
-    }
+    // switch (reason) {
+    //   case "finalinputfinished":
+    //   case "finalinputcancelled":
+    //     reasoneach = "finalinput";
+    //     break;
+    //   case "intermediate_inputfinished":
+    //     reasoneach = "intermediate_input";
+    //     break;
+    //   case "init_inputfinished":
+    //     reasoneach = "init_input";
+    //     break;
+    //   default:
+    //     reasoneach = "no_reason";
+    // }
 
-    inps = document.querySelectorAll("input, textarea");
+      if (reasoneach) {
+      var inps = document.querySelectorAll("input, textarea");
+      for (el of inps) {
+        sendel(el, reasoneach) ;
+      };
+      }
 
-    for (el of inps) {
-      sendel(el, reasoneach) ;
-    };
     Blink.msg("change", {reason: reason});
 
     return null;

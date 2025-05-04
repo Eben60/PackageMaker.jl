@@ -8,7 +8,7 @@ function initwin(; debug=false)
     finalvals = deepcopy(initvals)
 
     changeeventhandle = handlechangeevents(win, newvals, initvals, intermvals, finalvals)
-    js(win, Blink.JSString("""sendfullstate("init_inputfinished")"""))
+    js(win, Blink.JSString("""subm("init_inputfinished", "init_input")"""))
     return (;win, initvals, newvals, finalvals, changeeventhandle)
 end
 
