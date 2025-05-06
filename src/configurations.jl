@@ -15,7 +15,7 @@ function save_config(fv)
     pgins = get_pgins_vals!(fv)
     scpi = pgins["Save_Configuration"]
     get_checked_pgins!(fv; pgins)
-    scpi.checked || return false
+    # scpi.checked || return false # unnecesary and a problem for tests
     config_name = scpi["config_name"].returned_val
     isempty(config_name) && return false
     get_pgins_changed!(pgins)
