@@ -145,6 +145,39 @@ div.hidden {
         Registration Guidelines</a> esp. relating to package naming. </label>
        </div>
        <p class="comment"> Depending on your choice, a different set of options will be selected, which you however can override manually.</p>
+           <p>Saved configurations:</p>
+    <input id="SavedConfigTag_1" name="Choice" value="SavedConfigTag_1" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_1">1.10.9</label><br>
+
+    <input id="SavedConfigTag_2" name="Choice" value="SavedConfigTag_2" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_2">1.10.9a</label><br>
+
+    <input id="SavedConfigTag_3" name="Choice" value="SavedConfigTag_3" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_3">1.10.9b</label><br>
+
+    <input id="SavedConfigTag_4" name="Choice" value="SavedConfigTag_4" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_4">1.10.9c</label><br>
+
+    <input id="SavedConfigTag_5" name="Choice" value="SavedConfigTag_5" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_5">1.10.9d</label><br>
+
+    <input id="SavedConfigTag_6" name="Choice" value="SavedConfigTag_6" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_6">1.11.4</label><br>
+
+    <input id="SavedConfigTag_7" name="Choice" value="SavedConfigTag_7" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_7">TestPackage01</label><br>
+
+    <input id="SavedConfigTag_8" name="Choice" value="SavedConfigTag_8" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_8">ignores</label><br>
+
+    <input id="SavedConfigTag_9" name="Choice" value="SavedConfigTag_9" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_9">is a project</label><br>
+
+    <input id="SavedConfigTag_10" name="Choice" value="SavedConfigTag_10" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_10">is pkg ProjFile only</label><br>
+
+    <input id="SavedConfigTag_11" name="Choice" value="SavedConfigTag_11" onchange="oncng(this)" type="radio">
+    <label for="SavedConfigTag_11">piracy</label><br>
 
     </fieldset>
 </form>
@@ -663,13 +696,23 @@ pre</textarea> <br>
     <div class="pgin_inp_margins pgin_inp_col2 ">
         <div class="menu_container" id="Save_Configuration_config_name_menu">
     <input size="30" id="Save_Configuration_config_name" name="config_name" class="menu_target" value="" onchange="oncng(this)" type="text">
-    <span class="activate_menu" id="Save_Configuration_activate_menu" style="display:none" >Show saved configurations</span>  <br>
+    <span class="activate_menu" id="Save_Configuration_activate_menu" >Show saved configurations</span>  <br>
     <div class="radio-container" id="Save_Configuration_radio_container">
-
+<label><input type="radio" name="option" value="1.10.9" id="Save_Configuration_config_name_1" onchange="select_license(this)">1.10.9</label><br>
+<label><input type="radio" name="option" value="1.10.9a" id="Save_Configuration_config_name_2" onchange="select_license(this)">1.10.9a</label><br>
+<label><input type="radio" name="option" value="1.10.9b" id="Save_Configuration_config_name_3" onchange="select_license(this)">1.10.9b</label><br>
+<label><input type="radio" name="option" value="1.10.9c" id="Save_Configuration_config_name_4" onchange="select_license(this)">1.10.9c</label><br>
+<label><input type="radio" name="option" value="1.10.9d" id="Save_Configuration_config_name_5" onchange="select_license(this)">1.10.9d</label><br>
+<label><input type="radio" name="option" value="1.11.4" id="Save_Configuration_config_name_6" onchange="select_license(this)">1.11.4</label><br>
+<label><input type="radio" name="option" value="TestPackage01" id="Save_Configuration_config_name_7" onchange="select_license(this)">TestPackage01</label><br>
+<label><input type="radio" name="option" value="ignores" id="Save_Configuration_config_name_8" onchange="select_license(this)">ignores</label><br>
+<label><input type="radio" name="option" value="is a project" id="Save_Configuration_config_name_9" onchange="select_license(this)">is a project</label><br>
+<label><input type="radio" name="option" value="is pkg ProjFile only" id="Save_Configuration_config_name_10" onchange="select_license(this)">is pkg ProjFile only</label><br>
+<label><input type="radio" name="option" value="piracy" id="Save_Configuration_config_name_11" onchange="select_license(this)">piracy</label><br>
     </div>
   </div>
 
-    <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">Configuration name. You can select an existing config to update, rename or delete it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code></span><br>
+    <span class="plugin_arg_meaning" id="argmeaning_Save_Configuration_config_name">Configuration name. You can select an existing config to update or delete it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code></span><br>
     </div>
      <div class="pgin_inp_margins pgin_inp_col1 ">
     <button id="Save_Configuration_SaveConfigButton" name="SaveConfigButton" value="Save Configuration" onclick="subm('saveprefs_finished', 'intermed_input')" type="button" >Save Configuration</button>

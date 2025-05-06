@@ -1,8 +1,4 @@
-# using PackageMaker
 using SafeTestsets
-
-TEST_SETTING::String = "z2test_TestSetting_1681796"
-
 
 @safetestset "Aqua" include("src/test_aqua.jl")
 @safetestset "Dropdown menus" include("src/test_dropdown_menus.jl")

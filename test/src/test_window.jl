@@ -5,7 +5,7 @@ using Test
 using PackageMaker
 using PackageMaker: mainwin, initwin, initialize, getelemval, setelemval, read_config, handle_savedconfig, GUI_RETURNED #, @unsafe
 
-TEST_SETTING = getproperty(parentmodule(@__MODULE__), :TEST_SETTING)
+TEST_SETTING::String = "z2test_TestSetting_1681796"
 @testset "size Tests" begin
     w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
     @test active(w)
