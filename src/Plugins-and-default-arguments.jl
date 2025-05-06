@@ -137,7 +137,7 @@ function plugins_od()
         #     ], "https://coveralls.io"),
         ("Save_Configuration", "Manage Configurations", "You can save the applicable parameter for later reuse. Excluded are: project name, description, and added dependencies", [ 
             (; type = :menu, name="config_name", default_val = "",  
-                meaning = "Configuration name. You can select an existing config to update, rename or delete it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
+                meaning = "Configuration name. You can select an existing config to update or delete it, or create a new one. <br><br> You can use alphanumeric characters, space, <br> and following characters: <code>.,!_+-*/#</code>", 
                 options = (; menuoptions = (; opt_list = savedconfignames(), show_first = false, menulabel = "Show saved configurations")),
                 ),
                 (; type = :button, name = "SaveConfigButton", meaning = "", default_val = "Save Configuration", options = (; button_args = (; reason="saveprefs_finished", reasoneach="intermed_input"))), 
