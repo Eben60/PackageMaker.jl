@@ -11,8 +11,6 @@ get_pgins_vals!(fv; plugins=def_plugins)
 gen_options = general_options(fv; plugins=def_plugins)
 dir = gen_options.templ_kwargs.dir
 proj_name = gen_options.proj_name
-
-
 proj_dir = joinpath(dir, proj_name) |> normpath
 
 if isdir(proj_dir)
@@ -23,9 +21,30 @@ create_proj(fv)
 proj_src_file = joinpath(proj_dir, "src", proj_name * ".jl")
 proj_toml = joinpath(proj_dir, "Project.toml")
 proj_mnf = joinpath(proj_dir, "Manifest.toml")
-proj_toml_dict = TOML.parsefile(proj_toml)
+mn_version = "$(VERSION.major).$(VERSION.minor)"
+proj_mnf_v = joinpath(proj_dir, "Manifest-v$(mn_version).toml")
 
-proj_src_content = read(proj_src_file, String)
+ci_file = joinpath(proj_dir, ".github", "workflows", "CI.yml")
+
+docs_src_file = joinpath(proj_dir, "docs", "src", "index.md")
+
+proj_toml_dict = try
+    TOML.parsefile(proj_toml)
+catch
+    Dict()
+end
+
+proj_src_content = try
+    read(proj_src_file, String)
+catch
+    ""
+end
+
+docs_src_content = try
+    read(docs_src_file, String)
+catch
+    ""
+end
 
 docstr = 
 """
@@ -34,6 +53,8 @@ docstr =
 
 Short package info.
 This will be put into the package docstring.
+
+Docs under https://Eben007.github.io/LocalTestProj616523.jl
 
 \$(isnothing(get(ENV, "CI", nothing)) ? ("\\n" * "Package local path: " * pathof(LocalTestProj616523)) : "") 
 \"\"\"
@@ -45,7 +66,7 @@ This will be put into the package docstring.
 @test proj_name == "LocalTestProj616523"
 @test isdir(proj_dir)
 @test isfile(proj_toml)
-@test isfile(proj_mnf)
+@test isfile(proj_mnf_v) || isfile(proj_mnf)
 @test isdir(joinpath(proj_dir, "src"))
 @test isfile(proj_src_file)
 @test proj_toml_dict["name"] == proj_name
@@ -54,5 +75,8 @@ This will be put into the package docstring.
 @test occursin(docstr, proj_src_content)
 @test occursin("using Unicode", proj_src_content)   
 @test occursin(r"module\s+LocalTestProj616523", proj_src_content)
+@test isfile(docs_src_file)
+@test occursin(r"#\s+LocalTestProj616523", docs_src_content)
+@test isfile(ci_file)
 
 end #testset
