@@ -17,7 +17,7 @@ jobs:
       actions: write
       contents: read
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         version:
           - '1' # automatically expands to the latest stable 1.x release of Julia
@@ -27,6 +27,8 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v4
+      - run: git config --global user.name "Eben007"
+      - run: git config --global user.email "eben007@nomail.org"
       - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}

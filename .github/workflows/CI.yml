@@ -32,11 +32,13 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v4
+      - run: git config --global user.name "Eben007"
+      - run: git config --global user.email "eben007@nomail.org"
       - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v2
-      # - run: git config --global user.name "eben60"
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
+

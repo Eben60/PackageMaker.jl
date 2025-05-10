@@ -158,6 +158,13 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.3.1
+
+_2025-05-10_ 
+
+- Minor fix.
+- Added more tests.
+
 ### Release 1.3.0
 
 _2025-05-06_ 
