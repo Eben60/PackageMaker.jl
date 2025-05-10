@@ -8,7 +8,7 @@ html_test_file = joinpath(temp_dir, "test.html")
 # html_test_file = joinpath(@__DIR__, "test2compare.html")
 isfile(html_test_file) && rm(html_test_file)
 this_file_dir = dirname(@__FILE__)
-html_standard_file = joinpath(this_file_dir, "mainwin_v1_3_0.html")
+html_standard_file = joinpath(this_file_dir, "mainwin_v1_3_1.html")
 make_html(html_test_file)
 
 @testset "HTML generation" begin

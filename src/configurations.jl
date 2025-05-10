@@ -1,7 +1,7 @@
 function handle_saveconfig(win, vals)
     save_config(vals)
     showhidepgin(win, "Save_Configuration", false)
-    check_saveconfig_done(win, false)
+    check_manageconfig_done(win, false)
 end
 
 function handle_deleteconfig(win, intermvals)
@@ -9,6 +9,7 @@ function handle_deleteconfig(win, intermvals)
     delete_config(config_name)
     @info "Configuration $(config_name) deleted from preferences."
     showhidepgin(win, "Save_Configuration", false)
+    check_manageconfig_done(win, false)
 end
 
 function save_config(fv)

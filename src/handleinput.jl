@@ -6,7 +6,7 @@ function handleinput(win, el::HtmlElem, prevvals)
     "FileDialogButton" in el.elclass && return set_file_from_dialog(win, el, prevvals; selectdir=false)
     el.id == :GeneralOptions_proj_name && return check_projname(win, el.value)
     el.id == :GeneralOptions_project_dir && return check_projdir(win, el.value)
-    el.id == :Use_Save_Configuration && return check_saveconfig_done(win, el.checked)
+    el.id == :Use_Save_Configuration && return check_manageconfig_done(win, el.checked)
     el.id == :GeneralOptions_makerepo && return enable_repo_options(win, el.checked)
     el.id == :Tests_aqua && return enable_html_elem(win, "Tests_aqua_kwargs", el.checked) 
     return nothing
@@ -78,7 +78,7 @@ function check_projdir(win, projdir)
     return nothing
 end
 
-function check_saveconfig_done(win, checked)
+function check_manageconfig_done(win, checked)
     ok = ! checked
     set_checkfield(win, "checkfield_SaveConfig", ok)
     val_form.SaveConfig = ok
