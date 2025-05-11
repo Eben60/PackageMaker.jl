@@ -1,5 +1,3 @@
-# module Processvals1
-
 using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
     check_packages, type2str, parse_v_string, tidystring, initialize, multiline2csv
 
@@ -111,18 +109,3 @@ P6""";
     @test split_pkg_list(s5) == ["P1", "P2", "P3", "P4", "P4a", "P4b", "P5", "P6",] 
 
 end # testset
-
-# using PackageMaker: PluginArg
-# @testset "PluginArg" begin
-#     @test PluginArg(("project", false, "Whether or not?")) |> nondefault
-#     @test PluginArg((Vector{String}, "ignore",  String[], "Patterns to add ")) |> x -> !nondefault(x)
-#     @test !nondefault(PluginArg(("name", "nothing ", "Your real name"))) 
-#     @test PluginArg(("aim", " ", "Your real aim.")) |> x -> !nondefault(x)
-#     @test PluginArg(("claim", "claim", "Your real claim.")) |> nondefault
-
-#     # @test ! kwval(PluginArg(("project", false, "Whether or not?")))
-#     # @test kwval(PluginArg(("name", "nothing ", "Your real name"))) |> isnothing
-#     # @test kwval(PluginArg(("claim", "game", "Your real claim."))) == "game"
-# end # testset
-
-# end # module

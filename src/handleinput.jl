@@ -47,7 +47,7 @@ function set_file_from_dialog(win, el, prevvals; selectdir)
     (; newvals, initvals) = prevvals
     inp_id = get_file_inp_id(el)
 
-    path = get_def_path(inp_id, prevvals)
+    path = get_default_path(inp_id, prevvals)
 
     fl = selectdir ? pick_folder(path) : pick_file(path)
     (isnothing(fl) || isempty(fl)) && return nothing
@@ -170,21 +170,26 @@ function current_val(inp_id, prevvals)
     return vals[inp_id]
 end
 
-get_def_path(inp_id, prevvals) = current_val(inp_id, prevvals).value |> get_base_path
+get_default_path(inp_id, prevvals) = current_val(inp_id, prevvals).value |> get_base_path
 
+"Checks if file or dir exists. Returns the dir, or dir of file, or empty string otherwise."
 function get_base_path(p)
     p = p |> strip
     (isempty(p) || p == "nothing") && return ""
 
-    path = ""
     if isfile(p)
         path = dirname(p)
     elseif isdir(p)
         path = p
     else
         p = dirname(p)
-        isdir(p) && (path = p)
+        isdir(p) || return ""
+        path = p
     end
+
+    path = path |> normpath |> posixpathstring
+    length(path) > 1 && ! endswith(path, "/") && return path * "/"
+
     return path
 end
 

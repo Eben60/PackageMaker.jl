@@ -6,8 +6,6 @@ using NativeFileDialog, Dates, FilePathsBase
 posixpathstring(inp) = inp |> Path |> _posixpath |> string
 _posixpath(path::WindowsPath) = PosixPath((path.drive, path.segments...))
 _posixpath(path) = path
-posixpathstring
-
 
 "Returns OS version on Mac, or v0 if other OS"
 function macos_version()

@@ -1,9 +1,11 @@
 using SafeTestsets
 
 @safetestset "Aqua" include("src/test_aqua.jl")
+
+@safetestset "Various tests" include("src/test_various.jl")
 @safetestset "Dropdown menus" include("src/test_dropdown_menus.jl")
-# Sys.isunix() &&
-    @safetestset "HTML generation" include("src/test_html.jl")
+
+@safetestset "HTML generation" include("src/test_html.jl")
 
 @safetestset "Process values 1" include("src/test_processvals1.jl")
 @safetestset "Process values 2" include("src/test_processvals2.jl")
