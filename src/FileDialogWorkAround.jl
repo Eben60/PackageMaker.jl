@@ -3,7 +3,10 @@ module FileDialogWorkAround
 using NativeFileDialog, Dates, FilePathsBase
 
 # https://discourse.julialang.org/t/better-handling-of-pathnames/36792/33
-posixpathstring(inp) = inp |> Path |> _posixpath |> string
+function posixpathstring(inp)
+    inp |> string |> isempty && return ""
+    return inp |> Path |> _posixpath |> string
+end
 _posixpath(path::WindowsPath) = PosixPath((path.drive, path.segments...))
 _posixpath(path) = path
 
