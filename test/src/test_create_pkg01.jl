@@ -1,5 +1,5 @@
 using PackageMaker
-using PackageMaker: create_proj, get_pgins_vals!, general_options, def_plugins, initialize
+using PackageMaker: create_proj, get_pgins_vals!, general_options, def_plugins, initialize, get_base_path
 
 using Test, TOML
 
@@ -23,10 +23,12 @@ proj_toml = joinpath(proj_dir, "Project.toml")
 proj_mnf = joinpath(proj_dir, "Manifest.toml")
 mn_version = "$(VERSION.major).$(VERSION.minor)"
 proj_mnf_v = joinpath(proj_dir, "Manifest-v$(mn_version).toml")
-
-ci_file = joinpath(proj_dir, ".github", "workflows", "CI.yml")
-
 docs_src_file = joinpath(proj_dir, "docs", "src", "index.md")
+
+ci_dir = joinpath(proj_dir, ".github", "workflows") |> normpath
+ci_dir_slashed = ci_dir * "/"
+ci_file = joinpath(ci_dir, "CI.yml") |> normpath
+ci_not_a_file = joinpath(proj_dir,"not-a-dir","NotAfile-alsliue.tyt") |> normpath
 
 proj_toml_dict = try
     TOML.parsefile(proj_toml)
@@ -79,4 +81,13 @@ Docs under https://Eben007.github.io/LocalTestProj616523.jl
 @test occursin(r"#\s+LocalTestProj616523", docs_src_content)
 @test isfile(ci_file)
 
+
+
 end #testset
+
+@testset "get base path" begin
+
+@test get_base_path(ci_dir_slashed) == get_base_path(ci_dir) == get_base_path(ci_file)
+@test get_base_path(ci_not_a_file) == get_base_path("") == get_base_path("nothing") == ""
+
+end # testset

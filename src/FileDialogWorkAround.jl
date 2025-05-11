@@ -3,11 +3,17 @@ module FileDialogWorkAround
 using NativeFileDialog, Dates, FilePathsBase
 
 # https://discourse.julialang.org/t/better-handling-of-pathnames/36792/33
-posixpathstring(inp) = inp |> Path |> _posixpath |> string
+function posixpathstring(inp)
+    inp |> string |> isempty && return ""
+    return inp |> Path |> _posixpath |> string
+end
 _posixpath(path::WindowsPath) = PosixPath((path.drive, path.segments...))
 _posixpath(path) = path
-posixpathstring
 
+function os_spec_path(path)
+    Sys.iswindows() && return path |> WindowsPath |> string
+    return posixpathstring(path)
+end
 
 "Returns OS version on Mac, or v0 if other OS"
 function macos_version()
@@ -23,19 +29,22 @@ end
 
 const BUGGY_MACOS = macos_version() >= v"15"
 
-function pick_file(path=""; filterlist="") 
+function pick_file(path=""; filterlist="")
+    path = path |> os_spec_path
     BUGGY_MACOS || return NativeFileDialog.pick_file(path; filterlist) |> posixpathstring
     return pick_workaround(path, :pickfile; filterlist) |> posixpathstring
 end
 export pick_file
 
-function pick_multi_file(path=""; filterlist="") 
+function pick_multi_file(path=""; filterlist="")
+    path = path |> os_spec_path
     BUGGY_MACOS || return NativeFileDialog.pick_multi_file(path; filterlist) |> posixpathstring
     return pick_workaround(path, :multifile; filterlist) |> posixpathstring
 end
 export pick_multi_file
 
-function pick_folder(path="") 
+function pick_folder(path="")
+    path = path |> os_spec_path
     BUGGY_MACOS || return NativeFileDialog.pick_folder(path) |> posixpathstring
     return pick_workaround(path, :pickfolder) |> posixpathstring
 end
