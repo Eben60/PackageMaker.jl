@@ -12,7 +12,7 @@ $(isnothing(get(ENV, "CI", nothing)) ? ("\n" * "Package local path: " * pathof(P
 """
 module PackageMaker
 
-using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, Desktop, Pkg
+using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, DefaultApplication, Pkg
 using Preferences, JSON3
 using REPL.TerminalMenus, Dates, ShareAdd, PkgVersion
 using DataStructures

@@ -193,18 +193,4 @@ function get_base_path(p)
     return path
 end
 
-function openurl(url)
-    if hasdesktop()
-        browse_url(url)
-    else
-        @info("No desktop environment available.")
-    end
-    return nothing
-end
-
-# function pgin_and_field(inp_id)
-#     re = r"(.+)_(.+)"
-#     m = match(re, string(inp_id))
-#     isnothing(m) && return (; pgin=nothing, field=nothing)
-#     return (; pgin=m[1], field=m[2])
-# end
+openurl(url) = (DefaultApplication.open(url); return nothing)
