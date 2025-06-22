@@ -158,6 +158,12 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.3.2
+
+_2025-06-22_ 
+
+- Changed from `Desktop.jl` to `DefaultApplication.jl` for opening external web sites.
+
 ### Release 1.3.1
 
 _2025-05-11_ 
