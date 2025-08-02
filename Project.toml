@@ -25,7 +25,7 @@ UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [compat]
 Blink = "0.12.9"
-DataStructures = "0.18.20"
+DataStructures = "0.18.20, 0.19"
 Dates = "<0.0.1, 1"
 DefaultApplication = "1.1.0"
 FilePathsBase = "0.9.22"
