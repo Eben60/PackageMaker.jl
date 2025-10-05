@@ -2,8 +2,8 @@ using PrecompileTools: @compile_workload
 
 @compile_workload begin
 
-    key = UPDATE_CHECK_PREF_KEY
-    global debug_update_checking = @has_preference(key) && get(@load_preference(key), "debug", false)
+    k = UPDATE_CHECK_PREF_KEY
+    global debug_update_checking = has_preference(@__MODULE__, k) && get(load_preference(@__MODULE__, k), "debug", false)
     try
         pester_user_about_updates(; precompile=true)
     catch e

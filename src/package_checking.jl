@@ -71,9 +71,9 @@ function default_checking_settings()
 filter_prefs!(prefs) = filter!(x->x[1] in keys(default_checking_settings()), prefs)
 
 function getprefs()
-    key = UPDATE_CHECK_PREF_KEY
-    if @has_preference(key)
-        prefs = merge(default_checking_settings(), @load_preference(key))
+    k = UPDATE_CHECK_PREF_KEY
+    if has_preference(@__MODULE__, k)
+        prefs = merge(default_checking_settings(), load_preference(@__MODULE__,k))
     else
         prefs = default_checking_settings()
     end
@@ -81,7 +81,7 @@ function getprefs()
 end
 
 function pester_user_about_updates(pkg=@__MODULE__; reason=false, precompile=false)
-    key = UPDATE_CHECK_PREF_KEY
+    k = UPDATE_CHECK_PREF_KEY
     prefs = getprefs()
 
     if ! prefs["enabled"]
@@ -104,7 +104,7 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false, precompile=fal
 
     (;not_latest, current_v, latest_v) = upgradable(pkg)
     if prefs["skip"] && latest_v == prev_version 
-        precompile || @set_preferences!(key => prefs)
+        precompile || set_preferences!(@__MODULE__, k => prefs; force=true)
         # reason && println("Setting last_visit to today and skipping this version")
         return nothing
     end
@@ -116,7 +116,7 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false, precompile=fal
         update_pkg = update_env = false
     end
 
-    precompile || @set_preferences!(key => prefs)
+    precompile || set_preferences!(@__MODULE__, k => prefs; force=true)
     precompile || perform_update(pkg, update_pkg, update_env)
 end
 
@@ -206,7 +206,7 @@ julia> PackageMaker.updatecheck_settings(; next_check=365*100) # Let's see then
 This function is public, not exported. Therefore call it as `PackageMaker.updatecheck_settings(;kwargs...)`
 """
 function updatecheck_settings(; kwargs...)
-    key = UPDATE_CHECK_PREF_KEY
+    k = UPDATE_CHECK_PREF_KEY
     prefs = getprefs()
     filter_prefs!(prefs)
     prefs["last_check"] = today() |> string
@@ -217,7 +217,7 @@ function updatecheck_settings(; kwargs...)
         conv == String && (conv = string) # more flexible conversion
         prefs[k] = conv(v)
     end
-    @set_preferences!(key => prefs)
+    set_preferences!(@__MODULE__, k => prefs; force=true)
     println("Update checking preferences successfully changed to:")
     println(prefs)
     return nothing

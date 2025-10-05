@@ -62,11 +62,12 @@ VERSION >= v"1.11.0" && eval(Meta.parse("public updatecheck_settings"))
 include("precompile.jl")
 
 function __init__()
+
     if get(ENV, "CI", nothing) != "true"
         try
-            key = UPDATE_CHECK_PREF_KEY
-            global debug_update_checking = @has_preference(key) &&
-                get(@load_preference(key), "debug", false)
+            k = UPDATE_CHECK_PREF_KEY
+            global debug_update_checking = has_preference(@__MODULE__, k) &&
+                get(load_preference(@__MODULE__, k), "debug", false)
 
             pester_user_about_updates()
         catch e
