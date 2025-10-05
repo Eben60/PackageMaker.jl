@@ -1,14 +1,14 @@
 function finalize_prj(gen_options)
-    (; ispk, proj_name, templ_kwargs, versioned_man, jl_suffix, makerepo, repopublic) = gen_options
+    (; ispk, proj_name, templ_kwargs, versioned_man, jl_suffix, makerepo, repopublic, remote_suffix_jl) = gen_options
     (;dir, ) = templ_kwargs
     proj_dir = joinpath(dir, proj_name) |> normpath
     versioned_man && make_vers_mnfs(proj_dir)
     ispk && finalize_pkg(gen_options)
     if jl_suffix 
         proj_dir = add_jl_suffix(proj_dir)
-        proj_name *= ".jl"
     end
-    makerepo && create_gh_repo(proj_name, repopublic)
+    remote_proj_name = remote_suffix_jl ? proj_name * ".jl" : proj_name
+    makerepo && create_gh_repo(remote_proj_name, repopublic)
 end
 
 function finalize_pkg(gen_options)

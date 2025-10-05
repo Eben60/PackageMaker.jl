@@ -8,7 +8,7 @@ fv = TestData_CreatePackage.fv;
 initialize()
 get_pgins_vals!(fv; plugins=def_plugins)
 
-gen_options = general_options(fv; plugins=def_plugins)
+gen_options = general_options(; plugins=def_plugins)
 dir = gen_options.templ_kwargs.dir
 proj_name = gen_options.proj_name
 proj_dir = joinpath(dir, proj_name) |> normpath

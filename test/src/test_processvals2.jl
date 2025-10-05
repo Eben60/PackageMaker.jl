@@ -49,7 +49,7 @@ ipg = initialized_ptpgins(fv) .|> typeof
     SrcDir,
     Tests,])
 
-go = general_options(fv)
+go = general_options()
 @test go == (ispk = true,
     proj_name = "TestPackage01",
     jl_suffix = false,
@@ -61,6 +61,7 @@ go = general_options(fv)
     versioned_man = true,
     makerepo = true,
     repopublic = false,
+    remote_suffix_jl = true,
     ) 
 
 @test go.ispk

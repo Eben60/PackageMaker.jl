@@ -98,8 +98,8 @@ function check_packages(x)
     return (;known_pkgs = v, unknown_pkgs)
 end
 
-function general_options(fv; plugins=def_plugins)
-    gargs = def_plugins["GeneralOptions"].args
+function general_options(; plugins=def_plugins)
+    gargs = plugins["GeneralOptions"].args
 
     (;known_pkgs, unknown_pkgs) = check_packages(gargs["proj_pkg"].returned_rawval)
     proj_name = gargs["proj_name"].returned_val
@@ -115,6 +115,7 @@ function general_options(fv; plugins=def_plugins)
     jl_suffix = gargs["jl_suffix"].returned_val
     makerepo = gargs["makerepo"].returned_val
     repopublic = gargs["repopublic"].returned_val
+    remote_suffix_jl = plugins["Git"].args["jl"].returned_val
 
     return (;
         ispk,
@@ -128,6 +129,7 @@ function general_options(fv; plugins=def_plugins)
         versioned_man,
         makerepo,
         repopublic,
+        remote_suffix_jl
         )
 end
 
@@ -135,7 +137,7 @@ function create_proj(fv; plugins=def_plugins)
     global may_exit_julia
     get_pgins_vals!(fv; plugins)
     pgins=initialized_ptpgins(fv)
-    gen_options = general_options(fv; plugins)
+    gen_options = general_options(; plugins)
     (;ispk, proj_name, templ_kwargs, dependencies, unknown_pkgs) = gen_options
     (;dir, ) = templ_kwargs
     t = Template(; plugins=pgins, templ_kwargs...)
