@@ -113,7 +113,7 @@ function general_options(; plugins=def_plugins)
     add_imports = gargs["add_imports"].returned_val
     versioned_man = gargs["versioned_man"].returned_val
     jl_suffix = gargs["jl_suffix"].returned_val
-    makerepo = gargs["makerepo"].returned_val
+    makerepo = gargs["makerepo"].returned_val && plugins["Git"].checked
     repopublic = gargs["repopublic"].returned_val
     remote_suffix_jl = plugins["Git"].args["jl"].returned_val
 

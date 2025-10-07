@@ -158,11 +158,23 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
-### Release 1.3.2
+### Release 1.3.5
+
+_2025-10-06_ 
+
+- Minor fix.
+
+### Release 1.3.4
 
 _2025-10-06_ 
 
 - Minor fixes.
+
+### Release 1.3.3
+
+_2025-08-02_ 
+
+- Dependency compat bump.
 
 ### Release 1.3.2
 
