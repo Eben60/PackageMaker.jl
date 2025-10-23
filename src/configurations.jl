@@ -1,3 +1,24 @@
+function current_package_info()
+    try
+        (;uuid, name) = Pkg.project()
+        isnothing(uuid) || isnothing(name) || return (uuid, name)
+    catch
+    end
+
+    m = @__MODULE__
+    try
+        name = m |> Symbol |> string
+        pkg_dir = pkgdir(m)
+        project_file = joinpath(pkg_dir, "Project.toml")
+        project_data = TOML.parsefile(project_file)
+        uuid_str = project_data["uuid"]
+        return (UUID(uuid_str), name)
+    catch e
+        @warn "Could not determine package UUID for module $m: $e"
+        return m
+    end
+end
+
 function handle_saveconfig(win, vals)
     save_config(vals)
     showhidepgin(win, "Save_Configuration", false)

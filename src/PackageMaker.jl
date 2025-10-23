@@ -12,7 +12,7 @@ $(isnothing(get(ENV, "CI", nothing)) ? ("\n" * "Package local path: " * pathof(P
 """
 module PackageMaker
 
-using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, DefaultApplication, Pkg
+using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, DefaultApplication, Pkg, UUIDs
 using Preferences, JSON3
 using REPL.TerminalMenus, Dates, ShareAdd, PkgVersion
 using DataStructures
@@ -31,16 +31,13 @@ const VAL_RETURNED = Channel(1)
 const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 const SAVEDCONFIGS_KEY = "SavedConfigurations"
 
-
-THIS_PROJ = let
-    (;uuid, name) = Pkg.project()
-    (uuid, name)
-end
-
 include("defaults.jl")
 include("typedefs.jl")
 include("git.jl")
 include("configurations.jl")
+
+THIS_PROJ = current_package_info()
+
 include("conversions.jl")
 include("Plugins-and-default-arguments.jl")
 
