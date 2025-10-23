@@ -104,7 +104,7 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false, precompile=fal
 
     (;not_latest, current_v, latest_v) = upgradable(pkg)
     if prefs["skip"] && latest_v == prev_version 
-        precompile || set_preferences!(@__MODULE__, k => prefs; force=true)
+        precompile || set_preferences!(THIS_PROJ, k => prefs; force=true)
         # reason && println("Setting last_visit to today and skipping this version")
         return nothing
     end
@@ -115,8 +115,8 @@ function pester_user_about_updates(pkg=@__MODULE__; reason=false, precompile=fal
     else 
         update_pkg = update_env = false
     end
-
-    precompile || set_preferences!(@__MODULE__, k => prefs; force=true)
+ 
+    precompile || set_preferences!(THIS_PROJ, k => prefs; force=true)
     precompile || perform_update(pkg, update_pkg, update_env)
 end
 
@@ -217,7 +217,7 @@ function updatecheck_settings(; kwargs...)
         conv == String && (conv = string) # more flexible conversion
         prefs[k] = conv(v)
     end
-    set_preferences!(@__MODULE__, k => prefs; force=true)
+    set_preferences!(THIS_PROJ, k => prefs; force=true)
     println("Update checking preferences successfully changed to:")
     println(prefs)
     return nothing

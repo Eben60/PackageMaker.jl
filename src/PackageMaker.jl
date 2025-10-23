@@ -31,6 +31,12 @@ const VAL_RETURNED = Channel(1)
 const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
 const SAVEDCONFIGS_KEY = "SavedConfigurations"
 
+
+THIS_PROJ = let
+    (;uuid, name) = Pkg.project()
+    (uuid, name)
+end
+
 include("defaults.jl")
 include("typedefs.jl")
 include("git.jl")
