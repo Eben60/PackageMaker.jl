@@ -12,21 +12,20 @@ function finalize_prj(gen_options)
 end
 
 function finalize_pkg(gen_options)
+    global may_exit_julia
     (;dependencies, docstring, add_imports, ) = gen_options
     add_imports &= !isempty(dependencies)
     add_docstr = !isempty(docstring)
     add_docstr || add_imports || return nothing
-    (;file_content, proj_main_file) = read_src_file(gen_options)
-    if add_docstr
-        new_content = add_docstring(file_content, gen_options)
-        if !isnothing(new_content)
-            file_content = new_content
-            add_imports && (file_content = add_usinglines(file_content, gen_options))
-            write_contents(proj_main_file, file_content)
-            return true
-        end
+    (;file_contents, proj_main_file) = read_src_file(gen_options)
+
+    add_docstr && (file_contents = add_docstring(file_contents, gen_options))
+    add_imports && (file_contents = add_usinglines(file_contents, gen_options))
+
+    if add_docstr || add_imports
+        write_contents(proj_main_file, file_contents)
+        return true
     end
-    global may_exit_julia = false
     return false
 end
 
@@ -61,51 +60,56 @@ function read_src_file(gen_options)
     proj_main_file = joinpath(dir, proj_name, "src", proj_name * ".jl")
     isfile(proj_main_file) || error("file $proj_main_file not found")
 
-    file_content = readlines(proj_main_file)
-    return (;file_content, proj_main_file)
+    file_contents = readlines(proj_main_file)
+    return (;file_contents, proj_main_file)
 end
 
-function write_contents(fl, file_content)
+function write_contents(fl, file_contents)
     open(fl, "w") do f
-        for l in file_content
+        for l in file_contents
             println(f, l)
         end
     end
 end
 
-function add_usinglines(file_content, gen_options)
+function add_usinglines(file_contents, gen_options)
     (;dependencies, proj_name, ) = gen_options
+
+    isempty(dependencies) && return file_contents
+
     usinglines = "using " .* dependencies
     pushfirst!(usinglines, "")
-    insertion_point = module_firstline(file_content, proj_name) + 1
-    new_content = insert(file_content, insertion_point, usinglines)
-    return new_content
+    insertion_point = module_firstline(file_contents, proj_name) + 1
+    new_contents = insert(file_contents, insertion_point, usinglines)
+    return new_contents
 end
 
 insert(a1, i, a2) = [a1[begin:i-1]; a2; a1[i:end]]
 # (a0=copy(a1); splice!(a0, i:i-1, a2); a0) # is not better
 
-function add_docstring(file_content, gen_options)
+function add_docstring(file_contents, gen_options)
     (;proj_name, docstring) = gen_options
     if isempty(docstring)
+        global may_exit_julia = false
         @warn "The package docstring is empty."
-        return nothing
+        return file_contents
     end
 
     docslink = get_docslink(gen_options)
     full_docstring = make_docstring(proj_name, docstring, docslink)
-    insertion_point = module_firstline(file_content, proj_name)
+    insertion_point = module_firstline(file_contents, proj_name)
 
     isnothing(insertion_point) && return nothing
 
-    new_content = insert(file_content, insertion_point, full_docstring)
-    return new_content
+    new_contents = insert(file_contents, insertion_point, full_docstring)
+    return new_contents
 end
 
-function module_firstline(file_content, proj_name)
+function module_firstline(file_contents, proj_name)
     pattern = "module $proj_name"
-    fl = findfirst(x -> startswith(x, pattern), file_content)
+    fl = findfirst(x -> startswith(x, pattern), file_contents)
     if isnothing(fl)
+        global may_exit_julia = false
         @warn "Pattern \"$pattern\" not found in the source file. Cannot add package docstring."
         return nothing
     end
@@ -126,14 +130,14 @@ function get_docslink(gen_options)
 end
 
 function extract_docslink(docsfile)
-    file_content = read(docsfile, String)
-    file_content = replace(file_content, "\r\n" => "\n")
+    file_contents = read(docsfile, String)
+    file_contents = replace(file_contents, "\r\n" => "\n")
     re_canon = r"\n\s*canonical=\"(.+)\",\s*\n"
-    canonical = match(re_canon , file_content)
+    canonical = match(re_canon , file_contents)
     isnothing(canonical) || return canonical[1]
 
     re_repo = r"\n\s*repo=\"(.+)\",\s*\n"
-    repo = match(re_repo , file_content)
+    repo = match(re_repo , file_contents)
     isnothing(repo) && return nothing
     return "https://$(repo[1])"
 end
@@ -166,8 +170,7 @@ $(footer)
 return docstringlines
 end
 
-function create_gh_repo(proj_name, public::Bool)
-    global may_exit_julia
+function create_gh_repo(proj_name, public::Bool)  
     stderr_buffer = IOBuffer()
     visibility = public ? "public" : "private"
     cmd = Cmd(`gh repo create $proj_name --$visibility`)
@@ -176,7 +179,7 @@ function create_gh_repo(proj_name, public::Bool)
     wait(rslt)
     rslt.exitcode == 0 && return nothing # everything OK, nothing to speak about
 
-    may_exit_julia = false # do not exit so as to be able to show warning
+    global may_exit_julia = false # do not exit so as to be able to show warning
     seek(stderr_buffer, 0)
     errinfo = readchomp(stderr_buffer)
 

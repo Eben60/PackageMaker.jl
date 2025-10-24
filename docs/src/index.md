@@ -158,6 +158,13 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.3.8
+
+_2025-10-24_ 
+
+- Hopefully pinned down the evasive bug related to writing preferences.
+- `using Foo` line was not added to the module contents, if adding package docstrings was unselected - fixed now.
+
 ### Release 1.3.5
 
 _2025-10-07_ 
