@@ -55,7 +55,7 @@ function delete_config(configname)
         return nothing
     end
     delete!(savedconfigs, configname)
-    @set_preferences!(SAVEDCONFIGS_KEY => savedconfigs)
+    set_preferences!(THIS_PKG, SAVEDCONFIGS_KEY => savedconfigs; force=true)
 end
 
 function write_config(configname, config::AbstractDict)
@@ -65,7 +65,7 @@ function write_config(configname, config::AbstractDict)
     else
         configdict = Dict(configname => odod2odjson(config))
     end
-    @set_preferences!(SAVEDCONFIGS_KEY => configdict)
+    set_preferences!(THIS_PKG, SAVEDCONFIGS_KEY => configdict; force=true)
 end
 
 function odod2odjson(od)
