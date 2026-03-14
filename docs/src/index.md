@@ -158,6 +158,13 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.4.0
+
+_2026-03-14_ 
+
+- Removed the deprecated CompatHelper plugin, according to [changes in PkgTemplates v0.7.60](https://github.com/JuliaCI/PkgTemplates.jl/releases/tag/v0.7.60).
+- Added GitHub Dependabot support for Julia dependencies.
+
 ### Release 1.3.8
 
 _2025-10-24_ 
