@@ -1,6 +1,5 @@
 "Default plugins for a package to be registered"
 const pgins_registered = DefaultDict(false, Dict{String, Bool}([
-    "CompatHelper" => 1,
     "Dependabot" => 1,
     "Git" => 1,
     "GitHubActions" => 1,
@@ -16,7 +15,6 @@ const pgins_registered = DefaultDict(false, Dict{String, Bool}([
 
 "Default plugins for non-registered package"
 const pgins_package = DefaultDict(false, Dict{String, Bool}([
-    "CompatHelper" => 0,
     "Dependabot" => 0,
     "Git" => 1,
     "GitHubActions" => 0,
@@ -32,7 +30,6 @@ const pgins_package = DefaultDict(false, Dict{String, Bool}([
 
 "Default plugins for project"
 const pgins_project = DefaultDict(false, Dict{String, Bool}([
-    "CompatHelper" => 0,
     "Dependabot" => 0,
     "Git" => 1,
     "GitHubActions" => 0,

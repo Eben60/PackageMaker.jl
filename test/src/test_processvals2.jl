@@ -39,7 +39,6 @@ ipg = initialized_ptpgins(fv) .|> typeof
     License,
     Readme,
     ProjectFile,
-    Disabled{CompatHelper}, 
     Git, 
     Disabled{Dependabot},
     Disabled{TagBot},

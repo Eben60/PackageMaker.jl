@@ -100,11 +100,7 @@ function plugins_od()
             ("coverage", false, """Publish code coverage. If activating this option, activate also Codecov plugin. <br><span class="comment">If using coverage plugins, don't forget to manually add your API tokens as secrets, as described in PkgTemplate manual.</span>"""), 
             (Vector{String}, "extra_versions",  [julia_lts_str, "pre"], "Extra Julia versions to test, as strings."), 
             ], "https://github.com/features/actions"),
-        ("CompatHelper", "Integrates your packages with <a>CompatHelper</a> via GitHub Actions", [
-            (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file"), 
-            ("destination", "CompatHelper.yml", "Destination of the workflow file, relative to .github/workflows"), 
-            ("cron", "0 0 * * *", "Cron expression for the schedule interval"), 
-            ], "https://juliaregistries.github.io/CompatHelper.jl"),
+
         ("TagBot", "Adds GitHub release support via <a>TagBot</a>", [
             (:file, "file", "<DEFAULT_FILE>", "Template file for the workflow file."), 
             ("destination", "TagBot.yml", "Destination of the workflow file, relative to .github/workflows"), 
@@ -121,7 +117,7 @@ function plugins_od()
             ("dispatch", false, "Enable the dispatch option"), 
             (Int64, "dispatch_delay", nothing, "Number of minutes to delay for dispatch events"), 
             ], "https://github.com/marketplace/actions/julia-tagbot"),
-        ("Dependabot", "Setups <a>Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies", [
+        ("Dependabot", "Setups <a>Dependabot</a> to create PRs whenever GitHub actions or Julia package dependencies can be updated", [
             (:file, "file", "<DEFAULT_FILE>", "Template file"), 
             ], "https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically"),
         ("Documenter", "Sets up documentation generation via <a>Documenter.jl</a>. Only subset of options currently supported", [

@@ -7,9 +7,6 @@ temp_dir = mktempdir()
 
 fv = Dict{Symbol, HtmlElem}(
     :Codecov_file => HtmlElem(:Codecov_file, :input, String[], :text, :Codecov_form, "nothing", false),
-    :CompatHelper_cron => HtmlElem(:CompatHelper_cron, :input, String[], :text, :CompatHelper_form, "0 0 * * *", false),
-    :CompatHelper_destination => HtmlElem(:CompatHelper_destination, :input, String[], :text, :CompatHelper_form, "CompatHelper.yml", false),
-    :CompatHelper_file => HtmlElem(:CompatHelper_file, :input, String[], :text, :CompatHelper_form, "<DEFAULT_FILE>", false),
     :Dependabot_file => HtmlElem(:Dependabot_file, :input, String[], :text, :Dependabot_form, "<DEFAULT_FILE>", false),
     :Documenter_deploy => HtmlElem(:Documenter_deploy, :input, String[], :checkbox, :Documenter_form, "on", true),
     :Documenter_index_md => HtmlElem(:Documenter_index_md, :input, String[], :text, :Documenter_form, "<DEFAULT_FILE>", false),
@@ -107,7 +104,6 @@ fv = Dict{Symbol, HtmlElem}(
     :Tests_jet => HtmlElem(:Tests_jet, :input, String[], :checkbox, :Tests_form, "on", false),
     :Tests_project => HtmlElem(:Tests_project, :input, String[], :checkbox, :Tests_form, "on", true),
     :Use_Codecov => HtmlElem(:Use_Codecov, :input, ["TogglePlugin"], :checkbox, :Codecov_form, "Use_Codecov", false),
-    :Use_CompatHelper => HtmlElem(:Use_CompatHelper, :input, ["TogglePlugin"], :checkbox, :CompatHelper_form, "Use_CompatHelper", false),
     :Use_Dependabot => HtmlElem(:Use_Dependabot, :input, ["TogglePlugin"], :checkbox, :Dependabot_form, "Use_Dependabot", false),
     :Use_Documenter => HtmlElem(:Use_Documenter, :input, ["TogglePlugin"], :checkbox, :Documenter_form, "Use_Documenter", true),
     :Use_GeneralOptions => HtmlElem(:Use_GeneralOptions, :input, ["TogglePlugin"], :checkbox, :GeneralOptions_form, "Use_GeneralOptions", true),

@@ -150,28 +150,25 @@ div.hidden {
     <label for="SavedConfigTag_1">1.10.9</label><br>
 
     <input id="SavedConfigTag_2" name="Choice" value="SavedConfigTag_2" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_2">1.10.9a</label><br>
+    <label for="SavedConfigTag_2">1.10.9b</label><br>
 
     <input id="SavedConfigTag_3" name="Choice" value="SavedConfigTag_3" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_3">1.10.9b</label><br>
+    <label for="SavedConfigTag_3">1.11.4</label><br>
 
     <input id="SavedConfigTag_4" name="Choice" value="SavedConfigTag_4" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_4">1.10.9c</label><br>
+    <label for="SavedConfigTag_4">LocalOne</label><br>
 
     <input id="SavedConfigTag_5" name="Choice" value="SavedConfigTag_5" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_5">1.11.4</label><br>
+    <label for="SavedConfigTag_5">TestPackage01</label><br>
 
     <input id="SavedConfigTag_6" name="Choice" value="SavedConfigTag_6" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_6">TestPackage01</label><br>
+    <label for="SavedConfigTag_6">is a project</label><br>
 
     <input id="SavedConfigTag_7" name="Choice" value="SavedConfigTag_7" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_7">is a project</label><br>
+    <label for="SavedConfigTag_7">is pkg ProjFile only</label><br>
 
     <input id="SavedConfigTag_8" name="Choice" value="SavedConfigTag_8" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_8">is pkg ProjFile only</label><br>
-
-    <input id="SavedConfigTag_9" name="Choice" value="SavedConfigTag_9" onchange="oncng(this)" type="radio">
-    <label for="SavedConfigTag_9">piracy</label><br>
+    <label for="SavedConfigTag_8">piracy</label><br>
 
     </fieldset>
 </form>
@@ -514,32 +511,6 @@ pre</textarea> <br>
 </form>
 </div>
 
-<div class="plugin_form_div" id="plugin_form_div_CompatHelper">
-<form class="plugin_form" name="CompatHelper_form" id="CompatHelper_form" action="javascript:void(0)">
-    <input id="Use_CompatHelper" value="Use_CompatHelper"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
-    <label for="Use_CompatHelper">CompatHelper plugin </label>
-    <div class="Plugin_Purpose">Integrates your packages with <a href="javascript:sendurl('https://juliaregistries.github.io/CompatHelper.jl')" >CompatHelper</a> via GitHub Actions.</div>
-    <div class="Plugin_Inputs" id="CompatHelper_inputs" style="display:none" >
-    <div class="pgin_inp_margins pgin_inp_col2 ">
-    <input size="65" id="CompatHelper_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
-<button id="CompatHelper_file_button" onclick="oncng(this)" type="button" class="FileDialogButton" >Select</button><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_file">Template file for the workflow file</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col1 ">
-    <input size="70" id="CompatHelper_destination" name="destination" value="CompatHelper.yml" onchange="oncng(this)" type="text" ><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_destination">Destination of the workflow file, relative to .github/workflows</span><br>
-    </div>
-     <div class="pgin_inp_margins pgin_inp_col2 ">
-    <input size="70" id="CompatHelper_cron" name="cron" value="0 0 * * *" onchange="oncng(this)" type="text" ><br>
-
-    <span class="plugin_arg_meaning" id="argmeaning_CompatHelper_cron">Cron expression for the schedule interval</span><br>
-    </div>
-</div>
-</form>
-</div>
-
 <div class="plugin_form_div" id="plugin_form_div_TagBot">
 <form class="plugin_form" name="TagBot_form" id="TagBot_form" action="javascript:void(0)">
     <input id="Use_TagBot" value="Use_TagBot"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
@@ -626,7 +597,7 @@ pre</textarea> <br>
 <form class="plugin_form" name="Dependabot_form" id="Dependabot_form" action="javascript:void(0)">
     <input id="Use_Dependabot" value="Use_Dependabot"  onchange="oncng(this)" type="checkbox" class="TogglePlugin">
     <label for="Use_Dependabot">Dependabot plugin </label>
-    <div class="Plugin_Purpose">Setups <a href="javascript:sendurl('https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically')" >Dependabot</a> to create PRs whenever GitHub actions can be updated. This is very similar to CompatHelper, which performs the same task for Julia package dependencies.</div>
+    <div class="Plugin_Purpose">Setups <a href="javascript:sendurl('https://discourse.julialang.org/t/psa-use-dependabot-to-update-github-actions-automatically')" >Dependabot</a> to create PRs whenever GitHub actions or Julia package dependencies can be updated.</div>
     <div class="Plugin_Inputs" id="Dependabot_inputs" style="display:none" >
     <div class="pgin_inp_margins pgin_inp_col2 ">
     <input size="65" id="Dependabot_file" name="file" value="&lt;DEFAULT_FILE&gt;" onchange="oncng(this)" type="text">
@@ -693,14 +664,13 @@ pre</textarea> <br>
     <span class="activate_menu" id="Save_Configuration_activate_menu" >Show saved configurations</span>  <br>
     <div class="radio-container" id="Save_Configuration_radio_container">
 <label><input type="radio" name="option" value="1.10.9" id="Save_Configuration_config_name_1" onchange="select_license(this)">1.10.9</label><br>
-<label><input type="radio" name="option" value="1.10.9a" id="Save_Configuration_config_name_2" onchange="select_license(this)">1.10.9a</label><br>
-<label><input type="radio" name="option" value="1.10.9b" id="Save_Configuration_config_name_3" onchange="select_license(this)">1.10.9b</label><br>
-<label><input type="radio" name="option" value="1.10.9c" id="Save_Configuration_config_name_4" onchange="select_license(this)">1.10.9c</label><br>
-<label><input type="radio" name="option" value="1.11.4" id="Save_Configuration_config_name_5" onchange="select_license(this)">1.11.4</label><br>
-<label><input type="radio" name="option" value="TestPackage01" id="Save_Configuration_config_name_6" onchange="select_license(this)">TestPackage01</label><br>
-<label><input type="radio" name="option" value="is a project" id="Save_Configuration_config_name_7" onchange="select_license(this)">is a project</label><br>
-<label><input type="radio" name="option" value="is pkg ProjFile only" id="Save_Configuration_config_name_8" onchange="select_license(this)">is pkg ProjFile only</label><br>
-<label><input type="radio" name="option" value="piracy" id="Save_Configuration_config_name_9" onchange="select_license(this)">piracy</label><br>
+<label><input type="radio" name="option" value="1.10.9b" id="Save_Configuration_config_name_2" onchange="select_license(this)">1.10.9b</label><br>
+<label><input type="radio" name="option" value="1.11.4" id="Save_Configuration_config_name_3" onchange="select_license(this)">1.11.4</label><br>
+<label><input type="radio" name="option" value="LocalOne" id="Save_Configuration_config_name_4" onchange="select_license(this)">LocalOne</label><br>
+<label><input type="radio" name="option" value="TestPackage01" id="Save_Configuration_config_name_5" onchange="select_license(this)">TestPackage01</label><br>
+<label><input type="radio" name="option" value="is a project" id="Save_Configuration_config_name_6" onchange="select_license(this)">is a project</label><br>
+<label><input type="radio" name="option" value="is pkg ProjFile only" id="Save_Configuration_config_name_7" onchange="select_license(this)">is pkg ProjFile only</label><br>
+<label><input type="radio" name="option" value="piracy" id="Save_Configuration_config_name_8" onchange="select_license(this)">piracy</label><br>
     </div>
   </div>
 

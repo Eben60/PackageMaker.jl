@@ -26,7 +26,7 @@ fv = TestData_CreatePackage.fv;
     ks = filter(x->!startswith(string(x), "SavedConfigTag"), ks)
     ks = filter(x->!startswith(string(x), "Save_Configuration"), ks)  
     # @show length(ks)
-    @test length(ks) == 95
+    @test length(ks) == 91
     # @show ks
 
     @test initvals[:GeneralOptions_julia_min_version].value == "1.10.0"
