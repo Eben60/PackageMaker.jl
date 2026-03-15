@@ -1,5 +1,8 @@
 name: CI
 on:
+  schedule:
+    - cron: '46 4 1-7 * 4'   # 1st Thursday of the month at 04:46 UTC
+    - cron: '46 4 15-21 * 4'  # 3rd Thursday of the month at 04:46 UTC
   push:
     branches:
       - main
