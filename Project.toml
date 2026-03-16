@@ -1,6 +1,6 @@
 name = "PackageMaker"
 uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
-version = "1.4.0"
+version = "1.4.1"
 authors = ["Eben60"]
 
 [deps]
@@ -43,3 +43,6 @@ Sockets = "<0.0.1, 1"
 TOML = "1.0.3"
 UUIDs  = "<0.0.1, 1"
 julia = "1.10"
+
+[workspace]
+projects = ["test", "docs"]
