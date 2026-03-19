@@ -14,7 +14,7 @@ module PackageMaker
 
 using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, DefaultApplication, Pkg
 using UUIDs:UUID
-using Preferences, JSON3
+using Preferences, JSON
 using REPL.TerminalMenus, Dates, ShareAdd, PkgVersion
 using DataStructures
 using ShareAdd: make_current_mnf

@@ -3,13 +3,16 @@ uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
 version = "1.4.1"
 authors = ["Eben60"]
 
+[workspace]
+projects = ["test", "docs"]
+
 [deps]
 Blink = "ad839575-38b3-5650-b840-f874b8c74a25"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 DefaultApplication = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"
 FilePathsBase = "48062228-2e41-5def-b9a4-89aafe57970f"
-JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 LibGit2 = "76f85450-5226-5b5a-8eaa-529ad045b433"
 NativeFileDialog = "e1fe445b-aa65-4df4-81c1-2041507f0fd4"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
@@ -29,7 +32,7 @@ DataStructures = "0.18, 0.19"
 Dates = "<0.0.1, 1"
 DefaultApplication = "1.1.0"
 FilePathsBase = "0.9.22"
-JSON3 = "1.14.1"
+JSON = "0.21.4, 1"
 LibGit2 = "<0.0.1, 1"
 NativeFileDialog = "0.2.1"
 Pkg = "<0.0.1, 1"
@@ -41,8 +44,5 @@ REPL = "<0.0.1, 1"
 ShareAdd = "2.3.0"
 Sockets = "<0.0.1, 1"
 TOML = "1.0.3"
-UUIDs  = "<0.0.1, 1"
+UUIDs = "<0.0.1, 1"
 julia = "1.10"
-
-[workspace]
-projects = ["test", "docs"]

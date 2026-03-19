@@ -71,7 +71,7 @@ end
 function odod2odjson(od)
     od2 = OrderedDict{String, String}()
     for (k, v) in od
-        od2[k] = v |> JSON3.write
+        od2[k] = v |> JSON.json
     end
     return od2
 end
@@ -101,7 +101,7 @@ end
 
 dsym2dstr(d::Dict{Symbol, Any}) = Dict{String, Any}(string(k) => v for (k, v) in d)
 
-json2dstr(x) = x |> JSON3.read |> Dict{Symbol, Any} |> dsym2dstr
+json2dstr(x) = x |> JSON.parse
 
 function remove_inapplicable!(od)
     not_config_saved = [
