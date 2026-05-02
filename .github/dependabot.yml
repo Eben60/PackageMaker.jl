@@ -4,6 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
   - package-ecosystem: "julia"
     directories:
       - "/"
@@ -11,3 +16,7 @@ updates:
       - "/test"
     schedule:
       interval: "weekly"
+    groups:
+      all-julia-packages:
+        patterns:
+          - "*"

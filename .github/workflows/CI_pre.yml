@@ -1,8 +1,8 @@
-name: CIcodecov
+name: CI_pre
 on:
-  push:
-    tags: ['*']
   workflow_dispatch:
+  schedule:
+    - cron: '15 9 12 * *'
 concurrency:
   # Skip intermediate builds: always.
   # Cancel intermediate builds: only if it is a pull request build.
@@ -13,16 +13,19 @@ jobs:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ github.event_name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
-    permissions: # needed to allow julia-actions/cache to proactively delete old caches that it has created
+    permissions:
       actions: write
       contents: read
     strategy:
-      fail-fast: true
+      fail-fast: false 
       matrix:
         version:
-          - '1' # automatically expands to the latest stable 1.x release of Julia
+          - 'pre'
         os:
+          - ubuntu-latest
           - windows-latest
+          - macOS-latest
+
     steps:
       - uses: actions/checkout@v6
       - run: git config --global user.name "Eben007"
@@ -31,13 +34,5 @@ jobs:
         with:
           version: ${{ matrix.version }}
       - uses: julia-actions/cache@v3
-      # - run: git config --global user.name "eben60"
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
-      - uses: julia-actions/julia-processcoverage@v1
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v6
-        with:
-          files: lcov.info
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: Eben60/PackageMaker.jl
