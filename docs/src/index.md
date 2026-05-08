@@ -158,6 +158,12 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.4.1
+
+_2026-05-08_ 
+
+- Fixed bug occurring when git user data were missing
+
 ### Release 1.4.0
 
 _2026-03-14_ 

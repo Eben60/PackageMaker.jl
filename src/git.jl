@@ -21,13 +21,12 @@ function getgitopt(opt, used_for)
     try
         LibGit2.get(AbstractString, c, opt)
     catch e
-        # if e isa LibGit2.GitError # assume it is not found
-        #     throw(GitOptionNotFound(opt, used_for))
-        # else
-        #     rethrow(e)
-        # end
-        warn_git_notconfigured(e)
-        return ""
+        if e isa LibGit2.GitError # assume it is not found
+            warn_git_notconfigured(GitOptionNotFound(opt, used_for))
+            return ""
+        else
+            rethrow(e)
+        end
     end
 end
 
@@ -36,12 +35,12 @@ function warn_git_notconfigured(e) # e::GitOptionNotFound
     
     @warn """
 Could not find option “$(e.option)” in your global git configuration.
-
 It is necessary to set this for $(e.used_for).
-
 You can set this in the command line with
 
 git config --global $(e.option) "…"
+
+Right now however you can contunue, just please fill in the missing information in the GUI
 """ maxlog=3
     
     return nothing
