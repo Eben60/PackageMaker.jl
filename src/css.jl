@@ -96,6 +96,16 @@ div.hidden {
   display: none;
 }
 
+.update_banner {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #856404;
+}
+
 </style>
 """
 

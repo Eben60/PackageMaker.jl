@@ -7,7 +7,7 @@ using PkgTemplates: Disabled
 
 using Test
 
-include("TestData_TestPackage01.jl")
+include("fixtures/TestData_TestPackage01.jl")
 @testset "Processvals2" begin
 
 pgins = get_checked_pgins!(fv)

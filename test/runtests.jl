@@ -1,8 +1,13 @@
+
+
 using SafeTestsets
 
 @safetestset "Aqua" include("src/test_aqua.jl")
 
+@safetestset "update_check_tests" include("src/test_update_check.jl")
+
 @safetestset "Various tests" include("src/test_various.jl")
+@safetestset "Update check" include("src/test_update_check.jl")
 @safetestset "Dropdown menus" include("src/test_dropdown_menus.jl")
 
 @safetestset "HTML generation" include("src/test_html.jl")

@@ -119,12 +119,23 @@ div.hidden {
   display: none;
 }
 
+.update_banner {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #856404;
+}
+
 </style>
 
     <title>PackageMaker: Initialize Julia Project/Package</title>
   </head>
   <body>
   <h2>Setting up a Julia Project or Package</h2>
+
   <p class="comment"><a href="javascript:sendurl('https://github.com/Eben60/PackageMaker.jl')">PackageMaker</a> is mostly a GUI for the Julia package <a href="javascript:sendurl('https://juliaci.github.io/PkgTemplates.jl')">PkgTemplates</a><br>
   <!-- more explanations here? -->
   </p>
@@ -422,17 +433,17 @@ which will also be then shown on <a href="javascript:sendurl('https://juliahub.c
     <span class="activate_menu" id="License_activate_menu" >Show licenses</span>  <br>
     <div class="radio-container" id="License_radio_container">
 <label><input type="radio" name="option" value="MIT" id="License_name_1" onchange="select_license(this)">MIT</label><br>
-<label><input type="radio" name="option" value="AGPL-3.0+" id="License_name_2" onchange="select_license(this)">AGPL-3.0+</label><br>
-<label><input type="radio" name="option" value="ASL" id="License_name_3" onchange="select_license(this)">ASL</label><br>
-<label><input type="radio" name="option" value="BSD2" id="License_name_4" onchange="select_license(this)">BSD2</label><br>
-<label><input type="radio" name="option" value="BSD3" id="License_name_5" onchange="select_license(this)">BSD3</label><br>
-<label><input type="radio" name="option" value="EUPL-1.2+" id="License_name_6" onchange="select_license(this)">EUPL-1.2+</label><br>
-<label><input type="radio" name="option" value="GPL-2.0+" id="License_name_7" onchange="select_license(this)">GPL-2.0+</label><br>
-<label><input type="radio" name="option" value="GPL-3.0+" id="License_name_8" onchange="select_license(this)">GPL-3.0+</label><br>
+<label><input type="radio" name="option" value="AGPL-3.0-or-later" id="License_name_2" onchange="select_license(this)">AGPL-3.0-or-later</label><br>
+<label><input type="radio" name="option" value="Apache-2.0" id="License_name_3" onchange="select_license(this)">Apache-2.0</label><br>
+<label><input type="radio" name="option" value="BSD-2-Clause" id="License_name_4" onchange="select_license(this)">BSD-2-Clause</label><br>
+<label><input type="radio" name="option" value="BSD-3-Clause" id="License_name_5" onchange="select_license(this)">BSD-3-Clause</label><br>
+<label><input type="radio" name="option" value="EUPL-1.2" id="License_name_6" onchange="select_license(this)">EUPL-1.2</label><br>
+<label><input type="radio" name="option" value="GPL-2.0-or-later" id="License_name_7" onchange="select_license(this)">GPL-2.0-or-later</label><br>
+<label><input type="radio" name="option" value="GPL-3.0-or-later" id="License_name_8" onchange="select_license(this)">GPL-3.0-or-later</label><br>
 <label><input type="radio" name="option" value="ISC" id="License_name_9" onchange="select_license(this)">ISC</label><br>
-<label><input type="radio" name="option" value="LGPL-2.1+" id="License_name_10" onchange="select_license(this)">LGPL-2.1+</label><br>
-<label><input type="radio" name="option" value="LGPL-3.0+" id="License_name_11" onchange="select_license(this)">LGPL-3.0+</label><br>
-<label><input type="radio" name="option" value="MPL" id="License_name_12" onchange="select_license(this)">MPL</label><br>
+<label><input type="radio" name="option" value="LGPL-2.1-or-later" id="License_name_10" onchange="select_license(this)">LGPL-2.1-or-later</label><br>
+<label><input type="radio" name="option" value="LGPL-3.0-or-later" id="License_name_11" onchange="select_license(this)">LGPL-3.0-or-later</label><br>
+<label><input type="radio" name="option" value="MPL-2.0" id="License_name_12" onchange="select_license(this)">MPL-2.0</label><br>
     </div>
   </div>
 

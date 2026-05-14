@@ -18,7 +18,7 @@ TEST_SETTING::String = "z2test_TestSetting_1681796"
 end
 
 initialize()
-include("TestData_CreatePackage02.jl")
+include("fixtures/TestData_CreatePackage02.jl")
 fv = TestData_CreatePackage.fv;
 @testset "Window with full content and interaction" begin
     (;win, initvals, newvals, changeeventhandle) = initwin(; debug=true);
