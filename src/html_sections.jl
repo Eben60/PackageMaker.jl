@@ -9,6 +9,7 @@ html_head(title = "PackageMaker: Initialize Julia Project/Package") =
   </head>
   <body>
   <h2>Setting up a Julia Project or Package</h2>
+$(html_update_banner())
   <p class="comment"><a href="javascript:sendurl('https://github.com/Eben60/PackageMaker.jl')">PackageMaker</a> is mostly a GUI for the Julia package <a href="javascript:sendurl('https://juliaci.github.io/PkgTemplates.jl')">PkgTemplates</a><br>
   <!-- more explanations here? -->
   </p>
@@ -82,4 +83,15 @@ function html_configs()
 $(confsections)"""
     return htm
 
+end
+
+function html_update_banner()
+    update_info.available || return ""
+    return """
+    <div id="update_banner" class="update_banner">
+      ℹ️ <strong>PackageMaker $(update_info.latest_v)</strong> is available
+      (you are using $(update_info.current_v)).
+      Consider updating at your next opportunity.
+    </div>
+    """
 end

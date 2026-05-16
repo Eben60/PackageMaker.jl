@@ -15,7 +15,7 @@ module PackageMaker
 using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, DefaultApplication, Pkg
 using UUIDs:UUID
 using Preferences, JSON3
-using REPL.TerminalMenus, Dates, ShareAdd, PkgVersion
+using Dates, PkgVersion
 using DataStructures
 using ShareAdd: make_current_mnf
 # using StartupCustomizer # "1.0.2"
@@ -25,11 +25,11 @@ using .FileDialogWorkAround
 using .FileDialogWorkAround: posixpathstring
 
 may_exit_julia::Bool = false
-debug_update_checking::Bool = false
+
 const GUI_RETURNED = Channel(1)
 const VAL_RETURNED = Channel(1)
 
-const UPDATE_CHECK_PREF_KEY = "UpdateCheckingPrefs"
+
 const SAVEDCONFIGS_KEY = "SavedConfigurations"
 const THIS_PKG = (UUID("29c12bd1-d721-479e-9f19-f3213c237221"), "PackageMaker")
 
@@ -59,23 +59,13 @@ using .MacroUnsafe
 export @unsafe
 
 export gogui
-VERSION >= v"1.11.0" && eval(Meta.parse("public updatecheck_settings"))
+
 
 include("precompile.jl")
 
 function __init__()
-
     if get(ENV, "CI", nothing) != "true"
-        try
-            k = UPDATE_CHECK_PREF_KEY
-            global debug_update_checking = has_preference(@__MODULE__, k) &&
-                get(load_preference(@__MODULE__, k), "debug", false)
-
-            pester_user_about_updates()
-        catch e
-            @warn "failed to check for $(@__MODULE__) updates"
-            debug_update_checking && sprint(showerror, e, catch_backtrace()) |> println
-        end
+        check_for_update()
     end
     return nothing
 end

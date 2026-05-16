@@ -1,23 +1,13 @@
-# Automatically disable PackageMaker update checking during local testing
-# by writing directly to LocalPreferences.toml before tests are loaded.
-if get(ENV, "CI", nothing) != "true" 
-    import TOML
-    let
-        lp_path = joinpath(@__DIR__, "LocalPreferences.toml")
-        lp = isfile(lp_path) ? TOML.parsefile(lp_path) : Dict{String, Any}()
-        prefs = get!(Dict{String, Any}, get!(Dict{String, Any}, lp, "PackageMaker"), "UpdateCheckingPrefs")
-        if get(prefs, "enabled", true)
-            prefs["enabled"] = false
-            open(io -> TOML.print(io, lp; sorted=true), lp_path, "w")
-        end
-    end
-end
+
 
 using SafeTestsets
 
 @safetestset "Aqua" include("src/test_aqua.jl")
 
+@safetestset "update_check_tests" include("src/test_update_check.jl")
+
 @safetestset "Various tests" include("src/test_various.jl")
+@safetestset "Update check" include("src/test_update_check.jl")
 @safetestset "Dropdown menus" include("src/test_dropdown_menus.jl")
 
 @safetestset "HTML generation" include("src/test_html.jl")

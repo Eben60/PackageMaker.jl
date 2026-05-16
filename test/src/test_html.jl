@@ -8,7 +8,9 @@ html_test_file = joinpath(temp_dir, "test.html")
 # html_test_file = joinpath(@__DIR__, "test2compare.html")
 isfile(html_test_file) && rm(html_test_file)
 this_file_dir = dirname(@__FILE__)
-html_standard_file = joinpath(this_file_dir, "mainwin_v1_3_1.html")
+html_standard_file = joinpath(this_file_dir, "fixtures", "mainwin_v1_5_0.html")
+
+PackageMaker.update_info = PackageMaker.UpdateInfo(false, v"1.5.0", v"1.5.0")
 make_html(html_test_file)
 
 @testset "HTML generation" begin
@@ -25,7 +27,6 @@ make_html(html_test_file)
     start_stand = match(re_start, html_standard)
     start_test = match(re_start, html_test)
     @test !isnothing(start_stand) && !isnothing(start_test) && start_stand.captures[1] == start_test.captures[1]
-
     ms1 = """<h2>Options and Plugins</h2>""" #
     ms2 = """name="user_name" value=".*?\""""
     ms3 = """name="authors" value=".*?\""""
@@ -50,11 +51,16 @@ make_html(html_test_file)
     end_stand = match(re_end, html_standard)
     end_test = match(re_end, html_test)
     @test !isnothing(end_stand) && !isnothing(end_test) && end_stand.captures == end_test.captures
+end
 
-    # write("tmp_processed.html", html_test)
-    # write("tmp_standard.html", html_standard)
+PackageMaker.update_info = PackageMaker.UpdateInfo(true, v"1.5.0", v"1.5.1")
+make_html(html_test_file)
+
+@testset "HTML with package update info" begin
+    html_test_update = read(html_test_file, String)
     
-    #@show html_test_file
-
+    @test occursin("PackageMaker 1.5.1", html_test_update)
+    @test occursin("you are using 1.5.0", html_test_update)
+    @test occursin("Consider updating at your next opportunity", html_test_update)
 end
 ;

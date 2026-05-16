@@ -64,3 +64,11 @@ function form_valid(v::ValidateForm)
 end
 
 val_form::ValidateForm = ValidateForm()
+
+struct UpdateInfo
+    available::Bool
+    current_v::VersionNumber
+    latest_v::VersionNumber
+end
+
+update_info::UpdateInfo = UpdateInfo(false, v"0.0.0", v"0.0.0")

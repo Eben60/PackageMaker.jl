@@ -3,9 +3,9 @@ using PackageMaker: PluginArg, PluginInfo, pg2od, write_config, read_config, get
 using DataStructures
 using JSON3
 
-include("ConfigData.jl")
+include("fixtures/ConfigData.jl")
 fv = ConfigData.fv
-# include("TestData.jl")
+# include("fixtures/TestData.jl")
 # fv = TestData.fv
 
 using PackageMaker: get_pgins_changed!, get_checked_pgins!, def_plugins_original, remove_key!, remove_inapplicable!
