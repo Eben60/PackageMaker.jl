@@ -5,7 +5,7 @@ using PackageMaker: HtmlElem
 
 temp_dir = mktempdir()
 
-fv = Dict{Symbol, HtmlElem}(
+fv = Dict{Symbol,HtmlElem}(
     :Codecov_file => HtmlElem(:Codecov_file, :input, String[], :text, :Codecov_form, "nothing", false),
     :Dependabot_file => HtmlElem(:Dependabot_file, :input, String[], :text, :Dependabot_form, "<DEFAULT_FILE>", false),
     :Documenter_deploy => HtmlElem(:Documenter_deploy, :input, String[], :checkbox, :Documenter_form, "on", false),
@@ -48,8 +48,8 @@ fv = Dict{Symbol, HtmlElem}(
     :License_name_10 => HtmlElem(:License_name_10, :input, String[], :radio, :License_form, "LGPL-2.1+", false),
     :License_name_11 => HtmlElem(:License_name_11, :input, String[], :radio, :License_form, "LGPL-3.0+", false),
     :License_name_12 => HtmlElem(:License_name_12, :input, String[], :radio, :License_form, "MPL", false),
-    :License_name_2 => HtmlElem(:License_name_2, :input, String[], :radio, :License_form, "AGPL-3.0+", false),
-    :License_name_3 => HtmlElem(:License_name_3, :input, String[], :radio, :License_form, "ASL", false),
+    :License_name_2 => HtmlElem(:License_name_2, :input, String[], :radio, :License_form, "AGPL-3.0-or-later", false),
+    :License_name_3 => HtmlElem(:License_name_3, :input, String[], :radio, :License_form, "Apache-2.0", false),
     :License_name_4 => HtmlElem(:License_name_4, :input, String[], :radio, :License_form, "BSD2", false),
     :License_name_5 => HtmlElem(:License_name_5, :input, String[], :radio, :License_form, "BSD3", false),
     :License_name_6 => HtmlElem(:License_name_6, :input, String[], :radio, :License_form, "EUPL-1.2+", false),

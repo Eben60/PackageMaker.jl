@@ -6,7 +6,7 @@
 
 # PackageMaker
 
-*GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made a bit simpler.*
+*GUI for [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl): "Creating new Julia packages, the easy way" - made even easier.*
 
 This package allows you to create either a new package or a new project. It implements a subset of [`PkgTemplates.jl`](https://github.com/JuliaCI/PkgTemplates.jl) features (which subset hopefully covers >90% of its use cases). It also adds a couple of features of its own, e.g. ability to create Julia projects, to create repositories on the GitHub, or to add dependencies to a project or package being created. Being a GUI app, it should be mostly self-explanatory, and external links for more information are provided from the GUI, too.
 
@@ -157,6 +157,14 @@ Stars on GitHub is often the only feedback the developer gets, esp. if his packa
 Therefore: If you typed a name of some package into the "Packages to add to your project" field - think about going to the package's source page to give it a star. 
 
 ## Changelog
+
+### Release 1.5.0
+
+_2026-05-28_ 
+
+- Moved info to the user about available update of this package into the GUI
+- The package now using the Workspaces feature in Julia version `≥v1.12`
+- `PkgTemplates.jl` compat bumped to `v0.7.62`, thus the displayed license list now updated
 
 ### Release 1.4.1
 
