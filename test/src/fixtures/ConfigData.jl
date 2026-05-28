@@ -5,7 +5,7 @@ using PackageMaker: def_plugins_original, def_plugins, get_pgins_vals!
 using PackageMaker: HtmlElem, PluginArg, PluginInfo
 using DataStructures
 
-fv = Dict{Symbol, HtmlElem}(
+fv = Dict{Symbol,HtmlElem}(
     :Use_SrcDir => HtmlElem(:Use_SrcDir, :input, ["TogglePlugin"], :checkbox, :SrcDir_form, "Use_SrcDir", true),
     :Documenter_make_jl => HtmlElem(:Documenter_make_jl, :input, String[], :text, :Documenter_form, "<DEFAULT_FILE>", false),
     :Use_Save_Configuration => HtmlElem(:Use_Save_Configuration, :input, ["TogglePlugin"], :checkbox, :Save_Configuration_form, "Use_Save_Configuration", true),
@@ -37,12 +37,12 @@ fv = Dict{Symbol, HtmlElem}(
     :GeneralOptions_julia_min_version => HtmlElem(:GeneralOptions_julia_min_version, :input, String[], :text, :GeneralOptions_form, "1.10.0", false),
     :GitHubActions_windows => HtmlElem(:GitHubActions_windows, :input, String[], :checkbox, :GitHubActions_form, "on", true),
     :GitHubActions_destination => HtmlElem(:GitHubActions_destination, :input, String[], :text, :GitHubActions_form, "CI_andsoon.yml", false),
-    :License_name_2 => HtmlElem(:License_name_2, :input, String[], :radio, :License_form, "AGPL-3.0+", false),
+    :License_name_2 => HtmlElem(:License_name_2, :input, String[], :radio, :License_form, "AGPL-3.0-or-later", false),
     :Use_GeneralOptions => HtmlElem(:Use_GeneralOptions, :input, ["TogglePlugin"], :checkbox, :GeneralOptions_form, "Use_GeneralOptions", true),
     :GeneralOptions_user_name => HtmlElem(:GeneralOptions_user_name, :input, String[], :text, :GeneralOptions_form, "Eben60", false),
     :GeneralOptions_is_package => HtmlElem(:GeneralOptions_is_package, :input, String[], :checkbox, :GeneralOptions_form, "on", true),
     :Git_ssh => HtmlElem(:Git_ssh, :input, String[], :checkbox, :Git_form, "on", false),
-    :License_name_3 => HtmlElem(:License_name_3, :input, String[], :radio, :License_form, "ASL", false),
+    :License_name_3 => HtmlElem(:License_name_3, :input, String[], :radio, :License_form, "Apache-2.0", false),
     :LocalPackage_Choice => HtmlElem(:LocalPackage_Choice, :input, String[], :radio, :use_purpose_form, "LocalPackage", false),
     :License_name_12 => HtmlElem(:License_name_12, :input, String[], :radio, :License_form, "MPL", false),
     :Tests_jet => HtmlElem(:Tests_jet, :input, String[], :checkbox, :Tests_form, "on", false),
@@ -93,6 +93,6 @@ fv = Dict{Symbol, HtmlElem}(
     :TagBot_gpg_password => HtmlElem(:TagBot_gpg_password, :input, String[], :text, :TagBot_form, "nothing", false),
     :TagBot_dispatch_delay => HtmlElem(:TagBot_dispatch_delay, :input, String[], :text, :TagBot_form, "60", false),
     :GeneralOptions_authors => HtmlElem(:GeneralOptions_authors, :input, String[], :text, :GeneralOptions_form, "Eben60 <not_a_mail@nowhere.org>", false),
-    )
+)
 
 end # module

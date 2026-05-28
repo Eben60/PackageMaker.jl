@@ -4,7 +4,7 @@ using PackageMaker
 using PackageMaker: HtmlElem
 
 
-fv = Dict{Symbol, HtmlElem}(
+fv = Dict{Symbol,HtmlElem}(
     :Codecov_file => HtmlElem(:Codecov_file, :input, String[], :text, :Codecov_form, "nothing", false),
     :Dependabot_file => HtmlElem(:Dependabot_file, :input, String[], :text, :Dependabot_form, "<DEFAULT_FILE>", false),
     :Documenter_deploy => HtmlElem(:Documenter_deploy, :input, String[], :checkbox, :Documenter_form, "on", true),
@@ -42,13 +42,13 @@ fv = Dict{Symbol, HtmlElem}(
     :Git_name => HtmlElem(:Git_name, :input, String[], :text, :Git_form, "Eben60a", false),
     :Git_ssh => HtmlElem(:Git_ssh, :input, String[], :checkbox, :Git_form, "on", false),
     :License_destination => HtmlElem(:License_destination, :input, String[], :text, :License_form, "LICENSE.txt", false),
-    :License_name => HtmlElem(:License_name, :input, ["menu_target"], :text, :License_form, "ASL", false),
+    :License_name => HtmlElem(:License_name, :input, ["menu_target"], :text, :License_form, "Apache-2.0", false),
     :License_name_1 => HtmlElem(:License_name_1, :input, String[], :radio, :License_form, "MIT", false),
     :License_name_10 => HtmlElem(:License_name_10, :input, String[], :radio, :License_form, "LGPL-2.1+", false),
     :License_name_11 => HtmlElem(:License_name_11, :input, String[], :radio, :License_form, "LGPL-3.0+", false),
     :License_name_12 => HtmlElem(:License_name_12, :input, String[], :radio, :License_form, "MPL", false),
-    :License_name_2 => HtmlElem(:License_name_2, :input, String[], :radio, :License_form, "AGPL-3.0+", false),
-    :License_name_3 => HtmlElem(:License_name_3, :input, String[], :radio, :License_form, "ASL", false),
+    :License_name_2 => HtmlElem(:License_name_2, :input, String[], :radio, :License_form, "AGPL-3.0-or-later", false),
+    :License_name_3 => HtmlElem(:License_name_3, :input, String[], :radio, :License_form, "Apache-2.0", false),
     :License_name_4 => HtmlElem(:License_name_4, :input, String[], :radio, :License_form, "BSD2", false),
     :License_name_5 => HtmlElem(:License_name_5, :input, String[], :radio, :License_form, "BSD3", false),
     :License_name_6 => HtmlElem(:License_name_6, :input, String[], :radio, :License_form, "EUPL-1.2+", false),
@@ -123,7 +123,7 @@ fv = Dict{Symbol, HtmlElem}(
     :Use_SrcDir => HtmlElem(:Use_SrcDir, :input, ["TogglePlugin"], :checkbox, :SrcDir_form, "Use_SrcDir", true),
     :Use_TagBot => HtmlElem(:Use_TagBot, :input, ["TogglePlugin"], :checkbox, :TagBot_form, "Use_TagBot", false),
     :Use_Tests => HtmlElem(:Use_Tests, :input, ["TogglePlugin"], :checkbox, :Tests_form, "Use_Tests", true),
-    )
+)
 
 end # module
 
