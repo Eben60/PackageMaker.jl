@@ -158,6 +158,13 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
+### Release 1.5.1
+
+_2026-10-16_ 
+
+- Compat update
+- Removed Workspace feature introduced in `1.5.0`
+
 ### Release 1.5.0
 
 _2026-05-28_ 
@@ -290,6 +297,6 @@ Star on [GitHub](https://github.com/Eben60/PackageMaker.jl), open an issue, cont
 
 ## Copyright and License
 
-© 2025 Eben60
+© 2025 Ben Elkin (Eben60)
 
 MIT License (see separate file `LICENSE`)
