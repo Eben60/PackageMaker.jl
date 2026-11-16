@@ -1,5 +1,4 @@
-using PackageMaker: is_known_pkg, split_pkg_list, stdlib_packages, is_in_registry, 
-    check_packages, type2str, parse_v_string, tidystring, initialize, multiline2csv
+using PackageMaker: split_pkg_list, check_packages, type2str, parse_v_string, tidystring, initialize, multiline2csv
 
 using Test
 
@@ -27,14 +26,7 @@ end
 end
 
 @testset "Processvals1" begin
-    @test is_known_pkg("Plots").found
-    @test is_known_pkg("UUIDs").found
-    @test !is_known_pkg("suRE_no_such_ackaje").found
-
-
     @test split_pkg_list(pkglist) == ["Plots", "Makie", "UUIDs", "suRE_no_such_ackaje"]
-    @test "UUIDs" in stdlib_packages()
-    @test is_in_registry("Plots")
     (;known_pkgs, unknown_pkgs) = check_packages(pkglist)
     @test known_pkgs ==["Makie", "Plots", "UUIDs"]
     @test unknown_pkgs == ["suRE_no_such_ackaje"]

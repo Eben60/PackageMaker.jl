@@ -3,6 +3,7 @@ using PackageMaker: create_proj, get_pgins_vals!, general_options, def_plugins, 
 
 using Test, TOML
 
+include("test_helpers.jl")
 include("fixtures/TestData_CreatePackage01.jl")
 fv = TestData_CreatePackage.fv;
 initialize()
@@ -17,7 +18,9 @@ if isdir(proj_dir)
     rm(proj_dir; force=true, recursive=true)
 end
 
-create_proj(fv)
+suppress_non_warnings() do
+    create_proj(fv)
+end
 proj_src_file = joinpath(proj_dir, "src", proj_name * ".jl")
 proj_toml = joinpath(proj_dir, "Project.toml")
 proj_mnf = joinpath(proj_dir, "Manifest.toml")

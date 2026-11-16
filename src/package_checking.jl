@@ -1,60 +1,18 @@
-"list packages in the standard environment @stdlib"
-function stdlib_packages()
-    pkg_dirlist = readdir(Sys.STDLIB) 
-    pkgs = [s for s in pkg_dirlist if isdir(joinpath(Sys.STDLIB, s)) && !endswith(s, "_jll")]
-    return pkgs
-end
-
-const stdlib_pkgs = stdlib_packages()
-
-function is_in_registry(pkname, reg=nothing)
-    isnothing(reg) && (reg = Pkg.Registry.reachable_registries()[1])
-    pkgs = reg.pkgs
-    for (_, pkg) in pkgs
-        pkg.name == pkname && return true
+function this_upgradable()
+    current_v = pkgversion(@__MODULE__)
+    latest_v = try
+        latest_version(@__MODULE__)
+    catch
+        @warn "Error determining latest version for $(@__MODULE__)"
+        nothing
     end
-    return false
-end
-
-function is_known_pkg(pkg_name)
-    found=true
-    registry=nothing
-    pkg_name in stdlib_pkgs && return (;found, registry)
-    registries = Pkg.Registry.reachable_registries() 
-    for registry in registries
-        if is_in_registry(pkg_name, registry)
-            return (;found, registry)
-        end
-    end
-    return (;found=false, registry=nothing)
-end
-
-function latest_version(pkg_name)
-    try
-        pkg_name = pkg_name |> string
-        registry = is_known_pkg(pkg_name).registry
-        isnothing(registry) && return nothing
-        ch1 = pkg_name[1] |> uppercase
-        k = "$ch1/$pkg_name/Versions.toml"
-        toml = registry.in_memory_registry[k]
-        v = TOML.tryparse(toml) |> keys .|> VersionNumber |> maximum
-        return v
-    catch e
-        @warn "Error determining latest version for $pkg_name"
-        return nothing
-    end
-end
-
-function upgradable(pkg=@__MODULE__)
-    current_v = PkgVersion.@Version
-    latest_v = latest_version(pkg)
     isnothing(latest_v) && return UpdateInfo(false, current_v, current_v)
 
     not_latest = latest_v > current_v
     return UpdateInfo(not_latest, current_v, latest_v)
 end
 
-function check_for_update(pkg=@__MODULE__)
-    global update_info = upgradable(pkg)
+function check_for_update()
+    global update_info = this_upgradable()
     return update_info
 end

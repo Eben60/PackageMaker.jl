@@ -85,8 +85,6 @@ initialized_pgins # tested
 initwin
 insert_url
 is_a_package # tested
-is_in_registry # tested
-is_known_pkg # tested
 ischecked
 jldcache
 js_scripts
@@ -113,7 +111,6 @@ showhide
 showhidepgin
 split_pkg_list # tested
 startyourpk # redundant
-stdlib_packages # tested
 tmp_html
 tmpl_beg
 tmpl_end

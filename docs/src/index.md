@@ -92,13 +92,7 @@ This logics however differs in respect to the selection of "activated" state of 
 
 ### Checking for updates
 
-On the startup of the package a check is performed whether a new version of it became available. This feature is still experimental, and appears not always to work properly. 
-
-You might find this function too intrusive. The public function `PackageMaker.updatecheck_settings` provides an interface to disable this feature or to change other  defaults. For details, get the function's help:
-
-```julia-repl
-help?> PackageMaker.updatecheck_settings
-``` 
+When `PackageMaker` is loaded (outside of CI environments), it checks local Julia registries for a newer registered version of the package. If an update is available, an informational banner is displayed at the top of the GUI window.
 
 
 ## Current issues
@@ -157,6 +151,12 @@ Stars on GitHub is often the only feedback the developer gets, esp. if his packa
 Therefore: If you typed a name of some package into the "Packages to add to your project" field - think about going to the package's source page to give it a star. 
 
 ## Changelog
+
+### Release 1.5.2
+
+_planned_ 
+
+- Fixed a bug occuring on Julia v1.14 by replacing an internal implementation of some functions by an import from [`ShareAdd.jl`](https://github.com/Eben60/ShareAdd.jl)
 
 ### Release 1.5.1
 

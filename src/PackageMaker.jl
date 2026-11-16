@@ -15,9 +15,9 @@ module PackageMaker
 using Blink, LibGit2, PkgTemplates, TOML, FilePathsBase, DefaultApplication, Pkg
 using UUIDs:UUID
 using Preferences, JSON3
-using Dates, PkgVersion
+using Dates
 using DataStructures
-using ShareAdd: make_current_mnf
+using ShareAdd: make_current_mnf, latest_version, is_addable
 # using StartupCustomizer # "1.0.2"
 # using NativeFileDialog
 include("FileDialogWorkAround.jl")

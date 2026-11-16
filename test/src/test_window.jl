@@ -1,11 +1,16 @@
 # Sys.islinux() && @unsafe # doesn't help
 
 using Blink
+using Logging: Logging, ConsoleLogger, with_logger
 using Test
 using PackageMaker
 using PackageMaker: mainwin, initwin, initialize, getelemval, setelemval, read_config, handle_savedconfig, GUI_RETURNED #, @unsafe
 
 TEST_SETTING::String = "z2test_TestSetting_1681796"
+include("fixtures/TestData_CreatePackage02.jl")
+fv = TestData_CreatePackage.fv
+
+with_logger(ConsoleLogger(stderr, Logging.Warn)) do
 @testset "size Tests" begin
     w = Window(Blink.Dict(:show => false, :width=>150, :height=>100), async=false);
     @test active(w)
@@ -18,8 +23,6 @@ TEST_SETTING::String = "z2test_TestSetting_1681796"
 end
 
 initialize()
-include("fixtures/TestData_CreatePackage02.jl")
-fv = TestData_CreatePackage.fv;
 @testset "Window with full content and interaction" begin
     (;win, initvals, newvals, changeeventhandle) = initwin(; debug=true);
     ks = keys(initvals) |> collect |> sort!
@@ -88,4 +91,5 @@ fv = TestData_CreatePackage.fv;
     initialize()
     @test_throws KeyError read_config(TEST_SETTING)
 end
+end # with_logger
 ;
