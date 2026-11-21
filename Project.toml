@@ -1,6 +1,6 @@
 name = "PackageMaker"
 uuid = "29c12bd1-d721-479e-9f19-f3213c237221"
-version = "1.5.2"
+version = "1.6.0"
 authors = ["Ben Elkin (Eben60)"]
 
 [deps]
