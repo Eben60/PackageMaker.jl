@@ -152,11 +152,13 @@ Therefore: If you typed a name of some package into the "Packages to add to your
 
 ## Changelog
 
-### Release 1.5.2
+### Release 1.6.0
 
-_planned_ 
+_2026-11-21_ 
 
 - Fixed a bug occuring on Julia v1.14 by replacing an internal implementation of some functions by an import from [`ShareAdd.jl`](https://github.com/Eben60/ShareAdd.jl)
+- Refactored tests to reduce noise in the output
+- Bumped minimal Julia version to 1.10.8
 
 ### Release 1.5.1
 
